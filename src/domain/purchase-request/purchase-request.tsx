@@ -1,14 +1,14 @@
-import styles from './';
+import './purchaseRequest';
 
 /* eslint-disable-next-line */
-export interface TestProps {}
+export interface PurchaseRequestProps {}
 
-export function () {
+export function PurchaseRequest() {
   return (
-    <div className={styles['container']}>
-      <h1></h1>
+    <div className="purchaseRequest">
+      <h1>Welcome to, PurchaseRequest</h1>
     </div>
   );
 }
 
-export default ;
+export default PurchaseRequest;

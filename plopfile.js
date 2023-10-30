@@ -2,56 +2,18 @@ module.exports = (plop) => {
   // ./plopfile.js
   // Setting up Plop to generate domains
   // When run `npm run plop` you'll be asked to enter the domain name.
-  plop.setGenerator("core", {
-    description: "Create a core",
-    prompts: [
-      {
-        type: "input",
-        name: "name",
-        message: 'Core name (e.g., "user-management"):',
-      },
-      {
-        type: "list",
-        name: "category",
-        message: "Select the category:",
-        choices: [
-          "page",
-          "ui",
-          "feature",
-          "hook",
-          "util",
-          "query",
-          "model",
-          "service",
-        ],
-      },
-    ],
-    actions: (data) => {
-      const { name, category } = data;
-
-      return [
-        {
-          type: "add",
-          path: `src/core/${category}/${name}/${name}.tsx`,
-          templateFile: "plop-templates/component.hbs",
-        },
-        {
-          type: "add",
-          path: `src/core/${category}/${name}/${name}.scss`,
-          templateFile: "plop-templates/component-scss.hbs",
-        },
-      ];
-    },
-  });
-  // Setting up Plop to generate domains
-  // When run `npm run plop` you'll be asked to enter the domain name.
   plop.setGenerator("domain", {
     description: "Create a domain",
     prompts: [
       {
         type: "input",
+        name: "name",
+        message: 'Name of the component (e.g., "user-management"):',
+      },
+      {
+        type: "input",
         name: "domain",
-        message: 'Domain name (e.g., "user-management"):',
+        message: 'Name of the Domain it belongs to (e.g., "user-management"):',
       },
       {
         type: "confirm",
@@ -66,43 +28,81 @@ module.exports = (plop) => {
         choices: ["page", "ui", "feature", "util"],
         when: (data) => !data.isRoot, // Prompt only if not generating at the root.
       },
-      {
-        type: "input",
-        name: "name",
-        message: 'Name of the component (e.g., "List" or "Table"):',
-      },
     ],
     actions: (data) => {
       const { domain, category, name, isRoot } = data;
 
-      const filename = !!name ? name : domain;
+      const domainName = !!domain ? domain : name;
       if (isRoot) {
         return [
           {
             type: "add",
-            path: `src/domain/${domain}/${filename}.tsx`,
+            path: `src/domain/${domainName}/${name}.tsx`,
             templateFile: "plop-templates/component.hbs",
           },
           {
             type: "add",
-            path: `src/domain/${domain}/${filename}.scss`,
-            templateFile: "plop-templates/component-scss.hbs",
-          },
-        ];
-      } else {
-        return [
-          {
-            type: "add",
-            path: `src/domain/${domain}/${category}/${filename}/${filename}.tsx`,
-            templateFile: "plop-templates/component.hbs",
-          },
-          {
-            type: "add",
-            path: `src/domain/${domain}/${category}/${filename}/${filename}.scss`,
+            path: `src/domain/${domainName}/${name}.scss`,
             templateFile: "plop-templates/component-scss.hbs",
           },
         ];
       }
+
+      return [
+        {
+          type: "add",
+          path: `src/domain/${domainName}/${category}/${name}/${name}.tsx`,
+          templateFile: "plop-templates/component.hbs",
+        },
+        {
+          type: "add",
+          path: `src/domain/${domainName}/${category}/${name}/${name}.scss`,
+          templateFile: "plop-templates/component-scss.hbs",
+        },
+      ];
+    },
+  });
+  // Setting up Plop to generate domains
+  // When run `npm run plop` you'll be asked to enter the domain name.
+  plop.setGenerator("core", {
+    description: "Create a core",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: 'Name of the component (e.g., "user-management"):',
+      },
+      {
+        type: "list",
+        name: "type",
+        message: "Select the type:",
+        choices: [
+          "page",
+          "ui",
+          "feature",
+          "hook",
+          "util",
+          "query",
+          "model",
+          "service",
+        ],
+      },
+    ],
+    actions: (data) => {
+      const { name, type } = data;
+
+      return [
+        {
+          type: "add",
+          path: `src/core/${type}/${name}/${name}.tsx`,
+          templateFile: "plop-templates/component.hbs",
+        },
+        {
+          type: "add",
+          path: `src/core/${type}/${name}/${name}.scss`,
+          templateFile: "plop-templates/component-scss.hbs",
+        },
+      ];
     },
   });
   // Setting up Plop to generate components
@@ -112,13 +112,13 @@ module.exports = (plop) => {
     prompts: [
       {
         type: "input",
-        name: "directory",
-        message: 'Directory name for your component (e.g., "components"):',
+        name: "name",
+        message: 'Name of the component (e.g., "MyComponent"):',
       },
       {
         type: "input",
-        name: "name",
-        message: 'Name of the component (e.g., "MyComponent"):',
+        name: "directory",
+        message: 'Directory name for your component (e.g., "components"):',
       },
     ],
     actions: [
