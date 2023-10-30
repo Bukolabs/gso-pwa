@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./app.css";
 import Sidebar from "./core/ui/sidebar/sidebar";
 import SidebarItem from "./core/ui/sidebar/sidebar-item/sidebar-item";
+import { BarChart3, Boxes, LayoutDashboard } from "lucide-react";
 
 function App() {
   const [source, setSource] = useState("");
@@ -20,7 +21,13 @@ function App() {
   return (
     <div className="App">
       <Sidebar>
-        <SidebarItem text="Dashboard" />
+        <SidebarItem
+          icon={<LayoutDashboard size={20} />}
+          text="Dashboard"
+          alert
+        />
+        <SidebarItem icon={<BarChart3 size={20} />} text="Statistics" active />
+        <SidebarItem icon={<Boxes size={20} />} text="Inventory" />
       </Sidebar>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />

@@ -1,10 +1,10 @@
 import "./sidebar-item";
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { SidebarContext } from "../sidebar";
 
 export interface SidebarItemProps {
   text: string;
-  icon?: string;
+  icon?: ReactNode;
   active?: boolean;
   alert?: boolean;
 }
@@ -15,7 +15,7 @@ export function SidebarItem({ icon, text, active, alert }: SidebarItemProps) {
   return (
     <li
       className={`
-        relative flex items-center py-2 px-3 my-1
+        relative flex py-2 px-3 my-1
         font-medium rounded-md cursor-pointer
         transition-colors group
         ${
@@ -28,7 +28,7 @@ export function SidebarItem({ icon, text, active, alert }: SidebarItemProps) {
       {icon}
       <span
         className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
+          expanded ? "w-52 ml-3 text-left" : "w-0"
         }`}
       >
         {text}
