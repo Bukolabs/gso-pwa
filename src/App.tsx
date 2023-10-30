@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./app.css";
+import Sidebar from "./core/ui/sidebar/sidebar";
+import SidebarItem from "./core/ui/sidebar/sidebar-item/sidebar-item";
 
 function App() {
   const [source, setSource] = useState("");
@@ -17,7 +19,10 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <Sidebar>
+        <SidebarItem text="Dashboard" />
+      </Sidebar>
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Welcome to GSO Super App</p>
 
@@ -39,7 +44,7 @@ function App() {
             Snap
           </button>
         </label>
-      </header>
+      </header> */}
     </div>
   );
 }

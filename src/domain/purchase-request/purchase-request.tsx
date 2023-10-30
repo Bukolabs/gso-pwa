@@ -5,7 +5,7 @@ export interface PurchaseRequestProps {}
 
 export function PurchaseRequest() {
   return (
-    <div className="purchaseRequest">
+    <div className="purchase-request">
       <h1>Welcome to, PurchaseRequest</h1>
     </div>
   );
