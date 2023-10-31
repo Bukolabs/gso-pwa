@@ -1,12 +1,12 @@
 import { ReactNode, createContext, useState } from "react";
 import "./sidebar";
-import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
 import classNames from "classnames";
 
 export const SidebarContext = createContext({ expanded: false });
 
 export interface SidebarProps {
   children: ReactNode;
+  icon?: string;
 }
 
 export function Sidebar({ children }: SidebarProps) {
@@ -17,7 +17,7 @@ export function Sidebar({ children }: SidebarProps) {
       <nav
         className={classNames(
           "h-full flex flex-col bg-white border-r shadow-sm",
-          expanded ? "w-[300px]" : "w-[70px]"
+          expanded ? "w-[300px]" : "w-[68px]"
         )}
       >
         <div className="p-4 pb-2 flex justify-between items-center">
@@ -33,7 +33,7 @@ export function Sidebar({ children }: SidebarProps) {
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
+            {expanded ? <i className="pi pi-angle-left"></i>  : <i className="pi pi-angle-right"></i>}
           </button>
         </div>
 
@@ -57,7 +57,7 @@ export function Sidebar({ children }: SidebarProps) {
               <h4 className="font-semibold">John Doe</h4>
               <span className="text-xs text-gray-600">johndoe@gmail.com</span>
             </div>
-            <MoreVertical size={20} />
+            {/* <i className="pi pi-ellipsis-v"></i> */}
           </div>
         </div>
       </nav>

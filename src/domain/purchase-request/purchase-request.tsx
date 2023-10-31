@@ -1,4 +1,4 @@
-import './purchaseRequest';
+import './purchase-request';
 
 /* eslint-disable-next-line */
 export interface PurchaseRequestProps {}
