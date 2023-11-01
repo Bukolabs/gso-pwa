@@ -1,27 +1,18 @@
 import "./sidebar-item";
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 import { SidebarContext } from "../sidebar";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
-
-export interface SidebarItemProps {
-  text: string;
-  path: string;
-  icon?: ReactNode;
-  active?: boolean;
-  activeClass?: string;
-  hoverClass?: string;
-  alert?: boolean;
-}
+import { NavigationProps } from "../../navigation.interface";
 
 export function SidebarItem({
   icon,
   path,
-  text,
+  title,
   alert,
   activeClass,
   hoverClass,
-}: SidebarItemProps) {
+}: NavigationProps) {
   const { expanded } = useContext(SidebarContext);
 
   return (
@@ -41,13 +32,13 @@ export function SidebarItem({
         );
       }}
     >
-      {icon}
+      <i className={icon}></i>
       <span
         className={`overflow-hidden transition-all ${
           expanded ? "w-52 ml-3 text-left" : "w-0"
         }`}
       >
-        {text}
+        {title}
       </span>
       {alert && (
         <div
@@ -66,7 +57,7 @@ export function SidebarItem({
           group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50
       `}
         >
-          {text}
+          {title}
         </div>
       )}
     </NavLink>

@@ -7,9 +7,10 @@ export const SidebarContext = createContext({ expanded: false });
 export interface SidebarProps {
   children: ReactNode;
   icon?: string;
+  className?: string;
 }
 
-export function Sidebar({ children }: SidebarProps) {
+export function Sidebar({ children, className }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -17,7 +18,8 @@ export function Sidebar({ children }: SidebarProps) {
       <nav
         className={classNames(
           "h-full flex flex-col bg-white border-r shadow-sm",
-          expanded ? "w-[300px]" : "w-[68px]"
+          expanded ? "w-[300px]" : "w-[68px]",
+          className
         )}
       >
         <div className="p-4 pb-2 flex justify-between items-center">
@@ -31,9 +33,13 @@ export function Sidebar({ children }: SidebarProps) {
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {expanded ? <i className="pi pi-angle-left"></i>  : <i className="pi pi-angle-right"></i>}
+            {expanded ? (
+              <i className="pi pi-angle-left"></i>
+            ) : (
+              <i className="pi pi-angle-right"></i>
+            )}
           </button>
         </div>
 

@@ -1,9 +1,9 @@
-import SidebarItem, {
-  SidebarItemProps,
-} from "../../core/ui/sidebar/sidebar-item/sidebar-item";
+import SidebarItem from "../../core/ui/navigation/sidebar/sidebar-item/sidebar-item";
 import "./shell";
-import Sidebar from "../../core/ui/sidebar/sidebar";
+import Sidebar from "../../core/ui/navigation/sidebar/sidebar";
 import { Outlet } from "react-router-dom";
+import MobileMenu from "../../core/ui/navigation/mobile-menu/mobile-menu";
+import { NavigationProps } from "../../core/ui/navigation/navigation.interface";
 
 /* eslint-disable-next-line */
 export interface ShellProps {}
@@ -14,35 +14,36 @@ export function Shell() {
   const hoverClass = "hover:bg-gray-100";
   const navigationItems = [
     {
-      text: "Home",
-      icon: <i className="pi pi-home"></i>,
+      title: "Home",
+      icon: "pi pi-home",
       path: "",
       activeClass,
       hoverClass,
     },
     {
-      text: "Requests",
-      icon: <i className="pi pi-book"></i>,
+      title: "Requests",
+      icon: "pi pi-book",
       path: "requests",
       activeClass,
       hoverClass,
     },
     {
-      text: "Orders",
-      icon: <i className="pi pi-bars"></i>,
+      title: "Orders",
+      icon: "pi pi-bars",
       path: "orders",
       activeClass,
       hoverClass,
     },
-  ] as SidebarItemProps[];
+  ] as NavigationProps[];
 
   return (
     <div className="flex">
-      <Sidebar>
+      <Sidebar className="hidden md:flex">
         {navigationItems.map((item, id) => (
           <SidebarItem key={id} {...item} />
         ))}
       </Sidebar>
+      <MobileMenu className="flex md:hidden" menus={navigationItems} />
 
       <div className="h-screen flex-1 p-7">
         <Outlet />
