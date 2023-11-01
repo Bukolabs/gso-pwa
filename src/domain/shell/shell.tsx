@@ -5,9 +5,6 @@ import { Outlet } from "react-router-dom";
 import MobileMenu from "../../core/ui/navigation/mobile-menu/mobile-menu";
 import { NavigationProps } from "../../core/ui/navigation/navigation.interface";
 
-/* eslint-disable-next-line */
-export interface ShellProps {}
-
 export function Shell() {
   const activeClass =
     "bg-gradient-to-tr from-gray-300 to-gray-200 text-gray-800 text-white";
