@@ -27,7 +27,7 @@ export function MobileMenu({ className, menus }: MobileMenuProps) {
               <NavLink
                 className="flex flex-col text-center pt-4"
                 onClick={() => setActive(i)}
-                to={""}
+                to={menu.path}
               >
                 <span
                   className={`text-xl cursor-pointer duration-500 text-black z-50`}
