@@ -4,15 +4,23 @@ import "./office-circle";
 /* eslint-disable-next-line */
 export interface OfficeCircleProps {
   label: string;
-  icon?: string;
+  value: string;
+  isIcon?: boolean;
   severity?: string;
 }
 
-export function OfficeCircle({ label, icon }: OfficeCircleProps) {
+export function OfficeCircle({ label, value, isIcon }: OfficeCircleProps) {
+  let displayValue = <></>;
+  if (isIcon && !!value) {
+    displayValue = <i className={value}></i>;
+  } else if (!isIcon && !!value) {
+    displayValue = <h5>{value}</h5>;
+  }
+
   return (
-    <div className={classNames('flex flex-col justify-center items-center')}>
+    <div className={classNames("flex flex-col justify-center items-center")}>
       <div className="border border-gray-500 rounded-full w-9 h-9 flex items-center justify-center">
-        {icon ? <i className={icon}></i> : <></>}
+        {displayValue}
       </div>
       <b>{label}</b>
     </div>

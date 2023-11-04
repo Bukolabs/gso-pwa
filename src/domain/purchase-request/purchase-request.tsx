@@ -9,8 +9,17 @@ export function PurchaseRequest() {
     <div className="purchase-request">
       <h1>PurchaseRequest</h1>
       <div className="flex flex-col gap-2">
-        <PurchaseCard />
-        <PurchaseCard hasReview={true} />
+        <PurchaseCard
+          title="PR# 122"
+          subTitle="Department of Tourism"
+          status="Submitted"
+        />
+        <PurchaseCard
+          title="PR# 144"
+          subTitle="Department of Labor"
+          status="Review"
+          hasReview={true}
+        />
       </div>
     </div>
   );

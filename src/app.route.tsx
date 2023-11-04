@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shell from "./domain/shell/shell";
-import Home from "./domain/shell/page/home/home";
+import Home from "./domain/home/home";
 import PurchaseOrder from "./domain/purchase-order/purchase-order";
 import PurchaseRequest from "./domain/purchase-request/purchase-request";
 
