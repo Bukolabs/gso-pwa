@@ -9,6 +9,10 @@
   @tailwind utilities;
 }
 
+html {
+  font-family: "Lato", system-ui, sans-serif;
+}
+
 body {
   @apply bg-slate-50;
 }

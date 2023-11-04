@@ -18,7 +18,7 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
       <section className="w-full pb-3 border-b border-gray-200">
         <div className="flex justify-between p-4">
           <div>
-            <h3 className="text-green-500">{title}</h3>
+            <h3 className="text-caribbean-green-500">{title}</h3>
             <h4 className="text-gray-800">{subTitle}</h4>
           </div>
           <div>
@@ -41,7 +41,7 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
         </div>
       </section>
       {hasReview && (
-        <section className="bg-green-200 py-4">
+        <section className="bg-caribbean-green-200 py-4">
           <p className="hint text-center mb-1">Review Per Office</p>
           <section className="flex justify-center gap-2">
             <OfficeCircle label="GSO" value="pi pi-check" isIcon={true} />

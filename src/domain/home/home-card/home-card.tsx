@@ -16,7 +16,7 @@ export function HomeCard({ hasReview, status }: HomeCardProps) {
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between items-center p-4">
           <div>
-            <h4 className="text-green-500">{status}</h4>
+            <h4 className="text-caribbean-green-500">{status}</h4>
           </div>
           <div>
             <i className="pi pi-angle-right"></i>
@@ -32,7 +32,7 @@ export function HomeCard({ hasReview, status }: HomeCardProps) {
         </section>
       )}
       {hasReview && (
-        <section className="bg-green-200 py-4">
+        <section className="bg-caribbean-green-200 py-4">
           <p className="hint text-center mb-1">Total Requests Per Office</p>
           <section className="flex justify-center gap-2">
             <OfficeCircle label="GSO" value="12" />

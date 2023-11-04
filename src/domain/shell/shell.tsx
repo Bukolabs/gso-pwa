@@ -7,8 +7,8 @@ import { NavigationProps } from "../../core/ui/navigation/navigation.interface";
 
 export function Shell() {
   const activeClass =
-    "bg-gradient-to-tr from-green-200 to-green-100 text-gray-800";
-  const hoverClass = "hover:bg-green-100";
+    "bg-gradient-to-tr from-caribbean-green-200 to-caribbean-green-100 text-gray-800";
+  const hoverClass = "hover:bg-caribbean-green-100";
   const navigationItems = [
     {
       title: "Home",
