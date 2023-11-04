@@ -32,12 +32,8 @@ export function MobileMenu({ className, menus }: MobileMenuProps) {
               <NavLink
                 className={({ isActive }) => {
                   const activeRouteClass = isActive
-                    ? menu.activeClass || "bg-green-200"
+                    ? `${menu.activeClass} active` || "bg-green-200"
                     : menu.hoverClass || "hover:bg-green-100";
-
-                  if (isActive) {
-                    setActive(i);
-                  }
 
                   return classNames(
                     `flex flex-col text-center pt-4`,
@@ -51,17 +47,13 @@ export function MobileMenu({ className, menus }: MobileMenuProps) {
                   className={`text-xl cursor-pointer duration-500 text-black z-50`}
                 >
                   <i
-                    className={classNames(
-                      "pi",
-                      menu.icon,
-                      active === i ? " text-green-600" : "text-gray-500"
-                    )}
+                    className={classNames("pi", menu.icon, "text-gray-800")}
                   ></i>
                 </span>
                 <span
                   className={classNames(
                     `duration-700 opacity-100 mb-4`,
-                    active === i ? " text-green-600" : "text-gray-500"
+                    "text-gray-800"
                   )}
                 >
                   {menu.title}
