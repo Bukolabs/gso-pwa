@@ -19,13 +19,31 @@ export function MobileMenu({ className, menus }: MobileMenuProps) {
         className
       )}
     >
-
       <div className="flex w-full justify-center">
         <ul className="flex relative">
           {menus.map((menu, i) => (
-            <li key={i} className={classNames('w-16 mx-1', itemCount <= 4 ? 'w-20' : 'w-16' )}>
+            <li
+              key={i}
+              className={classNames(
+                "w-16 mx-1",
+                itemCount <= 4 ? "w-20" : "w-16"
+              )}
+            >
               <NavLink
-                className="flex flex-col text-center pt-4"
+                className={({ isActive }) => {
+                  const activeRouteClass = isActive
+                    ? menu.activeClass || "bg-green-200"
+                    : menu.hoverClass || "hover:bg-green-100";
+
+                  if (isActive) {
+                    setActive(i);
+                  }
+
+                  return classNames(
+                    `flex flex-col text-center pt-4`,
+                    activeRouteClass
+                  );
+                }}
                 onClick={() => setActive(i)}
                 to={menu.path}
               >
