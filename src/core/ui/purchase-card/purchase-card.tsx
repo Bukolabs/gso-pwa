@@ -15,7 +15,7 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
     <div
       className={classNames("bg-white w-full shadow rounded-md flex flex-col")}
     >
-      <section className="w-full pb-3 border-b border-gray-200">
+      <section className="w-full border-b border-gray-200">
         <div className="flex justify-between p-4">
           <div>
             <h3 className="text-caribbean-green-500">{title}</h3>
