@@ -121,17 +121,70 @@ module.exports = (plop) => {
         message: 'Directory name for your component (e.g., "components"):',
       },
     ],
-    actions: [
+    actions: (data) => {
+      const { directory } = data;
+      const currentDirectory = process.cwd();
+
+      const path = directory
+        ? `${directory}/{{name}}/{{name}}.tsx`
+        : `${currentDirectory}/{{name}}/{{name}}.tsx`;
+      const pathStyle = directory
+        ? `${directory}/{{name}}/{{name}}.scss`
+        : `${currentDirectory}/{{name}}/{{name}}.scss`
+
+      return [
+        {
+          type: "add",
+          path,
+          templateFile: "plop-templates/component.hbs",
+        },
+        {
+          type: "add",
+          path: pathStyle,
+          templateFile: "plop-templates/component-scss.hbs",
+        },
+      ];
+    },
+  });
+  // Setting up Plop to generate components
+  // When run `npm run plop` you'll be asked to enter the component name.
+  plop.setGenerator("c", {
+    description: "Create a component",
+    prompts: [
       {
-        type: "add",
-        path: "./src/{{directory}}/{{name}}/{{name}}.tsx",
-        templateFile: "plop-templates/component.hbs",
+        type: "input",
+        name: "name",
+        message: 'Name of the component (e.g., "MyComponent"):',
       },
       {
-        type: "add",
-        path: "./src/{{directory}}/{{name}}/{{name}}.scss",
-        templateFile: "plop-templates/component-scss.hbs",
+        type: "input",
+        name: "directory",
+        message: 'Directory name for your component (e.g., "components"):',
       },
     ],
+    actions: (data) => {
+      const { directory } = data;
+      const currentDirectory = process.cwd();
+
+      const path = directory
+        ? `${directory}/{{name}}/{{name}}.tsx`
+        : `${currentDirectory}/{{name}}/{{name}}.tsx`;
+      const pathStyle = directory
+        ? `${directory}/{{name}}/{{name}}.scss`
+        : `${currentDirectory}/{{name}}/{{name}}.scss`
+
+      return [
+        {
+          type: "add",
+          path,
+          templateFile: "plop-templates/component.hbs",
+        },
+        {
+          type: "add",
+          path: pathStyle,
+          templateFile: "plop-templates/component-scss.hbs",
+        },
+      ];
+    },
   });
 };
