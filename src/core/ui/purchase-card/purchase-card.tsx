@@ -18,8 +18,8 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between p-4">
           <div>
-            <h3 className="text-caribbean-green-500">{title}</h3>
-            <h4 className="text-gray-800">{subTitle}</h4>
+            <h3 className="text-gray-800">{title}</h3>
+            <h4 className="text-gray-500">{subTitle}</h4>
           </div>
           <div>
             <Tag value={status}></Tag>

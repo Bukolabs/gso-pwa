@@ -22,7 +22,7 @@ export function OfficeCircle({ label, value, isIcon }: OfficeCircleProps) {
       <div className="border border-gray-500 rounded-full w-9 h-9 flex items-center justify-center">
         {displayValue}
       </div>
-      <b>{label}</b>
+      <b className="hint">{label}</b>
     </div>
   );
 }

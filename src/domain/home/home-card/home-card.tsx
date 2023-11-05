@@ -16,7 +16,7 @@ export function HomeCard({ hasReview, status }: HomeCardProps) {
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between items-center p-4">
           <div>
-            <h4 className="text-caribbean-green-500">{status}</h4>
+            <h4 className="text-gray-800">{status}</h4>
           </div>
           <div>
             <i className="pi pi-angle-right"></i>
