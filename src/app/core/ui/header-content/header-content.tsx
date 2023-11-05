@@ -36,7 +36,7 @@ export function HeaderContent({
         )}
         <div className="flex flex-col justify-center">
           {title && <h1>{title}</h1>}
-          {subTitle && <h6 className="m-0 text-gray-500">{subTitle}</h6>}
+          {subTitle && <h5 className="m-0 text-gray-500">{subTitle}</h5>}
         </div>
       </div>
       <div>{children}</div>
