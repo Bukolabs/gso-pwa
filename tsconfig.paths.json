@@ -4,7 +4,8 @@
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@domain/*": ["src/app/domain/*"],
-      "@shared/*": ["src/app/shared/*"]
+      "@shared/*": ["src/app/shared/*"],
+      "@api/*": ["src/api/*"]
     }
   }
 }
