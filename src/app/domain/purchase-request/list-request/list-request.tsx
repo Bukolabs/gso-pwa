@@ -1,9 +1,9 @@
 import { Button } from "primereact/button";
-import HeaderContent from "../../../core/ui/header-content/header-content";
+import HeaderContent from "@core/ui/header-content/header-content";
 import "./list-request";
 import { useNavigate } from "react-router-dom";
-import PurchaseCard from "../../../core/ui/purchase-card/purchase-card";
-import useScreenSize from "../../../core/utility/screen-size";
+import PurchaseCard from "@core/ui/purchase-card/purchase-card";
+import useScreenSize from "@core/utility/screen-size";
 
 export function ListRequest() {
   const navigate = useNavigate();

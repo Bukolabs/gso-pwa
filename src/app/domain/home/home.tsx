@@ -1,4 +1,4 @@
-import { LabelValue } from "../../shared/models/label-value.interface";
+import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
 
 function Home() {

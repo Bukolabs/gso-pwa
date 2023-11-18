@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import "./home-card";
-import OfficeCircle from "../../../core/ui/office-circle/office-circle";
+import OfficeCircle from "@core/ui/office-circle/office-circle";
 import { Tag } from "primereact/tag";
-import { getStatusStyle } from "../../../core/utility/get-status-style";
-import { LabelValue } from "../../../shared/models/label-value.interface";
+import { getStatusStyle } from "@core/utility/get-status-style";
+import { LabelValue } from "@shared/models/label-value.interface";
 
 export interface HomeCardProps {
   stage: number;

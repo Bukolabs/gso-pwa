@@ -1,9 +1,9 @@
-import SidebarItem from "../../core/ui/navigation/sidebar/sidebar-item/sidebar-item";
+import SidebarItem from "@core/ui/navigation/sidebar/sidebar-item/sidebar-item";
 import "./shell";
-import Sidebar from "../../core/ui/navigation/sidebar/sidebar";
+import Sidebar from "@core/ui/navigation/sidebar/sidebar";
 import { Outlet } from "react-router-dom";
-import MobileMenu from "../../core/ui/navigation/mobile-menu/mobile-menu";
-import { NavigationProps } from "../../core/ui/navigation/navigation.interface";
+import MobileMenu from "@core/ui/navigation/mobile-menu/mobile-menu";
+import { NavigationProps } from "@core/ui/navigation/navigation.interface";
 
 export function Shell() {
   const activeClass =

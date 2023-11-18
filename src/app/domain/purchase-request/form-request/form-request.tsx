@@ -1,8 +1,8 @@
 import { useFormContext } from "react-hook-form";
-import { RequestFormSchema } from "../../../core/model/form.rule";
+import { RequestFormSchema } from "@core/model/form.rule";
 import "./form-request";
-import InputControl from "../../../core/ui/hook-form/input-control/input-control";
-import InputTextareaControl from "../../../core/ui/hook-form/input-textarea-control/input-textarea-control";
+import InputControl from "@core/ui/hook-form/input-control/input-control";
+import InputTextareaControl from "@core/ui/hook-form/input-textarea-control/input-textarea-control";
 
 /* eslint-disable-next-line */
 export interface FormRequestProps {}

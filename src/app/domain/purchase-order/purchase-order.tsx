@@ -1,4 +1,4 @@
-import PurchaseCard from "../../core/ui/purchase-card/purchase-card";
+import PurchaseCard from "@core/ui/purchase-card/purchase-card";
 import "./purchase-order";
 
 /* eslint-disable-next-line */

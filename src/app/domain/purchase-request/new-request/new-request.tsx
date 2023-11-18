@@ -1,15 +1,15 @@
 import { Button } from "primereact/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import HeaderContent from "../../../core/ui/header-content/header-content";
+import HeaderContent from "@core/ui/header-content/header-content";
 import "./new-request";
-import useScreenSize from "../../../core/utility/screen-size";
+import useScreenSize from "@core/utility/screen-size";
 import { useNavigate } from "react-router-dom";
-import { requestFormDefault } from "../../../core/model/form.default";
+import { requestFormDefault } from "@core/model/form.default";
 import {
   RequestFormRule,
   RequestFormSchema,
-} from "../../../core/model/form.rule";
+} from "@core/model/form.rule";
 import FormRequest from "../form-request/form-request";
 
 export function NewRequest() {
