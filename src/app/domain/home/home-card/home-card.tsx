@@ -10,15 +10,17 @@ export interface HomeCardProps {
   status: string;
   orders?: number;
   requests?: number;
-  reviews?: LabelValue[];
+  prReviews?: LabelValue[];
+  poReviews?: LabelValue[];
 }
 
 export function HomeCard({
   requests,
   orders,
   stage,
-  reviews,
+  prReviews,
   status,
+  poReviews,
 }: HomeCardProps) {
   return (
     <div
@@ -33,7 +35,7 @@ export function HomeCard({
           ></Tag>
         </div>
       </section>
-      {!reviews && (
+      {!prReviews && (
         <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
           {requests && (
             <div className="flex flex-col items-center justify-center">
@@ -49,11 +51,21 @@ export function HomeCard({
           )}
         </section>
       )}
-      {reviews && reviews.length > 0 && (
+      {prReviews && prReviews.length > 0 && (
         <section className="py-4">
           <p className="hint text-center mb-1">Total Requests Per Office</p>
           <section className="flex justify-center gap-2">
-            {reviews.map((item) => (
+            {prReviews.map((item) => (
+              <OfficeCircle label={item.label} value={item.value} />
+            ))}
+          </section>
+        </section>
+      )}
+      {poReviews && poReviews.length > 0 && (
+        <section className="py-4">
+          <p className="hint text-center mb-1">Total Orders Per Office</p>
+          <section className="flex justify-center gap-2">
+            {poReviews.map((item) => (
               <OfficeCircle label={item.label} value={item.value} />
             ))}
           </section>
