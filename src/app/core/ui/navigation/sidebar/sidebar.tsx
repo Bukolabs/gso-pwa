@@ -14,12 +14,16 @@ export function Sidebar({ children, className }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="h-screen">
+    <aside
+      className={classNames(
+        "h-screen hidden md:flex",
+        expanded ? "w-[300px]" : "w-[68px]",
+        className
+      )}
+    >
       <nav
         className={classNames(
-          "h-full flex flex-col bg-white border-r shadow-sm",
-          expanded ? "w-[300px]" : "w-[68px]",
-          className
+          "fixed h-full flex flex-col bg-white border-r shadow-sm"
         )}
       >
         <div className="p-4 pb-2 flex justify-between items-center">

@@ -5,6 +5,7 @@ import App from "./app/app";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
+import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 

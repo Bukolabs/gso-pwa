@@ -1,14 +1,6 @@
 import * as z from "zod";
 
-export const RequestFormRule = z.object({
-  category: z.string(),
-  section: z.string(),
-  sai: z.string(),
-  alobs: z.string(),
-  purpose: z.string(),
-});
-
-export const RequestItemFormRule = z.object({
+export const ItemFormRule = z.object({
   itemNo: z.string(),
   quantity: z.number(),
   unit: z.string(),
@@ -16,6 +8,15 @@ export const RequestItemFormRule = z.object({
   brand: z.string(),
   cost: z.number(),
   amount: z.number().optional(),
+});
+
+export const RequestFormRule = z.object({
+  category: z.string(),
+  section: z.string(),
+  sai: z.string(),
+  alobs: z.string(),
+  purpose: z.string(),
+  items: ItemFormRule.array()
 });
 
 export const OrderItemRule = z.object({
@@ -30,14 +31,8 @@ export const OrderItemRule = z.object({
   deliveryDate: z.date(),
   deliveryTerm: z.string(),
   paymentTerm: z.string(),
+  items: ItemFormRule.array()
 });
 
-export const RequestWithItemFormRule = RequestFormRule.and(
-  RequestItemFormRule.array()
-);
-export const OrderWithItemFormRule = OrderItemRule.and(
-  RequestItemFormRule.array()
-);
-
-export type RequestWithItemFormSchema = z.infer<typeof RequestWithItemFormRule>;
-export type OrderWithItemFormSchema = z.infer<typeof OrderWithItemFormRule>;
+export type RequestFormSchema = z.infer<typeof RequestFormRule>;
+export type OrderFormSchema = z.infer<typeof OrderItemRule>;

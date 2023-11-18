@@ -1,13 +1,31 @@
+import { LabelValue } from "../../shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
 
 function Home() {
+  const sampleReview = [
+    {
+      label: "GSO",
+      value: "12",
+    },
+    {
+      label: "Treasurer",
+      value: "2",
+    },
+  ] as LabelValue[];
   return (
-    <div>
+    <div className="page">
       <h1>Home</h1>
 
       <div className="card flex flex-col gap-2 justify-content-center">
-        <HomeCard status="Submitted" />
-        <HomeCard status="Review" hasReview={true} />
+        <HomeCard stage={1} requests={20} status="Submitted" />
+        <HomeCard reviews={sampleReview} stage={1} status="Review" />
+        <HomeCard stage={2} requests={22} status="Categorized" />
+        <HomeCard stage={3} requests={22} orders={13} status="PO Approved" />
+        <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
+        <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
+        <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
+        <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
+        <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
       </div>
     </div>
   );

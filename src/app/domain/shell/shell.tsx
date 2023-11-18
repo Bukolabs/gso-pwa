@@ -35,7 +35,7 @@ export function Shell() {
 
   return (
     <div className="flex">
-      <Sidebar className="hidden md:flex">
+      <Sidebar>
         {navigationItems.map((item, id) => (
           <SidebarItem key={id} {...item} />
         ))}
