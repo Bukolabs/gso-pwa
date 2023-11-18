@@ -43,7 +43,8 @@
     "build": "craco build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "plop": "plop"
+    "plop": "plop",
+    "api": "openapi -i https://bukolabs.online/gso-api/docs-json -o api"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "openapi-typescript-codegen": "^0.25.0",
     "plop": "^4.0.0",
     "tailwindcss": "^3.3.5"
   }

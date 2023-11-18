@@ -55,8 +55,8 @@ export function HomeCard({
         <section className="py-4">
           <p className="hint text-center mb-1">Total Requests Per Office</p>
           <section className="flex justify-center gap-2">
-            {prReviews.map((item) => (
-              <OfficeCircle label={item.label} value={item.value} />
+            {prReviews.map((item, id) => (
+              <OfficeCircle key={id} label={item.label} value={item.value} />
             ))}
           </section>
         </section>
@@ -65,8 +65,8 @@ export function HomeCard({
         <section className="py-4">
           <p className="hint text-center mb-1">Total Orders Per Office</p>
           <section className="flex justify-center gap-2">
-            {poReviews.map((item) => (
-              <OfficeCircle label={item.label} value={item.value} />
+            {poReviews.map((item, id) => (
+              <OfficeCircle key={id} label={item.label} value={item.value} />
             ))}
           </section>
         </section>
