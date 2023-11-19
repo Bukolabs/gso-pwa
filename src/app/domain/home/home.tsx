@@ -1,26 +1,14 @@
 import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
-import { BidderApiAxiosParamCreator } from "@api/api";
-import { ApiService } from "@core/services/api.service";
-import { authHeaders } from "@core/services/auth-header";
+import { useAddBidder, useGetBidder } from "@core/query/bidder.query";
+import { CreateBidderDto } from "@api/api";
 
 function Home() {
-  const getApi = async () => {
-    const bidder =
-      await BidderApiAxiosParamCreator().bidderControllerGetDataAsList(
-        authHeaders()
-      );
-    const response = ApiService.getFetch(bidder);
-    response.then((x) => console.log(x));
-  };
+  const { mutate: addBidder } = useAddBidder();
+  const { data } = useGetBidder();
 
-  getApi();
+  console.log(data);
 
-  // .then((item) => {
-  //   console.log(item);
-  //   axios.get(item.url, item.options).then((x) => console.log(x));
-  // });
-  // BidderService.bidderControllerGetDataAsList().then(item => console.log(item))
   const sampleReview = [
     {
       label: "GSO",
@@ -62,6 +50,15 @@ function Home() {
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
+
+        <button
+          onClick={() => {
+            const newBidder = { name: "byong", email: 'byong123@gmail.com' } as CreateBidderDto;
+            addBidder(newBidder);
+          }}
+        >
+          Add Bidder
+        </button>
       </div>
     </div>
   );
