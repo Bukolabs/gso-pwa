@@ -29,6 +29,7 @@ requestBody: CreateUtilsBrandDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to create Brand.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -48,6 +49,7 @@ requestBody: EditUtilsBrandDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update Brand.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -62,6 +64,7 @@ requestBody: EditUtilsBrandDto,
             url: '/api/v1/utils-brand/get',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -81,6 +84,7 @@ requestBody: DeleteUtilsBrandDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to delete Brand.`,
+                403: `Unauthorized Access!`,
             },
         });
     }

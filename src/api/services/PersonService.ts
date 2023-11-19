@@ -61,11 +61,12 @@ requestBody: UpdatePersonDto,
 ): CancelablePromise<MessageResponseDto> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/api/v1/person/update',
+            url: '/api/v1/person/edit',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update User Data.`,
+                403: `Unauthorized Access!`,
             },
         });
     }

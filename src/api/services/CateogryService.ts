@@ -29,6 +29,7 @@ requestBody: CreateUtilsCategoryDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to create Category.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -48,6 +49,7 @@ requestBody: EditUtilsCategoryDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update Category.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -62,6 +64,7 @@ requestBody: EditUtilsCategoryDto,
             url: '/api/v1/utils-cateogry/get',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -81,6 +84,7 @@ requestBody: DeleteUtilsCategoryDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to delete Category.`,
+                403: `Unauthorized Access!`,
             },
         });
     }

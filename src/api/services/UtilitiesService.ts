@@ -173,6 +173,7 @@ city: string,
             url: '/api/v1/utilities/roles',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }

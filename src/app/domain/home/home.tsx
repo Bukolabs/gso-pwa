@@ -1,7 +1,9 @@
 import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
+import { BidderService } from "@api/services/BidderService";
 
 function Home() {
+  BidderService.bidderControllerGetDataAsList().then(item => console.log(item))
   const sampleReview = [
     {
       label: "GSO",
@@ -22,7 +24,7 @@ function Home() {
       value: "2",
     },
   ];
-  
+
   return (
     <div className="page">
       <h1>Home</h1>

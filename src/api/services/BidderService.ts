@@ -29,6 +29,7 @@ requestBody: CreateBidderDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to create Bidder.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -48,6 +49,7 @@ requestBody: EditBidderDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update Bidder.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -62,6 +64,7 @@ requestBody: EditBidderDto,
             url: '/api/v1/bidder/get',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -81,6 +84,7 @@ requestBody: DeleteBidderDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to delete Bidder.`,
+                403: `Unauthorized Access!`,
             },
         });
     }

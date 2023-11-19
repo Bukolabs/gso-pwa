@@ -29,6 +29,7 @@ requestBody: CreateUtilsUnitDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to create Unit.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -48,6 +49,7 @@ requestBody: EditUtilsUnitDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update Unit.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -62,6 +64,7 @@ requestBody: EditUtilsUnitDto,
             url: '/api/v1/utils-unit/get',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -81,6 +84,7 @@ requestBody: DeleteUtilsUnitDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to delete Unit.`,
+                403: `Unauthorized Access!`,
             },
         });
     }

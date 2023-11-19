@@ -29,6 +29,7 @@ requestBody: CreateItemDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to create Item.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -48,6 +49,7 @@ requestBody: EditItemDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to update Item.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -62,6 +64,7 @@ requestBody: EditItemDto,
             url: '/api/v1/item/get',
             errors: {
                 400: `Something went wrong with the API. Blame JIM!`,
+                403: `Unauthorized Access!`,
             },
         });
     }
@@ -81,6 +84,7 @@ requestBody: DeleteItemDto,
             mediaType: 'application/json',
             errors: {
                 400: `Unable to delete Item.`,
+                403: `Unauthorized Access!`,
             },
         });
     }
