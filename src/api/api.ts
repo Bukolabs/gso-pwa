@@ -1415,7 +1415,7 @@ export interface ListDataDto {
      * @type {Any}
      * @memberof ListDataDto
      */
-    'label': Any;
+    'label': any;
 }
 /**
  * 

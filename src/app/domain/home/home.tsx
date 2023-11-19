@@ -1,9 +1,26 @@
 import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
-import { BidderService } from "@api/services/BidderService";
+import { BidderApiAxiosParamCreator } from "@api/api";
+import { ApiService } from "@core/services/api.service";
+import { authHeaders } from "@core/services/auth-header";
 
 function Home() {
-  BidderService.bidderControllerGetDataAsList().then(item => console.log(item))
+  const getApi = async () => {
+    const bidder =
+      await BidderApiAxiosParamCreator().bidderControllerGetDataAsList(
+        authHeaders()
+      );
+    const response = ApiService.getFetch(bidder);
+    response.then((x) => console.log(x));
+  };
+
+  getApi();
+
+  // .then((item) => {
+  //   console.log(item);
+  //   axios.get(item.url, item.options).then((x) => console.log(x));
+  // });
+  // BidderService.bidderControllerGetDataAsList().then(item => console.log(item))
   const sampleReview = [
     {
       label: "GSO",
