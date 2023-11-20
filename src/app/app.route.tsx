@@ -7,6 +7,7 @@ import ListRequest from "./domain/purchase-request/list-request/list-request";
 import NewRequest from "./domain/purchase-request/new-request/new-request";
 import Bidder from "@domain/bidder/bidder";
 import ListBidder from "@domain/bidder/list-bidder/list-bidder";
+import NewBidder from "@domain/bidder/new-bidder/new-bidder";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <ListBidder />,
+          },
+          {
+            path: "new",
+            element: <NewBidder />,
           },
         ],
       },

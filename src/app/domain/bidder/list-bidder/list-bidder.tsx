@@ -4,11 +4,11 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorPage from "@shared/ui/error-page/error-page";
-import { CreateBidderDto } from "@api/api";
+import { useNavigate } from "react-router-dom";
 
 export function ListBidder() {
+  const navigate = useNavigate();
   const { data: bidders, isLoading, isError, error } = useGetBidder();
-  const { mutate: addBidder } = useAddBidder();
 
   const displayLoading = (
     <div className="card">
@@ -32,11 +32,7 @@ export function ListBidder() {
       <h1>Welcome to, ListBidder</h1>
       <button
         onClick={() => {
-          const newBidder = {
-            name: "byong",
-            email: "byong123@gmail.com",
-          } as CreateBidderDto;
-          addBidder(newBidder);
+          navigate("./new");
         }}
       >
         Add Bidder
