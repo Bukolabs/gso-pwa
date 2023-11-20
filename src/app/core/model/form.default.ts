@@ -1,4 +1,8 @@
-import { OrderFormSchema, RequestFormSchema } from "./form.rule";
+import {
+  BidderFormSchema,
+  OrderFormSchema,
+  RequestFormSchema,
+} from "./form.rule";
 
 export const requestFormDefault = {
   category: "",
@@ -23,3 +27,9 @@ export const orderFormDefault = {
   paymentTerm: "",
   items: [],
 } as OrderFormSchema;
+
+export const bidderFormDefault = {
+  country: "Philippines",
+  name: "",
+  mobile: "",
+} as BidderFormSchema;
