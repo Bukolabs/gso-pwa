@@ -1,19 +1,29 @@
-import { BidderApiAxiosParamCreator, CreateBidderDto } from "@api/api";
-import { FetchService } from "@core/query/fetch.service";
+import {
+  BidderApiFp,
+  BidderControllerGetDataAsList200Response,
+  CreateBidderDto,
+  MessageResponseDto,
+} from "@api/api";
 import { authHeaders } from "@core/query/auth-header";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 
 export function useGetBidder() {
-  const apiFn = async () => {
-    const operation =
-      await BidderApiAxiosParamCreator().bidderControllerGetDataAsList(
-        authHeaders()
-      );
-    const response = FetchService.Get(operation).then(
-      (response) => response.data
+  const apiFn = async (
+    search = undefined,
+    limit = undefined,
+    offset = undefined,
+    order = undefined
+  ) => {
+    const operation = await BidderApiFp().bidderControllerGetDataAsList(
+      search,
+      limit,
+      offset,
+      order,
+      authHeaders()
     );
-    return response;
+    const response = (await operation()).data;
+    return response["data"] as BidderControllerGetDataAsList200Response;
   };
 
   return useQuery({
@@ -30,14 +40,12 @@ export function useAddBidder() {
   const queryClient = useQueryClient();
 
   const apiFn = async (payload: CreateBidderDto) => {
-    const operation = await BidderApiAxiosParamCreator().bidderControllerCreate(
+    const operation = await BidderApiFp().bidderControllerCreate(
       payload,
       authHeaders()
     );
-    const response = FetchService.Post(operation).then(
-      (response) => response.data
-    );
-    return response;
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
   };
 
   return useMutation({

@@ -20,14 +20,14 @@ export function Shell() {
     {
       title: "Request",
       icon: "pi pi-book",
-      path: "requests",
+      path: "request",
       activeClass,
       hoverClass,
     },
     {
       title: "Order",
       icon: "pi pi-bars",
-      path: "orders",
+      path: "order",
       activeClass,
       hoverClass,
     },

@@ -5,6 +5,8 @@ import PurchaseOrder from "./domain/purchase-order/purchase-order";
 import PurchaseRequest from "./domain/purchase-request/purchase-request";
 import ListRequest from "./domain/purchase-request/list-request/list-request";
 import NewRequest from "./domain/purchase-request/new-request/new-request";
+import Bidder from "@domain/bidder/bidder";
+import ListBidder from "@domain/bidder/list-bidder/list-bidder";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Home /> },
       {
-        path: "requests",
+        path: "request",
         element: <PurchaseRequest />,
         children: [
           {
@@ -26,7 +28,17 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "orders", element: <PurchaseOrder /> },
+      { path: "order", element: <PurchaseOrder /> },
+      {
+        path: "bidder",
+        element: <Bidder />,
+        children: [
+          {
+            path: "",
+            element: <ListBidder />,
+          },
+        ],
+      },
     ],
   },
 ]);

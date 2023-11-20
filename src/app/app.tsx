@@ -8,7 +8,13 @@ import { QueryClient, QueryClientProvider } from "react-query";
 // Downside is the forms aren't styled to tailwind setup yet
 import { styleExtension } from "./style/tailwind-extension";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   return (

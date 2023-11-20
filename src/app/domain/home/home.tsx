@@ -1,14 +1,7 @@
 import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
-import { useAddBidder, useGetBidder } from "@core/query/bidder.query";
-import { CreateBidderDto } from "@api/api";
 
 function Home() {
-  const { mutate: addBidder } = useAddBidder();
-  const { data } = useGetBidder();
-
-  console.log(data);
-
   const sampleReview = [
     {
       label: "GSO",
@@ -50,15 +43,6 @@ function Home() {
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
         <HomeCard stage={4} requests={1565} orders={500} status="PO Approved" />
-
-        <button
-          onClick={() => {
-            const newBidder = { name: "byong", email: 'byong123@gmail.com' } as CreateBidderDto;
-            addBidder(newBidder);
-          }}
-        >
-          Add Bidder
-        </button>
       </div>
     </div>
   );
