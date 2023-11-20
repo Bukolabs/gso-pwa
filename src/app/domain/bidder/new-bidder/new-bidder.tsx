@@ -1,11 +1,12 @@
 import { useAddBidder } from "@core/query/bidder.query";
 import "./new-bidder";
 import { CreateBidderDto } from "@api/api";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import { BidderFormRule, BidderFormSchema } from "@core/model/form.rule";
 import { bidderFormDefault } from "@core/model/form.default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import BidderForm from "./bidder-form/bidder-form";
+import { FormToApiService } from "@core/services/form-to-api.service";
 
 /* eslint-disable-next-line */
 export interface NewBidderProps {}
@@ -17,19 +18,27 @@ export function NewBidder() {
     defaultValues: bidderFormDefault,
     resolver: zodResolver(BidderFormRule),
   });
+  const { handleSubmit } = formMethod;
+
+  const handleValidate = (form: BidderFormSchema) => {
+    const formData = FormToApiService.NewBidder(form);
+    addBidder(formData);
+  };
+  const handleValidateError = (error: FieldErrors<BidderFormSchema>) => {
+    // setNotification({
+    //   progress: { show: true },
+    //   toast: ToastNotificationProperty.Warning(
+    //     "Warning",
+    //     "Some required fields are not populated."
+    //   ),
+    // });
+    console.error(error);
+  };
 
   return (
     <div className="new-bidder">
       <h1>Welcome to, NewBidder</h1>
-      <button
-        onClick={() => {
-          const newBidder = {
-            name: "byong",
-            email: "byong123@gmail.com",
-          } as CreateBidderDto;
-          addBidder(newBidder);
-        }}
-      >
+      <button onClick={handleSubmit(handleValidate, handleValidateError)}>
         Add Bidder
       </button>
 

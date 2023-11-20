@@ -35,7 +35,10 @@ export const OrderItemRule = z.object({
 });
 
 export const PersonalRule = z.object({
-  name: z.string(),
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(100, "Maximum of 100 characters only"),
   email: z
     .string()
     .email()
@@ -59,7 +62,7 @@ export const AddressRule = z.object({
     .string()
     .min(1, { message: "Country is required" })
     .max(50, "Country is maxed at 50"),
-  zipcode: z.string().max(50, "Zipcode is maxed at 50"),
+  zipcode: z.string().max(50, "Zipcode is maxed at 50").optional(),
 });
 
 export const BidderFormRule = PersonalRule.and(AddressRule);

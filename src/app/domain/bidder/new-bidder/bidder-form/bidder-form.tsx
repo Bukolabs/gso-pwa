@@ -14,10 +14,50 @@ export function BidderForm() {
         <InputControl<BidderFormSchema>
           control={control}
           name="name"
-          label="Fullname"
+          label="Fullname (Required)"
           className="w-full md:w-3/4"
           placeholder="Enter your fullname"
           hint="e.g. Juan Eduardo Gomez"
+        />
+        <InputControl<BidderFormSchema>
+          control={control}
+          name="email"
+          label="Email Address"
+          className="w-full md:w-3/4"
+          placeholder="Enter your email address"
+          hint="e.g. juangoma@gmail.com"
+        />
+        <InputControl<BidderFormSchema>
+          control={control}
+          name="mobile"
+          label="Mobile Number (Required)"
+          className="w-full md:w-3/4"
+          placeholder="Enter your mobile number"
+          hint="e.g. 09191234567"
+        />
+        <InputControl<BidderFormSchema>
+          control={control}
+          name="streetName"
+          label="Street Name"
+          className="w-full md:w-3/4"
+          placeholder="Enter your street address"
+          hint="e.g. Lamdagan Street"
+        />
+        <InputControl<BidderFormSchema>
+          control={control}
+          name="barangay"
+          label="Barangay"
+          className="w-full md:w-3/4"
+          placeholder="Enter your barangay"
+          hint="e.g. Manga"
+        />
+        <InputControl<BidderFormSchema>
+          control={control}
+          name="city"
+          label="City / Municipality"
+          className="w-full md:w-3/4"
+          placeholder="Enter your city or municipality"
+          hint="e.g. Tagbilaran"
         />
       </div>
     </div>

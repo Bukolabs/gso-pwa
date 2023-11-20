@@ -31,5 +31,9 @@ export const orderFormDefault = {
 export const bidderFormDefault = {
   country: "Philippines",
   name: "",
+  email: '',
   mobile: "",
+  streetName: '',
+  barangay: '',
+  city: ''
 } as BidderFormSchema;
