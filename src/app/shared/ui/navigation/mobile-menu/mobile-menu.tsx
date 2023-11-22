@@ -15,7 +15,7 @@ export function MobileMenu({ className, menus }: MobileMenuProps) {
   return (
     <div
       className={classNames(
-        "fixed bottom-0 bg-white px-6 rounded-t-xl w-full",
+        "fixed bottom-0 bg-white px-6 rounded-t-xl w-full z-[999]",
         className
       )}
     >

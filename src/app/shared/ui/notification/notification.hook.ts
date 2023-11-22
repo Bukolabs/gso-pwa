@@ -30,43 +30,43 @@ export function useNotification() {
     });
   };
 
-  const success = (message: string, header = "Success") => {
+  const showSuccess = (message: string, header = "Success") => {
     const payload = ToastNotificationProperty.Success(header, message);
     dispatch({ type: "SET_TOAST", payload });
     showToast(payload);
   };
 
-  const error = (message: string, header = "Error") => {
+  const showError = (message: string, header = "Error") => {
     const payload = ToastNotificationProperty.Error(header, message);
     dispatch({ type: "SET_TOAST", payload });
     showToast(payload);
   };
 
-  const info = (message: string, header = "Information") => {
+  const showInfo = (message: string, header = "Information") => {
     const payload = ToastNotificationProperty.Info(header, message);
     dispatch({ type: "SET_TOAST", payload });
     showToast(payload);
   };
 
-  const warning = (message: string, header = "Warning") => {
+  const showWarning = (message: string, header = "Warning") => {
     const payload = ToastNotificationProperty.Warning(header, message);
     dispatch({ type: "SET_TOAST", payload });
     showToast(payload);
   };
 
-  const show = () => {
+  const showProgress = () => {
     const payload = {
       show: true,
     } as ProgressNotificationProperty;
     dispatch({ type: "SET_PROGRESS", payload });
   };
-  const hide = () => {
+  const hideProgress = () => {
     const payload = {
       show: false,
     } as ProgressNotificationProperty;
     dispatch({ type: "SET_PROGRESS", payload });
   };
-  const toggle = () => {
+  const toggleProgress = () => {
     const payload = {
       show: !progress?.show,
     } as ProgressNotificationProperty;
@@ -77,12 +77,12 @@ export function useNotification() {
     progress,
     toast,
     toastRef,
-    success,
-    error,
-    info,
-    warning,
-    show,
-    hide,
-    toggle,
+    showSuccess,
+    showError,
+    showInfo,
+    showWarning,
+    showProgress,
+    hideProgress,
+    toggleProgress,
   };
 }

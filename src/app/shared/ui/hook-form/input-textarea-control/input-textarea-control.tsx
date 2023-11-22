@@ -55,7 +55,7 @@ export function InputTextareaControl<FieldsType extends FieldValues>({
 
             <label htmlFor={field.name}>{label}</label>
           </span>
-          {hint && <p className="text-gray-400 mb-1">{hint}</p>}
+               {hint && <small className="text-gray-400 mb-1">{hint}</small>}
           {fieldState.error && (
             <FormError error={fieldState.error} className="mt-1" />
           )}

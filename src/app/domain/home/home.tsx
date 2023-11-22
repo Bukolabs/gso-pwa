@@ -3,7 +3,6 @@ import HomeCard from "./home-card/home-card";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 
 function Home() {
-  const { toggle, success, error } = useNotificationContext();
   const sampleReview = [
     {
       label: "GSO",
@@ -28,9 +27,6 @@ function Home() {
   return (
     <div className="page">
       <h1>Home</h1>
-      <button onClick={() => toggle()}>Toggle Progress</button><br />
-      <button onClick={() => success('you did it')}>Success</button><br />
-      <button onClick={() => error('almost there')}>Error</button><br />
 
       <div className="card flex flex-col gap-2 justify-content-center">
         <HomeCard stage={1} requests={20} status="Submitted" />

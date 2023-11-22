@@ -7,14 +7,19 @@ import {
 import { authHeaders } from "@core/query/auth-header";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
+import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import { AxiosError } from "axios";
+import { getApiErrorMessage } from "@core/utility/get-error-message";
 
 export function useGetBidder() {
+  const { showProgress, hideProgress } = useNotificationContext();
   const apiFn = async (
     search = undefined,
     limit = undefined,
     offset = undefined,
     order = undefined
   ) => {
+    showProgress();
     const operation = await BidderApiFp().bidderControllerGetDataAsList(
       search,
       limit,
@@ -29,17 +34,27 @@ export function useGetBidder() {
   return useQuery({
     queryKey: QueryKey.Bidder,
     queryFn: () => apiFn(),
-    onSuccess: () => {},
+    onSuccess: () => {
+      hideProgress();
+    },
     onError: (err) => {
+      hideProgress();
       console.error("handling error", err);
     },
   });
 }
 
-export function useAddBidder() {
+export function useAddBidder(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
   const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
 
   const apiFn = async (payload: CreateBidderDto) => {
+    showProgress();
     const operation = await BidderApiFp().bidderControllerCreate(
       payload,
       authHeaders()
@@ -50,11 +65,20 @@ export function useAddBidder() {
 
   return useMutation({
     mutationFn: apiFn,
-    onSuccess: () => {
+    onSuccess: (response) => {
+      hideProgress();
       queryClient.invalidateQueries(QueryKey.Bidder);
+      if (onSuccess) {
+        onSuccess(response);
+      }
     },
-    onError: (err) => {
-      console.error("handling error", err);
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
     },
   });
 }

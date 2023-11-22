@@ -15,6 +15,7 @@ export function BidderForm() {
           control={control}
           name="name"
           label="Fullname (Required)"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your fullname"
           hint="e.g. Juan Eduardo Gomez"
@@ -22,7 +23,8 @@ export function BidderForm() {
         <InputControl<BidderFormSchema>
           control={control}
           name="email"
-          label="Email Address"
+          label="Email Address (Required)"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your email address"
           hint="e.g. juangoma@gmail.com"
@@ -31,6 +33,7 @@ export function BidderForm() {
           control={control}
           name="mobile"
           label="Mobile Number (Required)"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your mobile number"
           hint="e.g. 09191234567"
@@ -39,6 +42,7 @@ export function BidderForm() {
           control={control}
           name="streetName"
           label="Street Name"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your street address"
           hint="e.g. Lamdagan Street"
@@ -47,6 +51,7 @@ export function BidderForm() {
           control={control}
           name="barangay"
           label="Barangay"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your barangay"
           hint="e.g. Manga"
@@ -55,6 +60,7 @@ export function BidderForm() {
           control={control}
           name="city"
           label="City / Municipality"
+          containerClassName="mb-9"
           className="w-full md:w-3/4"
           placeholder="Enter your city or municipality"
           hint="e.g. Tagbilaran"

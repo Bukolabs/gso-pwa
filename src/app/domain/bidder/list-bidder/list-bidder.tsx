@@ -1,10 +1,12 @@
-import { useAddBidder, useGetBidder } from "@core/query/bidder.query";
 import "./list-bidder";
+import { useGetBidder } from "@core/query/bidder.query";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorPage from "@shared/ui/error-page/error-page";
 import { useNavigate } from "react-router-dom";
+import { Button } from "primereact/button";
+import HeaderContent from "@shared/ui/header-content/header-content";
 
 export function ListBidder() {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ export function ListBidder() {
     </div>
   );
   const grid = (
-    <DataTable value={bidders?.data}>
+    <DataTable value={bidders?.data} tableStyle={{ zIndex: 1 }}>
       <Column field="name" header="Name"></Column>
       <Column field="email" header="email"></Column>
     </DataTable>
@@ -29,18 +31,20 @@ export function ListBidder() {
 
   return (
     <div className="list-bidder">
-      <h1>Welcome to, ListBidder</h1>
-      <button
-        onClick={() => {
-          navigate("./new");
-        }}
-      >
-        Add Bidder
-      </button>
+      <HeaderContent title="Bidders">
+        <Button
+          label="Add"
+          onClick={() => {
+            navigate("./new");
+          }}
+        />
+      </HeaderContent>
 
-      {isLoading && displayLoading}
-      {isError && !isLoading && displayError}
-      {!isLoading && !isError && grid}
+      <div className="p-7 ">
+        {isLoading && displayLoading}
+        {isError && !isLoading && displayError}
+        {!isLoading && !isError && grid}
+      </div>
     </div>
   );
 }

@@ -42,7 +42,7 @@ h5 {
   @apply font-bold text-gray-800 text-sm md:text-base;
 }
 
-.hint {
+.hint, small {
   @apply text-gray-500 text-sm;
 }
 

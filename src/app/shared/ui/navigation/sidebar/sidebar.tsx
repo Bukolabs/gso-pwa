@@ -31,7 +31,7 @@ export function Sidebar({ children, className }: SidebarProps) {
             src="https://img.logoipsum.com/243.svg"
             className={classNames(
               `overflow-hidden transition-all`,
-              expanded ? "w-32" : "w-0"
+              expanded ? "w-36" : "w-0"
             )}
             alt=""
           />
@@ -48,7 +48,7 @@ export function Sidebar({ children, className }: SidebarProps) {
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3 mt-5">{children}</ul>
+          <ul className="flex-1 px-5 mt-5">{children}</ul>
         </SidebarContext.Provider>
 
         <div className="border-t flex p-3">

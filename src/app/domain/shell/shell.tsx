@@ -73,7 +73,7 @@ export function Shell() {
           ))}
         </Sidebar>
         <MobileMenu className="flex md:hidden" menus={navigationItems} />
-        <div className="h-screen flex-1 p-7">
+        <div className="h-screen flex-1">
           <Outlet />
         </div>
       </div>

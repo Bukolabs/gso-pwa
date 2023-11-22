@@ -1,18 +1,22 @@
 import { useAddBidder } from "@core/query/bidder.query";
 import "./new-bidder";
-import { CreateBidderDto } from "@api/api";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import { BidderFormRule, BidderFormSchema } from "@core/model/form.rule";
+import { HeaderContent } from "@shared/ui/header-content/header-content";
 import { bidderFormDefault } from "@core/model/form.default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import BidderForm from "./bidder-form/bidder-form";
 import { FormToApiService } from "@core/services/form-to-api.service";
-
-/* eslint-disable-next-line */
-export interface NewBidderProps {}
+import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
+import { useNotificationContext } from "@shared/ui/notification/notification.context";
 
 export function NewBidder() {
-  const { mutate: addBidder } = useAddBidder();
+  const navigate = useNavigate();
+  const { showError } = useNotificationContext();
+
+  const handleApiSuccess = () => handleBack();
+  const { mutate: addBidder } = useAddBidder(handleApiSuccess);
 
   const formMethod = useForm<BidderFormSchema>({
     defaultValues: bidderFormDefault,
@@ -20,31 +24,32 @@ export function NewBidder() {
   });
   const { handleSubmit } = formMethod;
 
+  const handleBack = () => {
+    navigate("../");
+  };
+
   const handleValidate = (form: BidderFormSchema) => {
     const formData = FormToApiService.NewBidder(form);
     addBidder(formData);
   };
-  const handleValidateError = (error: FieldErrors<BidderFormSchema>) => {
-    // setNotification({
-    //   progress: { show: true },
-    //   toast: ToastNotificationProperty.Warning(
-    //     "Warning",
-    //     "Some required fields are not populated."
-    //   ),
-    // });
-    console.error(error);
+  const handleValidateError = (err: FieldErrors<BidderFormSchema>) => {
+    showError("Please populate the required fields");
   };
 
   return (
     <div className="new-bidder">
-      <h1>Welcome to, NewBidder</h1>
-      <button onClick={handleSubmit(handleValidate, handleValidateError)}>
-        Add Bidder
-      </button>
+      <HeaderContent title="New Bidder" onBack={() => navigate("../")}>
+        <Button
+          label="Save"
+          onClick={handleSubmit(handleValidate, handleValidateError)}
+        />
+      </HeaderContent>
 
-      <FormProvider {...formMethod}>
-        <BidderForm />
-      </FormProvider>
+      <div className="p-7">
+        <FormProvider {...formMethod}>
+          <BidderForm />
+        </FormProvider>
+      </div>
     </div>
   );
 }
