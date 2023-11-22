@@ -11,7 +11,7 @@ export interface HeaderContentProps {
 export function HeaderContent({ title, children, onBack }: HeaderContentProps) {
   return (
     <header className="header-content bg-white p-7 flex flex-row justify-between items-center md:items-start">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         {onBack && (
           <Button
             icon="pi pi-angle-left"
