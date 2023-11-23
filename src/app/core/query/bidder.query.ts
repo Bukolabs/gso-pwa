@@ -11,13 +11,20 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-export function useGetBidder() {
+export function useGetBidder(
+  limit = 10,
+  page = 0,
+  searchTerm: string,
+  filter?: Record<string, string>,
+  order?: object,
+  enabled?: boolean
+) {
   const { showProgress, hideProgress } = useNotificationContext();
   const apiFn = async (
-    search = undefined,
-    limit = undefined,
-    offset = undefined,
-    order = undefined
+    limit: number | undefined = undefined,
+    offset: number | undefined = undefined,
+    search: string | undefined = undefined,
+    order: object | undefined = undefined
   ) => {
     showProgress();
     const operation = await BidderApiFp().bidderControllerGetDataAsList(
@@ -32,8 +39,9 @@ export function useGetBidder() {
   };
 
   return useQuery({
-    queryKey: QueryKey.Bidder,
-    queryFn: () => apiFn(),
+    enabled,
+    queryKey: [QueryKey.Bidder, limit, page, searchTerm, filter, order],
+    queryFn: () => apiFn(limit, page, searchTerm, order),
     onSuccess: () => {
       hideProgress();
     },

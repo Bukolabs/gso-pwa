@@ -3,14 +3,32 @@ import { useGetBidder } from "@core/query/bidder.query";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
-import ErrorPage from "@shared/ui/error-page/error-page";
+import ErrorPage, {
+  ErrorSection,
+} from "@shared/ui/error-section/error-section";
 import { useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import HeaderContent from "@shared/ui/header-content/header-content";
+import { useState } from "react";
+import SearchInput from "@shared/ui/search-input/search-input";
+import { Sidebar } from "primereact/sidebar";
 
 export function ListBidder() {
   const navigate = useNavigate();
-  const { data: bidders, isLoading, isError, error } = useGetBidder();
+  const limit = 10;
+  const [pageNumber, setPageNumber] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterPanel, setFilterPanel] = useState(false);
+  const {
+    data: bidders,
+    isLoading,
+    isError,
+    error,
+  } = useGetBidder(limit, pageNumber, searchTerm);
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+  };
 
   const displayLoading = (
     <div className="card">
@@ -19,7 +37,7 @@ export function ListBidder() {
   );
   const displayError = (
     <div className="card">
-      <ErrorPage title="Error Occured" message={(error as any)?.message} />
+      <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
   );
   const grid = (
@@ -27,6 +45,31 @@ export function ListBidder() {
       <Column field="name" header="Name"></Column>
       <Column field="email" header="email"></Column>
     </DataTable>
+  );
+  const filter = (
+    <div className="flex gap-4">
+      <SearchInput
+        searchTerm={searchTerm}
+        onSearch={handleSearch}
+        placeholder="Search bidder name"
+        className="w-full block"
+      />
+      <div>
+        <Button
+          className="block"
+          label="Filter"
+          severity="secondary"
+          outlined
+          onClick={() => setFilterPanel(true)}
+        />
+      </div>
+      <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
+        <h2>Filters</h2>
+        <p>
+          Select the following filters you want to apply to the current table.
+        </p>
+      </Sidebar>
+    </div>
   );
 
   return (
@@ -40,7 +83,8 @@ export function ListBidder() {
         />
       </HeaderContent>
 
-      <div className="p-7 ">
+      <div className="p-7">
+        {filter}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
         {!isLoading && !isError && grid}

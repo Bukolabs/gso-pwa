@@ -53,3 +53,11 @@ h5 {
 .p-toast-message {
   margin-left: -22px;
 }
+
+// OVERRIDES
+.p-inplace-content {
+  display: flex;
+}
+.p-inplace-display {
+  display: flex;
+}
