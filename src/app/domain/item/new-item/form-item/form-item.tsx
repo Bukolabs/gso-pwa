@@ -6,12 +6,11 @@ import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/in
 import { LabelValue } from "@shared/models/label-value.interface";
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { DropdownFilterEvent } from "primereact/dropdown";
-import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import { CreateUtilsBrandDto } from "@api/api";
 import { Button } from "primereact/button";
-import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import { useBrandFormHook } from "./brand.hook";
 
 export interface FormItemProps {
   brands: LabelValue[];
@@ -19,33 +18,17 @@ export interface FormItemProps {
 }
 
 export function FormItem({ brands, onAddBrand }: FormItemProps) {
-  const { showWarning } = useNotificationContext();
   const { control } = useFormContext<ItemFormSchema>();
 
-  const [brandSidebar, setBrandSidebar] = useState(false);
-  const [brandFilter, setBrandFilter] = useState("");
-  const [newBrand, setNewBrand] = useState<CreateUtilsBrandDto>({
-    name: "",
-    description: "",
-  });
-
-  const handleBrandFilterInput = (event: any) => {
-    if (event.key === "Enter") {
-      setNewBrand({
-        name: brandFilter,
-        description: "",
-      });
-      setBrandSidebar(true);
-    }
-  };
-  const handleAddBrand = () => {
-    if (!newBrand.name) {
-      showWarning("Please fill in brand details");
-      return;
-    }
-    onAddBrand(newBrand);
-    setBrandSidebar(false);
-  };
+  const {
+    brandSidebar,
+    newBrand,
+    setBrandSidebar,
+    setBrandFilter,
+    setNewBrand,
+    handleBrandFilterInput,
+    handleAddBrand,
+  } = useBrandFormHook(onAddBrand);
 
   return (
     <div className="form-item">
@@ -112,7 +95,7 @@ export function FormItem({ brands, onAddBrand }: FormItemProps) {
             containerClassName="mb-9"
             className="w-full md:w-3/4"
             placeholder="Enter your brand name"
-            hint="e.g. Dyson. If the brand you searched doesn't exist hit enter to show add brand button"
+            hint="e.g. Dyson. If the brand doesn't exist hit ENTER to create a new brand"
             filter
             onFilter={(e: DropdownFilterEvent) => setBrandFilter(e.filter)}
             onKeyDown={handleBrandFilterInput}
@@ -136,15 +119,6 @@ export function FormItem({ brands, onAddBrand }: FormItemProps) {
           className="w-full md:w-3/4"
           placeholder="Enter your street address"
           hint="e.g. Appliance"
-        />
-        <InputControl<ItemFormSchema>
-          control={control}
-          name="brand"
-          label="Brand"
-          containerClassName="mb-9"
-          className="w-full md:w-3/4"
-          placeholder="Enter your barangay"
-          hint="e.g. Dyson"
         />
       </div>
     </div>

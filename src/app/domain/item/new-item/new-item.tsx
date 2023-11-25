@@ -28,7 +28,10 @@ export function NewItem() {
   };
   const { mutate: addItem } = useAddItem(handleApiSuccess);
 
-  const { mutate: addBrand } = useAddBrand();
+  const handleAddBrandApiSuccess = () => {
+    showSuccess("New brand is added. Check and select the brand.");
+  };
+  const { mutate: addBrand } = useAddBrand(handleAddBrandApiSuccess);
   const { data: brands } = useGetBrand();
   const mappedBrands = (brands?.data || []).map(
     (item) =>
