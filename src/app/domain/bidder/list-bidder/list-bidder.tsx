@@ -10,6 +10,7 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import { useState } from "react";
 import SearchInput from "@shared/ui/search-input/search-input";
 import { Sidebar } from "primereact/sidebar";
+import { GetBidderDto } from "@api/api";
 
 export function ListBidder() {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export function ListBidder() {
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
   };
+  const editRecord = (item: GetBidderDto) => {
+    navigate(`${item.code}`);
+  };
 
   const displayLoading = (
     <div className="card">
@@ -37,12 +41,6 @@ export function ListBidder() {
     <div className="card">
       <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
-  );
-  const grid = (
-    <DataTable value={bidders?.data} tableStyle={{ zIndex: 1 }}>
-      <Column field="name" header="Name"></Column>
-      <Column field="email" header="email"></Column>
-    </DataTable>
   );
   const filter = (
     <div className="flex gap-4">
@@ -68,6 +66,17 @@ export function ListBidder() {
         </p>
       </Sidebar>
     </div>
+  );
+  const grid = (
+    <DataTable
+      value={bidders?.data}
+      tableStyle={{ zIndex: 1 }}
+      selectionMode="single"
+      onSelectionChange={(e) => editRecord(e.value)}
+    >
+      <Column field="name" header="Name"></Column>
+      <Column field="email" header="email"></Column>
+    </DataTable>
   );
 
   return (

@@ -1,4 +1,4 @@
-import { CreateBidderDto, CreateItemDto } from "@api/api";
+import { CreateBidderDto, CreateItemDto, EditBidderDto } from "@api/api";
 import { BidderFormSchema, ItemFormSchema } from "@core/model/form.rule";
 
 export class FormToApiService {
@@ -11,6 +11,20 @@ export class FormToApiService {
       barangay: form.barangay,
       municipality: form.city,
     } as CreateBidderDto;
+
+    return payload;
+  }
+
+  static EditBidder(form: BidderFormSchema, id: string) {
+    const payload = {
+      code: id,
+      name: form.name,
+      email: form.email,
+      mobile: form.mobile,
+      street_name: form.streetName,
+      barangay: form.barangay,
+      municipality: form.city,
+    } as EditBidderDto;
 
     return payload;
   }

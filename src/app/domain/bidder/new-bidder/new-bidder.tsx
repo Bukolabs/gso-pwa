@@ -13,9 +13,15 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 
 export function NewBidder() {
   const navigate = useNavigate();
-  const { showError } = useNotificationContext();
+  const { showError, showSuccess } = useNotificationContext();
 
-  const handleApiSuccess = () => handleBack();
+  const handleBack = () => {
+    navigate("../");
+  };
+  const handleApiSuccess = () => {
+    showSuccess("New bidder created");
+    handleBack();
+  };
   const { mutate: addBidder } = useAddBidder(handleApiSuccess);
 
   const formMethod = useForm<BidderFormSchema>({
@@ -23,10 +29,6 @@ export function NewBidder() {
     resolver: zodResolver(BidderFormRule),
   });
   const { handleSubmit } = formMethod;
-
-  const handleBack = () => {
-    navigate("../");
-  };
 
   const handleValidate = (form: BidderFormSchema) => {
     const formData = FormToApiService.NewBidder(form);
@@ -38,7 +40,7 @@ export function NewBidder() {
 
   return (
     <div className="new-bidder">
-      <HeaderContent title="New Bidder" onBack={() => navigate("../")}>
+      <HeaderContent title="New Bidder" onBack={() => handleBack()}>
         <Button
           label="Save"
           onClick={handleSubmit(handleValidate, handleValidateError)}
