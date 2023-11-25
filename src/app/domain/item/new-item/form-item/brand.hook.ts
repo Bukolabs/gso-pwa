@@ -1,5 +1,4 @@
 import { CreateUtilsBrandDto } from "@api/api";
-import { ItemFormSchema } from "@core/model/form.rule";
 import { useAddBrand, useGetBrand } from "@core/query/brand.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
@@ -13,6 +12,8 @@ export const useBrandForm = () => {
     name: "",
     description: "",
   });
+  const [isCreating, setIsCreating] = useState(false);
+
   const handleBrandFilterInput = (event: any) => {
     if (event.key === "Enter") {
       setNewBrand({
@@ -27,14 +28,22 @@ export const useBrandForm = () => {
       showWarning("Please fill in brand details");
       return;
     }
+    setIsCreating(true);
     addBrand(newBrand);
   };
 
   const handleAddBrandApiSuccess = () => {
     showSuccess("New brand is added. Check and select the brand.");
     setBrandSidebar(false);
+    setIsCreating(false);
   };
-  const { mutate: addBrand } = useAddBrand(handleAddBrandApiSuccess);
+  const handleAddBrandApiError = () => {
+    setIsCreating(false);
+  };
+  const { mutate: addBrand } = useAddBrand(
+    handleAddBrandApiSuccess,
+    handleAddBrandApiError
+  );
   const { data: brands } = useGetBrand();
   const mappedBrands = (brands?.data || []).map(
     (item) =>
@@ -49,6 +58,7 @@ export const useBrandForm = () => {
     brandFilter,
     newBrand,
     mappedBrands,
+    isCreating,
     setBrandSidebar,
     setBrandFilter,
     setNewBrand,

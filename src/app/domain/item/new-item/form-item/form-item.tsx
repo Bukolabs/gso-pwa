@@ -21,6 +21,7 @@ export function FormItem() {
     brandSidebar,
     newBrand,
     mappedBrands,
+    isCreating,
     setBrandSidebar,
     setBrandFilter,
     setNewBrand,
@@ -81,6 +82,7 @@ export function FormItem() {
                   label="Create"
                   onClick={handleAddBrand}
                   className="block"
+                  disabled={isCreating}
                 />
               </div>
             </Sidebar>
