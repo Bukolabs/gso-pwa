@@ -27,20 +27,7 @@ export function NewItem() {
     handleBack();
   };
   const { mutate: addItem } = useAddItem(handleApiSuccess);
-
-  const handleAddBrandApiSuccess = () => {
-    showSuccess("New brand is added. Check and select the brand.");
-  };
-  const { mutate: addBrand } = useAddBrand(handleAddBrandApiSuccess);
-  const { data: brands } = useGetBrand();
-  const mappedBrands = (brands?.data || []).map(
-    (item) =>
-      ({
-        label: item.name,
-        value: item.code,
-      } as LabelValue)
-  );
-
+  
   const formMethod = useForm<ItemFormSchema>({
     defaultValues: itemFormDefault,
     resolver: zodResolver(ItemFormRule),
@@ -56,10 +43,6 @@ export function NewItem() {
     showError(formMessage);
   };
 
-  const handleAddBrand = (brand: CreateUtilsBrandDto) => {
-    addBrand(brand);
-  };
-
   return (
     <div className="new-item">
       <HeaderContent title="New Item" onBack={() => navigate("../")}>
@@ -71,7 +54,7 @@ export function NewItem() {
 
       <div className="p-7">
         <FormProvider {...formMethod}>
-          <FormItem brands={mappedBrands || []} onAddBrand={handleAddBrand} />
+          <FormItem />
         </FormProvider>
       </div>
     </div>

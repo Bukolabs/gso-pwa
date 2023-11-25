@@ -10,25 +10,23 @@ import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import { CreateUtilsBrandDto } from "@api/api";
 import { Button } from "primereact/button";
-import { useBrandFormHook } from "./brand.hook";
+import { useBrandFormContext } from "./brand.context";
 
-export interface FormItemProps {
-  brands: LabelValue[];
-  onAddBrand: (brand: CreateUtilsBrandDto) => void;
-}
+export interface FormItemProps {}
 
-export function FormItem({ brands, onAddBrand }: FormItemProps) {
+export function FormItem() {
   const { control } = useFormContext<ItemFormSchema>();
 
   const {
     brandSidebar,
     newBrand,
+    mappedBrands,
     setBrandSidebar,
     setBrandFilter,
     setNewBrand,
     handleBrandFilterInput,
     handleAddBrand,
-  } = useBrandFormHook(onAddBrand);
+  } = useBrandFormContext();
 
   return (
     <div className="form-item">
@@ -91,7 +89,7 @@ export function FormItem({ brands, onAddBrand }: FormItemProps) {
             control={control}
             name="brand"
             label="Brand"
-            options={brands}
+            options={mappedBrands}
             containerClassName="mb-9"
             className="w-full md:w-3/4"
             placeholder="Enter your brand name"
