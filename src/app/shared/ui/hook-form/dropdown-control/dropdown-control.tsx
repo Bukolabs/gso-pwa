@@ -1,5 +1,5 @@
 import { Controller, FieldValues } from "react-hook-form";
-import { Dropdown } from "primereact/dropdown";
+import { Dropdown, DropdownFilterEvent } from "primereact/dropdown";
 import { SelectItemOptionsType } from "primereact/selectitem";
 import classNames from "classnames";
 import FormError from "../form-error/form-error";
@@ -10,9 +10,13 @@ interface DropdownControlProps<FieldsType extends FieldValues>
   label?: string;
   placeholder?: string;
   className?: string;
+  containerClassName?: string;
   options?: SelectItemOptionsType;
   disabled?: boolean;
   hint?: string;
+  filter?: boolean;
+  onFilter?: (event: DropdownFilterEvent) => void;
+  onKeyDown?: (event: any) => void;
 }
 
 export const DropdownControl = <FieldsType extends FieldValues>({
@@ -22,9 +26,13 @@ export const DropdownControl = <FieldsType extends FieldValues>({
   name,
   placeholder,
   className,
+  containerClassName,
   options,
   disabled,
   hint,
+  filter,
+  onFilter,
+  onKeyDown,
 }: DropdownControlProps<FieldsType>) => {
   return (
     <Controller
@@ -32,7 +40,7 @@ export const DropdownControl = <FieldsType extends FieldValues>({
       control={control}
       rules={rules}
       render={({ field, fieldState }) => (
-        <div className="field mt-5">
+        <div className={classNames("field mt-5", containerClassName)}>
           <span className="p-float-label">
             <Dropdown
               value={field.value}
@@ -45,6 +53,9 @@ export const DropdownControl = <FieldsType extends FieldValues>({
                 className
               )}
               disabled={disabled}
+              filter={filter}
+              onFilter={onFilter}
+              onKeyDown={onKeyDown}
             />
 
             <label htmlFor={field.name}>{label}</label>

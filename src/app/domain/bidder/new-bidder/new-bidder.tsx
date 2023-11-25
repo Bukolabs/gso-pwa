@@ -10,6 +10,7 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import { getFormErrorMessage } from "@core/utility/get-error-message";
 
 export function NewBidder() {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ export function NewBidder() {
     addBidder(formData);
   };
   const handleValidateError = (err: FieldErrors<BidderFormSchema>) => {
-    showError("Please populate the required fields");
+    const formMessage = getFormErrorMessage(err);
+    showError(formMessage);
   };
 
   return (

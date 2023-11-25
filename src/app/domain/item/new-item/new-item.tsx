@@ -10,13 +10,33 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
 import FormItem from "./form-item/form-item";
+import { getFormErrorMessage } from "@core/utility/get-error-message";
+import { useAddBrand, useGetBrand } from "@core/query/brand.query";
+import { LabelValue } from "@shared/models/label-value.interface";
+import { CreateUtilsBrandDto } from "@api/api";
 
 export function NewItem() {
   const navigate = useNavigate();
-  const { showError } = useNotificationContext();
+  const { showError, showSuccess } = useNotificationContext();
 
-  const handleApiSuccess = () => handleBack();
-  const { mutate: addBidder } = useAddItem(handleApiSuccess);
+  const handleBack = () => {
+    navigate("../");
+  };
+  const handleApiSuccess = () => {
+    showSuccess("New item created");
+    handleBack();
+  };
+  const { mutate: addItem } = useAddItem(handleApiSuccess);
+
+  const { mutate: addBrand } = useAddBrand();
+  const { data: brands } = useGetBrand();
+  const mappedBrands = (brands?.data || []).map(
+    (item) =>
+      ({
+        label: item.name,
+        value: item.code,
+      } as LabelValue)
+  );
 
   const formMethod = useForm<ItemFormSchema>({
     defaultValues: itemFormDefault,
@@ -24,16 +44,17 @@ export function NewItem() {
   });
   const { handleSubmit } = formMethod;
 
-  const handleBack = () => {
-    navigate("../");
-  };
-
   const handleValidate = (form: ItemFormSchema) => {
     const formData = FormToApiService.NewItem(form);
-    addBidder(formData);
+    addItem(formData);
   };
   const handleValidateError = (err: FieldErrors<ItemFormSchema>) => {
-    showError("Please populate the required fields");
+    const formMessage = getFormErrorMessage(err);
+    showError(formMessage);
+  };
+
+  const handleAddBrand = (brand: CreateUtilsBrandDto) => {
+    addBrand(brand);
   };
 
   return (
@@ -47,7 +68,7 @@ export function NewItem() {
 
       <div className="p-7">
         <FormProvider {...formMethod}>
-          <FormItem />
+          <FormItem brands={mappedBrands || []} onAddBrand={handleAddBrand} />
         </FormProvider>
       </div>
     </div>
