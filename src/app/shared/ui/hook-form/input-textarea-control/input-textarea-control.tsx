@@ -12,6 +12,7 @@ export interface InputTextareaControlProps<FieldsType extends FieldValues>
   label?: string;
   placeholder?: string;
   className?: string;
+  containerClassName?: string;
   disabled?: boolean;
   hint?: string;
   onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement> | undefined;
@@ -26,6 +27,7 @@ export function InputTextareaControl<FieldsType extends FieldValues>({
   name,
   placeholder,
   className,
+  containerClassName,
   disabled,
   hint,
   onKeyDown,
@@ -36,7 +38,7 @@ export function InputTextareaControl<FieldsType extends FieldValues>({
       control={control}
       rules={rules}
       render={({ field, fieldState }) => (
-        <div className="field mt-5">
+        <div className={classNames("field mt-5", containerClassName)}>
           <span className="p-float-label">
             <InputTextarea
               id={field.name}
@@ -55,7 +57,7 @@ export function InputTextareaControl<FieldsType extends FieldValues>({
 
             <label htmlFor={field.name}>{label}</label>
           </span>
-               {hint && <small className="text-gray-400 mb-1">{hint}</small>}
+          {hint && <small className="text-gray-400 mb-1">{hint}</small>}
           {fieldState.error && (
             <FormError error={fieldState.error} className="mt-1" />
           )}

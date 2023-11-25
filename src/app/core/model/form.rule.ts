@@ -1,13 +1,14 @@
 import * as z from "zod";
 
 export const ItemFormRule = z.object({
-  itemNo: z.string(),
-  quantity: z.number(),
+  name: z.string(),
   unit: z.string(),
   description: z.string(),
+  category: z.string(),
   brand: z.string(),
   cost: z.number(),
   amount: z.number().optional(),
+  isActive: z.boolean(),
 });
 
 export const RequestFormRule = z.object({
@@ -70,3 +71,4 @@ export const BidderFormRule = PersonalRule.and(AddressRule);
 export type RequestFormSchema = z.infer<typeof RequestFormRule>;
 export type OrderFormSchema = z.infer<typeof OrderItemRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
+export type ItemFormSchema = z.infer<typeof ItemFormRule>;

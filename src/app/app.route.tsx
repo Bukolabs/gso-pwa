@@ -8,6 +8,9 @@ import NewRequest from "./domain/purchase-request/new-request/new-request";
 import Bidder from "@domain/bidder/bidder";
 import ListBidder from "@domain/bidder/list-bidder/list-bidder";
 import NewBidder from "@domain/bidder/new-bidder/new-bidder";
+import Item from "@domain/item/item";
+import ListItem from "@domain/item/list-item/list-item";
+import NewItem from "@domain/item/new-item/new-item";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +44,20 @@ const router = createBrowserRouter([
           {
             path: "new",
             element: <NewBidder />,
+          },
+        ],
+      },
+      {
+        path: "item",
+        element: <Item />,
+        children: [
+          {
+            path: "",
+            element: <ListItem />,
+          },
+          {
+            path: "new",
+            element: <NewItem />,
           },
         ],
       },

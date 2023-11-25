@@ -1,5 +1,6 @@
 import {
   BidderFormSchema,
+  ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
 } from "./form.rule";
@@ -31,9 +32,19 @@ export const orderFormDefault = {
 export const bidderFormDefault = {
   country: "Philippines",
   name: "",
-  email: '',
+  email: "",
   mobile: "",
-  streetName: '',
-  barangay: '',
-  city: ''
+  streetName: "",
+  barangay: "",
+  city: "",
 } as BidderFormSchema;
+
+export const itemFormDefault = {
+  name: "",
+  brand: "",
+  category: "",
+  description: "",
+  isActive: true,
+  cost: 0,
+  unit: "",
+} as ItemFormSchema;

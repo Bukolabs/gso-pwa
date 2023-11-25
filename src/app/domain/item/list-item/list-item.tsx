@@ -1,17 +1,17 @@
-import "./list-bidder";
-import { useGetBidder } from "@core/query/bidder.query";
+import { useNavigate } from "react-router-dom";
+import "./list-item";
+import { useState } from "react";
+import { useGetItem } from "@core/query/item.query";
+import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
+import ErrorSection from "@shared/ui/error-section/error-section";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
-import { ErrorSection } from "@shared/ui/error-section/error-section";
-import { useNavigate } from "react-router-dom";
-import { Button } from "primereact/button";
-import HeaderContent from "@shared/ui/header-content/header-content";
-import { useState } from "react";
 import SearchInput from "@shared/ui/search-input/search-input";
+import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
+import HeaderContent from "@shared/ui/header-content/header-content";
 
-export function ListBidder() {
+export function ListItem() {
   const navigate = useNavigate();
   const limit = 10;
   const [pageNumber] = useState(0);
@@ -22,7 +22,7 @@ export function ListBidder() {
     isLoading,
     isError,
     error,
-  } = useGetBidder(limit, pageNumber, searchTerm);
+  } = useGetItem(limit, pageNumber, searchTerm);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -41,7 +41,7 @@ export function ListBidder() {
   const grid = (
     <DataTable value={bidders?.data} tableStyle={{ zIndex: 1 }}>
       <Column field="name" header="Name"></Column>
-      <Column field="email" header="email"></Column>
+      <Column field="brand_name" header="Brand"></Column>
     </DataTable>
   );
   const filter = (
@@ -49,7 +49,7 @@ export function ListBidder() {
       <SearchInput
         searchTerm={searchTerm}
         onSearch={handleSearch}
-        placeholder="Search bidder name"
+        placeholder="Search item name"
         className="w-full block"
       />
       <div>
@@ -91,4 +91,4 @@ export function ListBidder() {
   );
 }
 
-export default ListBidder;
+export default ListItem;
