@@ -1,3 +1,4 @@
+import { GetBidderDto } from "@api/api";
 import {
   BidderFormSchema,
   ItemFormSchema,
@@ -38,6 +39,20 @@ export const bidderFormDefault = {
   barangay: "",
   city: "",
 } as BidderFormSchema;
+
+export const getBidderFormDefault = (value: GetBidderDto | undefined) => {
+  return !value
+    ? bidderFormDefault
+    : ({
+        country: "Philippines",
+        name: value.name,
+        email: value.email,
+        mobile: value.mobile,
+        streetName: value.street_name,
+        barangay: value.barangay,
+        city: value.municipality,
+      } as BidderFormSchema);
+};
 
 export const itemFormDefault = {
   name: "",

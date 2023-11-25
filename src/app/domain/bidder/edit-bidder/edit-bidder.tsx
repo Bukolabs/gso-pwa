@@ -6,20 +6,55 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import { useEditBidder, useGetBidderById } from "@core/query/bidder.query";
 import { BidderFormRule, BidderFormSchema } from "@core/model/form.rule";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
-import { bidderFormDefault } from "@core/model/form.default";
+import {
+  getBidderFormDefault,
+} from "@core/model/form.default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import BidderForm from "../new-bidder/bidder-form/bidder-form";
 import { BidderControllerGetDataAsList200Response } from "@api/api";
 import ErrorSection from "@shared/ui/error-section/error-section";
+import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
+import { useState } from "react";
+import { getFormErrorMessage } from "@core/utility/get-error-message";
 
 export function EditBidder() {
   const navigate = useNavigate();
+  const [dataEmpty, setDataEmpty] = useState(false);
   const { showError, showSuccess } = useNotificationContext();
   const { bidderId } = useParams();
 
+  const handleGetApiSuccess = (
+    data: BidderControllerGetDataAsList200Response
+  ) => {
+    if (data && data.count && data.count > 0) {
+      const bidder = data.data?.[0];
+      setValue("name", bidder?.name || "");
+      setValue("email", bidder?.email || "");
+      setValue("mobile", bidder?.mobile || "");
+      setValue("streetName", bidder?.street_name || "");
+      setValue("barangay", bidder?.barangay || "");
+      setValue("city", bidder?.municipality || "");
+      setDataEmpty(false);
+      return;
+    }
+
+    return setDataEmpty(true);
+  };
+  const {
+    data: bidder,
+    isLoading,
+    isError: bidderError,
+  } = useGetBidderById(bidderId || "", handleGetApiSuccess);
+  const handleApiSuccess = () => {
+    showSuccess("Bidder updated");
+    handleBack();
+  };
+  const { mutate: editBidder, isError: editError } =
+    useEditBidder(handleApiSuccess);
+
   const formMethod = useForm<BidderFormSchema>({
-    defaultValues: bidderFormDefault,
+    defaultValues: getBidderFormDefault(bidder?.data?.[0]),
     resolver: zodResolver(BidderFormRule),
   });
   const { handleSubmit, setValue } = formMethod;
@@ -27,35 +62,20 @@ export function EditBidder() {
   const handleBack = () => {
     navigate("../");
   };
-  const handleApiSuccess = () => {
-    showSuccess("Bidder updated");
-    handleBack();
-  };
-  const handleGetApiSuccess = (
-    data: BidderControllerGetDataAsList200Response
-  ) => {
-    const bidder = data.data?.[0];
-    setValue("name", bidder?.name || "");
-    setValue("email", bidder?.email || "");
-    setValue("mobile", bidder?.mobile || "");
-    setValue("streetName", bidder?.street_name || "");
-    setValue("barangay", bidder?.barangay || "");
-    setValue("city", bidder?.municipality || "");
-  };
-  const { data: bidder } = useGetBidderById(
-    bidderId || "",
-    handleGetApiSuccess
-  );
-  const { mutate: editBidder } = useEditBidder(handleApiSuccess);
-
   const handleValidate = (form: BidderFormSchema) => {
     const formData = FormToApiService.EditBidder(form, bidderId || "");
     editBidder(formData);
   };
   const handleValidateError = (err: FieldErrors<BidderFormSchema>) => {
-    showError("Please populate the required fields");
+    const formMessage = getFormErrorMessage(err);
+    showError(formMessage);
   };
 
+  const displayLoading = (
+    <div className="card">
+      <SkeletonList count={4} />
+    </div>
+  );
   const displayError = (
     <div className="card">
       <ErrorSection
@@ -64,6 +84,7 @@ export function EditBidder() {
       />
     </div>
   );
+
 
   return (
     <div className="edit-bidder">
@@ -75,7 +96,11 @@ export function EditBidder() {
       </HeaderContent>
       <div className="p-7">
         <FormProvider {...formMethod}>
-          {bidder?.count && bidder?.count >= 0 ? <BidderForm /> : displayError}
+          {isLoading && displayLoading}
+          {(bidderError || editError || dataEmpty) &&
+            !isLoading &&
+            displayError}
+          {!isLoading && !dataEmpty && <BidderForm />}
         </FormProvider>
       </div>
     </div>
