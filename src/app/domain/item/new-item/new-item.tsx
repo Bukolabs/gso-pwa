@@ -11,9 +11,6 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
 import FormItem from "./form-item/form-item";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
-import { useAddBrand, useGetBrand } from "@core/query/brand.query";
-import { LabelValue } from "@shared/models/label-value.interface";
-import { CreateUtilsBrandDto } from "@api/api";
 
 export function NewItem() {
   const navigate = useNavigate();

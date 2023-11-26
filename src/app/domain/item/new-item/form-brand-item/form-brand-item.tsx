@@ -1,15 +1,12 @@
 import { Sidebar } from "primereact/sidebar";
 import "./form-brand-item";
-import { useBrandFormContext } from "../form-item/brand.context";
+import { useFormBrandItemContext } from "./brand.context";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { ItemFormSchema } from "@core/model/form.rule";
 import { useFormContext } from "react-hook-form";
 import { DropdownFilterEvent } from "primereact/dropdown";
-
-/* eslint-disable-next-line */
-export interface FormBrandItemProps {}
 
 export function FormBrandItem() {
   const { control } = useFormContext<ItemFormSchema>();
@@ -23,7 +20,7 @@ export function FormBrandItem() {
     setNewBrand,
     handleBrandFilterInput,
     handleAddBrand,
-  } = useBrandFormContext();
+  } = useFormBrandItemContext();
 
   return (
     <div className="form-brand-item">

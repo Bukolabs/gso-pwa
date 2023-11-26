@@ -4,11 +4,13 @@ import { useFormContext } from "react-hook-form";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 import FormBrandItem from "../form-brand-item/form-brand-item";
+import FormUnitItem from "../form-unit-item/form-unit-item";
 
 export interface FormItemProps {}
 
 export function FormItem() {
   const { control } = useFormContext<ItemFormSchema>();
+
   return (
     <div className="form-item">
       <div className="form-request py-2 md:bg-white md:px-6">
@@ -32,16 +34,8 @@ export function FormItem() {
         />
 
         <FormBrandItem />
+        <FormUnitItem />
 
-        <InputControl<ItemFormSchema>
-          control={control}
-          name="unit"
-          label="Unit (Required)"
-          containerClassName="mb-9"
-          className="w-full md:w-3/4"
-          placeholder="Enter your mobile number"
-          hint="e.g. piece"
-        />
         <InputControl<ItemFormSchema>
           control={control}
           name="category"

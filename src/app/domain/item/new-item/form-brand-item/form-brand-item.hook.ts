@@ -4,7 +4,7 @@ import { LabelValue } from "@shared/models/label-value.interface";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useState } from "react";
 
-export const useBrandForm = () => {
+export const useFormBrandItem = () => {
   const { showWarning, showSuccess } = useNotificationContext();
   const [brandSidebar, setBrandSidebar] = useState(false);
   const [brandFilter, setBrandFilter] = useState("");
