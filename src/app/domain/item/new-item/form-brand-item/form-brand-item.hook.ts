@@ -6,24 +6,24 @@ import { useState } from "react";
 
 export const useFormBrandItem = () => {
   const { showWarning, showSuccess } = useNotificationContext();
-  const [brandSidebar, setBrandSidebar] = useState(false);
-  const [brandFilter, setBrandFilter] = useState("");
+  const [sidebar, setSidebar] = useState(false);
+  const [filter, setFilter] = useState("");
   const [newBrand, setNewBrand] = useState<CreateUtilsBrandDto>({
     name: "",
     description: "",
   });
   const [isCreating, setIsCreating] = useState(false);
 
-  const handleBrandFilterInput = (event: any) => {
+  const handleFilterInput = (event: any) => {
     if (event.key === "Enter") {
       setNewBrand({
-        name: brandFilter,
+        name: filter,
         description: "",
       });
-      setBrandSidebar(true);
+      setSidebar(true);
     }
   };
-  const handleAddBrand = () => {
+  const handleAdd = () => {
     if (!newBrand.name) {
       showWarning("Please fill in brand details");
       return;
@@ -32,17 +32,17 @@ export const useFormBrandItem = () => {
     addBrand(newBrand);
   };
 
-  const handleAddBrandApiSuccess = () => {
+  const handleAddApiSuccess = () => {
     showSuccess("New brand is added. Check and select the brand.");
-    setBrandSidebar(false);
+    setSidebar(false);
     setIsCreating(false);
   };
-  const handleAddBrandApiError = () => {
+  const handleAddApiError = () => {
     setIsCreating(false);
   };
   const { mutate: addBrand } = useAddBrand(
-    handleAddBrandApiSuccess,
-    handleAddBrandApiError
+    handleAddApiSuccess,
+    handleAddApiError
   );
   const { data: brands } = useGetBrand();
   const mappedBrands = (brands?.data || []).map(
@@ -54,16 +54,16 @@ export const useFormBrandItem = () => {
   );
 
   return {
-    brandSidebar,
-    brandFilter,
+    brandSidebar: sidebar,
+    brandFilter: filter,
     newBrand,
     mappedBrands,
     isCreating,
-    setBrandSidebar,
-    setBrandFilter,
+    setSidebar,
+    setFilter,
     setNewBrand,
-    handleBrandFilterInput,
-    handleAddBrand,
+    handleFilterInput,
+    handleAdd,
     addBrand,
   };
 };

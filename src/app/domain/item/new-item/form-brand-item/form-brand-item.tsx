@@ -15,17 +15,17 @@ export function FormBrandItem() {
     newBrand,
     mappedBrands,
     isCreating,
-    setBrandSidebar,
-    setBrandFilter,
+    setSidebar,
+    setFilter,
     setNewBrand,
-    handleBrandFilterInput,
-    handleAddBrand,
+    handleFilterInput,
+    handleAdd,
   } = useFormBrandItemContext();
 
   return (
     <div className="form-brand-item">
       {newBrand && (
-        <Sidebar visible={brandSidebar} onHide={() => setBrandSidebar(false)}>
+        <Sidebar visible={brandSidebar} onHide={() => setSidebar(false)}>
           <h2>Create new brand</h2>
           <p>
             You are creating a new brand. Please, fill the fields to create a
@@ -49,7 +49,7 @@ export function FormBrandItem() {
 
             <Button
               label="Create"
-              onClick={handleAddBrand}
+              onClick={handleAdd}
               className="block"
               disabled={isCreating}
             />
@@ -66,8 +66,8 @@ export function FormBrandItem() {
         placeholder="Enter your brand name"
         hint="e.g. Dyson. If the brand doesn't exist hit ENTER to create a new brand"
         filter
-        onFilter={(e: DropdownFilterEvent) => setBrandFilter(e.filter)}
-        onKeyDown={handleBrandFilterInput}
+        onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
+        onKeyDown={handleFilterInput}
       />
     </div>
   );
