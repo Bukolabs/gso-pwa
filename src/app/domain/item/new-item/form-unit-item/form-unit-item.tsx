@@ -22,8 +22,6 @@ export function FormUnitItem() {
     handleAdd,
   } = useFormUnitItemContext();
 
-  console.log(mappedUnits);
-
   return (
     <div className="form-unit-item">
       {newUnit && (

@@ -54,8 +54,8 @@ export const useFormBrandItem = () => {
   );
 
   return {
-    brandSidebar: sidebar,
-    brandFilter: filter,
+    sidebar,
+    filter,
     newBrand,
     mappedBrands,
     isCreating,

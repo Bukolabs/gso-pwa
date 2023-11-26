@@ -2,10 +2,10 @@ import * as z from "zod";
 
 export const ItemFormRule = z.object({
   name: z.string(),
-  unit: z.string(),
+  unit: z.string().min(1, "Unit is required"),
   description: z.string(),
-  category: z.string(),
-  brand: z.string(),
+  category: z.string().min(1, "Category is required"),
+  brand: z.string().min(1, "Brand is required"),
   cost: z.number(),
   amount: z.number().optional(),
   isActive: z.boolean(),

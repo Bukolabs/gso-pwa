@@ -3,4 +3,5 @@ export enum QueryKey {
   Item = "item",
   Brand = "brand",
   Unit = "unit",
+  Category = "category",
 }

@@ -1,14 +1,14 @@
-import { CreateUtilsUnitDto } from "@api/api";
-import { useAddUnit, useGetUnit } from "@core/query/unit.query";
+import { CreateUtilsCategoryDto } from "@api/api";
+import { useAddCategory, useGetCategory } from "@core/query/category.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useState } from "react";
 
-export const useFormUnitItem = () => {
+export const useFormCategoryItem = () => {
   const { showWarning, showSuccess } = useNotificationContext();
   const [sidebar, setSidebar] = useState(false);
   const [filter, setFilter] = useState("");
-  const [newUnit, setNewUnit] = useState<CreateUtilsUnitDto>({
+  const [newCategory, setNewCategory] = useState<CreateUtilsCategoryDto>({
     name: "",
     description: "",
   });
@@ -16,7 +16,7 @@ export const useFormUnitItem = () => {
 
   const handleFilterInput = (event: any) => {
     if (event.key === "Enter") {
-      setNewUnit({
+      setNewCategory({
         name: filter,
         description: "",
       });
@@ -24,29 +24,30 @@ export const useFormUnitItem = () => {
     }
   };
   const handleAdd = () => {
-    if (!newUnit.name) {
-      showWarning("Please fill in unit details");
+    if (!newCategory.name) {
+      showWarning("Please fill in category details");
       return;
     }
     setIsCreating(true);
-    addUnit(newUnit);
+    addCategory(newCategory);
   };
 
   const handleAddApiSuccess = () => {
-    showSuccess("New unit is added. Check and select the unit in the form.");
+    showSuccess(
+      "New category is added. Check and select the category in the form."
+    );
     setSidebar(false);
     setIsCreating(false);
   };
   const handleAddApiError = () => {
     setIsCreating(false);
   };
-  const { mutate: addUnit } = useAddUnit(
+  const { mutate: addCategory } = useAddCategory(
     handleAddApiSuccess,
     handleAddApiError
   );
-
-  const { data: units } = useGetUnit();
-  const mappedUnits = (units?.data || []).map(
+  const { data: categories } = useGetCategory();
+  const mappedCategories = (categories?.data || []).map(
     (item) =>
       ({
         label: item.name,
@@ -57,14 +58,14 @@ export const useFormUnitItem = () => {
   return {
     sidebar,
     filter,
-    newUnit,
-    mappedUnits,
+    newCategory,
+    mappedCategories,
     isCreating,
     setSidebar,
     setFilter,
-    setNewUnit,
+    setNewCategory,
     handleFilterInput,
     handleAdd,
-    addUnit,
+    addCategory,
   };
 };

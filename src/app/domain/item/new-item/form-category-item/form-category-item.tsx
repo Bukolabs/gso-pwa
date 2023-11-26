@@ -1,49 +1,49 @@
+import { ItemFormSchema } from "@core/model/form.rule";
+import "./form-category-item";
+import { useFormContext } from "react-hook-form";
+import { useFormCategoryItemContext } from "./form-category-item.context";
 import { Sidebar } from "primereact/sidebar";
-import "./form-brand-item";
-import { useFormBrandItemContext } from "./brand.context";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
-import { ItemFormSchema } from "@core/model/form.rule";
-import { useFormContext } from "react-hook-form";
 import { DropdownFilterEvent } from "primereact/dropdown";
 
-export function FormBrandItem() {
+export function FormCategoryItem() {
   const { control } = useFormContext<ItemFormSchema>();
   const {
     sidebar,
-    newBrand,
-    mappedBrands,
+    newCategory,
+    mappedCategories,
     isCreating,
     setSidebar,
     setFilter,
-    setNewBrand,
+    setNewCategory,
     handleFilterInput,
     handleAdd,
-  } = useFormBrandItemContext();
+  } = useFormCategoryItemContext();
 
   return (
-    <div className="form-brand-item">
-      {newBrand && (
+    <div className="form-category-item">
+      {newCategory && (
         <Sidebar visible={sidebar} onHide={() => setSidebar(false)}>
-          <h2>Create new brand</h2>
+          <h2>Create new category</h2>
           <p>
-            You are creating a new brand. Please, fill the fields to create a
-            new brand and apply to current item creation.
+            You are creating a new category. Please, fill the fields to create a
+            new category and apply to current item creation.
           </p>
           <div className="flex flex-col gap-2 mt-4">
             <InputText
-              placeholder="Brand Name"
-              value={newBrand.name}
+              placeholder="Category Name"
+              value={newCategory.name}
               onChange={(e: any) =>
-                setNewBrand({ ...newBrand, name: e.target.value })
+                setNewCategory({ ...newCategory, name: e.target.value })
               }
             />
             <InputText
-              placeholder="Brand Description"
-              value={newBrand.description}
+              placeholder="Category Description"
+              value={newCategory.description}
               onChange={(e: any) =>
-                setNewBrand({ ...newBrand, description: e.target.value })
+                setNewCategory({ ...newCategory, description: e.target.value })
               }
             />
 
@@ -58,13 +58,13 @@ export function FormBrandItem() {
       )}
       <DropdownControl<ItemFormSchema>
         control={control}
-        name="brand"
-        label="Brand"
-        options={mappedBrands}
+        name="category"
+        label="Category"
+        options={mappedCategories}
         containerClassName="mb-9"
         className="w-full md:w-3/4"
-        placeholder="Enter your brand name"
-        hint="e.g. Dyson. If the brand doesn't exist hit ENTER to create a new brand"
+        placeholder="Enter your category"
+        hint="e.g. Appliances. If the category doesn't exist hit ENTER to create a new category"
         filter
         onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
         onKeyDown={handleFilterInput}
@@ -73,4 +73,4 @@ export function FormBrandItem() {
   );
 }
 
-export default FormBrandItem;
+export default FormCategoryItem;

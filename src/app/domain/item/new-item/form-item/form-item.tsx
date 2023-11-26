@@ -5,6 +5,7 @@ import InputControl from "@shared/ui/hook-form/input-control/input-control";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 import FormBrandItem from "../form-brand-item/form-brand-item";
 import FormUnitItem from "../form-unit-item/form-unit-item";
+import FormCategoryItem from "../form-category-item/form-category-item";
 
 export interface FormItemProps {}
 
@@ -13,7 +14,7 @@ export function FormItem() {
 
   return (
     <div className="form-item">
-      <div className="form-request py-2 md:bg-white md:px-6">
+      <div className="form-request py-2 md:bg-white md:px-6 mb-8">
         <InputControl<ItemFormSchema>
           control={control}
           name="name"
@@ -35,16 +36,7 @@ export function FormItem() {
 
         <FormBrandItem />
         <FormUnitItem />
-
-        <InputControl<ItemFormSchema>
-          control={control}
-          name="category"
-          label="Category"
-          containerClassName="mb-9"
-          className="w-full md:w-3/4"
-          placeholder="Enter your street address"
-          hint="e.g. Appliance"
-        />
+        <FormCategoryItem />
       </div>
     </div>
   );
