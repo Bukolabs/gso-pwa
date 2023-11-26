@@ -3,32 +3,12 @@ import "./form-item";
 import { useFormContext } from "react-hook-form";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
-import { LabelValue } from "@shared/models/label-value.interface";
-import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
-import { DropdownFilterEvent } from "primereact/dropdown";
-import { Sidebar } from "primereact/sidebar";
-import { InputText } from "primereact/inputtext";
-import { CreateUtilsBrandDto } from "@api/api";
-import { Button } from "primereact/button";
-import { useBrandFormContext } from "./brand.context";
+import FormBrandItem from "../form-brand-item/form-brand-item";
 
 export interface FormItemProps {}
 
 export function FormItem() {
   const { control } = useFormContext<ItemFormSchema>();
-
-  const {
-    brandSidebar,
-    newBrand,
-    mappedBrands,
-    isCreating,
-    setBrandSidebar,
-    setBrandFilter,
-    setNewBrand,
-    handleBrandFilterInput,
-    handleAddBrand,
-  } = useBrandFormContext();
-
   return (
     <div className="form-item">
       <div className="form-request py-2 md:bg-white md:px-6">
@@ -51,56 +31,7 @@ export function FormItem() {
           hint="e.g. Amplifies airflow. To heat you or cool you fast"
         />
 
-        <div className="">
-          {newBrand && (
-            <Sidebar
-              visible={brandSidebar}
-              onHide={() => setBrandSidebar(false)}
-            >
-              <h2>Create new brand</h2>
-              <p>
-                You are creating a new brand. Please, fill the fields to create
-                a new brand and apply to current item creation.
-              </p>
-              <div className="flex flex-col gap-2 mt-4">
-                <InputText
-                  placeholder="Brand Name"
-                  value={newBrand.name}
-                  onChange={(e: any) =>
-                    setNewBrand({ ...newBrand, name: e.target.value })
-                  }
-                />
-                <InputText
-                  placeholder="Brand Description"
-                  value={newBrand.description}
-                  onChange={(e: any) =>
-                    setNewBrand({ ...newBrand, description: e.target.value })
-                  }
-                />
-
-                <Button
-                  label="Create"
-                  onClick={handleAddBrand}
-                  className="block"
-                  disabled={isCreating}
-                />
-              </div>
-            </Sidebar>
-          )}
-          <DropdownControl<ItemFormSchema>
-            control={control}
-            name="brand"
-            label="Brand"
-            options={mappedBrands}
-            containerClassName="mb-9"
-            className="w-full md:w-3/4"
-            placeholder="Enter your brand name"
-            hint="e.g. Dyson. If the brand doesn't exist hit ENTER to create a new brand"
-            filter
-            onFilter={(e: DropdownFilterEvent) => setBrandFilter(e.filter)}
-            onKeyDown={handleBrandFilterInput}
-          />
-        </div>
+        <FormBrandItem />
 
         <InputControl<ItemFormSchema>
           control={control}

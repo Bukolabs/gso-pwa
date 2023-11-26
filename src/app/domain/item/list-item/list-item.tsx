@@ -23,6 +23,7 @@ export function ListItem() {
     isError,
     error,
   } = useGetItem(limit, pageNumber, searchTerm);
+  const [visible, setVisible] = useState(false);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -72,16 +73,58 @@ export function ListItem() {
 
   return (
     <div className="list-bidder">
-      <HeaderContent title="Bidders">
-        <Button
-          label="Add"
-          onClick={() => {
-            navigate("./new");
-          }}
-        />
+      <HeaderContent title="Items">
+        <div className="flex gap-2">
+          <Button
+            label="Add"
+            onClick={() => {
+              navigate("./new");
+            }}
+          />
+
+          <Button
+            label="Settings"
+            severity="secondary"
+            outlined
+            onClick={() => setVisible(true)}
+          />
+        </div>
       </HeaderContent>
 
       <div className="p-7">
+        <div className="card flex justify-content-center">
+          <Sidebar visible={visible} onHide={() => setVisible(false)}>
+            <h2>Item Settings</h2>
+            <p>Select the following menu to set item settings</p>
+            <span className="p-buttonset w-full flex flex-col mb-4">
+              <Button
+                className="block w-full"
+                label="Items"
+                severity="secondary"
+                outlined
+              />
+              <Button
+                className="block w-full"
+                label="Brands"
+                severity="secondary"
+                outlined
+              />
+              <Button
+                className="block w-full"
+                label="Units"
+                severity="secondary"
+                outlined
+              />
+              <Button
+                className="block w-full"
+                label="Categories"
+                severity="secondary"
+                outlined
+              />
+            </span>
+          </Sidebar>
+        </div>
+
         {filter}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
