@@ -84,7 +84,6 @@ export function ListItem() {
 
           <Button
             label="Settings"
-            severity="secondary"
             outlined
             onClick={() => setVisible(true)}
           />

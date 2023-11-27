@@ -6,11 +6,22 @@ export const SidebarContext = createContext({ expanded: false });
 
 export interface SidebarProps {
   children: ReactNode;
+  title: string;
+  logo: string;
+  logoClass?: string;
+  logoWidth?: string;
   icon?: string;
   className?: string;
 }
 
-export function Sidebar({ children, className }: SidebarProps) {
+export function Sidebar({
+  children,
+  className,
+  title,
+  logo = "https://img.logoipsum.com/243.svg",
+  logoWidth = "w-36",
+  logoClass,
+}: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -27,14 +38,20 @@ export function Sidebar({ children, className }: SidebarProps) {
         )}
       >
         <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="https://img.logoipsum.com/243.svg"
-            className={classNames(
-              `overflow-hidden transition-all`,
-              expanded ? "w-36" : "w-0"
-            )}
-            alt=""
-          />
+          <div className={classNames("flex items-center gap-2")}>
+            <img
+              src={logo}
+              className={classNames(
+                `overflow-hidden transition-all`,
+                expanded ? logoWidth : "w-0",
+                logoClass
+              )}
+              alt={title}
+            />
+            <span className={classNames(expanded ? "visible" : "hidden")}>
+              {title}
+            </span>
+          </div>
           <button
             onClick={() => setExpanded((curr) => !curr)}
             className="px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100"

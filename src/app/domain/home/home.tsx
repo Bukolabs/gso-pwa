@@ -1,6 +1,6 @@
 import { LabelValue } from "@shared/models/label-value.interface";
 import HomeCard from "./home-card/home-card";
-import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import HeaderContent from "@shared/ui/header-content/header-content";
 
 function Home() {
   const sampleReview = [
@@ -26,9 +26,10 @@ function Home() {
 
   return (
     <div className="page">
-      <h1>Home</h1>
+      <HeaderContent title="Home">
+      </HeaderContent>
 
-      <div className="card flex flex-col gap-2 justify-content-center">
+      <div className="card flex flex-col gap-2 justify-content-center p-7">
         <HomeCard stage={1} requests={20} status="Submitted" />
         <HomeCard prReviews={sampleReview} stage={1} status="Review" />
         <HomeCard stage={2} requests={22} status="Categorized" />

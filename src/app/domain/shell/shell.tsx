@@ -53,7 +53,7 @@ export function Shell() {
 
   return (
     <div>
-      <Toast ref={toastRef} position="bottom-left"/>
+      <Toast ref={toastRef} position="bottom-left" />
       {progress?.show && (
         <ProgressBar
           mode="indeterminate"
@@ -66,8 +66,8 @@ export function Shell() {
         ></ProgressBar>
       )}
 
-      <div className="flex">
-        <Sidebar>
+      <div className="flex ">
+        <Sidebar title="GSO Tracker" logo="/icon-152x152.png" logoWidth="w-12">
           {navigationItems.map((item, id) => (
             <SidebarItem key={id} {...item} />
           ))}
