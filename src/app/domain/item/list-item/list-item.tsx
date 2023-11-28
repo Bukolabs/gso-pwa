@@ -10,6 +10,7 @@ import SearchInput from "@shared/ui/search-input/search-input";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import HeaderContent from "@shared/ui/header-content/header-content";
+import { GetItemDto } from "@api/api";
 
 export function ListItem() {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ export function ListItem() {
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
   };
+  const editRecord = (item: GetItemDto) => {
+    navigate(`${item.code}`);
+  };
 
   const displayLoading = (
     <div className="card">
@@ -40,7 +44,12 @@ export function ListItem() {
     </div>
   );
   const grid = (
-    <DataTable value={bidders?.data} tableStyle={{ zIndex: 1 }}>
+    <DataTable
+      value={bidders?.data}
+      tableStyle={{ zIndex: 1 }}
+      selectionMode="single"
+      onSelectionChange={(e) => editRecord(e.value)}
+    >
       <Column field="name" header="Name"></Column>
       <Column field="brand_name" header="Brand"></Column>
     </DataTable>
@@ -81,12 +90,7 @@ export function ListItem() {
               navigate("./new");
             }}
           />
-
-          <Button
-            label="Settings"
-            outlined
-            onClick={() => setVisible(true)}
-          />
+          {/* <Button label="Settings" outlined onClick={() => setVisible(true)} /> */}
         </div>
       </HeaderContent>
 

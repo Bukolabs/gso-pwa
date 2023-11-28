@@ -1,4 +1,4 @@
-import { GetBidderDto } from "@api/api";
+import { GetBidderDto, GetItemDto } from "@api/api";
 import {
   BidderFormSchema,
   ItemFormSchema,
@@ -39,7 +39,6 @@ export const bidderFormDefault = {
   barangay: "",
   city: "",
 } as BidderFormSchema;
-
 export const getBidderFormDefault = (value: GetBidderDto | undefined) => {
   return !value
     ? bidderFormDefault
@@ -63,3 +62,15 @@ export const itemFormDefault = {
   cost: 0,
   unit: "",
 } as ItemFormSchema;
+export const getItemFormDefault = (value: GetItemDto | undefined) => {
+  return !value
+    ? bidderFormDefault
+    : ({
+        name: value.name,
+        brand: value.brand,
+        category: value.category,
+        description: value.description,
+        cost: 0,
+        unit: value.unit,
+      } as ItemFormSchema);
+};
