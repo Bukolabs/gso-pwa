@@ -78,31 +78,31 @@ function Home() {
             stage={4}
             requests={1565}
             orders={500}
-            status="PO Approved"
+            status="Inspection"
           />
           <HomeCard
             stage={4}
             requests={1565}
             orders={500}
-            status="PO Approved"
+            status="Partial"
           />
           <HomeCard
             stage={4}
             requests={1565}
             orders={500}
-            status="PO Approved"
+            status="Fulfilled"
           />
           <HomeCard
             stage={4}
             requests={1565}
             orders={500}
-            status="PO Approved"
+            status="Unfulfilled"
           />
           <HomeCard
             stage={4}
             requests={1565}
             orders={500}
-            status="PO Approved"
+            status="Late"
           />
         </div>
       </div>

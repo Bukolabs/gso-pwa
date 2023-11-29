@@ -20,7 +20,7 @@ export function ListRequest() {
         ></Button>
       </HeaderContent>
 
-      <div className="flex flex-col gap-2 p-7">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         <PurchaseCard
           title="PR# 122"
           subTitle="Department of Tourism"

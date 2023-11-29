@@ -9,7 +9,7 @@ export function PurchaseOrder() {
         <div></div>
       </HeaderContent>
 
-      <div className="flex flex-col gap-2 p-7">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         <PurchaseCard title="PO# 122" subTitle="Food" status="Categorized" />
         <PurchaseCard
           title="PO# 144"
