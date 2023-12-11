@@ -13,6 +13,8 @@ import ListItem from "@domain/item/list-item/list-item";
 import NewItem from "@domain/item/new-item/new-item";
 import EditBidder from "@domain/bidder/edit-bidder/edit-bidder";
 import EditItem from "@domain/item/edit-item/edit-item";
+import ListUnit from "@domain/item/unit/list-unit/list-unit";
+import EditUnit from "@domain/item/unit/edit-unit/edit-unit";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +66,14 @@ const router = createBrowserRouter([
           {
             path: "new",
             element: <NewItem />,
+          },
+          {
+            path: "unit",
+            element: <ListUnit />,
+          },
+          {
+            path: "unit/:unitId",
+            element: <EditUnit />,
           },
           {
             path: ":itemId",

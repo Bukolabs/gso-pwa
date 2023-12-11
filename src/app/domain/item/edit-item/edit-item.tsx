@@ -15,6 +15,9 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import FormItem from "../new-item/form-item/form-item";
+import { FormBrandItemProvider } from "../new-item/form-brand-item/brand.context";
+import { FormUnitItemProvider } from "../new-item/form-unit-item/form-unit-item.context";
+import { FormCategoryItemProvider } from "../new-item/form-category-item/form-category-item.context";
 
 export function EditItem() {
   const { showSuccess, showError } = useNotificationContext();
@@ -32,6 +35,7 @@ export function EditItem() {
       setValue("brand", item?.brand || "");
       setValue("unit", item?.unit || "");
       setValue("category", item?.category || "");
+      setValue("cost", item?.price || 0);
       setDataEmpty(false);
       return;
     }
@@ -92,11 +96,21 @@ export function EditItem() {
         />
       </HeaderContent>
       <div className="p-7">
-        <FormProvider {...formMethod}>
-          {isLoading && displayLoading}
-          {(itemError || editError || dataEmpty) && !isLoading && displayError}
-          {!isLoading && !dataEmpty && <FormItem />}
-        </FormProvider>
+        <FormBrandItemProvider>
+          <FormUnitItemProvider>
+            <FormCategoryItemProvider>
+              <FormProvider {...formMethod}>
+                <FormProvider {...formMethod}>
+                  {isLoading && displayLoading}
+                  {(itemError || editError || dataEmpty) &&
+                    !isLoading &&
+                    displayError}
+                  {!isLoading && !dataEmpty && <FormItem />}
+                </FormProvider>
+              </FormProvider>
+            </FormCategoryItemProvider>
+          </FormUnitItemProvider>
+        </FormBrandItemProvider>
       </div>
     </div>
   );

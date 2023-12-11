@@ -9,7 +9,7 @@ export const ItemFormRule = z.object({
   brand: z.string().min(1, "Brand is required"),
   cost: z.number(),
   isActive: z.boolean().optional(),
-  quantity: z.number(),
+  quantity: z.number().optional(),
 });
 
 export const RequestFormRule = z.object({

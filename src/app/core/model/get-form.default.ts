@@ -44,7 +44,7 @@ export const getItemFormDefault = (value: GetItemDto | undefined) => {
         brand: value.brand,
         category: value.category,
         description: value.description,
-        cost: value.price,
+        cost: value.price || 0,
         unit: value.unit,
       } as ItemFormSchema);
 };

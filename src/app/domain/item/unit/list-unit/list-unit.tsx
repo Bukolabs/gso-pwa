@@ -1,38 +1,37 @@
 import { useNavigate } from "react-router-dom";
-import "./list-item";
+import "./list-unit";
 import { useState } from "react";
-import { useGetItem } from "@core/query/item.query";
+import { useGetUnit } from "@core/query/unit.query";
+import { UtilsDataDto } from "@api/api";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import SearchInput from "@shared/ui/search-input/search-input";
-import { Button } from "primereact/button";
-import { Sidebar } from "primereact/sidebar";
 import HeaderContent from "@shared/ui/header-content/header-content";
-import { GetItemDto } from "@api/api";
+import { Sidebar } from "primereact/sidebar";
 import { Menu } from "primereact/menu";
-import { useItemMenu } from "../item-menu";
+import { useItemMenu } from "@domain/item/item-menu";
+import { Button } from "primereact/button";
 
-export function ListItem() {
+export function ListUnit() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
+  const [visible, setVisible] = useState(false);
   const limit = 10;
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterPanel, setFilterPanel] = useState(false);
   const {
-    data: bidders,
+    data: units,
     isLoading,
     isError,
     error,
-  } = useGetItem(searchTerm, limit, pageNumber);
-  const [visible, setVisible] = useState(false);
+  } = useGetUnit(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
   };
-  const editRecord = (item: GetItemDto) => {
+  const editRecord = (item: UtilsDataDto) => {
     navigate(`${item.code}`);
   };
 
@@ -48,13 +47,13 @@ export function ListItem() {
   );
   const grid = (
     <DataTable
-      value={bidders?.data}
+      value={units?.data}
       tableStyle={{ zIndex: 1 }}
       selectionMode="single"
       onSelectionChange={(e) => editRecord(e.value)}
     >
       <Column field="name" header="Name"></Column>
-      <Column field="brand_name" header="Brand"></Column>
+      <Column field="description" header="Description"></Column>
     </DataTable>
   );
   const filter = (
@@ -65,34 +64,13 @@ export function ListItem() {
         placeholder="Search item name"
         className="w-full block"
       />
-      <div>
-        <Button
-          className="block"
-          label="Filter"
-          severity="secondary"
-          outlined
-          onClick={() => setFilterPanel(true)}
-        />
-      </div>
-      <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
-        <h2>Filters</h2>
-        <p>
-          Select the following filters you want to apply to the current table.
-        </p>
-      </Sidebar>
     </div>
   );
 
   return (
-    <div className="list-bidder">
-      <HeaderContent title="Items">
+    <div className="list-unit">
+      <HeaderContent title="Units">
         <div className="flex gap-2">
-          <Button
-            label="Add"
-            onClick={() => {
-              navigate("./new");
-            }}
-          />
           <Button label="Settings" outlined onClick={() => setVisible(true)} />
         </div>
       </HeaderContent>
@@ -114,4 +92,4 @@ export function ListItem() {
   );
 }
 
-export default ListItem;
+export default ListUnit;

@@ -55,7 +55,6 @@ export class FormToApiService {
   }
 
   static EditItem(form: ItemFormSchema, id: string) {
-    // TODO Add cost
     const payload = {
       code: id,
       name: form.name,
@@ -64,6 +63,7 @@ export class FormToApiService {
       description: form.description,
       is_active: form.isActive,
       unit: form.unit,
+      price: form.cost,
     } as EditItemDto;
 
     return payload;

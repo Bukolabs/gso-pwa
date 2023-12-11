@@ -11,6 +11,9 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
 import FormItem from "./form-item/form-item";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
+import { FormBrandItemProvider } from "./form-brand-item/brand.context";
+import { FormUnitItemProvider } from "./form-unit-item/form-unit-item.context";
+import { FormCategoryItemProvider } from "./form-category-item/form-category-item.context";
 
 export function NewItem() {
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ export function NewItem() {
     handleBack();
   };
   const { mutate: addItem } = useAddItem(handleApiSuccess);
-  
+
   const formMethod = useForm<ItemFormSchema>({
     defaultValues: itemFormDefault,
     resolver: zodResolver(ItemFormRule),
@@ -50,9 +53,15 @@ export function NewItem() {
       </HeaderContent>
 
       <div className="p-7">
-        <FormProvider {...formMethod}>
-          <FormItem />
-        </FormProvider>
+        <FormBrandItemProvider>
+          <FormUnitItemProvider>
+            <FormCategoryItemProvider>
+              <FormProvider {...formMethod}>
+                <FormItem />
+              </FormProvider>
+            </FormCategoryItemProvider>
+          </FormUnitItemProvider>
+        </FormBrandItemProvider>
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ export const useFormUnitItem = () => {
     handleAddApiError
   );
 
-  const { data: units } = useGetUnit();
+  const { data: units } = useGetUnit("", 99999, 0);
   const mappedUnits = (units?.data || []).map(
     (item) =>
       ({
