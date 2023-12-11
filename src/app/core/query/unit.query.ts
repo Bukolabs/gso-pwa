@@ -1,8 +1,8 @@
 import {
   CreateUtilsUnitDto,
   MessageResponseDto,
-  UnitApiFp,
   UtilsBrandControllerGetDataAsList200Response,
+  UtilsUnitApiFp,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { authHeaders } from "./auth-header";
@@ -23,7 +23,12 @@ export function useGetUnit(
   const { showProgress, hideProgress, showError } = useNotificationContext();
   const apiFn = async () => {
     showProgress();
-    const operation = await UnitApiFp().utilsUnitControllerGetDataAsList(
+    const operation = await UtilsUnitApiFp().utilsUnitControllerGetDataAsList(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
       authHeaders()
     );
     const response = (await operation()).data;
@@ -62,7 +67,7 @@ export function useAddUnit(
 
   const apiFn = async (payload: CreateUtilsUnitDto) => {
     showProgress();
-    const operation = await UnitApiFp().utilsUnitControllerCreate(
+    const operation = await UtilsUnitApiFp().utilsUnitControllerCreate(
       payload,
       authHeaders()
     );

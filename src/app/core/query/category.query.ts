@@ -1,8 +1,8 @@
 import {
-  CateogryApiFp,
   CreateUtilsCategoryDto,
   MessageResponseDto,
   UtilsBrandControllerGetDataAsList200Response,
+  UtilsCateogryApiFp,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { authHeaders } from "./auth-header";
@@ -24,7 +24,14 @@ export function useGetCategory(
   const apiFn = async () => {
     showProgress();
     const operation =
-      await CateogryApiFp().utilsCategoryControllerGetDataAsList(authHeaders());
+      await UtilsCateogryApiFp().utilsCategoryControllerGetDataAsList(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        authHeaders()
+      );
     const response = (await operation()).data;
     return response["data"] as UtilsBrandControllerGetDataAsList200Response;
   };
@@ -61,7 +68,7 @@ export function useAddCategory(
 
   const apiFn = async (payload: CreateUtilsCategoryDto) => {
     showProgress();
-    const operation = await CateogryApiFp().utilsCategoryControllerCreate(
+    const operation = await UtilsCateogryApiFp().utilsCategoryControllerCreate(
       payload,
       authHeaders()
     );

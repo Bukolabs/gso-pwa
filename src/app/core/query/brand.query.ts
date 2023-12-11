@@ -1,7 +1,7 @@
 import {
-  BrandApiFp,
   CreateUtilsBrandDto,
   MessageResponseDto,
+  UtilsBrandApiFp,
   UtilsBrandControllerGetDataAsList200Response,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
@@ -23,7 +23,14 @@ export function useGetBrand(
   const { showProgress, hideProgress, showError } = useNotificationContext();
   const apiFn = async () => {
     showProgress();
-    const operation = await BrandApiFp().utilsBrandControllerGetDataAsList(authHeaders())
+    const operation = await UtilsBrandApiFp().utilsBrandControllerGetDataAsList(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      authHeaders()
+    );
     const response = (await operation()).data;
     return response["data"] as UtilsBrandControllerGetDataAsList200Response;
   };
@@ -50,40 +57,40 @@ export function useGetBrand(
 }
 
 export function useAddBrand(
-   onSuccess?:
-     | ((data: MessageResponseDto) => void | Promise<unknown>)
-     | undefined,
-   onError?: ((error: unknown) => void | Promise<unknown>) | undefined
- ) {
-   const queryClient = useQueryClient();
-   const { showProgress, hideProgress, showError } = useNotificationContext();
- 
-   const apiFn = async (payload: CreateUtilsBrandDto) => {
-     showProgress();
-     const operation = await BrandApiFp().utilsBrandControllerCreate(
-       payload,
-       authHeaders()
-     );
-     const response = (await operation()).data;
-     return response["message"] as MessageResponseDto;
-   };
- 
-   return useMutation({
-     mutationFn: apiFn,
-     onSuccess: (response) => {
-       hideProgress();
-       queryClient.invalidateQueries(QueryKey.Brand);
-       if (onSuccess) {
-         onSuccess(response);
-       }
-     },
-     onError: (err: AxiosError) => {
-       hideProgress();
-       const message = getApiErrorMessage(err);
-       showError(message);
-       if (onError) {
-         onError(err);
-       }
-     },
-   });
- }
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+
+  const apiFn = async (payload: CreateUtilsBrandDto) => {
+    showProgress();
+    const operation = await UtilsBrandApiFp().utilsBrandControllerCreate(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Brand);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
