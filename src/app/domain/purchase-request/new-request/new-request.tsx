@@ -15,6 +15,7 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import AddItem from "../add-item/add-item";
 import { Card } from "primereact/card";
+import ItemCard from "@core/ui/item-card/item-card";
 
 export function NewRequest() {
   const { isMobile } = useScreenSize();
@@ -65,12 +66,22 @@ export function NewRequest() {
 
               <div className="mt-2 md:px-6">
                 <h4 className="mb-2">Added Request Items:</h4>
-                {requestItems.map((item, id) => (
-                  <Card key={id} title={item.name}>
-                    <p className="m-0">{item.description}</p>
-                    <p className="m-0">{item.cost}</p>
-                  </Card>
-                ))}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
+                  {requestItems.map((item, id) => (
+                    <ItemCard
+                      key={item.code || id}
+                      name={item.name}
+                      description={item.description}
+                      cost={item.cost}
+                      quantity={item.quantity || 11}
+                      totalCost={item.cost * (item.quantity || 1)}
+                      brand={item.brandName || ""}
+                      category={item.categoryName || ""}
+                      unit={item.unitName || ""}
+                    />
+                  ))}
+                </div>
               </div>
             </AccordionTab>
             <AccordionTab header="Add Item">

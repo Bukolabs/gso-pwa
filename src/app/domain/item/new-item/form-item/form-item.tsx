@@ -24,7 +24,7 @@ export interface FormItemProps {
 export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
   const { control, setValue } = useFormContext<ItemFormSchema>();
 
-  const handleSelect = (event: AutoCompleteProps) => {
+  const handleAutocompleteSelect = (event: AutoCompleteProps) => {
     const selectedItem = event.value;
     if (!selectedItem || !itemList || itemList?.length === 0) {
       return;
@@ -36,8 +36,11 @@ export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
     setValue("description", selectedItemEntity.description || "");
     setValue("cost", selectedItemEntity.price);
     setValue("brand", selectedItemEntity.brand);
+    setValue("brandName", selectedItemEntity.brand_name);
     setValue("unit", selectedItemEntity.unit);
+    setValue("unitName", selectedItemEntity.unit_name);
     setValue("category", selectedItemEntity.category);
+    setValue("categoryName", selectedItemEntity.category_name);
     setValue("name", selectedItemEntity.name);
     setValue("code", selectedItemEntity.code);
     setValue("quantity", 1);
@@ -57,7 +60,7 @@ export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
             placeholder="Enter the item name"
             hint="Search items you want to add in the request e.g Dyson Jet fan heater"
             onSearch={onSearch}
-            onSelect={handleSelect}
+            onSelect={handleAutocompleteSelect}
           />
         ) : (
           <InputControl<ItemFormSchema>

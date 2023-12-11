@@ -27,7 +27,7 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import { MessageResponseDto } from "@api/api";
 
 export function AddItem() {
-  const { getValues: getRequestValues, setValue } =
+  const { getValues: getRequestItemValues, setValue } =
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,8 +79,11 @@ export function AddItem() {
   });
   const { handleSubmit, getValues: getItemFormValues, reset } = formMethod;
   const handleValidate = (form: ItemFormSchema) => {
-    if (!!form.code) {
-      addToNewRequest(form.code);
+    const itemNameExist =
+      (itemList?.data || []).filter((x) => x.name === form.name).length > 0;
+
+    if (itemNameExist && !!form.code) {
+      addToNewRequest(form.code, form.quantity);
     } else {
       const formData = FormToApiService.NewItem(form);
       addItem(formData);
@@ -90,15 +93,29 @@ export function AddItem() {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
-  const addToNewRequest = (newCode: string) => {
-    const requestFormItemValues = getRequestValues("items");
+  const addToNewRequest = (newCode: string, quantity: number = 0) => {
+    const requestFormItemValues = getRequestItemValues("items");
     const itemForm = getItemFormValues();
+    const codeExistInRequestFormItemValues =
+      requestFormItemValues.filter((x) => x.code === newCode).length > 0;
+    let allItems = requestFormItemValues;
 
-    const itemValues = [
-      ...requestFormItemValues,
-      { ...itemForm, code: newCode },
-    ];
-    setValue("items", itemValues);
+    if (codeExistInRequestFormItemValues) {
+      allItems = requestFormItemValues.map((item) => {
+        if (item.code === newCode) {
+          return {
+            ...item,
+            quantity: (item?.quantity || 0) + quantity,
+          };
+        }
+
+        return item;
+      });
+    } else {
+      allItems = [...requestFormItemValues, { ...itemForm, code: newCode }];
+    }
+
+    setValue("items", allItems);
     showSuccess(`${itemForm.name} is added to Purchase Request items`);
     reset();
   };
