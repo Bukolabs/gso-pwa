@@ -62,44 +62,42 @@ module.exports = (plop) => {
       ];
     },
   });
-  // Setting up Plop to generate domains
-  // When run `npm run plop` you'll be asked to enter the domain name.
-  plop.setGenerator("core", {
-    description: "Create a core",
+  // Setting up Plop to generate components
+  // When run `npm run plop` you'll be asked to enter the component name.
+  plop.setGenerator("component", {
+    description: "Create a component",
     prompts: [
       {
         type: "input",
         name: "name",
-        message: 'Name of the component (e.g., "user-management"):',
+        message: 'Name of the component (e.g., "MyComponent"):',
       },
       {
-        type: "list",
-        name: "type",
-        message: "Select the type:",
-        choices: [
-          "page",
-          "ui",
-          "feature",
-          "hook",
-          "util",
-          "query",
-          "model",
-          "service",
-        ],
+        type: "input",
+        name: "directory",
+        message: 'Directory name for your component (e.g., "components"):',
       },
     ],
     actions: (data) => {
-      const { name, type } = data;
+      const { directory } = data;
+      const currentDirectory = process.cwd();
+
+      const path = directory
+        ? `${directory}/{{name}}/{{name}}.tsx`
+        : `${currentDirectory}/{{name}}/{{name}}.tsx`;
+      const pathStyle = directory
+        ? `${directory}/{{name}}/{{name}}.scss`
+        : `${currentDirectory}/{{name}}/{{name}}.scss`
 
       return [
         {
           type: "add",
-          path: `src/core/${type}/${name}/${name}.tsx`,
+          path,
           templateFile: "plop-templates/component.hbs",
         },
         {
           type: "add",
-          path: `src/core/${type}/${name}/${name}.scss`,
+          path: pathStyle,
           templateFile: "plop-templates/component-scss.hbs",
         },
       ];
@@ -107,7 +105,7 @@ module.exports = (plop) => {
   });
   // Setting up Plop to generate components
   // When run `npm run plop` you'll be asked to enter the component name.
-  plop.setGenerator("component", {
+  plop.setGenerator("c", {
     description: "Create a component",
     prompts: [
       {

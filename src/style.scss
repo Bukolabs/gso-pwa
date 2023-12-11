@@ -42,10 +42,22 @@ h5 {
   @apply font-bold text-gray-800 text-sm md:text-base;
 }
 
-.hint {
+.hint, small {
   @apply text-gray-500 text-sm;
 }
 
 .page {
   @apply pb-36 md:pb-20;
+}
+
+.p-toast-message {
+  margin-left: -22px;
+}
+
+// OVERRIDES
+.p-inplace-content {
+  display: flex;
+}
+.p-inplace-display {
+  display: flex;
 }

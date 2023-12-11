@@ -36,7 +36,7 @@ export function HomeCard({
         </div>
       </section>
       {!prReviews && (
-        <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
+        <section className="flex justify-center gap-3 py-4">
           {requests && (
             <div className="flex flex-col items-center justify-center">
               <p className="text-gray-800 font-bold">{requests}</p>

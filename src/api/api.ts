@@ -68,6 +68,38 @@ export interface AddPersonDto {
 /**
  * 
  * @export
+ * @interface BidderControllerGetDataAsList200Response
+ */
+export interface BidderControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof BidderControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetBidderDto>}
+     * @memberof BidderControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetBidderDto>;
+}
+/**
+ * 
+ * @export
+ * @interface BidderControllerGetDataAsList200ResponseAllOf
+ */
+export interface BidderControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetBidderDto>}
+     * @memberof BidderControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetBidderDto>;
+}
+/**
+ * 
+ * @export
  * @interface ChangePasswordDto
  */
 export interface ChangePasswordDto {
@@ -89,6 +121,19 @@ export interface ChangePasswordDto {
      * @memberof ChangePasswordDto
      */
     'password': string;
+}
+/**
+ * 
+ * @export
+ * @interface CoreApiPaginatedResponse
+ */
+export interface CoreApiPaginatedResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CoreApiPaginatedResponse
+     */
+    'count'?: number;
 }
 /**
  * 
@@ -608,6 +653,61 @@ export interface CreateUtilsCategoryDto {
 /**
  * 
  * @export
+ * @interface CreateUtilsDepartmentDto
+ */
+export interface CreateUtilsDepartmentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUtilsDepartmentDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateUtilsUnitDto
  */
 export interface CreateUtilsUnitDto {
@@ -829,6 +929,49 @@ export interface DeleteUtilsCategoryDto {
      * 
      * @type {string}
      * @memberof DeleteUtilsCategoryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteUtilsDepartmentDto
+ */
+export interface DeleteUtilsDepartmentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteUtilsDepartmentDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteUtilsDepartmentDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteUtilsDepartmentDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteUtilsDepartmentDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteUtilsDepartmentDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteUtilsDepartmentDto
      */
     'deleted_by'?: string;
 }
@@ -1345,6 +1488,49 @@ export interface EditUtilsCategoryDto {
 /**
  * 
  * @export
+ * @interface EditUtilsDepartmentDto
+ */
+export interface EditUtilsDepartmentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditUtilsDepartmentDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface EditUtilsUnitDto
  */
 export interface EditUtilsUnitDto {
@@ -1397,6 +1583,256 @@ export interface ForgotPasswordDto {
      * @memberof ForgotPasswordDto
      */
     'email': string;
+}
+/**
+ * 
+ * @export
+ * @interface GetBidderDto
+ */
+export interface GetBidderDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'street_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'subdivision'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'zone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'sitio'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'purok'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'barangay'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'municipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'province'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'region'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'country'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'zip'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'mobile'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'phone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'tin'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBidderDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetItemDto
+ */
+export interface GetItemDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'unit': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'unit_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'brand': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'brand_name': string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetItemDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ItemControllerGetDataAsList200Response
+ */
+export interface ItemControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetItemDto>}
+     * @memberof ItemControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetItemDto>;
+}
+/**
+ * 
+ * @export
+ * @interface ItemControllerGetDataAsList200ResponseAllOf
+ */
+export interface ItemControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetItemDto>}
+     * @memberof ItemControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetItemDto>;
 }
 /**
  * 
@@ -1673,6 +2109,93 @@ export interface UpdatePersonDto {
      */
     'file'?: any;
 }
+/**
+ * 
+ * @export
+ * @interface UtilsBrandControllerGetDataAsList200Response
+ */
+export interface UtilsBrandControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof UtilsBrandControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<UtilsDataDto>}
+     * @memberof UtilsBrandControllerGetDataAsList200Response
+     */
+    'data'?: Array<UtilsDataDto>;
+}
+/**
+ * 
+ * @export
+ * @interface UtilsBrandControllerGetDataAsList200ResponseAllOf
+ */
+export interface UtilsBrandControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<UtilsDataDto>}
+     * @memberof UtilsBrandControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<UtilsDataDto>;
+}
+/**
+ * 
+ * @export
+ * @interface UtilsDataDto
+ */
+export interface UtilsDataDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UtilsDataDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UtilsDataDto
+     */
+    'updated_by'?: string;
+}
 
 /**
  * BidderApi - axios parameter creator
@@ -1814,10 +2337,14 @@ export const BidderApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bidderControllerGetDataAsList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        bidderControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/bidder/get`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1838,6 +2365,22 @@ export const BidderApiAxiosParamCreator = function (configuration?: Configuratio
 
             // authentication oauth-token-refresh-token required
             await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
 
 
     
@@ -1892,11 +2435,15 @@ export const BidderApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async bidderControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.bidderControllerGetDataAsList(options);
+        async bidderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BidderControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bidderControllerGetDataAsList(search, limit, offset, order, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1938,11 +2485,15 @@ export const BidderApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bidderControllerGetDataAsList(options?: any): AxiosPromise<ListDataDto> {
-            return localVarFp.bidderControllerGetDataAsList(options).then((request) => request(axios, basePath));
+        bidderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: any): AxiosPromise<BidderControllerGetDataAsList200Response> {
+            return localVarFp.bidderControllerGetDataAsList(search, limit, offset, order, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1989,12 +2540,16 @@ export class BidderApi extends BaseAPI {
 
     /**
      * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BidderApi
      */
-    public bidderControllerGetDataAsList(options?: AxiosRequestConfig) {
-        return BidderApiFp(this.configuration).bidderControllerGetDataAsList(options).then((request) => request(this.axios, this.basePath));
+    public bidderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: AxiosRequestConfig) {
+        return BidderApiFp(this.configuration).bidderControllerGetDataAsList(search, limit, offset, order, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2220,7 +2775,7 @@ export const BrandApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async utilsBrandControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
+        async utilsBrandControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.utilsBrandControllerGetDataAsList(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2266,7 +2821,7 @@ export const BrandApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        utilsBrandControllerGetDataAsList(options?: any): AxiosPromise<ListDataDto> {
+        utilsBrandControllerGetDataAsList(options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
             return localVarFp.utilsBrandControllerGetDataAsList(options).then((request) => request(axios, basePath));
         },
     };
@@ -2545,7 +3100,7 @@ export const CateogryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async utilsCategoryControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
+        async utilsCategoryControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.utilsCategoryControllerGetDataAsList(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2591,7 +3146,7 @@ export const CateogryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        utilsCategoryControllerGetDataAsList(options?: any): AxiosPromise<ListDataDto> {
+        utilsCategoryControllerGetDataAsList(options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
             return localVarFp.utilsCategoryControllerGetDataAsList(options).then((request) => request(axios, basePath));
         },
     };
@@ -2645,6 +3200,331 @@ export class CateogryApi extends BaseAPI {
      */
     public utilsCategoryControllerGetDataAsList(options?: AxiosRequestConfig) {
         return CateogryApiFp(this.configuration).utilsCategoryControllerGetDataAsList(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DepartmentApi - axios parameter creator
+ * @export
+ */
+export const DepartmentApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateUtilsDepartmentDto} createUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerCreate: async (createUtilsDepartmentDto: CreateUtilsDepartmentDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createUtilsDepartmentDto' is not null or undefined
+            assertParamExists('utilsDepartmentControllerCreate', 'createUtilsDepartmentDto', createUtilsDepartmentDto)
+            const localVarPath = `/api/v1/utils-department/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createUtilsDepartmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeleteUtilsDepartmentDto} deleteUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerDelete: async (deleteUtilsDepartmentDto: DeleteUtilsDepartmentDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteUtilsDepartmentDto' is not null or undefined
+            assertParamExists('utilsDepartmentControllerDelete', 'deleteUtilsDepartmentDto', deleteUtilsDepartmentDto)
+            const localVarPath = `/api/v1/utils-department/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteUtilsDepartmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditUtilsDepartmentDto} editUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerEdit: async (editUtilsDepartmentDto: EditUtilsDepartmentDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'editUtilsDepartmentDto' is not null or undefined
+            assertParamExists('utilsDepartmentControllerEdit', 'editUtilsDepartmentDto', editUtilsDepartmentDto)
+            const localVarPath = `/api/v1/utils-department/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editUtilsDepartmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerGetDataAsList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/utils-department/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DepartmentApi - functional programming interface
+ * @export
+ */
+export const DepartmentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DepartmentApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUtilsDepartmentDto} createUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async utilsDepartmentControllerCreate(createUtilsDepartmentDto: CreateUtilsDepartmentDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.utilsDepartmentControllerCreate(createUtilsDepartmentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeleteUtilsDepartmentDto} deleteUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async utilsDepartmentControllerDelete(deleteUtilsDepartmentDto: DeleteUtilsDepartmentDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.utilsDepartmentControllerDelete(deleteUtilsDepartmentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {EditUtilsDepartmentDto} editUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async utilsDepartmentControllerEdit(editUtilsDepartmentDto: EditUtilsDepartmentDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.utilsDepartmentControllerEdit(editUtilsDepartmentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async utilsDepartmentControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.utilsDepartmentControllerGetDataAsList(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DepartmentApi - factory interface
+ * @export
+ */
+export const DepartmentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DepartmentApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUtilsDepartmentDto} createUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerCreate(createUtilsDepartmentDto: CreateUtilsDepartmentDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.utilsDepartmentControllerCreate(createUtilsDepartmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeleteUtilsDepartmentDto} deleteUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerDelete(deleteUtilsDepartmentDto: DeleteUtilsDepartmentDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.utilsDepartmentControllerDelete(deleteUtilsDepartmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditUtilsDepartmentDto} editUtilsDepartmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerEdit(editUtilsDepartmentDto: EditUtilsDepartmentDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.utilsDepartmentControllerEdit(editUtilsDepartmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        utilsDepartmentControllerGetDataAsList(options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
+            return localVarFp.utilsDepartmentControllerGetDataAsList(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DepartmentApi - object-oriented interface
+ * @export
+ * @class DepartmentApi
+ * @extends {BaseAPI}
+ */
+export class DepartmentApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateUtilsDepartmentDto} createUtilsDepartmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DepartmentApi
+     */
+    public utilsDepartmentControllerCreate(createUtilsDepartmentDto: CreateUtilsDepartmentDto, options?: AxiosRequestConfig) {
+        return DepartmentApiFp(this.configuration).utilsDepartmentControllerCreate(createUtilsDepartmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeleteUtilsDepartmentDto} deleteUtilsDepartmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DepartmentApi
+     */
+    public utilsDepartmentControllerDelete(deleteUtilsDepartmentDto: DeleteUtilsDepartmentDto, options?: AxiosRequestConfig) {
+        return DepartmentApiFp(this.configuration).utilsDepartmentControllerDelete(deleteUtilsDepartmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditUtilsDepartmentDto} editUtilsDepartmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DepartmentApi
+     */
+    public utilsDepartmentControllerEdit(editUtilsDepartmentDto: EditUtilsDepartmentDto, options?: AxiosRequestConfig) {
+        return DepartmentApiFp(this.configuration).utilsDepartmentControllerEdit(editUtilsDepartmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DepartmentApi
+     */
+    public utilsDepartmentControllerGetDataAsList(options?: AxiosRequestConfig) {
+        return DepartmentApiFp(this.configuration).utilsDepartmentControllerGetDataAsList(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2789,10 +3669,14 @@ export const ItemApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        itemControllerGetDataAsList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        itemControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/item/get`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2813,6 +3697,22 @@ export const ItemApiAxiosParamCreator = function (configuration?: Configuration)
 
             // authentication oauth-token-refresh-token required
             await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
 
 
     
@@ -2867,11 +3767,15 @@ export const ItemApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async itemControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.itemControllerGetDataAsList(options);
+        async itemControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.itemControllerGetDataAsList(search, limit, offset, order, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2913,11 +3817,15 @@ export const ItemApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        itemControllerGetDataAsList(options?: any): AxiosPromise<ListDataDto> {
-            return localVarFp.itemControllerGetDataAsList(options).then((request) => request(axios, basePath));
+        itemControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: any): AxiosPromise<ItemControllerGetDataAsList200Response> {
+            return localVarFp.itemControllerGetDataAsList(search, limit, offset, order, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2964,12 +3872,16 @@ export class ItemApi extends BaseAPI {
 
     /**
      * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ItemApi
      */
-    public itemControllerGetDataAsList(options?: AxiosRequestConfig) {
-        return ItemApiFp(this.configuration).itemControllerGetDataAsList(options).then((request) => request(this.axios, this.basePath));
+    public itemControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, options?: AxiosRequestConfig) {
+        return ItemApiFp(this.configuration).itemControllerGetDataAsList(search, limit, offset, order, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3670,7 +4582,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async utilsUnitControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
+        async utilsUnitControllerGetDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.utilsUnitControllerGetDataAsList(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3716,7 +4628,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        utilsUnitControllerGetDataAsList(options?: any): AxiosPromise<ListDataDto> {
+        utilsUnitControllerGetDataAsList(options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
             return localVarFp.utilsUnitControllerGetDataAsList(options).then((request) => request(axios, basePath));
         },
     };
@@ -4159,7 +5071,7 @@ export const UtilitiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async utilitiesControllerGetUtilsRoleDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDataDto>> {
+        async utilitiesControllerGetUtilsRoleDataAsList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.utilitiesControllerGetUtilsRoleDataAsList(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4261,7 +5173,7 @@ export const UtilitiesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        utilitiesControllerGetUtilsRoleDataAsList(options?: any): AxiosPromise<ListDataDto> {
+        utilitiesControllerGetUtilsRoleDataAsList(options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
             return localVarFp.utilitiesControllerGetUtilsRoleDataAsList(options).then((request) => request(axios, basePath));
         },
         /**

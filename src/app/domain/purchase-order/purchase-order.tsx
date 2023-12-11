@@ -1,19 +1,16 @@
 import PurchaseCard from "@core/ui/purchase-card/purchase-card";
 import "./purchase-order";
-
-/* eslint-disable-next-line */
-export interface PurchaseOrderProps {}
+import HeaderContent from "@shared/ui/header-content/header-content";
 
 export function PurchaseOrder() {
   return (
     <div className="purchase-order">
-      <h1>PurchaseOrder</h1>
-      <div className="flex flex-col gap-2">
-        <PurchaseCard
-          title="PO# 122"
-          subTitle="Food"
-          status="Categorized"
-        />
+      <HeaderContent title="PurchaseOrder">
+        <div></div>
+      </HeaderContent>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
+        <PurchaseCard title="PO# 122" subTitle="Food" status="Categorized" />
         <PurchaseCard
           title="PO# 144"
           subTitle="Office Supply"

@@ -1,13 +1,14 @@
 import * as z from "zod";
 
 export const ItemFormRule = z.object({
-  itemNo: z.string(),
-  quantity: z.number(),
-  unit: z.string(),
+  name: z.string(),
+  unit: z.string().min(1, "Unit is required"),
   description: z.string(),
-  brand: z.string(),
-  cost: z.number(),
+  category: z.string().min(1, "Category is required"),
+  brand: z.string().min(1, "Brand is required"),
+  cost: z.number().optional(),
   amount: z.number().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const RequestFormRule = z.object({
@@ -16,7 +17,7 @@ export const RequestFormRule = z.object({
   sai: z.string(),
   alobs: z.string(),
   purpose: z.string(),
-  items: ItemFormRule.array()
+  items: ItemFormRule.array(),
 });
 
 export const OrderItemRule = z.object({
@@ -31,8 +32,43 @@ export const OrderItemRule = z.object({
   deliveryDate: z.date(),
   deliveryTerm: z.string(),
   paymentTerm: z.string(),
-  items: ItemFormRule.array()
+  items: ItemFormRule.array(),
 });
+
+export const PersonalRule = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(100, "Maximum of 100 characters only"),
+  email: z
+    .string()
+    .email()
+    .min(3, "Email must be at least 3 characters")
+    .max(100, "Maximum of 100 characters only")
+    .optional(),
+  mobile: z
+    .string()
+    .min(1, { message: "Mobile is required" })
+    .max(30, "Mobile is maxed at 30"),
+  phone: z.string().optional(),
+  tin: z.string().optional(),
+});
+export const AddressRule = z.object({
+  streetName: z.string().max(50, "Streetname is maxed at 50").optional(),
+  barangay: z.string().max(50, "Barangay is maxed at 50").optional(),
+  city: z.string().max(50, "City is maxed at 50").optional(),
+  province: z.string().max(50, "Province is maxed at 50").optional(),
+  region: z.string().max(50, "Region is maxed at 50").optional(),
+  country: z
+    .string()
+    .min(1, { message: "Country is required" })
+    .max(50, "Country is maxed at 50"),
+  zipcode: z.string().max(50, "Zipcode is maxed at 50").optional(),
+});
+
+export const BidderFormRule = PersonalRule.and(AddressRule);
 
 export type RequestFormSchema = z.infer<typeof RequestFormRule>;
 export type OrderFormSchema = z.infer<typeof OrderItemRule>;
+export type BidderFormSchema = z.infer<typeof BidderFormRule>;
+export type ItemFormSchema = z.infer<typeof ItemFormRule>;
