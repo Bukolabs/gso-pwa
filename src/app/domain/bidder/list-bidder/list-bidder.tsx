@@ -23,7 +23,7 @@ export function ListBidder() {
     isLoading,
     isError,
     error,
-  } = useGetBidder(limit, pageNumber, searchTerm);
+  } = useGetBidder(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);

@@ -1,18 +1,18 @@
 import {
-  BidderApiFp,
-  BidderControllerGetDataAsList200Response,
-  CreateBidderDto,
-  EditBidderDto,
+  CreatePurchaseRequestDto,
+  EditPurchaseRequestDto,
   MessageResponseDto,
+  PurchaseRequestApiFp,
+  PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
-import { authHeaders } from "@core/query/auth-header";
+import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import { authHeaders } from "./auth-header";
+import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
-import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-export function useGetBidder(
+export function useGetRequest(
   search: string,
   limit = 10,
   offset = 0,
@@ -21,7 +21,7 @@ export function useGetBidder(
   enabled?: boolean,
   onSuccess?:
     | ((
-        data: BidderControllerGetDataAsList200Response
+        data: PurchaseRequestControllerGetDataAsList200Response
       ) => void | Promise<unknown>)
     | undefined,
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
@@ -35,21 +35,24 @@ export function useGetBidder(
     filter: Record<string, string> | undefined = undefined
   ) => {
     showProgress();
-    const operation = await BidderApiFp().bidderControllerGetDataAsList(
-      search,
-      limit,
-      offset,
-      order,
-      filter,
-      authHeaders()
-    );
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerGetDataAsList(
+        search,
+        limit,
+        offset,
+        order,
+        filter,
+        authHeaders()
+      );
     const response = (await operation()).data;
-    return response["data"] as BidderControllerGetDataAsList200Response;
+    return response[
+      "data"
+    ] as PurchaseRequestControllerGetDataAsList200Response;
   };
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Bidder, search, limit, offset, order, filter],
+    queryKey: [QueryKey.Category, search, limit, offset, order, filter],
     queryFn: () => apiFn(search, limit, offset, order, filter),
     onSuccess: (response) => {
       hideProgress();
@@ -65,53 +68,13 @@ export function useGetBidder(
         onError(err);
       }
     },
-  });
-}
-
-export function useGetBidderById(
-  id: string,
-  onSuccess?:
-    | ((
-        data: BidderControllerGetDataAsList200Response
-      ) => void | Promise<unknown>)
-    | undefined,
-  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
-) {
-  const { showProgress, hideProgress, showError } = useNotificationContext();
-  const apiFn = async (search: string, limit = 1, offset = 0) => {
-    showProgress();
-    const operation = await BidderApiFp().bidderControllerGetDataAsList(
-      search,
-      limit,
-      offset,
-      undefined,
-      authHeaders()
-    );
-    const response = (await operation()).data;
-    return response["data"] as BidderControllerGetDataAsList200Response;
-  };
-
-  return useQuery({
-    queryKey: [QueryKey.Bidder, id],
-    queryFn: () => apiFn(id),
-    onSuccess: (response) => {
+    onSettled() {
       hideProgress();
-      if (onSuccess) {
-        onSuccess(response);
-      }
-    },
-    onError: (err: AxiosError) => {
-      hideProgress();
-      const message = getApiErrorMessage(err);
-      showError(message);
-      if (onError) {
-        onError(err);
-      }
     },
   });
 }
 
-export function useAddBidder(
+export function useAddRequest(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
@@ -120,12 +83,13 @@ export function useAddBidder(
   const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
 
-  const apiFn = async (payload: CreateBidderDto) => {
+  const apiFn = async (payload: CreatePurchaseRequestDto) => {
     showProgress();
-    const operation = await BidderApiFp().bidderControllerCreate(
-      payload,
-      authHeaders()
-    );
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerCreate(
+        payload,
+        authHeaders()
+      );
     const response = (await operation()).data;
     return response["message"] as MessageResponseDto;
   };
@@ -134,7 +98,7 @@ export function useAddBidder(
     mutationFn: apiFn,
     onSuccess: (response) => {
       hideProgress();
-      queryClient.invalidateQueries(QueryKey.Bidder);
+      queryClient.invalidateQueries(QueryKey.Request);
       if (onSuccess) {
         onSuccess(response);
       }
@@ -147,10 +111,13 @@ export function useAddBidder(
         onError(err);
       }
     },
+    onSettled() {
+      hideProgress();
+    },
   });
 }
 
-export function useEditBidder(
+export function useEditRequest(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
@@ -159,12 +126,13 @@ export function useEditBidder(
   const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
 
-  const apiFn = async (payload: EditBidderDto) => {
+  const apiFn = async (payload: EditPurchaseRequestDto) => {
     showProgress();
-    const operation = await BidderApiFp().bidderControllerEdit(
-      payload,
-      authHeaders()
-    );
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerEdit(
+        payload,
+        authHeaders()
+      );
     const response = (await operation()).data;
     return response["message"] as MessageResponseDto;
   };
@@ -173,7 +141,7 @@ export function useEditBidder(
     mutationFn: apiFn,
     onSuccess: (response) => {
       hideProgress();
-      queryClient.invalidateQueries(QueryKey.Bidder);
+      queryClient.invalidateQueries(QueryKey.Request);
       if (onSuccess) {
         onSuccess(response);
       }
@@ -185,6 +153,9 @@ export function useEditBidder(
       if (onError) {
         onError(err);
       }
+    },
+    onSettled() {
+      hideProgress();
     },
   });
 }
