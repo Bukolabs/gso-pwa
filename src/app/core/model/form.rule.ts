@@ -6,8 +6,7 @@ export const ItemFormRule = z.object({
   description: z.string(),
   category: z.string().min(1, "Category is required"),
   brand: z.string().min(1, "Brand is required"),
-  cost: z.number().optional(),
-  amount: z.number().optional(),
+  cost: z.number(),
   isActive: z.boolean().optional(),
 });
 
@@ -18,6 +17,8 @@ export const RequestFormRule = z.object({
   alobs: z.string(),
   purpose: z.string(),
   items: ItemFormRule.array(),
+  urgent: z.boolean(),
+  active: z.boolean()
 });
 
 export const OrderItemRule = z.object({

@@ -13,11 +13,11 @@ import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
 export function useGetItem(
+  search: string,
   limit = 10,
-  page = 0,
-  searchTerm: string,
-  filter?: Record<string, string>,
+  offset = 0,
   order?: object,
+  filter?: Record<string, string>,
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -28,10 +28,11 @@ export function useGetItem(
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
   const apiFn = async (
+    search: string | undefined = undefined,
     limit: number | undefined = undefined,
     offset: number | undefined = undefined,
-    search: string | undefined = undefined,
-    order: object | undefined = undefined
+    order: object | undefined = undefined,
+    filter: Record<string, string> | undefined = undefined
   ) => {
     showProgress();
     const operation = await ItemApiFp().itemControllerGetDataAsList(
@@ -39,6 +40,7 @@ export function useGetItem(
       limit,
       offset,
       order,
+      filter,
       authHeaders()
     );
     const response = (await operation()).data;
@@ -47,8 +49,8 @@ export function useGetItem(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Item, limit, page, searchTerm, filter, order],
-    queryFn: () => apiFn(limit, page, searchTerm, order),
+    queryKey: [QueryKey.Item, search, limit, offset, order, filter],
+    queryFn: () => apiFn(search, limit, offset, order, filter),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
@@ -82,6 +84,7 @@ export function useGetItemById(
       search,
       limit,
       offset,
+      undefined,
       undefined,
       authHeaders()
     );

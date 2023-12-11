@@ -23,7 +23,7 @@ export function ListItem() {
     isLoading,
     isError,
     error,
-  } = useGetItem(limit, pageNumber, searchTerm);
+  } = useGetItem(searchTerm, limit, pageNumber);
   const [visible, setVisible] = useState(false);
 
   const handleSearch = (searchTerm: string) => {

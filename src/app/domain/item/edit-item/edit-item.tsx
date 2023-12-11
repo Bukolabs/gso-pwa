@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "primereact/button";
 import { ItemFormRule, ItemFormSchema } from "@core/model/form.rule";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
-import { getItemFormDefault } from "@core/model/form.default";
+import { getItemFormDefault } from "@core/model/get-form.default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEditItem, useGetItemById } from "@core/query/item.query";
 import { ItemControllerGetDataAsList200Response } from "@api/api";
@@ -94,9 +94,7 @@ export function EditItem() {
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
-          {(itemError || editError || dataEmpty) &&
-            !isLoading &&
-            displayError}
+          {(itemError || editError || dataEmpty) && !isLoading && displayError}
           {!isLoading && !dataEmpty && <FormItem />}
         </FormProvider>
       </div>

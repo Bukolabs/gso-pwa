@@ -1,10 +1,15 @@
 import {
   CreateBidderDto,
   CreateItemDto,
+  CreatePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
 } from "@api/api";
-import { BidderFormSchema, ItemFormSchema } from "@core/model/form.rule";
+import {
+  BidderFormSchema,
+  ItemFormSchema,
+  RequestFormSchema,
+} from "@core/model/form.rule";
 
 export class FormToApiService {
   static NewBidder(form: BidderFormSchema) {
@@ -35,7 +40,6 @@ export class FormToApiService {
   }
 
   static NewItem(form: ItemFormSchema) {
-    // TODO Add cost
     const payload = {
       name: form.name,
       brand: form.brand,
@@ -43,6 +47,7 @@ export class FormToApiService {
       description: form.description,
       is_active: form.isActive,
       unit: form.unit,
+      price: form.cost
     } as CreateItemDto;
 
     return payload;
@@ -59,6 +64,22 @@ export class FormToApiService {
       is_active: form.isActive,
       unit: form.unit,
     } as EditItemDto;
+
+    return payload;
+  }
+
+  static NewPurchaseRequest(form: RequestFormSchema) {
+    const payload = {
+      sai_no: form.sai,
+      alobs_no: form.alobs,
+      category: "",
+      department: "",
+      section: form.section,
+      status: "",
+      is_urgent: false,
+      items: [],
+      purpose: form.purpose
+    } as CreatePurchaseRequestDto;
 
     return payload;
   }

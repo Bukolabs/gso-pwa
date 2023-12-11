@@ -6,6 +6,7 @@ import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/in
 import FormBrandItem from "../form-brand-item/form-brand-item";
 import FormUnitItem from "../form-unit-item/form-unit-item";
 import FormCategoryItem from "../form-category-item/form-category-item";
+import InputDigitControl from "@shared/ui/hook-form/input-digit-control/input-digit-control";
 
 export interface FormItemProps {}
 
@@ -32,6 +33,15 @@ export function FormItem() {
           className="w-full md:w-3/4"
           placeholder="Enter the item description"
           hint="e.g. Amplifies airflow. To heat you or cool you fast"
+        />
+        <InputDigitControl<ItemFormSchema>
+          control={control}
+          name="cost"
+          label="Cost (Required)"
+          containerClassName="mb-9"
+          className="w-full md:w-3/4"
+          placeholder="Enter the item cost"
+          hint="e.g. 150"
         />
 
         <FormBrandItem />
