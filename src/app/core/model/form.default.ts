@@ -49,4 +49,5 @@ export const itemFormDefault = {
   isActive: true,
   cost: 0,
   unit: "",
+  quantity: 0,
 } as ItemFormSchema;

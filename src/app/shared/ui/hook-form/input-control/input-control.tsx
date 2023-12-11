@@ -5,7 +5,7 @@ import { FormControllerProp } from '../form-controller-prop.interface';
 import FormError from '../form-error/form-error';
 import { KeyboardEventHandler } from 'react';
 
-export type InputControlType = 'text' | 'digit' | 'password';
+export type InputControlType = 'text' | 'digit' | 'password' | 'date';
 interface InputControlProps<FieldsType extends FieldValues>
    extends FormControllerProp<FieldsType> {
    label?: string;

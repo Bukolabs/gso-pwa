@@ -1,6 +1,7 @@
 import {
   CreateBidderDto,
   CreateItemDto,
+  CreatePrItemDto,
   CreatePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
@@ -47,7 +48,7 @@ export class FormToApiService {
       description: form.description,
       is_active: form.isActive,
       unit: form.unit,
-      price: form.cost
+      price: form.cost,
     } as CreateItemDto;
 
     return payload;
@@ -69,17 +70,34 @@ export class FormToApiService {
   }
 
   static NewPurchaseRequest(form: RequestFormSchema) {
+    const requestItemPayload = form.items.map((item) =>
+      this.NewRequestItem(item)
+    );
     const payload = {
       sai_no: form.sai,
       alobs_no: form.alobs,
-      category: "",
-      department: "",
+      category: form.category,
+      department: "4185bde6-87b0-11ee-a6aa-1c4c2bef322a", //ADMIN
       section: form.section,
       status: "",
       is_urgent: false,
-      items: [],
-      purpose: form.purpose
+      items: requestItemPayload,
+      purpose: form.purpose,
     } as CreatePurchaseRequestDto;
+
+    return payload;
+  }
+
+  static NewRequestItem(form: ItemFormSchema) {
+    const payload = {
+      item: form.name,
+      description: form.description,
+      unit: form.unit,
+      quantity: form.quantity,
+      brand: form.brand,
+      price: form.cost,
+      is_active: true,
+    } as CreatePrItemDto;
 
     return payload;
   }

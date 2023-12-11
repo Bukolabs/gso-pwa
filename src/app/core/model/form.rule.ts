@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const ItemFormRule = z.object({
+  code: z.string().optional(),
   name: z.string(),
   unit: z.string().min(1, "Unit is required"),
   description: z.string(),
@@ -8,17 +9,20 @@ export const ItemFormRule = z.object({
   brand: z.string().min(1, "Brand is required"),
   cost: z.number(),
   isActive: z.boolean().optional(),
+  quantity: z.number(),
 });
 
 export const RequestFormRule = z.object({
   category: z.string(),
   section: z.string(),
   sai: z.string(),
+  saiDate: z.date().optional(),
   alobs: z.string(),
+  alobsDate:  z.date().optional(),
   purpose: z.string(),
   items: ItemFormRule.array(),
   urgent: z.boolean(),
-  active: z.boolean()
+  active: z.boolean(),
 });
 
 export const OrderItemRule = z.object({

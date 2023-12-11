@@ -12,6 +12,9 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useAddRequest } from "@core/query/request.query";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
+import { Accordion, AccordionTab } from "primereact/accordion";
+import AddItem from "../add-item/add-item";
+import { Card } from "primereact/card";
 
 export function NewRequest() {
   const { isMobile } = useScreenSize();
@@ -31,7 +34,8 @@ export function NewRequest() {
     defaultValues: requestFormDefault,
     resolver: zodResolver(RequestFormRule),
   });
-  const { handleSubmit } = formMethod;
+  const { handleSubmit, getValues } = formMethod;
+  const requestItems = getValues("items");
 
   const handleValidate = (form: RequestFormSchema) => {
     const formData = FormToApiService.NewPurchaseRequest(form);
@@ -55,7 +59,24 @@ export function NewRequest() {
 
       <div className="p-7">
         <FormProvider {...formMethod}>
-          <FormRequest />
+          <Accordion activeIndex={0} className="block mt-4 mb-16">
+            <AccordionTab header="Details">
+              <FormRequest />
+
+              <div className="mt-2 md:px-6">
+                <h4 className="mb-2">Added Request Items:</h4>
+                {requestItems.map((item, id) => (
+                  <Card key={id} title={item.name}>
+                    <p className="m-0">{item.description}</p>
+                    <p className="m-0">{item.cost}</p>
+                  </Card>
+                ))}
+              </div>
+            </AccordionTab>
+            <AccordionTab header="Add Item">
+              <AddItem />
+            </AccordionTab>
+          </Accordion>
         </FormProvider>
       </div>
     </div>

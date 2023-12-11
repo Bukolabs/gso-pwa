@@ -4,9 +4,6 @@ import "./form-request";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 
-/* eslint-disable-next-line */
-export interface FormRequestProps {}
-
 export function FormRequest() {
   const { control } = useFormContext<RequestFormSchema>();
 
@@ -17,7 +14,7 @@ export function FormRequest() {
         name="category"
         label="Category (Required)"
         className="w-full md:w-3/4"
-        placeholder="Enter SAI"
+        placeholder="Enter Category"
         hint="e.g. Food"
       />
       <InputControl<RequestFormSchema>
@@ -25,7 +22,7 @@ export function FormRequest() {
         name="section"
         label="Section (Required)"
         className="w-full md:w-3/4"
-        placeholder="Enter SAI"
+        placeholder="Enter Section"
         hint="e.g. Section Narra"
       />
       <InputControl<RequestFormSchema>
@@ -41,7 +38,7 @@ export function FormRequest() {
         name="alobs"
         label="ALOBS"
         className="w-full md:w-3/4"
-        placeholder="Enter SAI"
+        placeholder="Enter ALOBS"
         hint="e.g. 12345"
       />
       <InputTextareaControl<RequestFormSchema>
