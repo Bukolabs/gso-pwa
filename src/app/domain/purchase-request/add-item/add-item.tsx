@@ -24,6 +24,7 @@ import { useAddItem, useGetItem } from "@core/query/item.query";
 import { AutoCompleteCompleteEvent } from "primereact/autocomplete";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { FormToApiService } from "@core/services/form-to-api.service";
+import { MessageResponseDto } from "@api/api";
 
 export function AddItem() {
   const { getValues: getRequestValues, setValue } =
@@ -62,17 +63,13 @@ export function AddItem() {
   };
 
   // ADD ITEM
-  const [itemForm, setItemForm] = useState<ItemFormSchema | undefined>(
-    undefined
-  );
-  const handleAddApiSuccess = () => {
-    const requestFormItemValues = getRequestValues("items");
+  const handleAddApiSuccess = (response: MessageResponseDto) => {
+    const itemForm = getItemFormValues();
 
-    if (!itemForm) return;
+    const code = (response.data as any)?.code;
+    if (!itemForm || !code) return;
 
-    const itemValues = [...requestFormItemValues, itemForm];
-    setValue("items", itemValues);
-    // showSuccess(`${form.name} is added to Purchase Request items`);
+    addToNewRequest(code);
   };
   const { mutate: addItem } = useAddItem(handleAddApiSuccess);
 
@@ -80,20 +77,30 @@ export function AddItem() {
     defaultValues: itemFormDefault,
     resolver: zodResolver(ItemFormRule),
   });
-  const { handleSubmit } = formMethod;
+  const { handleSubmit, getValues: getItemFormValues, reset } = formMethod;
   const handleValidate = (form: ItemFormSchema) => {
-    setItemForm(form);
-    const formData = FormToApiService.NewItem(form);
-    addItem(formData);
-    // console.log(form);
-    // const requestFormItemValues = getValues("items");
-    // const itemValues = [...requestFormItemValues, form];
-    // setValue("items", itemValues);
-    // showSuccess(`${form.name} is added to Purchase Request items`);
+    if (!!form.code) {
+      addToNewRequest(form.code);
+    } else {
+      const formData = FormToApiService.NewItem(form);
+      addItem(formData);
+    }
   };
   const handleValidateError = (err: FieldErrors<ItemFormSchema>) => {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
+  };
+  const addToNewRequest = (newCode: string) => {
+    const requestFormItemValues = getRequestValues("items");
+    const itemForm = getItemFormValues();
+
+    const itemValues = [
+      ...requestFormItemValues,
+      { ...itemForm, code: newCode },
+    ];
+    setValue("items", itemValues);
+    showSuccess(`${itemForm.name} is added to Purchase Request items`);
+    reset();
   };
 
   return (

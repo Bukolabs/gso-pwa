@@ -23,19 +23,23 @@ export interface FormItemProps {
 
 export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
   const { control, setValue } = useFormContext<ItemFormSchema>();
+
   const handleSelect = (event: AutoCompleteProps) => {
     const selectedItem = event.value;
     if (!selectedItem || !itemList || itemList?.length === 0) {
       return;
     }
 
-    const selectedItemEntity = (itemList || []).filter((item) => item.code)[0];
+    const selectedItemEntity = (itemList || []).filter(
+      (item) => item.code === selectedItem.value
+    )[0];
     setValue("description", selectedItemEntity.description || "");
     setValue("cost", selectedItemEntity.price);
     setValue("brand", selectedItemEntity.brand);
     setValue("unit", selectedItemEntity.unit);
     setValue("category", selectedItemEntity.category);
     setValue("name", selectedItemEntity.name);
+    setValue("code", selectedItemEntity.code);
     setValue("quantity", 1);
   };
 

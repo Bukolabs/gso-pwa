@@ -720,7 +720,7 @@ export interface CreatePurchaseRequestDto {
      * @type {string}
      * @memberof CreatePurchaseRequestDto
      */
-    'status': string;
+    'status'?: string;
     /**
      * 
      * @type {boolean}
@@ -3224,7 +3224,7 @@ export interface ListDataDto {
      * @type {Any}
      * @memberof ListDataDto
      */
-    'label': string;
+    'label': any;
 }
 /**
  * 

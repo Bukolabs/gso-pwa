@@ -78,8 +78,9 @@ export function ListRequest() {
       selectionMode="single"
       onSelectionChange={(e) => editRecord(e.value)}
     >
-      <Column field="name" header="Name"></Column>
-      <Column field="email" header="email"></Column>
+      <Column field="pr_no" header="PR #"></Column>
+      <Column field="status_name" header="Status"></Column>
+      <Column field="department" header="Department"></Column>
     </DataTable>
   );
   const cards = (

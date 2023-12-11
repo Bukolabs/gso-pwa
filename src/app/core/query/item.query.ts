@@ -128,7 +128,7 @@ export function useAddItem(
       authHeaders()
     );
     const response = (await operation()).data;
-    return response["message"] as MessageResponseDto;
+    return response as MessageResponseDto;
   };
 
   return useMutation({

@@ -77,7 +77,7 @@ export class FormToApiService {
       sai_no: form.sai,
       alobs_no: form.alobs,
       category: form.category,
-      department: "4185bde6-87b0-11ee-a6aa-1c4c2bef322a", //ADMIN
+      department: "AGRI/VET", //ADMIN
       section: form.section,
       status: "",
       is_urgent: false,
@@ -97,6 +97,7 @@ export class FormToApiService {
       brand: form.brand,
       price: form.cost,
       is_active: true,
+      code: form.code,
     } as CreatePrItemDto;
 
     return payload;

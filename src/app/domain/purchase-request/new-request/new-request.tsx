@@ -25,7 +25,7 @@ export function NewRequest() {
     navigate("../");
   };
   const handleApiSuccess = () => {
-    showSuccess("New bidder created");
+    showSuccess("New purchase request created");
     handleBack();
   };
   const { mutate: addPurchaseRequest } = useAddRequest(handleApiSuccess);
