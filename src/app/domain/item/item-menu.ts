@@ -7,13 +7,19 @@ export function useItemMenu() {
     {
       label: "Item",
       command: () => {
-        navigate("");
+        navigate("/item");
       },
     },
     {
       label: "Unit",
       command: () => {
-        navigate("unit");
+        navigate("/item/unit");
+      },
+    },
+    {
+      label: "Brand",
+      command: () => {
+        navigate("/item/brand");
       },
     },
   ];

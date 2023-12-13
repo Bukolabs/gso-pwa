@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import "./list-unit";
+import "./list-brand";
+import { useItemMenu } from "@domain/item/item-menu";
 import { useState } from "react";
-import { useGetUnit } from "@core/query/unit.query";
+import { useGetBrand } from "@core/query/brand.query";
 import { UtilsDataDto } from "@api/api";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
@@ -9,12 +10,11 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import SearchInput from "@shared/ui/search-input/search-input";
 import HeaderContent from "@shared/ui/header-content/header-content";
+import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import { Menu } from "primereact/menu";
-import { useItemMenu } from "@domain/item/item-menu";
-import { Button } from "primereact/button";
 
-export function ListUnit() {
+export function ListBrand() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
   const [visible, setVisible] = useState(false);
@@ -22,11 +22,11 @@ export function ListUnit() {
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const {
-    data: units,
+    data: brands,
     isLoading,
     isError,
     error,
-  } = useGetUnit(searchTerm, limit, pageNumber);
+  } = useGetBrand(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -47,7 +47,7 @@ export function ListUnit() {
   );
   const grid = (
     <DataTable
-      value={units?.data}
+      value={brands?.data}
       tableStyle={{ zIndex: 1 }}
       selectionMode="single"
       onSelectionChange={(e) => editRecord(e.value)}
@@ -61,15 +61,15 @@ export function ListUnit() {
       <SearchInput
         searchTerm={searchTerm}
         onSearch={handleSearch}
-        placeholder="Search unit name"
+        placeholder="Search brand name"
         className="w-full block"
       />
     </div>
   );
 
   return (
-    <div className="list-unit">
-      <HeaderContent title="Units">
+    <div className="list-brand">
+      <HeaderContent title="Brands">
         <div className="flex gap-2">
           <Button label="Settings" outlined onClick={() => setVisible(true)} />
         </div>
@@ -92,4 +92,4 @@ export function ListUnit() {
   );
 }
 
-export default ListUnit;
+export default ListBrand;

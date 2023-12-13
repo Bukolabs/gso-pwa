@@ -1,42 +1,42 @@
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import "./edit-unit";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEditUnit, useGetUnitById } from "@core/query/unit.query";
+import "./edit-brand";
 import {
-  EditUtilsUnitDto,
+  EditUtilsBrandDto,
   UtilsBrandControllerGetDataAsList200Response,
 } from "@api/api";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEditBrand, useGetBrandById } from "@core/query/brand.query";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
+import { InputText } from "primereact/inputtext";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 
-export function EditUnit() {
+export function EditBrand() {
   const { showSuccess, showError } = useNotificationContext();
-  const [newUnit, setNewUnit] = useState<EditUtilsUnitDto>({
+  const [newBrand, setNewBrand] = useState<EditUtilsBrandDto>({
     name: "",
     description: "",
     code: "",
   });
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
-  const { unitId } = useParams();
+  const { brandId } = useParams();
 
   const handleBack = () => {
-    navigate("../unit");
+    navigate("../brand");
   };
 
   const handleGetApiSuccess = (
     data: UtilsBrandControllerGetDataAsList200Response
   ) => {
     if (data && data.count && data.count > 0) {
-      const unit = data.data?.[0];
-      setNewUnit({
-        code: unit?.code || "",
-        name: unit?.name || "",
-        description: unit?.description || "",
+      const brand = data.data?.[0];
+      setNewBrand({
+        code: brand?.code || "",
+        name: brand?.name || "",
+        description: brand?.description || "",
       });
       setDataEmpty(false);
       return;
@@ -44,18 +44,18 @@ export function EditUnit() {
 
     return setDataEmpty(true);
   };
-  const { isLoading, isError } = useGetUnitById(
-    unitId || "",
+  const { isLoading, isError } = useGetBrandById(
+    brandId || "",
     handleGetApiSuccess
   );
 
   const handleApiSuccess = () => {
-    showSuccess("Unit updated");
+    showSuccess("Brand updated");
     handleBack();
   };
-  const { mutate: editUnit } = useEditUnit(handleApiSuccess);
+  const { mutate: editBrand } = useEditBrand(handleApiSuccess);
   const handleUpdate = () => {
-    editUnit(newUnit);
+    editBrand(newBrand);
   };
 
   const displayLoading = (
@@ -74,25 +74,28 @@ export function EditUnit() {
   const form = (
     <div className="flex flex-col gap-2 mt-4">
       <InputText
-        placeholder="Unit Name"
-        value={newUnit.name}
-        onChange={(e: any) => setNewUnit({ ...newUnit, name: e.target.value })}
+        placeholder="Brand Name"
+        value={newBrand.name}
+        onChange={(e: any) =>
+          setNewBrand({ ...newBrand, name: e.target.value })
+        }
       />
       <InputText
-        placeholder="Unit Description"
-        value={newUnit.description}
+        placeholder="Brand Description"
+        value={newBrand.description}
         onChange={(e: any) =>
-          setNewUnit({ ...newUnit, description: e.target.value })
+          setNewBrand({ ...newBrand, description: e.target.value })
         }
       />
     </div>
   );
 
   return (
-    <div className="edit-unit">
-      <HeaderContent title="Edit Item" onBack={() => handleBack()}>
+    <div className="edit-brand">
+      <HeaderContent title="Edit Brand" onBack={() => handleBack()}>
         <Button label="Update" onClick={() => handleUpdate()} />
       </HeaderContent>
+
       <div className="p-7">
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
@@ -102,4 +105,4 @@ export function EditUnit() {
   );
 }
 
-export default EditUnit;
+export default EditBrand;
