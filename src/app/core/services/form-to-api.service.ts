@@ -5,12 +5,15 @@ import {
   CreatePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
+  EditPurchaseRequestDto,
 } from "@api/api";
 import {
   BidderFormSchema,
   ItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
+import { SETTINGS } from "@core/utility/settings";
+import { format } from "date-fns";
 
 export class FormToApiService {
   static NewBidder(form: BidderFormSchema) {
@@ -75,7 +78,9 @@ export class FormToApiService {
     );
     const payload = {
       sai_no: form.sai,
+      sai_date: format(form.saiDate as Date, SETTINGS.dateFormat),
       alobs_no: form.alobs,
+      alobs_date: format(form.alobsDate as Date, SETTINGS.dateFormat),
       category: form.category,
       department: "AGRI/VET", //ADMIN
       section: form.section,
@@ -84,6 +89,27 @@ export class FormToApiService {
       items: requestItemPayload,
       purpose: form.purpose,
     } as CreatePurchaseRequestDto;
+
+    return payload;
+  }
+
+  static EditPurchaseRequest(form: RequestFormSchema, id: string) {
+    const requestItemPayload = form.items.map((item) =>
+      this.NewRequestItem(item)
+    );
+    const payload = {
+      code: id,
+      pr_no: form.prno,
+      sai_no: form.sai,
+      alobs_no: form.alobs,
+      category: form.category,
+      department: "AGRI/VET", //ADMIN
+      section: form.section,
+      status: "",
+      is_urgent: false,
+      items: requestItemPayload,
+      purpose: form.purpose,
+    } as EditPurchaseRequestDto;
 
     return payload;
   }

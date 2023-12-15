@@ -78,14 +78,14 @@ export function useGetBrandById(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
-  const apiFn = async (search: string, limit = 1, offset = 0) => {
+  const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
     showProgress();
     const operation = await UtilsBrandApiFp().utilsBrandControllerGetDataAsList(
       search,
       limit,
       offset,
       undefined,
-      undefined,
+      JSON.stringify({ code: id }) as any,
       authHeaders()
     );
     const response = (await operation()).data;

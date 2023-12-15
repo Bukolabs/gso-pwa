@@ -17,6 +17,7 @@ import ListUnit from "@domain/item/unit/list-unit/list-unit";
 import EditUnit from "@domain/item/unit/edit-unit/edit-unit";
 import ListBrand from "@domain/item/brand/list-brand/list-brand";
 import EditBrand from "@domain/item/brand/edit-brand/edit-brand";
+import EditRequest from "@domain/purchase-request/edit-request/edit-request";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           {
             path: "new",
             element: <NewRequest />,
+          },
+          {
+            path: ":requestId",
+            element: <EditRequest />,
           },
         ],
       },

@@ -100,13 +100,11 @@ export function EditItem() {
           <FormUnitItemProvider>
             <FormCategoryItemProvider>
               <FormProvider {...formMethod}>
-                <FormProvider {...formMethod}>
-                  {isLoading && displayLoading}
-                  {(itemError || editError || dataEmpty) &&
-                    !isLoading &&
-                    displayError}
-                  {!isLoading && !dataEmpty && <FormItem />}
-                </FormProvider>
+                {isLoading && displayLoading}
+                {(itemError || editError || dataEmpty) &&
+                  !isLoading &&
+                  displayError}
+                {!isLoading && !dataEmpty && <FormItem />}
               </FormProvider>
             </FormCategoryItemProvider>
           </FormUnitItemProvider>

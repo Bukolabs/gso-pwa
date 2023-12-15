@@ -16,12 +16,14 @@ export const ItemFormRule = z.object({
 });
 
 export const RequestFormRule = z.object({
+  code: z.string().optional(),
+  prno: z.string().optional(),
   category: z.string(),
   section: z.string(),
   sai: z.string(),
-  saiDate: z.date().optional(),
+  saiDate: z.coerce.date().optional(),
   alobs: z.string(),
-  alobsDate: z.date().optional(),
+  alobsDate: z.coerce.date().optional(),
   purpose: z.string(),
   items: ItemFormRule.array(),
   urgent: z.boolean(),

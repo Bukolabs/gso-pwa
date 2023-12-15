@@ -1,3 +1,3 @@
 export const SETTINGS = {
-  dateFormat: "YYYY-MM-DD",
+  dateFormat: "yyyy-MM-dd",
 };

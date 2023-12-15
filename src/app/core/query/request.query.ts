@@ -52,8 +52,58 @@ export function useGetRequest(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Category, search, limit, offset, order, filter],
+    queryKey: [QueryKey.Request, search, limit, offset, order, filter],
     queryFn: () => apiFn(search, limit, offset, order, filter),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useGetRequestById(
+  id: string,
+  onSuccess?:
+    | ((
+        data: PurchaseRequestControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerGetDataAsList(
+        search,
+        limit,
+        offset,
+        undefined,
+        JSON.stringify({ code: id }) as any,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response[
+      "data"
+    ] as PurchaseRequestControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Request, id],
+    queryFn: () => apiFn(id),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
