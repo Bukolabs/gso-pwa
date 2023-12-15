@@ -1324,6 +1324,49 @@ export interface DeletePurchaseRequestDto {
 /**
  * 
  * @export
+ * @interface DeleteTransactionHistoryDto
+ */
+export interface DeleteTransactionHistoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteTransactionHistoryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface DeleteUtilsBrandDto
  */
 export interface DeleteUtilsBrandDto {
@@ -3178,6 +3221,73 @@ export interface GetPurchaseRequestDto {
 /**
  * 
  * @export
+ * @interface GetTransactionHistoryDto
+ */
+export interface GetTransactionHistoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'request_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'request_source': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'action'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'new_values'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'old_values'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ItemControllerGetDataAsList200Response
  */
 export interface ItemControllerGetDataAsList200Response {
@@ -3593,6 +3703,38 @@ export interface PurchaseRequestControllerGetDataAsList200ResponseAllOf {
      * @memberof PurchaseRequestControllerGetDataAsList200ResponseAllOf
      */
     'data'?: Array<GetPurchaseRequestDto>;
+}
+/**
+ * 
+ * @export
+ * @interface TransactionHistoryControllerGetDataAsList200Response
+ */
+export interface TransactionHistoryControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof TransactionHistoryControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetTransactionHistoryDto>}
+     * @memberof TransactionHistoryControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetTransactionHistoryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface TransactionHistoryControllerGetDataAsList200ResponseAllOf
+ */
+export interface TransactionHistoryControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetTransactionHistoryDto>}
+     * @memberof TransactionHistoryControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetTransactionHistoryDto>;
 }
 /**
  * 
@@ -5706,6 +5848,223 @@ export class PurchaseRequestItemApi extends BaseAPI {
      */
     public prItemControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PurchaseRequestItemApiFp(this.configuration).prItemControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * TransactionHistoryApi - axios parameter creator
+ * @export
+ */
+export const TransactionHistoryApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {DeleteTransactionHistoryDto} deleteTransactionHistoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        transactionHistoryControllerDelete: async (deleteTransactionHistoryDto: DeleteTransactionHistoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteTransactionHistoryDto' is not null or undefined
+            assertParamExists('transactionHistoryControllerDelete', 'deleteTransactionHistoryDto', deleteTransactionHistoryDto)
+            const localVarPath = `/api/v1/transaction-history/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteTransactionHistoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        transactionHistoryControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/transaction-history/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransactionHistoryApi - functional programming interface
+ * @export
+ */
+export const TransactionHistoryApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransactionHistoryApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {DeleteTransactionHistoryDto} deleteTransactionHistoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async transactionHistoryControllerDelete(deleteTransactionHistoryDto: DeleteTransactionHistoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.transactionHistoryControllerDelete(deleteTransactionHistoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async transactionHistoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TransactionHistoryControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.transactionHistoryControllerGetDataAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * TransactionHistoryApi - factory interface
+ * @export
+ */
+export const TransactionHistoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransactionHistoryApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {DeleteTransactionHistoryDto} deleteTransactionHistoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        transactionHistoryControllerDelete(deleteTransactionHistoryDto: DeleteTransactionHistoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.transactionHistoryControllerDelete(deleteTransactionHistoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        transactionHistoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<TransactionHistoryControllerGetDataAsList200Response> {
+            return localVarFp.transactionHistoryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransactionHistoryApi - object-oriented interface
+ * @export
+ * @class TransactionHistoryApi
+ * @extends {BaseAPI}
+ */
+export class TransactionHistoryApi extends BaseAPI {
+    /**
+     * 
+     * @param {DeleteTransactionHistoryDto} deleteTransactionHistoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionHistoryApi
+     */
+    public transactionHistoryControllerDelete(deleteTransactionHistoryDto: DeleteTransactionHistoryDto, options?: AxiosRequestConfig) {
+        return TransactionHistoryApiFp(this.configuration).transactionHistoryControllerDelete(deleteTransactionHistoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionHistoryApi
+     */
+    public transactionHistoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
+        return TransactionHistoryApiFp(this.configuration).transactionHistoryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

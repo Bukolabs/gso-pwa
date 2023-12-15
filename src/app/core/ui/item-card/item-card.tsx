@@ -58,10 +58,12 @@ export function ItemCard({
           <p className="text-gray-800 font-bold">{brand}</p>
           <p className="hint">Brand</p>
         </div>
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">{category}</p>
-          <p className="hint">Category</p>
-        </div>
+        {category && (
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-800 font-bold">{category}</p>
+            <p className="hint">Category</p>
+          </div>
+        )}
       </section>
     </div>
   );

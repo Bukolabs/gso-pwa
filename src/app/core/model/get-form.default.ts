@@ -5,46 +5,54 @@ import {
   ItemFormSchema,
   RequestFormSchema,
 } from "./form.rule";
+import { ApiToFormService } from "@core/services/api-to-form.service";
 
 export const getRequestFormDefault = (
-  value: GetPurchaseRequestDto | undefined
+  cachedValue: GetPurchaseRequestDto | undefined
 ) => {
-  return !value
+  const items = cachedValue?.items
+    ? ApiToFormService.GetRequestItems(cachedValue.items as unknown as string)
+    : [];
+
+  return !cachedValue
     ? requestFormDefault
     : ({
-        category: value.category,
-        section: value.section,
-        sai: value.sai_no,
-        alobs: value.alobs_no,
-        purpose: value.purpose,
-        items: value.items as unknown as ItemFormSchema[],
-        urgent: value.is_urgent,
+        prno: cachedValue.pr_no,
+        category: cachedValue.category,
+        section: cachedValue.section,
+        sai: cachedValue.sai_no,
+        saiDate: cachedValue.sai_date,
+        alobs: cachedValue.alobs_no,
+        alobsDate: cachedValue.alobs_date,
+        purpose: cachedValue.purpose,
+        items: items,
+        urgent: cachedValue.is_urgent,
       } as RequestFormSchema);
 };
 
-export const getBidderFormDefault = (value: GetBidderDto | undefined) => {
-  return !value
+export const getBidderFormDefault = (cachedValue: GetBidderDto | undefined) => {
+  return !cachedValue
     ? bidderFormDefault
     : ({
         country: "Philippines",
-        name: value.name,
-        email: value.email,
-        mobile: value.mobile,
-        streetName: value.street_name,
-        barangay: value.barangay,
-        city: value.municipality,
+        name: cachedValue.name,
+        email: cachedValue.email,
+        mobile: cachedValue.mobile,
+        streetName: cachedValue.street_name,
+        barangay: cachedValue.barangay,
+        city: cachedValue.municipality,
       } as BidderFormSchema);
 };
 
-export const getItemFormDefault = (value: GetItemDto | undefined) => {
-  return !value
+export const getItemFormDefault = (cachedValue: GetItemDto | undefined) => {
+  return !cachedValue
     ? bidderFormDefault
     : ({
-        name: value.name,
-        brand: value.brand,
-        category: value.category,
-        description: value.description,
-        cost: value.price || 0,
-        unit: value.unit,
+        name: cachedValue.name,
+        brand: cachedValue.brand,
+        category: cachedValue.category,
+        description: cachedValue.description,
+        cost: cachedValue.price || 0,
+        unit: cachedValue.unit,
       } as ItemFormSchema);
 };

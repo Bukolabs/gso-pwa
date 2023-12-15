@@ -16,6 +16,8 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import FormRequest from "../form-request/form-request";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
+import ItemCard from "@core/ui/item-card/item-card";
+import { ApiToFormService } from "@core/services/api-to-form.service";
 
 export function EditRequest() {
   const { showSuccess, showError } = useNotificationContext();
@@ -27,19 +29,31 @@ export function EditRequest() {
     data: PurchaseRequestControllerGetDataAsList200Response
   ) => {
     if (data && data.count && data.count > 0) {
-      const item = data.data?.[0];
-      setValue("prno", item?.pr_no);
-      setValue("category", item?.category || "");
-      setValue("section", item?.section || "");
-      setValue("sai", item?.sai_no || "");
-      setValue("saiDate", item?.sai_date ? (item?.sai_date as any) : undefined);
-      setValue("alobs", item?.alobs_no || "");
+      const responseData = data.data?.[0];
+      setValue("prno", responseData?.pr_no);
+      setValue("category", responseData?.category || "");
+      setValue("section", responseData?.section || "");
+      setValue("sai", responseData?.sai_no || "");
+      setValue(
+        "saiDate",
+        responseData?.sai_date ? (responseData?.sai_date as any) : undefined
+      );
+      setValue("alobs", responseData?.alobs_no || "");
       setValue(
         "alobsDate",
-        item?.alobs_date ? new Date(item?.alobs_date) : undefined
+        responseData?.alobs_date
+          ? new Date(responseData?.alobs_date)
+          : undefined
       );
-      setValue("purpose", item?.purpose || "");
+      setValue("purpose", responseData?.purpose || "");
 
+      const items = responseData?.items
+        ? ApiToFormService.GetRequestItems(
+            responseData.items as unknown as string
+          )
+        : [];
+      setValue("items", items);
+      setValue("urgent", responseData?.is_urgent || false);
       setDataEmpty(false);
       return;
     }
@@ -63,7 +77,8 @@ export function EditRequest() {
     defaultValues: getRequestFormDefault(item?.data?.[0]),
     resolver: zodResolver(ItemFormRule),
   });
-  const { handleSubmit, setValue } = formMethod;
+  const { handleSubmit, setValue, getValues } = formMethod;
+  const requestItems = getValues("items");
 
   const handleBack = () => {
     navigate("../");
@@ -98,25 +113,27 @@ export function EditRequest() {
       <AccordionTab header="Details">
         <FormRequest />
 
-        {/* <div className="mt-2 md:px-6">
-          <h4 className="mb-2">Added Request Items:</h4>
+        {requestItems && requestItems.length > 0 && (
+          <div className="mt-2 md:px-6">
+            <h4 className="mb-2">Added Request Items:</h4>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-            {requestItems.map((item, id) => (
-              <ItemCard
-                key={item.code || id}
-                name={item.name}
-                description={item.description}
-                cost={item.cost}
-                quantity={item.quantity || 11}
-                totalCost={item.cost * (item.quantity || 1)}
-                brand={item.brandName || ""}
-                category={item.categoryName || ""}
-                unit={item.unitName || ""}
-              />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
+              {requestItems.map((item, id) => (
+                <ItemCard
+                  key={item.code || id}
+                  name={item.name}
+                  description={item.description}
+                  cost={item.cost}
+                  quantity={item.quantity || 11}
+                  totalCost={item.cost * (item.quantity || 1)}
+                  brand={item.brandName || ""}
+                  category={item.categoryName || ""}
+                  unit={item.unitName || ""}
+                />
+              ))}
+            </div>
           </div>
-        </div> */}
+        )}
       </AccordionTab>
       <AccordionTab header="Add Item">{/* <AddItem /> */}</AccordionTab>
     </Accordion>
