@@ -593,6 +593,12 @@ export interface CreatePrItemDto {
      * @type {string}
      * @memberof CreatePrItemDto
      */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrItemDto
+     */
     'unit': string;
     /**
      * 
@@ -2099,6 +2105,12 @@ export interface EditPrItemDto {
      * @type {string}
      * @memberof EditPrItemDto
      */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPrItemDto
+     */
     'unit': string;
     /**
      * 
@@ -2849,6 +2861,18 @@ export interface GetPrItemDto {
      * @type {string}
      * @memberof GetPrItemDto
      */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPrItemDto
+     */
+    'category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPrItemDto
+     */
     'unit': string;
     /**
      * 
@@ -3334,7 +3358,7 @@ export interface ListDataDto {
      * @type {Any}
      * @memberof ListDataDto
      */
-    'label': any;
+    'label': string;
 }
 /**
  * 

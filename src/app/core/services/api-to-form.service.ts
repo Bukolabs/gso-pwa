@@ -11,8 +11,8 @@ export class ApiToFormService {
         description: x.description,
         unit: x.unit,
         unitName: x.unit_name,
-        category: "", // TODO add as soon as field is available
-        categoryName: "", // TODO add as soon as field is available
+        category: x.category, // TODO add as soon as field is available
+        categoryName: x.category_name, // TODO add as soon as field is available
         brand: x.brand,
         brandName: x.brand_name,
         cost: x.price,

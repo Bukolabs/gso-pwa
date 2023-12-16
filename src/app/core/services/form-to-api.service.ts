@@ -118,9 +118,10 @@ export class FormToApiService {
     const payload = {
       item: form.name,
       description: form.description,
-      unit: form.unit,
       quantity: form.quantity,
+      unit: form.unit,
       brand: form.brand,
+      category: form.category,
       price: form.cost,
       is_active: true,
       code: form.code,

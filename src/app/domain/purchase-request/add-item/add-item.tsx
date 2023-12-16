@@ -20,20 +20,28 @@ import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/bra
 import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { useState } from "react";
-import { useAddItem, useGetItem } from "@core/query/item.query";
+import { useAddItem, useEditItem, useGetItem } from "@core/query/item.query";
 import { AutoCompleteCompleteEvent } from "primereact/autocomplete";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { MessageResponseDto } from "@api/api";
 
-export function AddItem() {
+export interface AddItemProps {
+  defaultItem?: ItemFormSchema;
+  closeSidebar: () => void
+}
+
+export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
   const { getValues: getRequestItemValues, setValue } =
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const [enabledGetItem, setEnabledGetItem] = useState(false);
+  const [enabledGetItem, setEnabledGetItem] = useState(
+    defaultItem ? true : false
+  );
   const limit = 99;
   const page = 0;
+  const isEditing = !!defaultItem;
 
   // GET ITEM
   const [suggestions, setSuggestions] = useState<LabelValue[]>([]);
@@ -73,8 +81,17 @@ export function AddItem() {
   };
   const { mutate: addItem } = useAddItem(handleAddApiSuccess);
 
+  // EDIT ITEM
+  const handleApiSuccess = () => {
+    showSuccess("Item updated");
+    addToNewRequest();
+  };
+  const { mutate: editItem } = useEditItem(handleApiSuccess);
+
+  // FORM
+  const defaultValues = defaultItem || itemFormDefault;
   const formMethod = useForm<ItemFormSchema>({
-    defaultValues: itemFormDefault,
+    defaultValues,
     resolver: zodResolver(ItemFormRule),
   });
   const { handleSubmit, getValues: getItemFormValues, reset } = formMethod;
@@ -82,8 +99,11 @@ export function AddItem() {
     const itemNameExist =
       (itemList?.data || []).filter((x) => x.name === form.name).length > 0;
 
-    if (itemNameExist && !!form.code) {
-      addToNewRequest(form.code, form.quantity);
+    if (isEditing) {
+      const formData = FormToApiService.EditItem(form, form.code || "");
+      editItem(formData);
+    } else if (itemNameExist && !!form.code) {
+      addToNewRequest();
     } else {
       const formData = FormToApiService.NewItem(form);
       addItem(formData);
@@ -93,58 +113,63 @@ export function AddItem() {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
-  const addToNewRequest = (newCode: string, quantity: number = 0) => {
+  const addToNewRequest = (newCode = "") => {
     const requestFormItemValues = getRequestItemValues("items");
     const itemForm = getItemFormValues();
+    const updatedItemForm = newCode
+      ? {
+          ...itemForm,
+          code: newCode,
+        }
+      : itemForm;
     const codeExistInRequestFormItemValues =
-      requestFormItemValues.filter((x) => x.code === newCode).length > 0;
+      requestFormItemValues.filter((x) => x.code === updatedItemForm.code)
+        .length > 0;
     let allItems = requestFormItemValues;
 
     if (codeExistInRequestFormItemValues) {
       allItems = requestFormItemValues.map((item) => {
-        if (item.code === newCode) {
-          return {
-            ...item,
-            quantity: (item?.quantity || 0) + quantity,
-          };
+        if (item.code === updatedItemForm.code) {
+          return updatedItemForm;
         }
-
         return item;
       });
     } else {
-      allItems = [...requestFormItemValues, { ...itemForm, code: newCode }];
+      allItems = [
+        ...requestFormItemValues,
+        { ...itemForm, code: updatedItemForm.code },
+      ];
     }
 
     setValue("items", allItems);
     showSuccess(`${itemForm.name} is added to Purchase Request items`);
-    reset();
+    reset(itemFormDefault);
+    closeSidebar();
   };
 
   return (
     <div className="new-item">
-      <div className="p-7">
-        <FormBrandItemProvider>
-          <FormUnitItemProvider>
-            <FormCategoryItemProvider>
+      <FormBrandItemProvider>
+        <FormUnitItemProvider>
+          <FormCategoryItemProvider>
+            <FormProvider {...formMethod}>
+              <FormItem
+                suggestions={suggestions}
+                itemList={itemList?.data}
+                onSearch={handleItemSearch}
+              />
+
               <div className="flex justify-end">
                 <Button
-                  label="Add"
+                  label={isEditing ? "Update" : "Add"}
                   onClick={handleSubmit(handleValidate, handleValidateError)}
                   outlined
                 />
               </div>
-
-              <FormProvider {...formMethod}>
-                <FormItem
-                  suggestions={suggestions}
-                  itemList={itemList?.data}
-                  onSearch={handleItemSearch}
-                />
-              </FormProvider>
-            </FormCategoryItemProvider>
-          </FormUnitItemProvider>
-        </FormBrandItemProvider>
-      </div>
+            </FormProvider>
+          </FormCategoryItemProvider>
+        </FormUnitItemProvider>
+      </FormBrandItemProvider>
     </div>
   );
 }

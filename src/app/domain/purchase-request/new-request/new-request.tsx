@@ -1,26 +1,35 @@
+import "./new-request";
 import { Button } from "primereact/button";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import "./new-request";
 import useScreenSize from "@core/utility/screen-size";
 import { useNavigate } from "react-router-dom";
 import { requestFormDefault } from "@core/model/form.default";
-import { RequestFormRule, RequestFormSchema } from "@core/model/form.rule";
+import {
+  ItemFormSchema,
+  RequestFormRule,
+  RequestFormSchema,
+} from "@core/model/form.rule";
 import FormRequest from "../form-request/form-request";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useAddRequest } from "@core/query/request.query";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import AddItem from "../add-item/add-item";
-import { Card } from "primereact/card";
 import ItemCard from "@core/ui/item-card/item-card";
+import { TabPanel, TabView } from "primereact/tabview";
+import { useState } from "react";
+import { Sidebar } from "primereact/sidebar";
 
 export function NewRequest() {
   const { isMobile } = useScreenSize();
   const navigate = useNavigate();
   const { showError, showSuccess } = useNotificationContext();
+  const [visible, setVisible] = useState(false);
+  const [editPrItem, setEditPrItem] = useState<ItemFormSchema | undefined>(
+    undefined
+  );
 
   const handleBack = () => {
     navigate("../");
@@ -47,6 +56,11 @@ export function NewRequest() {
     showError(formMessage);
   };
 
+  const handleEdit = (item: ItemFormSchema) => {
+    setVisible(true);
+    setEditPrItem(item);
+  };
+
   return (
     <div className="new-request">
       <HeaderContent title="New Request" onBack={() => navigate("../")}>
@@ -60,34 +74,47 @@ export function NewRequest() {
 
       <div className="p-7">
         <FormProvider {...formMethod}>
-          <Accordion activeIndex={0} className="block mt-4 mb-16">
-            <AccordionTab header="Details">
+          <TabView className="mb-10">
+            <TabPanel header="Information">
               <FormRequest />
+            </TabPanel>
+            <TabPanel header="Request Items">
+              <Sidebar
+                visible={visible}
+                onHide={() => setVisible(false)}
+                className="w-full md:w-2/5"
+              >
+                <div className="px-7">
+                  <h2>Add an item to current purchase request</h2>
+                  <AddItem
+                    defaultItem={editPrItem}
+                    closeSidebar={() => setVisible(false)}
+                  />
+                </div>
+              </Sidebar>
+              <Button
+                icon="pi pi-plus"
+                label="Add Item"
+                className="block mb-4"
+                onClick={() => {
+                  setVisible(true);
+                  setEditPrItem(undefined);
+                }}
+              />
 
               <div className="mt-2 md:px-6">
-                <h4 className="mb-2">Added Request Items:</h4>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
                   {requestItems.map((item, id) => (
                     <ItemCard
                       key={item.code || id}
-                      name={item.name}
-                      description={item.description}
-                      cost={item.cost}
-                      quantity={item.quantity || 11}
-                      totalCost={item.cost * (item.quantity || 1)}
-                      brand={item.brandName || ""}
-                      category={item.categoryName || ""}
-                      unit={item.unitName || ""}
+                      item={item}
+                      onEdit={handleEdit}
                     />
                   ))}
                 </div>
               </div>
-            </AccordionTab>
-            <AccordionTab header="Add Item">
-              <AddItem />
-            </AccordionTab>
-          </Accordion>
+            </TabPanel>
+          </TabView>
         </FormProvider>
       </div>
     </div>

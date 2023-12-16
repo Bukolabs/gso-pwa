@@ -56,11 +56,6 @@ export function InputDateControl<FieldsType extends FieldValues>({
       control={control}
       rules={rules}
       render={({ field, fieldState }) => {
-        const dateValue = new Date(field.value);
-        const dateFormat = `${dateValue.getFullYear()}-${
-          dateValue.getMonth() + 1
-        }-${("0" + dateValue.getDate()).slice(-2)}`;
-
         return (
           <div className={classNames("field mt-5", containerClassName)}>
             <span
@@ -73,7 +68,7 @@ export function InputDateControl<FieldsType extends FieldValues>({
               <InputText
                 type="date"
                 id={field.name}
-                value={dateFormat}
+                value={field.value}
                 placeholder={placeholder}
                 className={classNames(
                   { "p-invalid": fieldState.error },
