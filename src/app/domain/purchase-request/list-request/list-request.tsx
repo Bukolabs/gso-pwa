@@ -13,6 +13,15 @@ import { GetPurchaseRequestDto } from "@api/api";
 import { Sidebar } from "primereact/sidebar";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import {
+  currencyTemplate,
+  dateTemplate,
+  numberTemplate,
+  tagTemplate,
+} from "@core/utility/data-table-template";
+import { sumBy } from "lodash-es";
+import { ApiToFormService } from "@core/services/api-to-form.service";
+import { ItemFormSchema } from "@core/model/form.rule";
 
 export function ListRequest() {
   const navigate = useNavigate();
@@ -71,6 +80,14 @@ export function ListRequest() {
       </Sidebar>
     </div>
   );
+  const totalAmountColumn = (data: GetPurchaseRequestDto) => {
+    const total = sumBy(data?.items || [], (x) => x.price * (x.quantity || 0));
+    return currencyTemplate(total);
+  };
+  const totalItemsColumn = (data: GetPurchaseRequestDto) => {
+    const total = sumBy(data?.items || [], (x) => x.quantity || 0);
+    return numberTemplate(total);
+  };
   const grid = (
     <DataTable
       value={purchaseRequests?.data}
@@ -79,8 +96,17 @@ export function ListRequest() {
       onSelectionChange={(e) => editRecord(e.value)}
     >
       <Column field="pr_no" header="PR #"></Column>
-      <Column field="status_name" header="Status"></Column>
       <Column field="department" header="Department"></Column>
+      <Column header="Total Quantity" body={totalItemsColumn}></Column>
+      <Column header="Total Amount" body={totalAmountColumn}></Column>
+      <Column
+        header="Due Date"
+        body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
+      ></Column>
+      <Column
+        header="Status"
+        body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}
+      ></Column>
     </DataTable>
   );
   const cards = (

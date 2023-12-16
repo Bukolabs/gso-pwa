@@ -11,7 +11,7 @@ export const getRequestFormDefault = (
   cachedValue: GetPurchaseRequestDto | undefined
 ) => {
   const items = cachedValue?.items
-    ? ApiToFormService.GetRequestItems(cachedValue.items as unknown as string)
+    ? ApiToFormService.MapRequestItems(cachedValue.items as unknown as string)
     : [];
 
   return !cachedValue

@@ -77,6 +77,7 @@ export class FormToApiService {
       this.NewRequestItem(item)
     );
     const payload = {
+      pr_date: format(form.dueDate as Date, SETTINGS.dateFormat),
       sai_no: form.sai,
       sai_date: format(form.saiDate as Date, SETTINGS.dateFormat),
       alobs_no: form.alobs,
@@ -116,7 +117,7 @@ export class FormToApiService {
 
   static NewRequestItem(form: ItemFormSchema) {
     const payload = {
-      item: form.name,
+      item: form.code,
       description: form.description,
       quantity: form.quantity,
       unit: form.unit,

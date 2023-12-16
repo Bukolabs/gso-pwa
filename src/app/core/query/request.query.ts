@@ -1,6 +1,7 @@
 import {
   CreatePurchaseRequestDto,
   EditPurchaseRequestDto,
+  GetPrItemDto,
   MessageResponseDto,
   PurchaseRequestApiFp,
   PurchaseRequestControllerGetDataAsList200Response,
@@ -11,6 +12,7 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { ApiToFormService } from "@core/services/api-to-form.service";
 
 export function useGetRequest(
   search: string,
@@ -70,6 +72,21 @@ export function useGetRequest(
     },
     onSettled() {
       hideProgress();
+    },
+    select(data) {
+      const parseData = data.data?.map((pr) => {
+        const objectifiedItems = !pr.items
+          ? []
+          : (JSON.parse(pr.items as unknown as string) as GetPrItemDto[]);
+        const items = pr.items ? objectifiedItems : [];
+
+        return {
+          ...pr,
+          items,
+        };
+      });
+
+      return { ...data, data: parseData };
     },
   });
 }

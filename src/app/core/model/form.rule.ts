@@ -28,6 +28,7 @@ export const ItemFormRule = z
 export const RequestFormRule = z.object({
   code: z.string().optional(),
   prno: z.string().optional(),
+  dueDate: z.coerce.date(),
   category: z.string(),
   section: z.string(),
   sai: z.string(),

@@ -7,11 +7,12 @@ import {
 
 export const requestFormDefault = {
   category: "",
+  dueDate: "" as any,
   section: "",
   sai: "",
-  saiDate: '' as any,
+  saiDate: "" as any,
   alobs: "",
-  alobsDate: '' as any,
+  alobsDate: "" as any,
   purpose: "",
   items: [],
   active: true,

@@ -21,6 +21,14 @@ export function FormRequest() {
           disabled={true}
         />
       )}
+      <InputDateControl<RequestFormSchema>
+        control={control}
+        name="dueDate"
+        label="Due Date"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        hint="e.g. 30/12/2023"
+      />
       <InputControl<RequestFormSchema>
         control={control}
         name="category"
@@ -54,7 +62,7 @@ export function FormRequest() {
         label="SAI Date"
         className="w-full md:w-3/4"
         containerClassName="pb-2"
-        hint="e.g. 2023/12/05"
+        hint="e.g. 30/12/2023"
       />
       <InputControl<RequestFormSchema>
         control={control}
@@ -71,7 +79,7 @@ export function FormRequest() {
         label="ALOBS Date"
         className="w-full md:w-3/4"
         containerClassName="pb-2"
-        hint="e.g. 2023/12/05"
+        hint="e.g. 30/12/2023"
       />
       <InputTextareaControl<RequestFormSchema>
         control={control}

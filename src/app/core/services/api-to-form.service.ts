@@ -2,12 +2,12 @@ import { GetPrItemDto } from "@api/api";
 import { ItemFormSchema } from "@core/model/form.rule";
 
 export class ApiToFormService {
-  static GetRequestItems(item: string) {
+  static MapRequestItems(item: string): ItemFormSchema[] {
     const objectifiedItems = JSON.parse(item);
     const mappedItem = objectifiedItems.map((x: GetPrItemDto) => {
       return {
-        code: x.code,
-        name: x.item,
+        code: x.item,
+        name: x.item_name,
         description: x.description,
         unit: x.unit,
         unitName: x.unit_name,

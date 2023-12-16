@@ -43,6 +43,15 @@ export function EditRequest() {
     if (data && data.count && data.count > 0) {
       const responseData = data.data?.[0];
       setValue("prno", responseData?.pr_no);
+      setValue(
+        "dueDate",
+        responseData?.pr_date
+          ? (format(
+              new Date(responseData?.pr_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined
+      );
       setValue("category", responseData?.category || "");
       setValue("section", responseData?.section || "");
       setValue("sai", responseData?.sai_no || "");
@@ -68,7 +77,7 @@ export function EditRequest() {
       setValue("purpose", responseData?.purpose || "");
 
       const items = responseData?.items
-        ? ApiToFormService.GetRequestItems(
+        ? ApiToFormService.MapRequestItems(
             responseData.items as unknown as string
           )
         : [];
