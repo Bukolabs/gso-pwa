@@ -44,8 +44,8 @@ export function NewRequest() {
     defaultValues: requestFormDefault,
     resolver: zodResolver(RequestFormRule),
   });
-  const { handleSubmit, getValues } = formMethod;
-  const requestItems = getValues("items");
+  const { handleSubmit, setValue, watch } = formMethod;
+  const requestItems = watch("items");
 
   const handleValidate = (form: RequestFormSchema) => {
     const formData = FormToApiService.NewPurchaseRequest(form);
@@ -59,6 +59,10 @@ export function NewRequest() {
   const handleEdit = (item: ItemFormSchema) => {
     setVisible(true);
     setEditPrItem(item);
+  };
+  const handleRemove = (item: ItemFormSchema) => {
+    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
+    setValue("items", unmatchedCode);
   };
 
   return (
@@ -109,6 +113,7 @@ export function NewRequest() {
                       key={item.code || id}
                       item={item}
                       onEdit={handleEdit}
+                      onRemove={handleRemove}
                     />
                   ))}
                 </div>

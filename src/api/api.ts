@@ -3241,6 +3241,12 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'items'?: Array<GetPrItemDto>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'stage_name'?: string;
 }
 /**
  * 
@@ -3358,7 +3364,7 @@ export interface ListDataDto {
      * @type {Any}
      * @memberof ListDataDto
      */
-    'label': string;
+    'label': any;
 }
 /**
  * 

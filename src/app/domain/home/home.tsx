@@ -37,10 +37,14 @@ function Home() {
           <small>Purchase Request Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
-          <HomeCard stage={1} requests={20} status="Submitted" />
-          <HomeCard prReviews={sampleReview} stage={1} status="Review" />
-          <HomeCard stage={1} requests={17} status="Approved" />
-          <HomeCard stage={1} requests={6} status="Declined" />
+          <HomeCard stage={"STAGE_1"} requests={20} status="Submitted" />
+          <HomeCard
+            prReviews={sampleReview}
+            stage={"STAGE_1"}
+            status="Review"
+          />
+          <HomeCard stage={"STAGE_1"} requests={17} status="Approved" />
+          <HomeCard stage={"STAGE_1"} requests={6} status="Declined" />
         </div>
 
         <section className="mb-2">
@@ -48,10 +52,10 @@ function Home() {
           <small>Purchase Request Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
-          <HomeCard stage={2} requests={22} status="Categorized" />
-          <HomeCard stage={2} requests={12} status="Posted" />
-          <HomeCard stage={2} requests={44} status="Bidding" />
-          <HomeCard stage={2} requests={67} status="Awarded" />
+          <HomeCard stage={"STAGE_2"} requests={22} status="Categorized" />
+          <HomeCard stage={"STAGE_2"} requests={12} status="Posted" />
+          <HomeCard stage={"STAGE_2"} requests={44} status="Bidding" />
+          <HomeCard stage={"STAGE_2"} requests={67} status="Awarded" />
         </div>
 
         <section className="mb-2">
@@ -60,13 +64,23 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
           <HomeCard
-            stage={3}
+            stage={"STAGE_3"}
             prReviews={sampleReview}
             poReviews={sampleOrder}
             status="PO Review"
           />
-          <HomeCard stage={3} requests={222} orders={78} status="PO Approved" />
-          <HomeCard stage={3} requests={121} orders={67} status="PO Declined" />
+          <HomeCard
+            stage={"STAGE_3"}
+            requests={222}
+            orders={78}
+            status="PO Approved"
+          />
+          <HomeCard
+            stage={"STAGE_3"}
+            requests={121}
+            orders={67}
+            status="PO Declined"
+          />
         </div>
 
         <section className="mb-2">
@@ -75,31 +89,31 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
           <HomeCard
-            stage={4}
+            stage={"STAGE_4"}
             requests={1565}
             orders={500}
             status="Inspection"
           />
           <HomeCard
-            stage={4}
+            stage={"STAGE_4"}
             requests={1565}
             orders={500}
             status="Partial"
           />
           <HomeCard
-            stage={4}
+            stage={"STAGE_4"}
             requests={1565}
             orders={500}
             status="Fulfilled"
           />
           <HomeCard
-            stage={4}
+            stage={"STAGE_4"}
             requests={1565}
             orders={500}
             status="Unfulfilled"
           />
           <HomeCard
-            stage={4}
+            stage={"STAGE_4"}
             requests={1565}
             orders={500}
             status="Late"

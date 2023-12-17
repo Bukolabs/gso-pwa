@@ -6,7 +6,7 @@ import { getStatusStyle } from "@core/utility/get-status-style";
 import { LabelValue } from "@shared/models/label-value.interface";
 
 export interface HomeCardProps {
-  stage: number;
+  stage: string;
   status: string;
   orders?: number;
   requests?: number;

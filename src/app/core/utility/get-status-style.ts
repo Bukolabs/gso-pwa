@@ -1,12 +1,12 @@
-export const getStatusStyle = (stage: number) => {
+export const getStatusStyle = (stage: string) => {
   switch (stage) {
-    case 1:
+    case "STAGE_1":
       return "bg-blue-200 text-blue-500";
-    case 2:
+    case "STAGE_2":
       return "bg-orange-200 text-orange-500";
-    case 3:
+    case "STAGE_3":
       return "bg-violet-200 text-violet-500";
-    case 4:
+    case "STAGE_4":
       return "bg-lime-200 text-lime-500";
 
     default:

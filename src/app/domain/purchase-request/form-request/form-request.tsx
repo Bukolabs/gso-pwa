@@ -6,21 +6,10 @@ import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/in
 import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date-control";
 
 export function FormRequest() {
-  const { control, getValues } = useFormContext<RequestFormSchema>();
-
-  const prno = getValues("prno");
+  const { control } = useFormContext<RequestFormSchema>();
 
   return (
     <div className="form-request py-2 md:bg-white md:px-6">
-      {prno && (
-        <InputControl<RequestFormSchema>
-          control={control}
-          name="prno"
-          label="PR Number"
-          className="w-full md:w-3/4 mb-4"
-          disabled={true}
-        />
-      )}
       <InputDateControl<RequestFormSchema>
         control={control}
         name="dueDate"

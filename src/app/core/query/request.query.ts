@@ -12,7 +12,6 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
-import { ApiToFormService } from "@core/services/api-to-form.service";
 
 export function useGetRequest(
   search: string,

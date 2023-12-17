@@ -28,7 +28,7 @@ import { MessageResponseDto } from "@api/api";
 
 export interface AddItemProps {
   defaultItem?: ItemFormSchema;
-  closeSidebar: () => void
+  closeSidebar: () => void;
 }
 
 export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
@@ -36,9 +36,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const [enabledGetItem, setEnabledGetItem] = useState(
-    defaultItem ? true : false
-  );
+  const [enabledGetItem, setEnabledGetItem] = useState(false);
   const limit = 99;
   const page = 0;
   const isEditing = !!defaultItem;
@@ -62,6 +60,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
             } as LabelValue)
         )
         .filter((x) => !!x.label);
+
       setSuggestions(mappedSuggestions);
     }
   );
@@ -156,6 +155,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
               <FormItem
                 suggestions={suggestions}
                 itemList={itemList?.data}
+                showSearch={!isEditing}
                 onSearch={handleItemSearch}
               />
 

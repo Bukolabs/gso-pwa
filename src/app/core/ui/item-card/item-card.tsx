@@ -6,9 +6,10 @@ import { ItemFormSchema } from "@core/model/form.rule";
 export interface ItemCardProps {
   item: ItemFormSchema;
   onEdit: (code: ItemFormSchema) => void;
+  onRemove: (code: ItemFormSchema) => void;
 }
 
-export function ItemCard({ item, onEdit }: ItemCardProps) {
+export function ItemCard({ item, onEdit, onRemove }: ItemCardProps) {
   const totalCost = item.cost * (item.quantity || 1);
   return (
     <div
@@ -52,12 +53,18 @@ export function ItemCard({ item, onEdit }: ItemCardProps) {
           </div>
         )}
       </section>
-      <section className="bg-gray-800">
+      <section className="bg-gray-800 flex justify-between">
         <Button
           text
           icon="pi pi-pencil"
-          label="Edit Item"
+          label="Edit"
           onClick={() => onEdit(item)}
+        ></Button>
+        <Button
+          text
+          icon="pi pi-trash"
+          label="Remove"
+          onClick={() => onRemove(item)}
         ></Button>
       </section>
     </div>

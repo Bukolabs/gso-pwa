@@ -18,10 +18,16 @@ import { GetItemDto } from "@api/api";
 export interface FormItemProps {
   suggestions?: LabelValue[];
   itemList?: GetItemDto[];
+  showSearch?: boolean;
   onSearch?: (value: AutoCompleteCompleteEvent) => void;
 }
 
-export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
+export function FormItem({
+  suggestions,
+  itemList,
+  showSearch = false,
+  onSearch,
+}: FormItemProps) {
   const { control, setValue } = useFormContext<ItemFormSchema>();
 
   const handleAutocompleteSelect = (event: AutoCompleteProps) => {
@@ -49,12 +55,14 @@ export function FormItem({ suggestions, itemList, onSearch }: FormItemProps) {
   return (
     <div className="form-item">
       <div className="form-request py-2 md:bg-white md:px-6 mb-8">
-        {onSearch && suggestions ? (
+        <pre>Suggestions: {suggestions?.length}</pre>
+        <pre>onSearch: {!!onSearch}</pre>
+        {onSearch && showSearch ? (
           <AutocompleteControl<ItemFormSchema>
             control={control}
-            suggestions={suggestions}
+            suggestions={suggestions || []}
             name="name"
-            label="Name (Required)"
+            label="Search Name (Required)"
             containerClassName="mb-9"
             className="w-full md:w-3/4"
             placeholder="Enter the item name"

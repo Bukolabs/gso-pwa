@@ -6,6 +6,8 @@ import {
   RequestFormSchema,
 } from "./form.rule";
 import { ApiToFormService } from "@core/services/api-to-form.service";
+import { format } from "date-fns";
+import { SETTINGS } from "@core/utility/settings";
 
 export const getRequestFormDefault = (
   cachedValue: GetPurchaseRequestDto | undefined
@@ -18,12 +20,25 @@ export const getRequestFormDefault = (
     ? requestFormDefault
     : ({
         prno: cachedValue.pr_no,
+        dueDate: cachedValue?.pr_date
+          ? (format(new Date(cachedValue?.pr_date), SETTINGS.dateFormat) as any)
+          : undefined,
         category: cachedValue.category,
         section: cachedValue.section,
         sai: cachedValue.sai_no,
-        saiDate: cachedValue.sai_date,
+        saiDate: cachedValue?.sai_date
+          ? (format(
+              new Date(cachedValue?.sai_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined,
         alobs: cachedValue.alobs_no,
-        alobsDate: cachedValue.alobs_date,
+        alobsDate: cachedValue?.alobs_date
+          ? (format(
+              new Date(cachedValue?.alobs_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined,
         purpose: cachedValue.purpose,
         items: items,
         urgent: cachedValue.is_urgent,

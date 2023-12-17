@@ -26,6 +26,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { Sidebar } from "primereact/sidebar";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
+import { tagTemplate } from "@core/utility/data-table-template";
 
 export function EditRequest() {
   const { showSuccess, showError } = useNotificationContext();
@@ -33,10 +34,11 @@ export function EditRequest() {
   const [dataEmpty, setDataEmpty] = useState(false);
   const { requestId } = useParams();
   const [visible, setVisible] = useState(false);
-  const [defaultAddItem, setDefaultAddItem] = useState<
+  const [defaultPrItem, setDefaultPrItem] = useState<
     ItemFormSchema | undefined
   >(undefined);
 
+  // UNCACHED, API VALUES
   const handleGetApiSuccess = (
     data: PurchaseRequestControllerGetDataAsList200Response
   ) => {
@@ -104,11 +106,12 @@ export function EditRequest() {
     useEditRequest(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
+    // CACHED / DEFAULT VALUES
     defaultValues: getRequestFormDefault(requests?.data?.[0]),
     resolver: zodResolver(RequestFormRule),
   });
-  const { handleSubmit, setValue, getValues } = formMethod;
-  const requestItems = getValues("items");
+  const { handleSubmit, setValue, watch } = formMethod;
+  const requestItems = watch("items");
 
   const handleBack = () => {
     navigate("../");
@@ -125,9 +128,17 @@ export function EditRequest() {
     showError(formMessage);
   };
 
+  const handleAddAnItem = () => {
+    setVisible(true);
+    setDefaultPrItem(undefined);
+  }
   const handleEdit = (item: ItemFormSchema) => {
     setVisible(true);
-    setDefaultAddItem(item);
+    setDefaultPrItem(item);
+  };
+  const handleRemove = (item: ItemFormSchema) => {
+    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
+    setValue("items", unmatchedCode);
   };
 
   const displayLoading = (
@@ -143,39 +154,57 @@ export function EditRequest() {
       />
     </div>
   );
+  const subHeader = () => {
+    const data = requests?.data?.[0];
+    const tag = tagTemplate(data?.status_name || "none", data?.stage_name);
+    return (
+      <section className="mb-5">
+        <h2>PR#: {data?.pr_no}</h2>
+        {tag}
+      </section>
+    );
+  };
   const formRequest = (
-    <TabView className="mb-10">
-      <TabPanel header="Information">
-        <FormRequest />
-      </TabPanel>
-      <TabPanel header="Request Items">
-        <Sidebar
-          visible={visible}
-          onHide={() => setVisible(false)}
-          className="w-full md:w-2/5"
-        >
-          <h2>Add an item to current purchase request</h2>
-          <AddItem
-            defaultItem={defaultAddItem}
-            closeSidebar={() => setVisible(false)}
+    <section>
+      {subHeader()}
+      <TabView className="mb-10">
+        <TabPanel header="Information">
+          <FormRequest />
+        </TabPanel>
+        <TabPanel header="Request Items">
+          <Sidebar
+            visible={visible}
+            onHide={() => setVisible(false)}
+            className="w-full md:w-2/5"
+          >
+            <h2>{!!defaultPrItem ? 'Edit' : 'Add'} an item to current purchase request</h2>
+            <AddItem
+              defaultItem={defaultPrItem}
+              closeSidebar={() => setVisible(false)}
+            />
+          </Sidebar>
+          <Button
+            icon="pi pi-plus"
+            label="Add Item"
+            className="block mb-4"
+            onClick={handleAddAnItem}
           />
-        </Sidebar>
-        <Button
-          icon="pi pi-plus"
-          label="Add Item"
-          className="block mb-4"
-          onClick={() => setVisible(true)}
-        />
 
-        <div className="mt-2 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-            {requestItems.map((item, id) => (
-              <ItemCard key={item.code || id} item={item} onEdit={handleEdit} />
-            ))}
+          <div className="mt-2 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
+              {requestItems.map((item, id) => (
+                <ItemCard
+                  key={item.code || id}
+                  item={item}
+                  onEdit={handleEdit}
+                  onRemove={handleRemove}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </TabPanel>
-    </TabView>
+        </TabPanel>
+      </TabView>
+    </section>
   );
 
   return (

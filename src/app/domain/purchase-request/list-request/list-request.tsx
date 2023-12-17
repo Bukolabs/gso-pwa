@@ -20,14 +20,12 @@ import {
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { sumBy } from "lodash-es";
-import { ApiToFormService } from "@core/services/api-to-form.service";
-import { ItemFormSchema } from "@core/model/form.rule";
 
 export function ListRequest() {
   const navigate = useNavigate();
   const { isMobile } = useScreenSize();
 
-  const limit = 10;
+  const limit = 50;
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);
@@ -60,7 +58,7 @@ export function ListRequest() {
       <SearchInput
         searchTerm={searchTerm}
         onSearch={handleSearch}
-        placeholder="Search bidder name"
+        placeholder="Search request"
         className="w-full block"
       />
       <div>
