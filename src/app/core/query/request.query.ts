@@ -3,6 +3,7 @@ import {
   EditPurchaseRequestDto,
   GetPrItemDto,
   MessageResponseDto,
+  ProcessPurchaseRequestDto,
   PurchaseRequestApiFp,
   PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
@@ -13,7 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-export function useGetRequest(
+export function useGetRequestQy(
   search: string,
   limit = 10,
   offset = 0,
@@ -90,7 +91,7 @@ export function useGetRequest(
   });
 }
 
-export function useGetRequestById(
+export function useGetRequestByIdQy(
   id: string,
   onSuccess?:
     | ((
@@ -140,7 +141,7 @@ export function useGetRequestById(
   });
 }
 
-export function useAddRequest(
+export function useAddRequestQy(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
@@ -183,7 +184,7 @@ export function useAddRequest(
   });
 }
 
-export function useEditRequest(
+export function useEditRequestQy(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
@@ -196,6 +197,49 @@ export function useEditRequest(
     showProgress();
     const operation =
       await PurchaseRequestApiFp().purchaseRequestControllerEdit(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Request);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useProcessRequestQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+
+  const apiFn = async (payload: ProcessPurchaseRequestDto) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerProcess(
         payload,
         authHeaders()
       );

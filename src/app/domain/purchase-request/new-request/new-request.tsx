@@ -14,7 +14,7 @@ import FormRequest from "../form-request/form-request";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { useAddRequest } from "@core/query/request.query";
+import { useAddRequestQy } from "@core/query/request.query";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
 import AddItem from "../add-item/add-item";
 import ItemCard from "@core/ui/item-card/item-card";
@@ -38,7 +38,7 @@ export function NewRequest() {
     showSuccess("New purchase request created");
     handleBack();
   };
-  const { mutate: addPurchaseRequest } = useAddRequest(handleApiSuccess);
+  const { mutate: addPurchaseRequest } = useAddRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     defaultValues: requestFormDefault,

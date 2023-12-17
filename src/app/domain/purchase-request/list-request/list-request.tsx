@@ -5,7 +5,7 @@ import PurchaseCard from "@core/ui/purchase-card/purchase-card";
 import useScreenSize from "@core/utility/screen-size";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { useState } from "react";
-import { useGetRequest } from "@core/query/request.query";
+import { useGetRequestQy } from "@core/query/request.query";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import SearchInput from "@shared/ui/search-input/search-input";
@@ -34,7 +34,7 @@ export function ListRequest() {
     isLoading,
     isError,
     error,
-  } = useGetRequest(searchTerm, limit, pageNumber);
+  } = useGetRequestQy(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);

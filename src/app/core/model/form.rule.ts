@@ -37,8 +37,8 @@ export const RequestFormRule = z.object({
   alobsDate: z.coerce.date().optional(),
   purpose: z.string(),
   items: ItemFormRule.array(),
-  urgent: z.boolean(),
-  active: z.boolean(),
+  urgent: z.boolean().optional(),
+  active: z.boolean().optional(),
 });
 
 export const OrderItemRule = z.object({
