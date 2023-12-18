@@ -1,23 +1,32 @@
-import { BidderFormSchema } from "@core/model/form.rule";
-import "./bidder-form";
+import { AccountFormSchema } from "@core/model/form.rule";
+import "./form-account";
 import { useFormContext } from "react-hook-form";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 
-export function BidderForm() {
-  const { control } = useFormContext<BidderFormSchema>();
+export function FormAccount() {
+  const { control } = useFormContext<AccountFormSchema>();
   return (
-    <div className="bidder-form">
+    <div className="form-account">
       <div className="form-request py-2 md:bg-white md:px-6">
-        <InputControl<BidderFormSchema>
+        <InputControl<AccountFormSchema>
           control={control}
           name="name"
-          label="Fullname (Required)"
+          label="First Name (Required)"
           containerClassName="mb-9"
           className="w-full md:w-3/4"
-          placeholder="Enter your fullname"
+          placeholder="Enter your first name"
           hint="e.g. Juan Eduardo Gomez"
         />
-        <InputControl<BidderFormSchema>
+        <InputControl<AccountFormSchema>
+          control={control}
+          name="lastName"
+          label="Last Name"
+          containerClassName="mb-9"
+          className="w-full md:w-3/4"
+          placeholder="Enter your last name"
+          hint="e.g. Juan Eduardo Gomez"
+        />
+        <InputControl<AccountFormSchema>
           control={control}
           name="email"
           label="Email Address (Required)"
@@ -26,7 +35,7 @@ export function BidderForm() {
           placeholder="Enter your email address"
           hint="e.g. juangoma@gmail.com"
         />
-        <InputControl<BidderFormSchema>
+        <InputControl<AccountFormSchema>
           control={control}
           name="mobile"
           label="Mobile Number (Required)"
@@ -35,31 +44,22 @@ export function BidderForm() {
           placeholder="Enter your mobile number"
           hint="e.g. 09191234567"
         />
-        <InputControl<BidderFormSchema>
+        <InputControl<AccountFormSchema>
           control={control}
-          name="streetName"
-          label="Street Name"
+          name="role"
+          label="Role"
           containerClassName="mb-9"
           className="w-full md:w-3/4"
-          placeholder="Enter your street address"
-          hint="e.g. Lamdagan Street"
-        />
-        <InputControl<BidderFormSchema>
-          control={control}
-          name="barangay"
-          label="Barangay"
-          containerClassName="mb-9"
-          className="w-full md:w-3/4"
-          placeholder="Enter your barangay"
+          placeholder="Enter your role"
           hint="e.g. Manga"
         />
-        <InputControl<BidderFormSchema>
+        <InputControl<AccountFormSchema>
           control={control}
-          name="city"
-          label="City / Municipality"
+          name="department"
+          label="Department"
           containerClassName="mb-9"
           className="w-full md:w-3/4"
-          placeholder="Enter your city or municipality"
+          placeholder="Enter your department"
           hint="e.g. Tagbilaran"
         />
       </div>
@@ -67,4 +67,4 @@ export function BidderForm() {
   );
 }
 
-export default BidderForm;
+export default FormAccount;

@@ -1,4 +1,5 @@
 import {
+  AccountFormSchema,
   BidderFormSchema,
   ItemFormSchema,
   OrderFormSchema,
@@ -43,6 +44,20 @@ export const bidderFormDefault = {
   barangay: "",
   city: "",
 } as BidderFormSchema;
+
+export const accountFormDefault = {
+  country: "Philippines",
+  name: "",
+  lastName: "",
+  email: "",
+  mobile: "",
+  streetName: "",
+  barangay: "",
+  city: "",
+  role: "",
+  department: "",
+  username: "",
+} as AccountFormSchema;
 
 export const itemFormDefault = {
   name: "",

@@ -1,6 +1,8 @@
 import {
+  AddPersonDto,
   CreateBidderDto,
   CreateItemDto,
+  CreatePersonDto,
   CreatePrItemDto,
   CreatePurchaseRequestDto,
   EditBidderDto,
@@ -8,6 +10,7 @@ import {
   EditPurchaseRequestDto,
 } from "@api/api";
 import {
+  AccountFormSchema,
   BidderFormSchema,
   ItemFormSchema,
   RequestFormSchema,
@@ -25,6 +28,25 @@ export class FormToApiService {
       barangay: form.barangay,
       municipality: form.city,
     } as CreateBidderDto;
+
+    return payload;
+  }
+
+  static NewAccount(form: AccountFormSchema) {
+    const person = {
+      username: form.username,
+      first_name: form.name,
+      last_name: form.lastName,
+      email: form.email,
+      mobile: form.mobile,
+      is_active: true,
+      role: form.role,
+      department: form.department,
+    } as CreatePersonDto;
+
+    const payload = {
+      person,
+    } as AddPersonDto;
 
     return payload;
   }

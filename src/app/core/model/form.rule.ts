@@ -61,6 +61,7 @@ export const PersonalRule = z.object({
     .string()
     .min(1, "Name is required")
     .max(100, "Maximum of 100 characters only"),
+  lastName: z.string().optional(),
   email: z
     .string()
     .email()
@@ -73,6 +74,7 @@ export const PersonalRule = z.object({
     .max(30, "Mobile is maxed at 30"),
   phone: z.string().optional(),
   tin: z.string().optional(),
+  gender: z.string().optional(),
 });
 export const AddressRule = z.object({
   streetName: z.string().max(50, "Streetname is maxed at 50").optional(),
@@ -86,10 +88,17 @@ export const AddressRule = z.object({
     .max(50, "Country is maxed at 50"),
   zipcode: z.string().max(50, "Zipcode is maxed at 50").optional(),
 });
+export const AccountRule = z.object({
+  department: z.string(),
+  role: z.string(),
+  username: z.string(),
+});
 
 export const BidderFormRule = PersonalRule.and(AddressRule);
+export const AccountFormRule = PersonalRule.and(AccountRule);
 
 export type RequestFormSchema = z.infer<typeof RequestFormRule>;
 export type OrderFormSchema = z.infer<typeof OrderItemRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
+export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;
