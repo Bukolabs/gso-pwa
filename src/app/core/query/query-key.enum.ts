@@ -8,4 +8,5 @@ export enum QueryKey {
   Account = "account",
   Role = "role",
   Department = "department",
+  Authentication = "authentication",
 }

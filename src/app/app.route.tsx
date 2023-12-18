@@ -1,5 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Shell from "./domain/shell/shell";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import Home from "./domain/home/home";
 import PurchaseOrder from "./domain/purchase-order/purchase-order";
 import PurchaseRequest from "./domain/purchase-request/purchase-request";
@@ -22,99 +25,114 @@ import Account from "@domain/account/account";
 import ListAccount from "@domain/account/list-account/list-account";
 import NewAccount from "@domain/account/new-account/new-account";
 import EditAccount from "@domain/account/edit-account/edit-account";
+import MainShell from "@domain/shell/main-shell/main-shell";
+import AuthShell from "@domain/shell/auth-shell/auth-shell";
+import Login from "@domain/login/login";
+import { ProtectedRoute } from "@core/authentication/protected-route";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Shell />,
+    element: <MainShell />,
     children: [
-      { path: "", element: <Home /> },
+      { path: "login", element: <Login /> },
       {
-        path: "request",
-        element: <PurchaseRequest />,
+        path: "",
+        element: (
+          <ProtectedRoute>
+            <AuthShell />
+          </ProtectedRoute>
+        ),
         children: [
+          { path: "", element: <Home /> },
           {
-            path: "",
-            element: <ListRequest />,
+            path: "request",
+            element: <PurchaseRequest />,
+            children: [
+              {
+                path: "",
+                element: <ListRequest />,
+              },
+              {
+                path: "new",
+                element: <NewRequest />,
+              },
+              {
+                path: ":requestId",
+                element: <EditRequest />,
+              },
+            ],
+          },
+          { path: "order", element: <PurchaseOrder /> },
+          {
+            path: "bidder",
+            element: <Bidder />,
+            children: [
+              {
+                path: "",
+                element: <ListBidder />,
+              },
+              {
+                path: "new",
+                element: <NewBidder />,
+              },
+              {
+                path: ":bidderId",
+                element: <EditBidder />,
+              },
+            ],
           },
           {
-            path: "new",
-            element: <NewRequest />,
+            path: "account",
+            element: <Account />,
+            children: [
+              {
+                path: "",
+                element: <ListAccount />,
+              },
+              {
+                path: "new",
+                element: <NewAccount />,
+              },
+              {
+                path: ":bidderId",
+                element: <EditAccount />,
+              },
+            ],
           },
           {
-            path: ":requestId",
-            element: <EditRequest />,
-          },
-        ],
-      },
-      { path: "order", element: <PurchaseOrder /> },
-      {
-        path: "bidder",
-        element: <Bidder />,
-        children: [
-          {
-            path: "",
-            element: <ListBidder />,
-          },
-          {
-            path: "new",
-            element: <NewBidder />,
-          },
-          {
-            path: ":bidderId",
-            element: <EditBidder />,
-          },
-        ],
-      },
-      {
-        path: "account",
-        element: <Account />,
-        children: [
-          {
-            path: "",
-            element: <ListAccount />,
-          },
-          {
-            path: "new",
-            element: <NewAccount />,
-          },
-          {
-            path: ":bidderId",
-            element: <EditAccount />,
-          },
-        ],
-      },
-      {
-        path: "item",
-        element: <Item />,
-        children: [
-          {
-            path: "",
-            element: <ListItem />,
-          },
-          {
-            path: "new",
-            element: <NewItem />,
-          },
-          {
-            path: "unit",
-            element: <ListUnit />,
-          },
-          {
-            path: "unit/:unitId",
-            element: <EditUnit />,
-          },
-          {
-            path: "brand",
-            element: <ListBrand />,
-          },
-          {
-            path: "brand/:brandId",
-            element: <EditBrand />,
-          },
-          {
-            path: ":itemId",
-            element: <EditItem />,
+            path: "item",
+            element: <Item />,
+            children: [
+              {
+                path: "",
+                element: <ListItem />,
+              },
+              {
+                path: "new",
+                element: <NewItem />,
+              },
+              {
+                path: "unit",
+                element: <ListUnit />,
+              },
+              {
+                path: "unit/:unitId",
+                element: <EditUnit />,
+              },
+              {
+                path: "brand",
+                element: <ListBrand />,
+              },
+              {
+                path: "brand/:brandId",
+                element: <EditBrand />,
+              },
+              {
+                path: ":itemId",
+                element: <EditItem />,
+              },
+            ],
           },
         ],
       },

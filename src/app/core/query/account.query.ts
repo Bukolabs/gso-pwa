@@ -12,8 +12,6 @@ import { QueryKey } from "./query-key.enum";
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-
-
 export function useGetRoleQy(
   onSuccess?:
     | ((

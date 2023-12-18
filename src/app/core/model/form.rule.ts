@@ -29,12 +29,12 @@ export const RequestFormRule = z.object({
   code: z.string().optional(),
   prno: z.string().optional(),
   dueDate: z.coerce.date(),
-  category: z.string(),
+  category: z.string().min(1, "Category is required"),
   section: z.string(),
   sai: z.string(),
-  saiDate: z.coerce.date().optional(),
+  saiDate: z.coerce.date().optional().nullable(),
   alobs: z.string(),
-  alobsDate: z.coerce.date().optional(),
+  alobsDate: z.coerce.date().optional().nullable(),
   purpose: z.string(),
   items: ItemFormRule.array(),
   urgent: z.boolean().optional(),
@@ -93,6 +93,10 @@ export const AccountRule = z.object({
   role: z.string(),
   username: z.string(),
 });
+export const LoginRule = z.object({
+  email: z.string().min(1, "Email/Username is required"),
+  password: z.string().min(1, { message: "Password is required" }),
+});
 
 export const BidderFormRule = PersonalRule.and(AddressRule);
 export const AccountFormRule = PersonalRule.and(AccountRule);
@@ -102,3 +106,4 @@ export type OrderFormSchema = z.infer<typeof OrderItemRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
 export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;
+export type LoginFormSchema = z.infer<typeof LoginRule>;

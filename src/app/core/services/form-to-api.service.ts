@@ -8,17 +8,30 @@ import {
   EditBidderDto,
   EditItemDto,
   EditPurchaseRequestDto,
+  LoginPersonDto,
 } from "@api/api";
 import {
   AccountFormSchema,
   BidderFormSchema,
   ItemFormSchema,
+  LoginFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
-import { SETTINGS } from "@core/utility/settings";
+import { LocalAuth } from "@core/model/local-auth";
+import { AUTH, SETTINGS } from "@core/utility/settings";
+import StorageService from "@shared/services/storage.service";
 import { format } from "date-fns";
 
 export class FormToApiService {
+  static Login(form: LoginFormSchema) {
+    const payload = {
+      username: form.email,
+      password: form.password,
+    } as LoginPersonDto;
+
+    return payload;
+  }
+
   static NewBidder(form: BidderFormSchema) {
     const payload = {
       name: form.name,
@@ -95,17 +108,22 @@ export class FormToApiService {
   }
 
   static NewPurchaseRequest(form: RequestFormSchema) {
+    const currentUser = StorageService.load(AUTH) as LocalAuth;
     const requestItemPayload = form.items.map((item) =>
       this.NewRequestItem(item)
     );
     const payload = {
       pr_date: format(form.dueDate as Date, SETTINGS.dateFormat),
       sai_no: form.sai,
-      sai_date: format(form.saiDate as Date, SETTINGS.dateFormat),
+      sai_date: !form.saiDate
+        ? undefined
+        : format(form.saiDate as Date, SETTINGS.dateFormat),
       alobs_no: form.alobs,
-      alobs_date: format(form.alobsDate as Date, SETTINGS.dateFormat),
+      alobs_date: !form.alobsDate
+        ? undefined
+        : format(form.alobsDate as Date, SETTINGS.dateFormat),
       category: form.category,
-      department: "4185be71-87b0-11ee-a6aa-1c4c2bef322a", //TODO change to user department
+      department: currentUser.department_code, //TODO change to user department
       section: form.section,
       status: "",
       is_urgent: false,
@@ -117,6 +135,7 @@ export class FormToApiService {
   }
 
   static EditPurchaseRequest(form: RequestFormSchema, id: string) {
+    const currentUser = StorageService.load(AUTH) as LocalAuth;
     const requestItemPayload = form.items.map((item) =>
       this.NewRequestItem(item)
     );
@@ -126,7 +145,7 @@ export class FormToApiService {
       sai_no: form.sai,
       alobs_no: form.alobs,
       category: form.category,
-      department: "AGRI/VET", //ADMIN
+      department: currentUser.department_code, //ADMIN
       section: form.section,
       status: "",
       is_urgent: false,

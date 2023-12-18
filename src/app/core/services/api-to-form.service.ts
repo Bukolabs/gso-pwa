@@ -1,5 +1,6 @@
-import { GetPrItemDto } from "@api/api";
+import { GetPrItemDto, LoginResponseDto } from "@api/api";
 import { ItemFormSchema } from "@core/model/form.rule";
+import { LocalAuth } from "@core/model/local-auth";
 
 export class ApiToFormService {
   static MapRequestItems(item: string): ItemFormSchema[] {
@@ -22,5 +23,26 @@ export class ApiToFormService {
     });
 
     return mappedItem as ItemFormSchema[];
+  }
+
+  static MapLocalAuth(data: LoginResponseDto): LocalAuth {
+    const mappedData = {
+      oauth_client_grant_type: data.oauth_client_grant_type,
+      oauth_client_scope: data.oauth_client_scope,
+      oauth_client_secret: data.oauth_client_secret,
+      oauth_expiry: data.oauth_expiry,
+      oauth_refresh_token: data.oauth_refresh_token,
+      oauth_token: data.oauth_token,
+      person_code: data.person_code,
+      person_email: data.person_email,
+      person_first_name: data.person_first_name,
+      person_last_name: data.person_last_name,
+      role_code: data.role_code,
+      role_name: data.role_name,
+      department_code: data.department_code,
+      department_name: data.department_name,
+    } as LocalAuth;
+
+    return mappedData;
   }
 }
