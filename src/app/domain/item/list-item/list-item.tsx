@@ -13,12 +13,15 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import { GetItemDto } from "@api/api";
 import { Menu } from "primereact/menu";
 import { useItemMenu } from "../item-menu";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 
 export function ListItem() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
-  const limit = 50;
-  const [pageNumber] = useState(0);
+
+  const rowLimit = 20;
+  const [pageNumber, setPageNumber] = useState(0);
+  const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);
   const {
@@ -26,7 +29,7 @@ export function ListItem() {
     isLoading,
     isError,
     error,
-  } = useGetItem(searchTerm, limit, pageNumber);
+  } = useGetItem(searchTerm, rowLimit, pageNumber);
   const [visible, setVisible] = useState(false);
 
   const handleSearch = (searchTerm: string) => {
@@ -34,6 +37,11 @@ export function ListItem() {
   };
   const editRecord = (item: GetItemDto) => {
     navigate(`${item.code}`);
+  };
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
+    setFirst(event.first);
+    const offsetValue = event.page * rowLimit;
+    setPageNumber(offsetValue);
   };
 
   const displayLoading = (
@@ -47,15 +55,25 @@ export function ListItem() {
     </div>
   );
   const grid = (
-    <DataTable
-      value={bidders?.data}
-      tableStyle={{ zIndex: 1 }}
-      selectionMode="single"
-      onSelectionChange={(e) => editRecord(e.value)}
-    >
-      <Column field="name" header="Name"></Column>
-      <Column field="brand_name" header="Brand"></Column>
-    </DataTable>
+    <section>
+      <DataTable
+        value={bidders?.data}
+        tableStyle={{ zIndex: 1 }}
+        selectionMode="single"
+        onSelectionChange={(e) => editRecord(e.value)}
+      >
+        <Column field="name" header="Name"></Column>
+        <Column field="brand_name" header="Brand"></Column>
+      </DataTable>
+
+      <Paginator
+        first={first}
+        rows={rowLimit}
+        totalRecords={bidders?.count}
+        rowsPerPageOptions={[10, 20, 30]}
+        onPageChange={onPageChange}
+      />
+    </section>
   );
   const filter = (
     <div className="flex gap-4">

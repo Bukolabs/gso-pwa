@@ -20,13 +20,15 @@ import {
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { sumBy } from "lodash-es";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 
 export function ListRequest() {
   const navigate = useNavigate();
   const { isMobile } = useScreenSize();
 
-  const limit = 50;
-  const [pageNumber] = useState(0);
+  const rowLimit = 20;
+  const [pageNumber, setPageNumber] = useState(0);
+  const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);
   const {
@@ -34,13 +36,18 @@ export function ListRequest() {
     isLoading,
     isError,
     error,
-  } = useGetRequestQy(searchTerm, limit, pageNumber);
+  } = useGetRequestQy(searchTerm, rowLimit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
   };
   const editRecord = (item: GetPurchaseRequestDto) => {
     navigate(`${item.code}`);
+  };
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
+    setFirst(event.first);
+    const offsetValue = event.page * rowLimit;
+    setPageNumber(offsetValue);
   };
 
   const displayLoading = (
@@ -87,26 +94,36 @@ export function ListRequest() {
     return numberTemplate(total);
   };
   const grid = (
-    <DataTable
-      value={purchaseRequests?.data}
-      tableStyle={{ zIndex: 1 }}
-      selectionMode="single"
-      onSelectionChange={(e) => editRecord(e.value)}
-    >
-      <Column field="pr_no" header="PR #"></Column>
-      <Column field="department_name" header="Department"></Column>
-      <Column field="section" header="Section"></Column>
-      <Column header="Total Quantity" body={totalItemsColumn}></Column>
-      <Column header="Total Amount" body={totalAmountColumn}></Column>
-      <Column
-        header="Due Date"
-        body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
-      ></Column>
-      <Column
-        header="Status"
-        body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}
-      ></Column>
-    </DataTable>
+    <section>
+      <DataTable
+        value={purchaseRequests?.data}
+        tableStyle={{ zIndex: 1 }}
+        selectionMode="single"
+        onSelectionChange={(e) => editRecord(e.value)}
+      >
+        <Column field="pr_no" header="PR #"></Column>
+        <Column field="department_name" header="Department"></Column>
+        <Column field="section" header="Section"></Column>
+        <Column header="Total Quantity" body={totalItemsColumn}></Column>
+        <Column header="Total Amount" body={totalAmountColumn}></Column>
+        <Column
+          header="Due Date"
+          body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
+        ></Column>
+        <Column
+          header="Status"
+          body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}
+        ></Column>
+      </DataTable>
+
+      <Paginator
+        first={first}
+        rows={rowLimit}
+        totalRecords={purchaseRequests?.count}
+        rowsPerPageOptions={[10, 20, 30]}
+        onPageChange={onPageChange}
+      />
+    </section>
   );
   const cards = (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
