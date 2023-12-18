@@ -7,4 +7,5 @@ export enum QueryKey {
   Request = "request",
   Account = "account",
   Role = "role",
+  Department = "department",
 }

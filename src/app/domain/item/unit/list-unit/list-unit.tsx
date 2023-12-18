@@ -18,7 +18,7 @@ export function ListUnit() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
   const [visible, setVisible] = useState(false);
-  const limit = 10;
+  const limit = 50;
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const {

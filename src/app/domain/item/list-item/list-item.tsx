@@ -17,7 +17,7 @@ import { useItemMenu } from "../item-menu";
 export function ListItem() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
-  const limit = 10;
+  const limit = 50;
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);

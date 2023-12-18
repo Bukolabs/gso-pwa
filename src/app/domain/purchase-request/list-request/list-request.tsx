@@ -94,7 +94,7 @@ export function ListRequest() {
       onSelectionChange={(e) => editRecord(e.value)}
     >
       <Column field="pr_no" header="PR #"></Column>
-      <Column field="department" header="Department"></Column>
+      <Column field="department_name" header="Department"></Column>
       <Column header="Total Quantity" body={totalItemsColumn}></Column>
       <Column header="Total Amount" body={totalAmountColumn}></Column>
       <Column

@@ -105,7 +105,7 @@ export class FormToApiService {
       alobs_no: form.alobs,
       alobs_date: format(form.alobsDate as Date, SETTINGS.dateFormat),
       category: form.category,
-      department: "AGRI/VET", //ADMIN
+      department: "4185be71-87b0-11ee-a6aa-1c4c2bef322a", //TODO change to user department
       section: form.section,
       status: "",
       is_urgent: false,

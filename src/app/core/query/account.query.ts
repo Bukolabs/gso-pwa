@@ -12,7 +12,9 @@ import { QueryKey } from "./query-key.enum";
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-export function useGetRole(
+
+
+export function useGetRoleQy(
   onSuccess?:
     | ((
         data: UtilsBrandControllerGetDataAsList200Response
