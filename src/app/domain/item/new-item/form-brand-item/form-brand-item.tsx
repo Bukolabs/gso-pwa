@@ -64,7 +64,7 @@ export function FormBrandItem() {
         containerClassName="mb-9"
         className="w-full md:w-3/4"
         placeholder="Enter your brand name"
-        hint="e.g. Dyson. If the brand doesn't exist hit ENTER to create a new brand"
+        hint="e.g. Dyson. Hit ENTER to create a new brand. Otherwise, if the brand doesn't exist select N/A"
         filter
         onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
         onKeyDown={handleFilterInput}

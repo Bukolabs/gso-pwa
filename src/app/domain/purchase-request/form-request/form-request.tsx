@@ -24,7 +24,7 @@ export function FormRequest() {
       <InputDateControl<RequestFormSchema>
         control={control}
         name="dueDate"
-        label="Due Date"
+        label="Issued Date"
         className="w-full md:w-3/4"
         containerClassName="pb-2"
         hint="e.g. 30/12/2023"

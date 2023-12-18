@@ -11,6 +11,9 @@ export interface InputDigitControlProps<FieldsType extends FieldValues>
   className?: string;
   containerClassName?: string;
   hint?: string;
+  prefix?: string;
+  suffix?: string;
+  // mode: 'currency' | 'decimal'
 }
 
 export function InputDigitControl<FieldsType extends FieldValues>({
@@ -22,6 +25,8 @@ export function InputDigitControl<FieldsType extends FieldValues>({
   className,
   containerClassName,
   hint,
+  prefix,
+  suffix,
 }: InputDigitControlProps<FieldsType>) {
   return (
     <Controller
@@ -37,11 +42,12 @@ export function InputDigitControl<FieldsType extends FieldValues>({
               placeholder={placeholder}
               onBlur={field.onBlur}
               onValueChange={(e) => field.onChange(e)}
-              useGrouping={false}
               className={classNames(
                 { "p-invalid": fieldState.error },
                 className
               )}
+              prefix={prefix}
+              suffix={suffix}
             />
 
             <label htmlFor={field.name}>{label}</label>

@@ -55,8 +55,6 @@ export function FormItem({
   return (
     <div className="form-item">
       <div className="form-request py-2 md:bg-white md:px-6 mb-8">
-        <pre>Suggestions: {suggestions?.length}</pre>
-        <pre>onSearch: {!!onSearch}</pre>
         {onSearch && showSearch ? (
           <AutocompleteControl<ItemFormSchema>
             control={control}
@@ -99,6 +97,7 @@ export function FormItem({
           className="w-full md:w-3/4"
           placeholder="Enter the item cost"
           hint="e.g. 150"
+          prefix="₱"
         />
 
         {onSearch && suggestions && (

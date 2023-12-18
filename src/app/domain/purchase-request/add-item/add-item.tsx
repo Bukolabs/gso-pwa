@@ -34,7 +34,7 @@ export interface AddItemProps {
 export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
   const { getValues: getRequestItemValues, setValue } =
     useFormContext<RequestFormSchema>();
-  const { showError, showSuccess } = useNotificationContext();
+  const { showError, showSuccess, hideProgress } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [enabledGetItem, setEnabledGetItem] = useState(false);
   const limit = 99;
@@ -140,6 +140,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
       ];
     }
 
+    hideProgress();
     setValue("items", allItems);
     showSuccess(`${itemForm.name} is added to Purchase Request items`);
     reset(itemFormDefault);
