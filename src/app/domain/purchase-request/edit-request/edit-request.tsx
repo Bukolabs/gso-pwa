@@ -66,11 +66,11 @@ export function EditRequest() {
     <ReviewSection classname="mb-3" reviewers={reviewers} />
   );
   const printSection = () => (
-    // <div style={{ display: "none" }}>
+    <div style={{ display: "none" }}>
       <div ref={componentRef}>
         <RequestPrint data={requests?.data?.[0]} />
       </div>
-    // </div>
+    </div>
   );
   const formRequest = (
     <section>

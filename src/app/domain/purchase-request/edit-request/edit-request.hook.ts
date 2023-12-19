@@ -204,12 +204,6 @@ export function useEditRequest() {
   };
   const handleRemove = (item: ItemFormSchema) => {
     const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
-    // const updatedActiveStatus = requestItems.map((pr) => {
-    //   return {
-    //     ...pr,
-    //     isActive: !(pr.code === item.code),
-    //   };
-    // });
     setValue("items", unmatchedCode);
   };
 
