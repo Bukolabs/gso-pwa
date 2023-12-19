@@ -20,6 +20,7 @@ export function ReviewSection({ classname, reviewers }: ReviewSectionProps) {
               label={item.label}
               value={item.value}
               isIcon={true}
+              isLightBg={false}
             />
           ))}
         </section>

@@ -9,4 +9,6 @@ export enum QueryKey {
   Role = "role",
   Department = "department",
   Authentication = "authentication",
+  Stage1 = "stage1",
+  Stage1Review = "stage1review",
 }

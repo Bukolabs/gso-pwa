@@ -10,14 +10,13 @@ export interface HomeCardProps {
   status: string;
   orders?: number;
   requests?: number;
-  prReviews?: LabelValue[];
-  poReviews?: LabelValue[];
+  prReviews?: LabelValue<number>[];
+  poReviews?: LabelValue<number>[];
 }
 
 export function HomeCard({
   requests,
   orders,
-  stage,
   prReviews,
   status,
   poReviews,
@@ -30,43 +29,58 @@ export function HomeCard({
         <div className="flex justify-between items-center p-4">
           <Tag
             value={status}
-            className={classNames(getStatusStyle(stage))}
+            className={classNames(getStatusStyle(status))}
             rounded
           ></Tag>
         </div>
       </section>
-      {!prReviews && (
+
+      {!prReviews ? (
         <section className="flex justify-center gap-3 py-4">
-          {requests && (
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-800 font-bold">{requests} </p>
+            <p className="hint">Total Requests</p>
+          </div>
+          {orders === undefined || orders === null ? (
+            <></>
+          ) : (
             <div className="flex flex-col items-center justify-center">
-              <p className="text-gray-800 font-bold">{requests}</p>
-              <p className="hint">Total Requests</p>
-            </div>
-          )}
-          {orders && (
-            <div className="flex flex-col items-center justify-center">
-              <p className="text-gray-800 font-bold">{requests}</p>
+              <p className="text-gray-800 font-bold">{orders}</p>
               <p className="hint">Total Orders</p>
             </div>
           )}
         </section>
+      ) : (
+        <></>
       )}
+
       {prReviews && prReviews.length > 0 && (
         <section className="py-4">
           <p className="hint text-center mb-1">Total Requests Per Office</p>
           <section className="flex justify-center gap-2">
             {prReviews.map((item, id) => (
-              <OfficeCircle key={id} label={item.label} value={item.value} />
+              <OfficeCircle
+                key={id}
+                label={item.label}
+                value={item.value.toString()}
+                isLightBg={true}
+              />
             ))}
           </section>
         </section>
       )}
+
       {poReviews && poReviews.length > 0 && (
         <section className="py-4">
           <p className="hint text-center mb-1">Total Orders Per Office</p>
           <section className="flex justify-center gap-2">
             {poReviews.map((item, id) => (
-              <OfficeCircle key={id} label={item.label} value={item.value} />
+              <OfficeCircle
+                key={id}
+                label={item.label}
+                value={item.value.toString()}
+                isLightBg={true}
+              />
             ))}
           </section>
         </section>

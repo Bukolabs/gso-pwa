@@ -21,6 +21,6 @@ export const dateTemplate = (date?: string) => {
   return <div>{displayDate}</div>;
 };
 
-export const tagTemplate = (tag: string, stage = 'STAGE_1') => {
-  return <Tag value={tag || '-'} className={classNames(getStatusStyle(stage))} />;
+export const tagTemplate = (tag: string) => {
+  return <Tag value={tag || '-'} className={classNames(getStatusStyle(tag))} />;
 };

@@ -1,6 +1,13 @@
-import { GetPrItemDto, LoginResponseDto } from "@api/api";
+import {
+  GetPrItemDto,
+  GetStage1ReviewSummaryDto,
+  GetStage1SummaryDto,
+  LoginResponseDto,
+} from "@api/api";
 import { PurchaseItemFormSchema } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
+import { HomeCardProps } from "@domain/home/home-card/home-card";
+import { LabelValue } from "@shared/models/label-value.interface";
 
 export class ApiToFormService {
   static MapRequestPruchaseItems(
@@ -46,5 +53,34 @@ export class ApiToFormService {
     } as LocalAuth;
 
     return mappedData;
+  }
+
+  static MapCountCardSummary(
+    stage1: GetStage1SummaryDto[],
+    review: GetStage1ReviewSummaryDto[]
+  ) {
+    const stage1Data = stage1.map(
+      (item) => ({ label: item.name, value: item.tally } as LabelValue<number>)
+    );
+    const mappedReview = review.map(
+      (item) =>
+        ({ label: item.approver, value: item.tally } as LabelValue<number>)
+    );
+
+    const cardModel = stage1Data.map((item) => {
+      const statusEntity = {
+        status: item.label,
+        requests: item.value,
+        stage: "STAGE1",
+      } as HomeCardProps;
+
+      if (item.label === "REVIEW") {
+        statusEntity.prReviews = mappedReview;
+      }
+
+      return statusEntity;
+    });
+
+    return cardModel;
   }
 }

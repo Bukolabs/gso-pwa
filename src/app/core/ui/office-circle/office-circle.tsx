@@ -1,15 +1,20 @@
 import classNames from "classnames";
 import "./office-circle";
 
-/* eslint-disable-next-line */
 export interface OfficeCircleProps {
   label: string;
   value: string;
   isIcon?: boolean;
   severity?: string;
+  isLightBg?: boolean;
 }
 
-export function OfficeCircle({ label, value, isIcon }: OfficeCircleProps) {
+export function OfficeCircle({
+  label,
+  value,
+  isIcon,
+  isLightBg,
+}: OfficeCircleProps) {
   let displayValue = <></>;
   if (isIcon && !!value) {
     displayValue = <i className={value}></i>;
@@ -19,10 +24,17 @@ export function OfficeCircle({ label, value, isIcon }: OfficeCircleProps) {
 
   return (
     <div className={classNames("flex flex-col justify-center items-center")}>
-      <div className="border border-white rounded-full w-9 h-9 flex items-center justify-center">
+      <div
+        className={classNames(
+          "border  rounded-full w-9 h-9 flex items-center justify-center mb-2",
+          isLightBg ? "border-gray-300" : "border-white"
+        )}
+      >
         {displayValue}
       </div>
-      <b className="text-white">{label}</b>
+      <b className={classNames(isLightBg ? "text-gray-600" : "text-white")}>
+        {label}
+      </b>
     </div>
   );
 }

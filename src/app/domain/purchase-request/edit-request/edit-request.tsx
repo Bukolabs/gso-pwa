@@ -54,7 +54,7 @@ export function EditRequest() {
   );
   const subHeader = () => {
     const data = requests?.data?.[0];
-    const tag = tagTemplate(data?.status_name || "none", data?.stage_name);
+    const tag = tagTemplate(data?.status_name || "none");
     return (
       <section className="mb-5">
         <h2>PR#: {data?.pr_no}</h2>

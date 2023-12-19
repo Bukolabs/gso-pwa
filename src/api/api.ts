@@ -370,6 +370,12 @@ export interface CreatePersonDto {
      * @type {string}
      * @memberof CreatePersonDto
      */
+    'password': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonDto
+     */
     'first_name': string;
     /**
      * 
@@ -1154,6 +1160,70 @@ export interface CreateUtilsUnitDto {
      * @memberof CreateUtilsUnitDto
      */
     'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardControllerGetStage1ReviewSummary200Response
+ */
+export interface DashboardControllerGetStage1ReviewSummary200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardControllerGetStage1ReviewSummary200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetStage1ReviewSummaryDto>}
+     * @memberof DashboardControllerGetStage1ReviewSummary200Response
+     */
+    'data'?: Array<GetStage1ReviewSummaryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardControllerGetStage1ReviewSummary200ResponseAllOf
+ */
+export interface DashboardControllerGetStage1ReviewSummary200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetStage1ReviewSummaryDto>}
+     * @memberof DashboardControllerGetStage1ReviewSummary200ResponseAllOf
+     */
+    'data'?: Array<GetStage1ReviewSummaryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardControllerGetStage1Summary200Response
+ */
+export interface DashboardControllerGetStage1Summary200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardControllerGetStage1Summary200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetStage1SummaryDto>}
+     * @memberof DashboardControllerGetStage1Summary200Response
+     */
+    'data'?: Array<GetStage1SummaryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardControllerGetStage1Summary200ResponseAllOf
+ */
+export interface DashboardControllerGetStage1Summary200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetStage1SummaryDto>}
+     * @memberof DashboardControllerGetStage1Summary200ResponseAllOf
+     */
+    'data'?: Array<GetStage1SummaryDto>;
 }
 /**
  * 
@@ -2250,7 +2320,7 @@ export interface EditPurchaseRequestDto {
      * @type {string}
      * @memberof EditPurchaseRequestDto
      */
-    'status': string;
+    'status'?: string;
     /**
      * 
      * @type {boolean}
@@ -2823,6 +2893,235 @@ export interface GetItemDto {
 /**
  * 
  * @export
+ * @interface GetPersonDto
+ */
+export interface GetPersonDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_first_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_last_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_middle_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_suffix'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_position'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_gender': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_civil_status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_birthday'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_street_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_subdivision'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_zone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_sitio'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_purok'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_barangay'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_municipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_province'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_region'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_country'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_zip'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_mobile'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_phone'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPersonDto
+     */
+    'person_is_active'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPersonDto
+     */
+    'person_is_verified'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'person_avatar'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'role_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'role_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'department_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'department_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPersonDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface GetPrItemDto
  */
 export interface GetPrItemDto {
@@ -2935,6 +3234,12 @@ export interface GetPrItemDto {
  * @interface GetPurchaseRequestDto
  */
 export interface GetPurchaseRequestDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'id': number;
     /**
      * 
      * @type {string}
@@ -3246,7 +3551,69 @@ export interface GetPurchaseRequestDto {
      * @type {string}
      * @memberof GetPurchaseRequestDto
      */
+    'stage_code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
     'stage_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'stage_description'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetStage1ReviewSummaryDto
+ */
+export interface GetStage1ReviewSummaryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetStage1ReviewSummaryDto
+     */
+    'approver': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetStage1ReviewSummaryDto
+     */
+    'tally': number;
+}
+/**
+ * 
+ * @export
+ * @interface GetStage1SummaryDto
+ */
+export interface GetStage1SummaryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetStage1SummaryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetStage1SummaryDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetStage1SummaryDto
+     */
+    'description': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetStage1SummaryDto
+     */
+    'tally': number;
 }
 /**
  * 
@@ -3626,6 +3993,38 @@ export interface MessageResponseDto {
      * @memberof MessageResponseDto
      */
     'data'?: object;
+}
+/**
+ * 
+ * @export
+ * @interface PersonControllerGetDataAsList200Response
+ */
+export interface PersonControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetPersonDto>}
+     * @memberof PersonControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetPersonDto>;
+}
+/**
+ * 
+ * @export
+ * @interface PersonControllerGetDataAsList200ResponseAllOf
+ */
+export interface PersonControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetPersonDto>}
+     * @memberof PersonControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetPersonDto>;
 }
 /**
  * 
@@ -4234,6 +4633,174 @@ export class BidderApi extends BaseAPI {
      */
     public bidderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return BidderApiFp(this.configuration).bidderControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DashboardApi - axios parameter creator
+ * @export
+ */
+export const DashboardApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerGetStage1ReviewSummary: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/stage-1-review-summary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerGetStage1Summary: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/stage-1-summary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DashboardApi - functional programming interface
+ * @export
+ */
+export const DashboardApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DashboardApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dashboardControllerGetStage1ReviewSummary(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerGetStage1ReviewSummary200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerGetStage1ReviewSummary(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dashboardControllerGetStage1Summary(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerGetStage1Summary200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerGetStage1Summary(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DashboardApi - factory interface
+ * @export
+ */
+export const DashboardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DashboardApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerGetStage1ReviewSummary(options?: any): AxiosPromise<DashboardControllerGetStage1ReviewSummary200Response> {
+            return localVarFp.dashboardControllerGetStage1ReviewSummary(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerGetStage1Summary(options?: any): AxiosPromise<DashboardControllerGetStage1Summary200Response> {
+            return localVarFp.dashboardControllerGetStage1Summary(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DashboardApi - object-oriented interface
+ * @export
+ * @class DashboardApi
+ * @extends {BaseAPI}
+ */
+export class DashboardApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public dashboardControllerGetStage1ReviewSummary(options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerGetStage1ReviewSummary(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public dashboardControllerGetStage1Summary(options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerGetStage1Summary(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4914,6 +5481,69 @@ export const PersonApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/person/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdatePersonDto} updatePersonDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4988,6 +5618,20 @@ export const PersonApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerGetDataAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {UpdatePersonDto} updatePersonDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5023,6 +5667,19 @@ export const PersonApiFactory = function (configuration?: Configuration, basePat
          */
         personControllerAddPerson(addPersonDto: AddPersonDto, options?: any): AxiosPromise<MessageResponseDto> {
             return localVarFp.personControllerAddPerson(addPersonDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PersonControllerGetDataAsList200Response> {
+            return localVarFp.personControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5063,6 +5720,21 @@ export class PersonApi extends BaseAPI {
      */
     public personControllerAddPerson(addPersonDto: AddPersonDto, options?: AxiosRequestConfig) {
         return PersonApiFp(this.configuration).personControllerAddPerson(addPersonDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).personControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
