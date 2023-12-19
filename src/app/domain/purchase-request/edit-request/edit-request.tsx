@@ -21,7 +21,6 @@ export function EditRequest() {
     visible,
     defaultPrItem,
     requestItems,
-    actions,
     formMethod,
     isLoading,
     requestError,
@@ -37,6 +36,7 @@ export function EditRequest() {
     handleSubmit,
     handleValidate,
     handleValidateError,
+    getActions,
   } = useEditRequest();
 
   const displayLoading = (
@@ -128,7 +128,7 @@ export function EditRequest() {
           <SplitButton
             label="Update"
             onClick={handleSubmit(handleValidate, handleValidateError)}
-            model={actions}
+            model={getActions()}
           />
         </div>
       </HeaderContent>

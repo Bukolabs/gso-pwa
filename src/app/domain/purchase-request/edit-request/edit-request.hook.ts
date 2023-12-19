@@ -26,8 +26,12 @@ import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { showReviewControl } from "@core/utility/approve-control";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function useEditRequest() {
+  const { isRequestor } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError, hideProgress } = useNotificationContext();
   const navigate = useNavigate();
@@ -42,58 +46,68 @@ export function useEditRequest() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const actions = [
-    {
-      label: "Approve",
-      command: () => {
-        const dataValue = requests?.data?.[0];
-
-        if (!dataValue) {
-          throw new Error("no data");
-        }
-
-        const reviewer = setReviewerEntityStatus(true);
-        const payload = {
-          code: dataValue.code,
-          ...reviewer,
-        } as ProcessPurchaseRequestDto;
-        processRequest(payload);
+  const getActions = () => {
+    const defaultActions = [
+      {
+        label: "History",
+        command: () => {},
       },
-    },
-    {
-      label: "Decline",
-      command: () => {
-        const dataValue = requests?.data?.[0];
+      {
+        label: "Print",
+        command: () => {
+          handlePrint();
+        },
+      },
+      {
+        label: "Delete",
+        command: () => {},
+      },
+    ];
+    const reviewerActions = [
+      {
+        label: "Approve",
+        command: () => {
+          const dataValue = requests?.data?.[0];
 
-        if (!dataValue) {
-          throw new Error("no data");
-        }
+          if (!dataValue) {
+            throw new Error("no data");
+          }
 
-        const reviewer = setReviewerEntityStatus(false);
-        const payload = {
-          code: dataValue.code,
-          ...reviewer,
-        } as ProcessPurchaseRequestDto;
-        processRequest(payload);
+          const reviewer = setReviewerEntityStatus(true);
+          const payload = {
+            code: dataValue.code,
+            ...reviewer,
+          } as ProcessPurchaseRequestDto;
+          processRequest(payload);
+        },
       },
-    },
-    {
-      label: "History",
-      command: () => {},
-    },
-    {
-      label: "Print",
-      command: () => {
-        handlePrint();
+      {
+        label: "Decline",
+        command: () => {
+          const dataValue = requests?.data?.[0];
+
+          if (!dataValue) {
+            throw new Error("no data");
+          }
+
+          const reviewer = setReviewerEntityStatus(false);
+          const payload = {
+            code: dataValue.code,
+            ...reviewer,
+          } as ProcessPurchaseRequestDto;
+          processRequest(payload);
+        },
       },
-    },
-    {
-      label: "Delete",
-      command: () => {
-        window.location.href = "https://reactjs.org/";
-      },
-    },
-  ];
+    ];
+
+    const currentStatus = requests?.data?.[0].status_name;
+    const hasReviewerActions =
+      !isRequestor && showReviewControl(currentStatus as RequestStatus);
+    const actions = hasReviewerActions
+      ? [...reviewerActions, ...defaultActions]
+      : defaultActions;
+    return actions;
+  };
 
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
@@ -212,7 +226,6 @@ export function useEditRequest() {
     visible,
     defaultPrItem,
     requestItems,
-    actions,
     formMethod,
     isLoading,
     requestError,
@@ -229,5 +242,6 @@ export function useEditRequest() {
     handleSubmit,
     handleValidate,
     handleValidateError,
+    getActions,
   };
 }
