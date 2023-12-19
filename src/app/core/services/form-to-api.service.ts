@@ -147,7 +147,6 @@ export class FormToApiService {
       category: form.category,
       department: currentUser.department_code, //ADMIN
       section: form.section,
-      status: "",
       is_urgent: false,
       items: requestItemPayload,
       purpose: form.purpose,
