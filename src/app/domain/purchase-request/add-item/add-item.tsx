@@ -140,6 +140,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
       ];
     }
 
+    console.log("Add Items", { allItems });
     hideProgress();
     setValue("items", allItems);
     showSuccess(`${itemForm.name} is added to Purchase Request items`);

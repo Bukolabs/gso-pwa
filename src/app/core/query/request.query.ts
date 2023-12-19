@@ -122,6 +122,8 @@ export function useGetRequestByIdQy(
     queryKey: [QueryKey.Request, id],
     queryFn: () => apiFn(id),
     onSuccess: (response) => {
+      const items = response.data?.[0].items;
+      console.log(JSON.parse(items as any));
       hideProgress();
       if (onSuccess) {
         onSuccess(response);
@@ -158,7 +160,7 @@ export function useAddRequestQy(
         authHeaders()
       );
     const response = (await operation()).data;
-    return response["message"] as MessageResponseDto;
+    return response as MessageResponseDto;
   };
 
   return useMutation({

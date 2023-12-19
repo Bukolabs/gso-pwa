@@ -13,6 +13,7 @@ import { tagTemplate } from "@core/utility/data-table-template";
 import { SplitButton } from "primereact/splitbutton";
 import { useEditRequest } from "./edit-request.hook";
 import ReviewSection from "@core/ui/review-section/review-section";
+import RequestPrint from "./request-print/request-print";
 
 export function EditRequest() {
   const {
@@ -27,6 +28,7 @@ export function EditRequest() {
     editError,
     dataEmpty,
     reviewers,
+    componentRef,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -60,11 +62,21 @@ export function EditRequest() {
       </section>
     );
   };
+  const reviewSection = () => (
+    <ReviewSection classname="mb-3" reviewers={reviewers} />
+  );
+  const printSection = () => (
+    // <div style={{ display: "none" }}>
+      <div ref={componentRef}>
+        <RequestPrint data={requests?.data?.[0]} />
+      </div>
+    // </div>
+  );
   const formRequest = (
     <section>
       {subHeader()}
-
-      <ReviewSection classname="mb-3" reviewers={reviewers} />
+      {reviewSection()}
+      {printSection()}
 
       <TabView className="mb-10">
         <TabPanel header="Information">

@@ -1,7 +1,7 @@
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import "./edit-request";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ProcessPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
@@ -25,6 +25,7 @@ import { ApiToFormService } from "@core/services/api-to-form.service";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { useReviewHook } from "@core/services/review.hook";
+import { useReactToPrint } from "react-to-print";
 
 export function useEditRequest() {
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
@@ -37,6 +38,10 @@ export function useEditRequest() {
     ItemFormSchema | undefined
   >(undefined);
 
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const actions = [
     {
       label: "Approve",
@@ -78,7 +83,9 @@ export function useEditRequest() {
     },
     {
       label: "Print",
-      command: () => {},
+      command: () => {
+        handlePrint();
+      },
     },
     {
       label: "Delete",
@@ -131,7 +138,7 @@ export function useEditRequest() {
               new Date(responseData?.alobs_date),
               SETTINGS.dateFormat
             ) as any)
-          : ""
+          : undefined
       );
       setValue("purpose", responseData?.purpose || "");
 
@@ -180,6 +187,7 @@ export function useEditRequest() {
       form,
       requestId || ""
     );
+    console.log("Edit request", { form, formData });
     editRequest(formData);
   };
   const handleValidateError = (err: FieldErrors<RequestFormSchema>) => {
@@ -212,6 +220,7 @@ export function useEditRequest() {
     editError,
     dataEmpty,
     reviewers,
+    componentRef,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,

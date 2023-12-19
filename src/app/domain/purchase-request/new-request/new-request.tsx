@@ -34,7 +34,7 @@ export function NewRequest() {
   const handleBack = () => {
     navigate("../");
   };
-  const handleApiSuccess = () => {
+  const handleApiSuccess = (response: any) => {
     showSuccess("New purchase request created");
     handleBack();
   };
