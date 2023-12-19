@@ -22,7 +22,7 @@ export const getRequestFormDefault = (
         prno: cachedValue.pr_no,
         dueDate: cachedValue?.pr_date
           ? (format(new Date(cachedValue?.pr_date), SETTINGS.dateFormat) as any)
-          : undefined,
+          : ("" as any),
         category: cachedValue.category,
         section: cachedValue.section,
         sai: cachedValue.sai_no,
@@ -42,6 +42,7 @@ export const getRequestFormDefault = (
         purpose: cachedValue.purpose,
         items: items,
         urgent: cachedValue.is_urgent,
+        active: true,
       } as RequestFormSchema);
 };
 

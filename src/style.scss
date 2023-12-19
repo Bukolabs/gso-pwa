@@ -42,7 +42,8 @@ h5 {
   @apply font-bold text-gray-800 text-sm md:text-base;
 }
 
-.hint, small {
+.hint,
+small {
   @apply text-gray-500 text-sm;
 }
 
@@ -52,6 +53,19 @@ h5 {
 
 .p-toast-message {
   margin-left: -22px;
+}
+
+.text-primary {
+  @apply text-gray-800;
+}
+.text-secondary {
+  @apply text-gray-500;
+}
+.bg-primary {
+  @apply bg-white;
+}
+.bg-secondary {
+  @apply bg-gray-800;
 }
 
 // OVERRIDES

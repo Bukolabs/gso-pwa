@@ -24,8 +24,10 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
+import { useReviewHook } from "@core/services/review.hook";
 
 export function useEditRequest() {
+  const { getReviewerEntity, getReviewers } = useReviewHook();
   const { showSuccess, showError } = useNotificationContext();
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
@@ -45,10 +47,12 @@ export function useEditRequest() {
           throw new Error("no data");
         }
 
-        processRequest({
+        const reviewer = getReviewerEntity();
+        const payload = {
           code: dataValue.code,
-          is_gso: true,
-        } as ProcessPurchaseRequestDto);
+          ...reviewer,
+        } as ProcessPurchaseRequestDto;
+        processRequest(payload);
       },
     },
     {
@@ -73,7 +77,7 @@ export function useEditRequest() {
   };
   const { mutate: processRequest } = useProcessRequestQy(handleProcessSuccess);
 
-  // UNCACHED, API VALUES
+  // UNCACHED, GET API VALUES
   // GET REQUEST API
   const handleGetApiSuccess = (
     data: PurchaseRequestControllerGetDataAsList200Response
@@ -133,6 +137,7 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
+  const reviewers = getReviewers(requests?.data?.[0]);
 
   // EDIT REQUEST API
   const handleApiSuccess = () => {
@@ -189,6 +194,7 @@ export function useEditRequest() {
     requestError,
     editError,
     dataEmpty,
+    reviewers,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,

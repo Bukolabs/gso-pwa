@@ -19,10 +19,10 @@ export function OfficeCircle({ label, value, isIcon }: OfficeCircleProps) {
 
   return (
     <div className={classNames("flex flex-col justify-center items-center")}>
-      <div className="border border-gray-500 rounded-full w-9 h-9 flex items-center justify-center">
+      <div className="border border-white rounded-full w-9 h-9 flex items-center justify-center">
         {displayValue}
       </div>
-      <b className="hint">{label}</b>
+      <b className="text-white">{label}</b>
     </div>
   );
 }

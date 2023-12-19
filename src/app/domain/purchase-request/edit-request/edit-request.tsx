@@ -12,6 +12,7 @@ import { Sidebar } from "primereact/sidebar";
 import { tagTemplate } from "@core/utility/data-table-template";
 import { SplitButton } from "primereact/splitbutton";
 import { useEditRequest } from "./edit-request.hook";
+import ReviewSection from "@core/ui/review-section/review-section";
 
 export function EditRequest() {
   const {
@@ -25,6 +26,7 @@ export function EditRequest() {
     requestError,
     editError,
     dataEmpty,
+    reviewers,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -61,6 +63,9 @@ export function EditRequest() {
   const formRequest = (
     <section>
       {subHeader()}
+
+      <ReviewSection classname="mb-3" reviewers={reviewers} />
+
       <TabView className="mb-10">
         <TabPanel header="Information">
           <FormRequest />

@@ -7,8 +7,9 @@ import {
 } from "./form.rule";
 
 export const requestFormDefault = {
-  category: "",
+  prno: "",
   dueDate: "" as any,
+  category: "",
   section: "",
   sai: "",
   saiDate: undefined,

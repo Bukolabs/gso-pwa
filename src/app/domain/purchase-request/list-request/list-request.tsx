@@ -21,9 +21,12 @@ import {
 } from "@core/utility/data-table-template";
 import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import { Avatar } from "primereact/avatar";
+import { useReviewHook } from "@core/services/review.hook";
 
 export function ListRequest() {
   const navigate = useNavigate();
+  const { getReviewers } = useReviewHook();
   const { isMobile } = useScreenSize();
 
   const rowLimit = 20;
@@ -93,6 +96,20 @@ export function ListRequest() {
     const total = sumBy(data?.items || [], (x) => x.quantity || 0);
     return numberTemplate(total);
   };
+  const reviewColumn = (data: GetPurchaseRequestDto) => {
+    const reviewers = getReviewers(data);
+
+    return (
+      <div className="flex gap-2">
+        {reviewers.map((item, id) => (
+          <section key={id} className="flex flex-col items-center">
+            <Avatar shape="circle" icon={item.value} />
+            <label className="text-gray-500">{item.label}</label>
+          </section>
+        ))}
+      </div>
+    );
+  };
   const grid = (
     <section>
       <DataTable
@@ -107,13 +124,14 @@ export function ListRequest() {
         <Column header="Total Quantity" body={totalItemsColumn}></Column>
         <Column header="Total Amount" body={totalAmountColumn}></Column>
         <Column
-          header="Due Date"
+          header="Issued Date"
           body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
         ></Column>
         <Column
           header="Status"
           body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}
         ></Column>
+        <Column header="Review" body={reviewColumn}></Column>
       </DataTable>
 
       <Paginator
