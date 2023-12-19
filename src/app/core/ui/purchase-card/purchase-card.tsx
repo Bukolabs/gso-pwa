@@ -1,19 +1,31 @@
 import classNames from "classnames";
 import "./purchase-card";
 import { Tag } from "primereact/tag";
-import OfficeCircle from "../office-circle/office-circle";
+import { LabelValue } from "@shared/models/label-value.interface";
+import ReviewSection from "../review-section/review-section";
+import { getStatusStyle } from "@core/utility/get-status-style";
 
 export interface PurchaseCardProps {
+  code: string;
   title: string;
   subTitle: string;
   status: string;
-  hasReview?: boolean;
+  reviewers: LabelValue[];
+  onClick: (code: string) => void;
 }
 
-export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCardProps) {
+export function PurchaseCard({
+  code,
+  title,
+  subTitle,
+  status,
+  reviewers,
+  onClick,
+}: PurchaseCardProps) {
   return (
     <div
       className={classNames("bg-white w-full shadow rounded-md flex flex-col")}
+      onClick={() => onClick(code)}
     >
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between p-4">
@@ -22,7 +34,10 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
             <h4 className="text-gray-500">{subTitle}</h4>
           </div>
           <div>
-            <Tag value={status}></Tag>
+            <Tag
+              value={status}
+              className={classNames(getStatusStyle(status))}
+            ></Tag>
           </div>
         </div>
       </section>
@@ -40,16 +55,8 @@ export function PurchaseCard({ title, subTitle, status, hasReview }: PurchaseCar
           <p className="hint">Total Items</p>
         </div>
       </section>
-      {hasReview && (
-        <section className="bg-caribbean-green-200 py-4">
-          <p className="hint text-center mb-1">Review Per Office</p>
-          <section className="flex justify-center gap-2">
-            <OfficeCircle label="GSO" value="pi pi-check" isIcon={true} />
-            <OfficeCircle label="Treasurer" value="pi pi-check" isIcon={true} />
-            <OfficeCircle label="Mayor" value="" />
-            <OfficeCircle label="Budget" value="" />
-          </section>
-        </section>
+      {reviewers.length > 0 && (
+        <ReviewSection classname="mb-3" reviewers={reviewers} />
       )}
     </div>
   );

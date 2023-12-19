@@ -43,6 +43,7 @@ export const getRequestFormDefault = (
         items: items,
         urgent: cachedValue.is_urgent,
         active: true,
+        department: cachedValue.department_name,
       } as RequestFormSchema);
 };
 

@@ -161,6 +161,7 @@ export function useEditRequest() {
         : [];
       setValue("items", items);
       setValue("urgent", responseData?.is_urgent || false);
+      setValue("department", responseData?.department_name);
 
       setDataEmpty(false);
       hideProgress();

@@ -164,17 +164,28 @@ export function ListRequest() {
     </section>
   );
   const cards = (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
-      <PurchaseCard
-        title="PR# 122"
-        subTitle="Department of Tourism"
-        status="Submitted"
-      />
-      <PurchaseCard
-        title="PR# 144"
-        subTitle="Department of Labor"
-        status="Review"
-        hasReview={true}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline mb-20">
+      {(purchaseRequests?.data || []).map((item, id) => {
+        const reviewers = getReviewers(item);
+        return (
+          <PurchaseCard
+            key={id}
+            code={item.code}
+            title={`PR No. ${item.pr_no}` || "-"}
+            subTitle={item.department_name}
+            status={item.status_name}
+            reviewers={reviewers}
+            onClick={(code) => navigate(code)}
+          />
+        );
+      })}
+
+      <Paginator
+        first={first}
+        rows={rowLimit}
+        totalRecords={purchaseRequests?.count}
+        rowsPerPageOptions={[10, 20, 30]}
+        onPageChange={onPageChange}
       />
     </div>
   );

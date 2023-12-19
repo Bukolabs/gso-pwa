@@ -9,6 +9,7 @@ export function useUserIdentity() {
   const requestorDepartment = isRequestor ? currentUser.department_code : null;
 
   return {
+    currentUser,
     isRequestor,
     requestorDepartment,
   };

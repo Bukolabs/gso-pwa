@@ -16,26 +16,32 @@ import Sidebar from "@shared/ui/navigation/sidebar/sidebar";
 import MobileMenu from "@shared/ui/navigation/mobile-menu/mobile-menu";
 import StorageService from "@shared/services/storage.service";
 import { AUTH } from "@core/utility/settings";
-import { LocalAuth } from "@core/model/local-auth";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function AuthShell() {
   const navigate = useNavigate();
-  const desktopNavigation = [
-    homeNav,
-    requestNav,
-    orderNav,
-    itemNav,
-    bidderNav,
-    accountNav,
-  ] as NavigationProps[];
-  const mobileNavigation = [
-    homeNav,
-    requestNav,
-    orderNav,
-    bidderNav,
-    moreNav,
-  ] as NavigationProps[];
-  const mobileMoreNavigation = [
+  const { isRequestor, currentUser } = useUserIdentity();
+  const desktopNavigation = isRequestor
+    ? [homeNav, requestNav]
+    : ([
+        homeNav,
+        requestNav,
+        orderNav,
+        itemNav,
+        bidderNav,
+        accountNav,
+      ] as NavigationProps[]);
+  const mobileNavigation = isRequestor
+    ? [homeNav, requestNav, moreNav]
+    : ([
+        homeNav,
+        requestNav,
+        orderNav,
+        bidderNav,
+        moreNav,
+      ] as NavigationProps[]);
+
+  const mobileAllItem = [
     {
       label: "Account",
       command: () => {
@@ -49,7 +55,15 @@ export function AuthShell() {
       },
     },
   ];
-  const currentUser = StorageService.load(AUTH) as LocalAuth;
+  const mobileLogoutItem = {
+    label: "Logout",
+    command: () => {
+      navigate("/login");
+    },
+  };
+  const mobileMoreNavigation = isRequestor
+    ? [mobileLogoutItem]
+    : [...mobileAllItem, mobileLogoutItem];
   const handleLogout = () => {
     StorageService.clear(AUTH);
     navigate("/login");
