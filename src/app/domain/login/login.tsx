@@ -23,6 +23,7 @@ export function Login() {
   const { showError } = useNotificationContext();
   const navigate = useNavigate();
   const logo = "/icon-152x152.png";
+  const loginBg = "/login-bg.jpg";
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
@@ -67,7 +68,10 @@ export function Login() {
 
   return (
     <div className="login">
-      <LeftContentPage rightColClassName="justify-center items-center">
+      <LeftContentPage
+        backgroundImage={`url("login-bg.jpg")`}
+        rightColClassName="justify-center items-center"
+      >
         <div className="flex flex-col w-[400px]">
           <div className="flex flex-col items-center">
             <img src={logo} className="w-[120px]" alt="ylp logo" />
