@@ -8,23 +8,23 @@ import StorageService from "@shared/services/storage.service";
 export function useReviewHook() {
   const { data: roles } = useGetRoleQy();
 
-  const identifyReviewer = (roleName: string) => {
+  const setReviewerStatus = (roleName: string, status: boolean) => {
     switch (roleName) {
       case "MO":
         return {
-          is_mayor: true,
+          is_mayor: status,
         };
       case "GSO":
         return {
-          is_gso: true,
+          is_gso: status,
         };
       case "TO":
         return {
-          is_treasurer: true,
+          is_treasurer: status,
         };
       case "BO":
         return {
-          is_budget: true,
+          is_budget: status,
         };
 
       default:
@@ -37,7 +37,7 @@ export function useReviewHook() {
     }
   };
 
-  const getReviewerEntity = () => {
+  const setReviewerEntityStatus = (status: boolean) => {
     const currentUser = StorageService.load(AUTH) as LocalAuth;
     const currentRoleId = currentUser.role_code;
 
@@ -52,7 +52,7 @@ export function useReviewHook() {
     const currentRole = filteredRole?.length > 0 ? filteredRole[0] : undefined;
 
     console.log("getReviewerEntity", { currentRole });
-    const reviewer = identifyReviewer(currentRole?.name || "");
+    const reviewer = setReviewerStatus(currentRole?.name || "", status);
     return reviewer;
   };
 
@@ -63,26 +63,46 @@ export function useReviewHook() {
 
     const gso = {
       label: "CGSO",
-      value: data.is_gso ? "pi pi-check" : "-",
+      value:
+        data.is_gso === null
+          ? ""
+          : Boolean(data.is_gso)
+          ? "pi pi-check"
+          : "pi pi-times",
     };
     const treasurer = {
       label: "CTO",
-      value: data.is_treasurer ? "pi pi-check" : "-",
+      value:
+        data.is_treasurer === null
+          ? ""
+          : Boolean(data.is_treasurer)
+          ? "pi pi-check"
+          : "pi pi-times",
     };
     const mayor = {
       label: "CMO",
-      value: data.is_mayor ? "pi pi-check" : "-",
+      value:
+        data.is_mayor === null
+          ? ""
+          : Boolean(data.is_mayor)
+          ? "pi pi-check"
+          : "pi pi-times",
     };
     const budget = {
       label: "CBO",
-      value: data.is_budget ? "pi pi-check" : "-",
+      value:
+        data.is_budget === null
+          ? ""
+          : Boolean(data.is_budget)
+          ? "pi pi-check"
+          : "pi pi-times",
     };
     const reviewers = [gso, treasurer, mayor, budget];
     return reviewers as LabelValue[];
   };
 
   return {
-    getReviewerEntity,
+    setReviewerEntityStatus,
     getReviewers,
   };
 }

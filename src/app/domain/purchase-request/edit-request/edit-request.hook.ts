@@ -27,7 +27,7 @@ import { SETTINGS } from "@core/utility/settings";
 import { useReviewHook } from "@core/services/review.hook";
 
 export function useEditRequest() {
-  const { getReviewerEntity, getReviewers } = useReviewHook();
+  const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError } = useNotificationContext();
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
@@ -47,7 +47,24 @@ export function useEditRequest() {
           throw new Error("no data");
         }
 
-        const reviewer = getReviewerEntity();
+        const reviewer = setReviewerEntityStatus(true);
+        const payload = {
+          code: dataValue.code,
+          ...reviewer,
+        } as ProcessPurchaseRequestDto;
+        processRequest(payload);
+      },
+    },
+    {
+      label: "Decline",
+      command: () => {
+        const dataValue = requests?.data?.[0];
+
+        if (!dataValue) {
+          throw new Error("no data");
+        }
+
+        const reviewer = setReviewerEntityStatus(false);
         const payload = {
           code: dataValue.code,
           ...reviewer,

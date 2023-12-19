@@ -120,7 +120,7 @@ export function ListRequest() {
       >
         <Column field="pr_no" header="PR #"></Column>
         <Column field="department_name" header="Department"></Column>
-        <Column field="section" header="Section"></Column>
+        <Column field="category_name" header="Category"></Column>
         <Column header="Total Quantity" body={totalItemsColumn}></Column>
         <Column header="Total Amount" body={totalAmountColumn}></Column>
         <Column
