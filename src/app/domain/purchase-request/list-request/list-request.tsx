@@ -23,8 +23,16 @@ import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
+import { useListRequestFilter } from "./list-request-filter.hook";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function ListRequest() {
+  const { isRequestor } = useUserIdentity();
+  const {
+    departmentSelectionElement,
+    categorySelectionElement,
+    requestFilters,
+  } = useListRequestFilter();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
   const { isMobile } = useScreenSize();
@@ -39,7 +47,13 @@ export function ListRequest() {
     isLoading,
     isError,
     error,
-  } = useGetRequestQy(searchTerm, rowLimit, pageNumber);
+  } = useGetRequestQy(
+    searchTerm,
+    rowLimit,
+    pageNumber,
+    undefined,
+    requestFilters
+  );
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -63,7 +77,7 @@ export function ListRequest() {
       <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
   );
-  const filter = (
+  const filterElement = (
     <div className="flex gap-4">
       <SearchInput
         searchTerm={searchTerm}
@@ -82,9 +96,15 @@ export function ListRequest() {
       </div>
       <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
         <h2>Filters</h2>
-        <p>
+        <p className="mb-4">
           Select the following filters you want to apply to the current table.
         </p>
+        {!isRequestor ? (
+          <div className="mb-4">{departmentSelectionElement}</div>
+        ) : (
+          <></>
+        )}
+        <div className="mb-4">{categorySelectionElement}</div>
       </Sidebar>
     </div>
   );
@@ -172,7 +192,7 @@ export function ListRequest() {
       </HeaderContent>
 
       <div className="p-7">
-        {filter}
+        {filterElement}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
         {!isLoading && !isError && list}

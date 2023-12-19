@@ -1,4 +1,3 @@
-import FullCentralPage from "@shared/pages/full-central-page/full-central-page";
 import "./login";
 import { LoginFormSchema, LoginRule } from "@core/model/form.rule";
 import InputControl, {

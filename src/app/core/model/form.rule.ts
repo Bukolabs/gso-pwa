@@ -98,6 +98,7 @@ export const AccountRule = z.object({
   department: z.string(),
   role: z.string(),
   username: z.string(),
+  password: z.string(),
 });
 export const LoginRule = z.object({
   email: z.string().min(1, "Email/Username is required"),

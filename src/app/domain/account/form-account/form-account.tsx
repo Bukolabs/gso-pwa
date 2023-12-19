@@ -1,14 +1,19 @@
 import { AccountFormSchema } from "@core/model/form.rule";
 import "./form-account";
 import { useFormContext } from "react-hook-form";
-import InputControl from "@shared/ui/hook-form/input-control/input-control";
+import InputControl, {
+  InputControlType,
+} from "@shared/ui/hook-form/input-control/input-control";
 import { useGetRoleQy } from "@core/query/account.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { useGetDepartmentQy } from "@core/query/department.query";
+import { useState } from "react";
 
 export function FormAccount() {
   const { control } = useFormContext<AccountFormSchema>();
+  const [passwordType, setPasswordType] =
+    useState<InputControlType>("password");
 
   const { data: role } = useGetRoleQy();
   const mappedRoles = (role?.data || []).map(
@@ -28,6 +33,11 @@ export function FormAccount() {
       } as LabelValue)
   );
 
+  const handleRightIconAction = () => {
+    const inputType = passwordType === "password" ? "text" : "password";
+    setPasswordType(inputType);
+  };
+
   return (
     <div className="form-account">
       <div className="form-request py-2 md:bg-white md:px-6">
@@ -39,6 +49,16 @@ export function FormAccount() {
           className="w-full md:w-3/4"
           placeholder="Enter your username"
           hint="e.g. juangomez"
+        />
+        <InputControl<AccountFormSchema>
+          control={control}
+          name="password"
+          label="Password (Required)"
+          className="w-full md:w-3/4"
+          type={passwordType}
+          iconRight="pi-eye"
+          iconRightAction={handleRightIconAction}
+          hint="Enter a really hard to remember password"
         />
         <InputControl<AccountFormSchema>
           control={control}

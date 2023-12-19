@@ -56,6 +56,7 @@ export class FormToApiService {
       is_active: true,
       role: form.role,
       department: form.department,
+      password: form.password
     } as CreatePersonDto;
 
     const payload = {

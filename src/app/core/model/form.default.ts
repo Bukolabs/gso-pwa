@@ -58,6 +58,7 @@ export const accountFormDefault = {
   role: "",
   department: "",
   username: "",
+  password: "",
 } as AccountFormSchema;
 
 export const itemFormDefault = {

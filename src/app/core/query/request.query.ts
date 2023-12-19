@@ -43,7 +43,7 @@ export function useGetRequestQy(
         limit,
         offset,
         order,
-        filter,
+        JSON.stringify(filter) as any,
         authHeaders()
       );
     const response = (await operation()).data;
