@@ -57,6 +57,7 @@ export function useGetRequestQy(
     queryKey: [QueryKey.Request, search, limit, offset, order, filter],
     queryFn: () => apiFn(search, limit, offset, order, filter),
     onSuccess: (response) => {
+      console.log("useGetRequestQy", { response });
       hideProgress();
       if (onSuccess) {
         onSuccess(response);
@@ -73,21 +74,21 @@ export function useGetRequestQy(
     onSettled() {
       hideProgress();
     },
-    select(data) {
-      const parseData = data.data?.map((pr) => {
-        const objectifiedItems = !pr.items
-          ? []
-          : (JSON.parse(pr.items as unknown as string) as GetPrItemDto[]);
-        const items = pr.items ? objectifiedItems : [];
+    // select(data) {
+    //   const parseData = data.data?.map((pr) => {
+    //     const objectifiedItems = !pr.items
+    //       ? []
+    //       : (JSON.parse(pr.items as unknown as string) as GetPrItemDto[]);
+    //     const items = pr.items ? objectifiedItems : [];
 
-        return {
-          ...pr,
-          items,
-        };
-      });
+    //     return {
+    //       ...pr,
+    //       items,
+    //     };
+    //   });
 
-      return { ...data, data: parseData };
-    },
+    //   return { ...data, data: parseData };
+    // },
   });
 }
 
@@ -122,8 +123,7 @@ export function useGetRequestByIdQy(
     queryKey: [QueryKey.Request, id],
     queryFn: () => apiFn(id),
     onSuccess: (response) => {
-      const items = response.data?.[0].items;
-      console.log(JSON.parse(items as any));
+      console.log("useGetRequestByIdQy", { response });
       hideProgress();
       if (onSuccess) {
         onSuccess(response);

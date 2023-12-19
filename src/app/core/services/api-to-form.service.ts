@@ -1,13 +1,15 @@
 import { GetPrItemDto, LoginResponseDto } from "@api/api";
-import { ItemFormSchema } from "@core/model/form.rule";
+import { PurchaseItemFormSchema } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
 
 export class ApiToFormService {
-  static MapRequestItems(item: string): ItemFormSchema[] {
-    const objectifiedItems = JSON.parse(item);
-    const mappedItem = objectifiedItems.map((x: GetPrItemDto) => {
+  static MapRequestPruchaseItems(
+    prItems: GetPrItemDto[]
+  ): PurchaseItemFormSchema[] {
+    const mappedItem = prItems.map((x: GetPrItemDto) => {
       return {
-        code: x.item,
+        code: x.code,
+        itemCode: x.item,
         name: x.item_name,
         description: x.description,
         unit: x.unit,
@@ -19,10 +21,10 @@ export class ApiToFormService {
         cost: x.price,
         isActive: true,
         quantity: x.quantity,
-      } as ItemFormSchema;
+      } as PurchaseItemFormSchema;
     });
 
-    return mappedItem as ItemFormSchema[];
+    return mappedItem as PurchaseItemFormSchema[];
   }
 
   static MapLocalAuth(data: LoginResponseDto): LocalAuth {

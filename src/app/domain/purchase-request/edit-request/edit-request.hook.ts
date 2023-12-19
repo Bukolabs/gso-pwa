@@ -29,7 +29,7 @@ import { useReactToPrint } from "react-to-print";
 
 export function useEditRequest() {
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
-  const { showSuccess, showError } = useNotificationContext();
+  const { showSuccess, showError, hideProgress } = useNotificationContext();
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
   const { requestId } = useParams();
@@ -143,14 +143,13 @@ export function useEditRequest() {
       setValue("purpose", responseData?.purpose || "");
 
       const items = responseData?.items
-        ? ApiToFormService.MapRequestItems(
-            responseData.items as unknown as string
-          )
+        ? ApiToFormService.MapRequestPruchaseItems(responseData.items)
         : [];
       setValue("items", items);
       setValue("urgent", responseData?.is_urgent || false);
 
       setDataEmpty(false);
+      hideProgress();
       return;
     }
 
@@ -205,6 +204,12 @@ export function useEditRequest() {
   };
   const handleRemove = (item: ItemFormSchema) => {
     const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
+    // const updatedActiveStatus = requestItems.map((pr) => {
+    //   return {
+    //     ...pr,
+    //     isActive: !(pr.code === item.code),
+    //   };
+    // });
     setValue("items", unmatchedCode);
   };
 

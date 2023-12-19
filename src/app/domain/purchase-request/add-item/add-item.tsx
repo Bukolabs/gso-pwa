@@ -3,6 +3,7 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import {
   ItemFormRule,
   ItemFormSchema,
+  PurchaseItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
 import {
@@ -24,7 +25,8 @@ import { useAddItem, useEditItem, useGetItem } from "@core/query/item.query";
 import { AutoCompleteCompleteEvent } from "primereact/autocomplete";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { FormToApiService } from "@core/services/form-to-api.service";
-import { MessageResponseDto } from "@api/api";
+import { GetPrItemDto, MessageResponseDto } from "@api/api";
+import { UiMapService } from "@core/services/ui-map.service";
 
 export interface AddItemProps {
   defaultItem?: ItemFormSchema;
@@ -32,7 +34,7 @@ export interface AddItemProps {
 }
 
 export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
-  const { getValues: getRequestItemValues, setValue } =
+  const { getValues: getRequestPurchaseItemValues, setValue } =
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess, hideProgress } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,17 +75,21 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
   const handleAddApiSuccess = (response: MessageResponseDto) => {
     const itemForm = getItemFormValues();
 
-    const code = (response.data as any)?.code;
+    const field = response.data as GetPrItemDto;
+    const code = field.code;
+    const brandName = field.brand_name;
+    const categoryName = field.category_name;
+    const unitName = field.unit_name;
     if (!itemForm || !code) return;
 
-    addToNewRequest(code);
+    addToRequestPurchaseItem(code, brandName, categoryName, unitName);
   };
   const { mutate: addItem } = useAddItem(handleAddApiSuccess);
 
   // EDIT ITEM
   const handleApiSuccess = () => {
     showSuccess("Item updated");
-    addToNewRequest();
+    addToRequestPurchaseItem();
   };
   const { mutate: editItem } = useEditItem(handleApiSuccess);
 
@@ -102,7 +108,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
       const formData = FormToApiService.EditItem(form, form.code || "");
       editItem(formData);
     } else if (itemNameExist && !!form.code) {
-      addToNewRequest();
+      addToRequestPurchaseItem();
     } else {
       const formData = FormToApiService.NewItem(form);
       addItem(formData);
@@ -112,38 +118,58 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
-  const addToNewRequest = (newCode = "") => {
-    const requestFormItemValues = getRequestItemValues("items");
-    const itemForm = getItemFormValues();
-    const updatedItemForm = newCode
-      ? {
-          ...itemForm,
-          code: newCode,
-        }
-      : itemForm;
-    const codeExistInRequestFormItemValues =
-      requestFormItemValues.filter((x) => x.code === updatedItemForm.code)
-        .length > 0;
-    let allItems = requestFormItemValues;
+  const addToRequestPurchaseItem = (
+    newItemCode = "",
+    brandName = "",
+    categoryName = "",
+    unitName = ""
+  ) => {
+    const requestFormPurchaseItemValues = getRequestPurchaseItemValues("items");
+    let itemFormValues = getItemFormValues();
 
-    if (codeExistInRequestFormItemValues) {
-      allItems = requestFormItemValues.map((item) => {
-        if (item.code === updatedItemForm.code) {
-          return updatedItemForm;
+    if (brandName || categoryName || unitName) {
+      itemFormValues = {
+        ...itemFormValues,
+        brandName,
+        categoryName,
+        unitName,
+      };
+    }
+
+    const newPurchaseItemForm =
+      UiMapService.ItemFormToPurchaseItem(itemFormValues);
+    const updatedPurchaseItemForm = newItemCode
+      ? ({
+          ...newPurchaseItemForm,
+          itemCode: newItemCode,
+        } as PurchaseItemFormSchema)
+      : newPurchaseItemForm;
+    const itemCodeExistInPurchaseItemValues =
+      requestFormPurchaseItemValues.filter(
+        (x) => x.itemCode === updatedPurchaseItemForm.itemCode
+      ).length > 0;
+    let allItems = requestFormPurchaseItemValues;
+
+    if (itemCodeExistInPurchaseItemValues) {
+      allItems = requestFormPurchaseItemValues.map((prItem) => {
+        if (prItem.itemCode === updatedPurchaseItemForm.itemCode) {
+          return updatedPurchaseItemForm;
         }
-        return item;
+        return prItem;
       });
     } else {
       allItems = [
-        ...requestFormItemValues,
-        { ...itemForm, code: updatedItemForm.code },
+        ...requestFormPurchaseItemValues,
+        { ...newPurchaseItemForm, itemCode: updatedPurchaseItemForm.itemCode },
       ];
     }
 
     console.log("Add Items", { allItems });
     hideProgress();
     setValue("items", allItems);
-    showSuccess(`${itemForm.name} is added to Purchase Request items`);
+    showSuccess(
+      `${newPurchaseItemForm.name} is added to Purchase Request items`
+    );
     reset(itemFormDefault);
     closeSidebar();
   };

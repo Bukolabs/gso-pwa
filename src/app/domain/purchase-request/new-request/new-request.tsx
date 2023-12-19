@@ -21,6 +21,7 @@ import ItemCard from "@core/ui/item-card/item-card";
 import { TabPanel, TabView } from "primereact/tabview";
 import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
+import { MessageResponseDto } from "@api/api";
 
 export function NewRequest() {
   const { isMobile } = useScreenSize();
@@ -34,8 +35,10 @@ export function NewRequest() {
   const handleBack = () => {
     navigate("../");
   };
-  const handleApiSuccess = (response: any) => {
-    showSuccess("New purchase request created");
+  const handleApiSuccess = (response: MessageResponseDto) => {
+    const data = response.data as any;
+
+    showSuccess(`New purchase request created ${data.pr_no}`);
     handleBack();
   };
   const { mutate: addPurchaseRequest } = useAddRequestQy(handleApiSuccess);

@@ -25,6 +25,12 @@ export const ItemFormRule = z
     }
   });
 
+export const PurchaseItemFormRule = z
+  .object({
+    itemCode: z.string().optional(),
+  })
+  .and(ItemFormRule);
+
 export const RequestFormRule = z.object({
   code: z.string().optional(),
   prno: z.string().optional(),
@@ -36,7 +42,7 @@ export const RequestFormRule = z.object({
   alobs: z.string(),
   alobsDate: z.coerce.date().optional().nullable(),
   purpose: z.string(),
-  items: ItemFormRule.array(),
+  items: PurchaseItemFormRule.array(),
   urgent: z.boolean().optional(),
   active: z.boolean().optional(),
 });
@@ -106,4 +112,5 @@ export type OrderFormSchema = z.infer<typeof OrderItemRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
 export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;
+export type PurchaseItemFormSchema = z.infer<typeof PurchaseItemFormRule>;
 export type LoginFormSchema = z.infer<typeof LoginRule>;

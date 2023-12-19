@@ -15,6 +15,7 @@ import {
   BidderFormSchema,
   ItemFormSchema,
   LoginFormSchema,
+  PurchaseItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
@@ -110,7 +111,7 @@ export class FormToApiService {
   static NewPurchaseRequest(form: RequestFormSchema) {
     const currentUser = StorageService.load(AUTH) as LocalAuth;
     const requestItemPayload = form.items.map((item) =>
-      this.NewRequestItem(item)
+      this.NewRequestPurchaseItem(item)
     );
     const payload = {
       pr_date: format(form.dueDate as Date, SETTINGS.dateFormat),
@@ -137,7 +138,7 @@ export class FormToApiService {
   static EditPurchaseRequest(form: RequestFormSchema, id: string) {
     const currentUser = StorageService.load(AUTH) as LocalAuth;
     const requestItemPayload = form.items.map((item) =>
-      this.NewRequestItem(item)
+      this.NewRequestPurchaseItem(item)
     );
     const payload = {
       code: id,
@@ -155,16 +156,16 @@ export class FormToApiService {
     return payload;
   }
 
-  static NewRequestItem(form: ItemFormSchema) {
+  static NewRequestPurchaseItem(form: PurchaseItemFormSchema) {
     const payload = {
-      item: form.code,
+      item: form.itemCode,
       description: form.description,
       quantity: form.quantity,
       unit: form.unit,
       brand: form.brand,
       category: form.category,
       price: form.cost,
-      is_active: true,
+      is_active: form.isActive,
       code: form.code,
     } as CreatePrItemDto;
 
