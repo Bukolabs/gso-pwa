@@ -14,6 +14,7 @@ import { GetItemDto } from "@api/api";
 import { Menu } from "primereact/menu";
 import { useItemMenu } from "../item-menu";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import { currencyTemplate } from "@core/utility/data-table-template";
 
 export function ListItem() {
   const navigate = useNavigate();
@@ -63,7 +64,12 @@ export function ListItem() {
         onSelectionChange={(e) => editRecord(e.value)}
       >
         <Column field="name" header="Name"></Column>
+        <Column
+          header="Suggested Price"
+          body={(data: GetItemDto) => currencyTemplate(data.price)}
+        ></Column>
         <Column field="brand_name" header="Brand"></Column>
+        <Column field="category_name" header="Category"></Column>
       </DataTable>
 
       <Paginator
