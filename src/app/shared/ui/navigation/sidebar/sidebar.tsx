@@ -12,6 +12,9 @@ export interface SidebarProps {
   logoWidth?: string;
   icon?: string;
   className?: string;
+  username?: string;
+  email?: string;
+  onLogout?: () => void;
 }
 
 export function Sidebar({
@@ -21,6 +24,9 @@ export function Sidebar({
   logo = "https://img.logoipsum.com/243.svg",
   logoWidth = "w-36",
   logoClass,
+  username,
+  email,
+  onLogout,
 }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
 
@@ -68,12 +74,17 @@ export function Sidebar({
           <ul className="flex-1 px-5 mt-5">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
-          <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-            alt=""
-            className="w-10 h-10 rounded-md"
-          />
+        <div className="border-t flex p-3 items-center">
+          <span
+            className="p-3 cursor-pointer hover:bg-gray-200 rounded"
+            onClick={() => {
+              if (onLogout) {
+                onLogout();
+              }
+            }}
+          >
+            <i className="pi pi-power-off"></i>
+          </span>
           <div
             className={`
               flex justify-between items-center
@@ -81,8 +92,8 @@ export function Sidebar({
           `}
           >
             <div className="leading-4 text-left">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+              {username && <h4 className="font-semibold">{username}</h4>}
+              {email && <span className="text-xs text-gray-600">{email}</span>}
             </div>
             {/* <i className="pi pi-ellipsis-v"></i> */}
           </div>

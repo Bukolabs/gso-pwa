@@ -3,9 +3,6 @@ import "./bidder-form";
 import { useFormContext } from "react-hook-form";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 
-/* eslint-disable-next-line */
-export interface BidderFormProps {}
-
 export function BidderForm() {
   const { control } = useFormContext<BidderFormSchema>();
   return (

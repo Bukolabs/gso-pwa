@@ -1,29 +1,92 @@
 import "./home";
 import { LabelValue } from "@shared/models/label-value.interface";
-import HomeCard from "./home-card/home-card";
+import HomeCard, { HomeCardProps } from "./home-card/home-card";
 import HeaderContent from "@shared/ui/header-content/header-content";
+import {
+  useGetStage1SummaryQy,
+  useGetStage1SummaryReviewQy,
+} from "@core/query/dashboard.query";
+import { ApiToFormService } from "@core/services/api-to-form.service";
 
 function Home() {
-  const sampleReview = [
+  const { data: stage1 } = useGetStage1SummaryQy();
+  const { data: stage1Review } = useGetStage1SummaryReviewQy();
+
+  const stage1Model = ApiToFormService.MapCountCardSummary(
+    stage1?.data || [],
+    stage1Review?.data || []
+  );
+  const stage2Model = [
     {
-      label: "GSO",
-      value: "12",
+      status: "CATEGORIZED",
+      requests: 0,
+      orders: 0,
     },
     {
-      label: "Treasurer",
-      value: "2",
-    },
-  ] as LabelValue[];
-  const sampleOrder = [
-    {
-      label: "GSO",
-      value: "12",
+      status: "POSTED",
+      requests: 0,
+      orders: 0,
     },
     {
-      label: "Treasurer",
-      value: "2",
+      status: "BIDDING",
+      requests: 0,
+      orders: 0,
     },
-  ];
+    {
+      status: "AWARDED",
+      requests: 0,
+      orders: 0,
+    },
+  ] as HomeCardProps[];
+  const stage3Model = [
+    {
+      status: "PO-REVIEW",
+      requests: 0,
+      orders: 0,
+      poReviews: [
+        { label: "CGSO", value: 0 },
+        { label: "CTO", value: 0 },
+        { label: "CMO", value: 0 },
+      ] as LabelValue<number>[],
+      prReviews: [
+        { label: "CGSO", value: 0 },
+        { label: "CTO", value: 0 },
+        { label: "CMO", value: 0 },
+      ] as LabelValue<number>[],
+    },
+    {
+      status: "PO-APPROVED",
+      requests: 0,
+      orders: 0,
+    },
+    {
+      status: "PO-DECLINED",
+      requests: 0,
+      orders: 0,
+    },
+  ] as HomeCardProps[];
+  const stage4Model = [
+    {
+      status: "INSPECTION",
+      requests: 0,
+      orders: 0,
+    },
+    {
+      status: "PARTIAL",
+      requests: 0,
+      orders: 0,
+    },
+    {
+      status: "FULFILLED",
+      requests: 0,
+      orders: 0,
+    },
+    {
+      status: "UNFULFILLED",
+      requests: 0,
+      orders: 0,
+    },
+  ] as HomeCardProps[];
 
   return (
     <div className="page">
@@ -37,10 +100,9 @@ function Home() {
           <small>Purchase Request Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
-          <HomeCard stage={1} requests={20} status="Submitted" />
-          <HomeCard prReviews={sampleReview} stage={1} status="Review" />
-          <HomeCard stage={1} requests={17} status="Approved" />
-          <HomeCard stage={1} requests={6} status="Declined" />
+          {stage1Model.map((item, id) => (
+            <HomeCard key={id} {...item} />
+          ))}
         </div>
 
         <section className="mb-2">
@@ -48,10 +110,9 @@ function Home() {
           <small>Purchase Request Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
-          <HomeCard stage={2} requests={22} status="Categorized" />
-          <HomeCard stage={2} requests={12} status="Posted" />
-          <HomeCard stage={2} requests={44} status="Bidding" />
-          <HomeCard stage={2} requests={67} status="Awarded" />
+          {stage2Model.map((item, id) => (
+            <HomeCard key={id} {...item} />
+          ))}
         </div>
 
         <section className="mb-2">
@@ -59,14 +120,9 @@ function Home() {
           <small>Purchase Orders & Requests Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
-          <HomeCard
-            stage={3}
-            prReviews={sampleReview}
-            poReviews={sampleOrder}
-            status="PO Review"
-          />
-          <HomeCard stage={3} requests={222} orders={78} status="PO Approved" />
-          <HomeCard stage={3} requests={121} orders={67} status="PO Declined" />
+          {stage3Model.map((item, id) => (
+            <HomeCard key={id} {...item} />
+          ))}
         </div>
 
         <section className="mb-2">
@@ -74,36 +130,9 @@ function Home() {
           <small>Purchase Orders & Requests Summary</small>
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
-          <HomeCard
-            stage={4}
-            requests={1565}
-            orders={500}
-            status="Inspection"
-          />
-          <HomeCard
-            stage={4}
-            requests={1565}
-            orders={500}
-            status="Partial"
-          />
-          <HomeCard
-            stage={4}
-            requests={1565}
-            orders={500}
-            status="Fulfilled"
-          />
-          <HomeCard
-            stage={4}
-            requests={1565}
-            orders={500}
-            status="Unfulfilled"
-          />
-          <HomeCard
-            stage={4}
-            requests={1565}
-            orders={500}
-            status="Late"
-          />
+          {stage4Model.map((item, id) => (
+            <HomeCard key={id} {...item} />
+          ))}
         </div>
       </div>
     </div>

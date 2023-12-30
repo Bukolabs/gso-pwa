@@ -10,12 +10,21 @@ export function PurchaseOrder() {
       </HeaderContent>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
-        <PurchaseCard title="PO# 122" subTitle="Food" status="Categorized" />
         <PurchaseCard
+          code="-"
+          title="PO# 122"
+          subTitle="Food"
+          status="Categorized"
+          reviewers={[]}
+          onClick={() => {}}
+        />
+        <PurchaseCard
+          code="-"
           title="PO# 144"
           subTitle="Office Supply"
           status="Review"
-          hasReview={true}
+          reviewers={[]}
+          onClick={() => {}}
         />
       </div>
     </div>

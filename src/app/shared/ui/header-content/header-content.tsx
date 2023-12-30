@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export interface HeaderContentProps {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
   onBack?: () => void;
 }
 

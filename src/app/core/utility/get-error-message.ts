@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { FieldErrors } from "react-hook-form";
 
 export interface ApiResponseMessage {
-  message: string[];
+  message: string[] | string;
 }
 
 export const getApiErrorMessage = (
@@ -11,10 +11,14 @@ export const getApiErrorMessage = (
 ): string => {
   const responseError = error.response?.data as ApiResponseMessage;
 
-  if (responseError.message) {
-    return responseError.message.join(". ");
-  }
-  if (defaultMessage) {
+  if (
+    Array.isArray(responseError.message) &&
+    responseError.message.length > 0
+  ) {
+    return (responseError.message as string[]).join(". ");
+  } else if (typeof responseError.message === "string") {
+    return responseError.message;
+  } else if (defaultMessage) {
     return defaultMessage;
   }
 

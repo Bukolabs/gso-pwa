@@ -64,7 +64,7 @@ export function FormCategoryItem() {
         containerClassName="mb-9"
         className="w-full md:w-3/4"
         placeholder="Enter your category"
-        hint="e.g. Appliances. If the category doesn't exist hit ENTER to create a new category"
+        hint="e.g. Appliances. Hit ENTER to create a new category. Otherwise, if the category doesn't exist select N/A"
         filter
         onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
         onKeyDown={handleFilterInput}

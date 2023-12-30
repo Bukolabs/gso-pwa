@@ -14,7 +14,7 @@ import { GetBidderDto } from "@api/api";
 
 export function ListBidder() {
   const navigate = useNavigate();
-  const limit = 10;
+  const limit = 50;
   const [pageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);
@@ -23,7 +23,7 @@ export function ListBidder() {
     isLoading,
     isError,
     error,
-  } = useGetBidder(limit, pageNumber, searchTerm);
+  } = useGetBidder(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);

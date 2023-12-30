@@ -1,5 +1,5 @@
-import { GetBidderDto, GetItemDto } from "@api/api";
 import {
+  AccountFormSchema,
   BidderFormSchema,
   ItemFormSchema,
   OrderFormSchema,
@@ -7,12 +7,19 @@ import {
 } from "./form.rule";
 
 export const requestFormDefault = {
+  prno: "",
+  dueDate: "" as any,
   category: "",
   section: "",
   sai: "",
+  saiDate: undefined,
   alobs: "",
+  alobsDate: undefined,
   purpose: "",
   items: [],
+  active: true,
+  urgent: false,
+  department: "",
 } as RequestFormSchema;
 
 export const orderFormDefault = {
@@ -39,19 +46,21 @@ export const bidderFormDefault = {
   barangay: "",
   city: "",
 } as BidderFormSchema;
-export const getBidderFormDefault = (value: GetBidderDto | undefined) => {
-  return !value
-    ? bidderFormDefault
-    : ({
-        country: "Philippines",
-        name: value.name,
-        email: value.email,
-        mobile: value.mobile,
-        streetName: value.street_name,
-        barangay: value.barangay,
-        city: value.municipality,
-      } as BidderFormSchema);
-};
+
+export const accountFormDefault = {
+  country: "Philippines",
+  name: "",
+  lastName: "",
+  email: "",
+  mobile: "",
+  streetName: "",
+  barangay: "",
+  city: "",
+  role: "",
+  department: "",
+  username: "",
+  password: "",
+} as AccountFormSchema;
 
 export const itemFormDefault = {
   name: "",
@@ -61,16 +70,5 @@ export const itemFormDefault = {
   isActive: true,
   cost: 0,
   unit: "",
+  quantity: 0,
 } as ItemFormSchema;
-export const getItemFormDefault = (value: GetItemDto | undefined) => {
-  return !value
-    ? bidderFormDefault
-    : ({
-        name: value.name,
-        brand: value.brand,
-        category: value.category,
-        description: value.description,
-        cost: 0,
-        unit: value.unit,
-      } as ItemFormSchema);
-};

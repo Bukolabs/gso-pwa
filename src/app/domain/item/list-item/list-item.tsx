@@ -11,11 +11,18 @@ import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { GetItemDto } from "@api/api";
+import { Menu } from "primereact/menu";
+import { useItemMenu } from "../item-menu";
+import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
+import { currencyTemplate } from "@core/utility/data-table-template";
 
 export function ListItem() {
   const navigate = useNavigate();
-  const limit = 10;
-  const [pageNumber] = useState(0);
+  const { menu } = useItemMenu();
+
+  const rowLimit = 20;
+  const [pageNumber, setPageNumber] = useState(0);
+  const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanel, setFilterPanel] = useState(false);
   const {
@@ -23,7 +30,7 @@ export function ListItem() {
     isLoading,
     isError,
     error,
-  } = useGetItem(limit, pageNumber, searchTerm);
+  } = useGetItem(searchTerm, rowLimit, pageNumber);
   const [visible, setVisible] = useState(false);
 
   const handleSearch = (searchTerm: string) => {
@@ -31,6 +38,11 @@ export function ListItem() {
   };
   const editRecord = (item: GetItemDto) => {
     navigate(`${item.code}`);
+  };
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
+    setFirst(event.first);
+    const offsetValue = event.page * rowLimit;
+    setPageNumber(offsetValue);
   };
 
   const displayLoading = (
@@ -44,15 +56,30 @@ export function ListItem() {
     </div>
   );
   const grid = (
-    <DataTable
-      value={bidders?.data}
-      tableStyle={{ zIndex: 1 }}
-      selectionMode="single"
-      onSelectionChange={(e) => editRecord(e.value)}
-    >
-      <Column field="name" header="Name"></Column>
-      <Column field="brand_name" header="Brand"></Column>
-    </DataTable>
+    <section>
+      <DataTable
+        value={bidders?.data}
+        tableStyle={{ zIndex: 1 }}
+        selectionMode="single"
+        onSelectionChange={(e) => editRecord(e.value)}
+      >
+        <Column field="name" header="Name"></Column>
+        <Column
+          header="Suggested Price"
+          body={(data: GetItemDto) => currencyTemplate(data.price)}
+        ></Column>
+        <Column field="brand_name" header="Brand"></Column>
+        <Column field="category_name" header="Category"></Column>
+      </DataTable>
+
+      <Paginator
+        first={first}
+        rows={rowLimit}
+        totalRecords={bidders?.count}
+        rowsPerPageOptions={[10, 20, 30]}
+        onPageChange={onPageChange}
+      />
+    </section>
   );
   const filter = (
     <div className="flex gap-4">
@@ -90,43 +117,17 @@ export function ListItem() {
               navigate("./new");
             }}
           />
-          {/* <Button label="Settings" outlined onClick={() => setVisible(true)} /> */}
+          <Button label="Settings" outlined onClick={() => setVisible(true)} />
         </div>
       </HeaderContent>
 
       <div className="p-7">
-        <div className="card flex justify-content-center">
-          <Sidebar visible={visible} onHide={() => setVisible(false)}>
-            <h2>Item Settings</h2>
-            <p>Select the following menu to set item settings</p>
-            <span className="p-buttonset w-full flex flex-col mb-4">
-              <Button
-                className="block w-full"
-                label="Items"
-                severity="secondary"
-                outlined
-              />
-              <Button
-                className="block w-full"
-                label="Brands"
-                severity="secondary"
-                outlined
-              />
-              <Button
-                className="block w-full"
-                label="Units"
-                severity="secondary"
-                outlined
-              />
-              <Button
-                className="block w-full"
-                label="Categories"
-                severity="secondary"
-                outlined
-              />
-            </span>
-          </Sidebar>
-        </div>
+        <Sidebar visible={visible} onHide={() => setVisible(false)}>
+          <h2>Item Settings</h2>
+          <p>Select the following menu to set item settings</p>
+
+          <Menu model={menu} className="w-full" />
+        </Sidebar>
 
         {filter}
         {isLoading && displayLoading}

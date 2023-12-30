@@ -3,7 +3,7 @@ import { FieldError } from 'react-hook-form';
 
 export interface FormErrorProps {
    error: FieldError | undefined;
-   className: string;
+   className?: string;
 }
 
 export function FormError({ error, className }: FormErrorProps) {

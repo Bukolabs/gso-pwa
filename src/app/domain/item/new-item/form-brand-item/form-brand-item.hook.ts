@@ -44,7 +44,7 @@ export const useFormBrandItem = () => {
     handleAddApiSuccess,
     handleAddApiError
   );
-  const { data: brands } = useGetBrand();
+  const { data: brands } = useGetBrand('', 99999, 0);
   const mappedBrands = (brands?.data || []).map(
     (item) =>
       ({

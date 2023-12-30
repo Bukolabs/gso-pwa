@@ -8,7 +8,7 @@ import { BidderFormRule, BidderFormSchema } from "@core/model/form.rule";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import {
   getBidderFormDefault,
-} from "@core/model/form.default";
+} from "@core/model/get-form.default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import BidderForm from "../new-bidder/bidder-form/bidder-form";
