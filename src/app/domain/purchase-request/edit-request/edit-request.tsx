@@ -108,7 +108,8 @@ export function EditRequest() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
               {requestItems.map((item, id) => (
                 <ItemCard
-                  key={item.code || id}
+                  key={id}
+                  itemNo={id}
                   item={item}
                   onEdit={handleEdit}
                   onRemove={handleRemove}

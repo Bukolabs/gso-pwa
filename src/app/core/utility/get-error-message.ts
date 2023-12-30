@@ -11,7 +11,10 @@ export const getApiErrorMessage = (
 ): string => {
   const responseError = error.response?.data as ApiResponseMessage;
 
-  if (Array.isArray(responseError.message) && responseError.message.length > 0) {
+  if (
+    Array.isArray(responseError.message) &&
+    responseError.message.length > 0
+  ) {
     return (responseError.message as string[]).join(". ");
   } else if (typeof responseError.message === "string") {
     return responseError.message;

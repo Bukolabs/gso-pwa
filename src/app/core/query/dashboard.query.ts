@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { useErrorAction } from "@core/utility/error-action.hook";
 
 export function useGetStage1SummaryQy(
   onSuccess?:
@@ -19,6 +20,7 @@ export function useGetStage1SummaryQy(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
   const apiFn = async () => {
     showProgress();
     const operation =
@@ -40,6 +42,7 @@ export function useGetStage1SummaryQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
       if (onError) {
         onError(err);
       }
@@ -48,38 +51,45 @@ export function useGetStage1SummaryQy(
 }
 
 export function useGetStage1SummaryReviewQy(
-   onSuccess?:
-     | ((
-         data: DashboardControllerGetStage1ReviewSummary200Response
-       ) => void | Promise<unknown>)
-     | undefined,
-   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
- ) {
-   const { showProgress, hideProgress, showError } = useNotificationContext();
-   const apiFn = async () => {
-     showProgress();
-     const operation =
-       await DashboardApiFp().dashboardControllerGetStage1ReviewSummary(authHeaders());
-     const response = (await operation()).data;
-     return response["data"] as DashboardControllerGetStage1ReviewSummary200Response;
-   };
- 
-   return useQuery({
-     queryKey: [QueryKey.Stage1Review],
-     queryFn: () => apiFn(),
-     onSuccess: (response) => {
-       hideProgress();
-       if (onSuccess) {
-         onSuccess(response);
-       }
-     },
-     onError: (err: AxiosError) => {
-       hideProgress();
-       const message = getApiErrorMessage(err);
-       showError(message);
-       if (onError) {
-         onError(err);
-       }
-     },
-   });
- }
+  onSuccess?:
+    | ((
+        data: DashboardControllerGetStage1ReviewSummary200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async () => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerGetStage1ReviewSummary(
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response[
+      "data"
+    ] as DashboardControllerGetStage1ReviewSummary200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Stage1Review],
+    queryFn: () => apiFn(),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}

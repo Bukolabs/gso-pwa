@@ -24,7 +24,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const currentDate = new Date();
   const isAuthValid = isAfter(localizedExpiryTime, currentDate);
 
-  console.log({ isAuthValid, localizedExpiryTime, currentDate });
+  console.log({ isAuthValid, localizedExpiryTime, currentDate, parsedExpiryDate });
   // if (!user || !isAuthValid) {
   if (!user) {
     return <Navigate to="/login" />;

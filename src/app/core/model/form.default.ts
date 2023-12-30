@@ -1,4 +1,3 @@
-import StorageService from "@shared/services/storage.service";
 import {
   AccountFormSchema,
   BidderFormSchema,
@@ -6,10 +5,7 @@ import {
   OrderFormSchema,
   RequestFormSchema,
 } from "./form.rule";
-import { AUTH } from "@core/utility/settings";
-import { LocalAuth } from "./local-auth";
 
-const currentUser = StorageService.load(AUTH) as LocalAuth;
 export const requestFormDefault = {
   prno: "",
   dueDate: "" as any,
@@ -23,7 +19,7 @@ export const requestFormDefault = {
   items: [],
   active: true,
   urgent: false,
-  department: currentUser.department_name || "",
+  department: "",
 } as RequestFormSchema;
 
 export const orderFormDefault = {

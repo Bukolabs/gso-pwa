@@ -5,11 +5,12 @@ import { ItemFormSchema } from "@core/model/form.rule";
 
 export interface ItemCardProps {
   item: ItemFormSchema;
+  itemNo: number;
   onEdit: (code: ItemFormSchema) => void;
   onRemove: (code: ItemFormSchema) => void;
 }
 
-export function ItemCard({ item, onEdit, onRemove }: ItemCardProps) {
+export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
   const totalCost = item.cost * (item.quantity || 1);
   return (
     <div
@@ -20,6 +21,7 @@ export function ItemCard({ item, onEdit, onRemove }: ItemCardProps) {
           <div>
             <h3 className="text-gray-800 font-bold">{item.name}</h3>
             <small className="text-gray-500">{item.description}</small>
+            <small className="text-gray-500 block">Item No: {itemNo + 1}</small>
           </div>
         </div>
       </section>

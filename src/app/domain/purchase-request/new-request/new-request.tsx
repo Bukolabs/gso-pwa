@@ -22,8 +22,10 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { MessageResponseDto } from "@api/api";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function NewRequest() {
+  const { currentUser } = useUserIdentity();
   const { isMobile } = useScreenSize();
   const navigate = useNavigate();
   const { showError, showSuccess } = useNotificationContext();
@@ -44,7 +46,10 @@ export function NewRequest() {
   const { mutate: addPurchaseRequest } = useAddRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
-    defaultValues: requestFormDefault,
+    defaultValues: {
+      ...requestFormDefault,
+      department: currentUser?.department_name,
+    },
     resolver: zodResolver(RequestFormRule),
   });
   const { handleSubmit, setValue, watch } = formMethod;
@@ -113,7 +118,8 @@ export function NewRequest() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
                   {requestItems.map((item, id) => (
                     <ItemCard
-                      key={item.code || id}
+                      key={id}
+                      itemNo={id}
                       item={item}
                       onEdit={handleEdit}
                       onRemove={handleRemove}
