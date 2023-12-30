@@ -2,6 +2,7 @@ import classNames from "classnames";
 import "./item-card";
 import { Button } from "primereact/button";
 import { ItemFormSchema } from "@core/model/form.rule";
+import { twoDigit } from "@core/utility/number-helper";
 
 export interface ItemCardProps {
   item: ItemFormSchema;
@@ -19,9 +20,11 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between p-4">
           <div>
+            <small className="text-gray-500 block">
+              Item No: {twoDigit(itemNo + 1)}
+            </small>
             <h3 className="text-gray-800 font-bold">{item.name}</h3>
             <small className="text-gray-500">{item.description}</small>
-            <small className="text-gray-500 block">Item No: {itemNo + 1}</small>
           </div>
         </div>
       </section>
