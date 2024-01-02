@@ -26,7 +26,7 @@ import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function NewRequest() {
   const { currentUser } = useUserIdentity();
-  const { isMobile } = useScreenSize();
+  const { isMobileMode } = useScreenSize();
   const navigate = useNavigate();
   const { showError, showSuccess } = useNotificationContext();
   const [visible, setVisible] = useState(false);
@@ -79,7 +79,7 @@ export function NewRequest() {
         <Button
           className="w-full block"
           label="Save"
-          text={isMobile}
+          text={isMobileMode}
           onClick={handleSubmit(handleValidate, handleValidateError)}
         ></Button>
       </HeaderContent>

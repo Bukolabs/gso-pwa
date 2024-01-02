@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 // Define a custom hook to detect screen size
 function useScreenSize() {
   const DESCKTOP_WIDTH = 768;
-  let isMobile = window.innerWidth < DESCKTOP_WIDTH;
+  let isMobileMode = window.innerWidth < DESCKTOP_WIDTH;
 
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    isMobile,
+    isMobileMode,
   });
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function useScreenSize() {
       setScreenSize({
         width: window.innerWidth,
         height: window.innerHeight,
-        isMobile: updatedIsMobile,
+        isMobileMode: updatedIsMobile,
       });
     };
 

@@ -35,7 +35,8 @@ export function ListRequest() {
   } = useListRequestFilter();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
-  const { isMobile } = useScreenSize();
+  const { isMobileMode } = useScreenSize();
+  const [isTableView, setIsTableView] = useState(!isMobileMode);
 
   const rowLimit = 20;
   const [pageNumber, setPageNumber] = useState(0);
@@ -65,6 +66,12 @@ export function ListRequest() {
     setFirst(event.first);
     const offsetValue = event.page * rowLimit;
     setPageNumber(offsetValue);
+  };
+  const handleTableViewMode = () => {
+    setIsTableView(true);
+  };
+  const handleCardViewMode = () => {
+    setIsTableView(false);
   };
 
   const displayLoading = (
@@ -130,6 +137,26 @@ export function ListRequest() {
       </div>
     );
   };
+  const viewMode = (
+    <div className="float-right">
+      <span className="p-buttonset">
+        <Button
+          outlined={true}
+          severity="secondary"
+          size="small"
+          icon="pi pi-table"
+          onClick={handleTableViewMode}
+        />
+        <Button
+          outlined={true}
+          severity="secondary"
+          size="small"
+          icon="pi pi-id-card"
+          onClick={handleCardViewMode}
+        />
+      </span>
+    </div>
+  );
   const grid = (
     <section>
       <DataTable
@@ -164,21 +191,23 @@ export function ListRequest() {
     </section>
   );
   const cards = (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline mb-20">
-      {(purchaseRequests?.data || []).map((item, id) => {
-        const reviewers = getReviewers(item);
-        return (
-          <PurchaseCard
-            key={id}
-            code={item.code}
-            title={`PR No. ${item.pr_no}` || "-"}
-            subTitle={item.department_name}
-            status={item.status_name}
-            reviewers={reviewers}
-            onClick={(code) => navigate(code)}
-          />
-        );
-      })}
+    <section>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
+        {(purchaseRequests?.data || []).map((item, id) => {
+          const reviewers = getReviewers(item);
+          return (
+            <PurchaseCard
+              key={id}
+              code={item.code}
+              title={`PR No. ${item.pr_no}` || "-"}
+              subTitle={item.department_name}
+              status={item.status_name}
+              reviewers={reviewers}
+              onClick={(code) => navigate(code)}
+            />
+          );
+        })}
+      </div>
 
       <Paginator
         first={first}
@@ -186,10 +215,16 @@ export function ListRequest() {
         totalRecords={purchaseRequests?.count}
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
+        className="mb-20"
       />
-    </div>
+    </section>
   );
-  const list = isMobile ? cards : grid;
+  const list = (
+    <>
+      <div>{viewMode}</div>
+      <section className="clear-both">{!isTableView ? cards : grid}</section>
+    </>
+  );
 
   return (
     <div className="list-request">
@@ -198,11 +233,13 @@ export function ListRequest() {
           className="w-full block md:m-0"
           label="New"
           onClick={() => navigate("new")}
-          text={isMobile}
+          text={!isTableView}
         ></Button>
       </HeaderContent>
 
       <div className="p-7">
+        <pre>Is table view? {String(isTableView)}</pre>
+        <pre>Is Mobile Mode? {String(isMobileMode)}</pre>
         {filterElement}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
