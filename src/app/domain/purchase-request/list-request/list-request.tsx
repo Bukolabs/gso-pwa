@@ -23,16 +23,17 @@ import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
-import { useListRequestFilter } from "./list-request-filter.hook";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { useRequestFilter } from "./request-filter.hook";
 
 export function ListRequest() {
   const { isRequestor } = useUserIdentity();
   const {
     departmentSelectionElement,
     categorySelectionElement,
+    statusSelectionElement,
     requestFilters,
-  } = useListRequestFilter();
+  } = useRequestFilter();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
   const { isMobileMode } = useScreenSize();
@@ -84,6 +85,11 @@ export function ListRequest() {
       <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
   );
+  const getFilterCount = () => {
+    const values = Object.values(requestFilters).filter((x) => !!x);
+    const count = values.length || 0;
+    return count.toString();
+  };
   const filterElement = (
     <div className="flex gap-4">
       <SearchInput
@@ -94,13 +100,15 @@ export function ListRequest() {
       />
       <div>
         <Button
-          className="block"
           label="Filter"
           severity="secondary"
           outlined
           onClick={() => setFilterPanel(true)}
+          badge={getFilterCount()}
+          badgeClassName="p-badge-danger" 
         />
       </div>
+
       <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
         <h2>Filters</h2>
         <p className="mb-4">
@@ -112,6 +120,7 @@ export function ListRequest() {
           <></>
         )}
         <div className="mb-4">{categorySelectionElement}</div>
+        <div className="mb-4">{statusSelectionElement}</div>
       </Sidebar>
     </div>
   );
@@ -238,8 +247,6 @@ export function ListRequest() {
       </HeaderContent>
 
       <div className="p-7">
-        <pre>Is table view? {String(isTableView)}</pre>
-        <pre>Is Mobile Mode? {String(isMobileMode)}</pre>
         {filterElement}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}

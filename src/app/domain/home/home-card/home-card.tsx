@@ -12,6 +12,7 @@ export interface HomeCardProps {
   requests?: number;
   prReviews?: LabelValue<number>[];
   poReviews?: LabelValue<number>[];
+  onRequestAction?: (filter: string) => void;
 }
 
 export function HomeCard({
@@ -20,7 +21,15 @@ export function HomeCard({
   prReviews,
   status,
   poReviews,
+  onRequestAction: handleRequestAction,
 }: HomeCardProps) {
+  const handleClickRequest = (status: string) => {
+    const filter = `status_name=${status}`;
+    if (handleRequestAction) {
+      handleRequestAction(filter);
+    }
+  };
+
   return (
     <div
       className={classNames("bg-white w-full shadow rounded-md flex flex-col")}
@@ -37,7 +46,10 @@ export function HomeCard({
 
       {!prReviews ? (
         <section className="flex justify-center gap-3 py-4">
-          <div className="flex flex-col items-center justify-center">
+          <div
+            className="flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => handleClickRequest(status)}
+          >
             <p className="text-gray-800 font-bold">{requests} </p>
             <p className="hint">Total Requests</p>
           </div>

@@ -57,7 +57,6 @@ export function useGetRequestQy(
     queryKey: [QueryKey.Request, search, limit, offset, order, filter],
     queryFn: () => apiFn(search, limit, offset, order, filter),
     onSuccess: (response) => {
-      console.log("useGetRequestQy", { response });
       hideProgress();
       if (onSuccess) {
         onSuccess(response);
