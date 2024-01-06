@@ -13,6 +13,7 @@ export interface HomeCardProps {
   prReviews?: LabelValue<number>[];
   poReviews?: LabelValue<number>[];
   onRequestAction?: (filter: string) => void;
+  onReviewerAction?: (filter: string) => void;
 }
 
 export function HomeCard({
@@ -21,12 +22,26 @@ export function HomeCard({
   prReviews,
   status,
   poReviews,
-  onRequestAction: handleRequestAction,
+  onRequestAction,
+  onReviewerAction,
 }: HomeCardProps) {
   const handleClickRequest = (status: string) => {
     const filter = `status_name=${status}`;
-    if (handleRequestAction) {
-      handleRequestAction(filter);
+    if (onRequestAction) {
+      onRequestAction(filter);
+    }
+  };
+  const handleClickReviewer = (action: LabelValue<any>) => {
+    let filter = `status_name=REVIEW&reviewer=${action.label}`;
+
+    if (action.label === "CGSO") {
+      filter = `reviewer=${action.label}`;
+    } else if (action.label === "CGSO_2") {
+      filter = `status_name=REVIEW&reviewer=CGSO_FF`;
+    }
+
+    if (onReviewerAction) {
+      onReviewerAction(filter);
     }
   };
 
@@ -68,7 +83,7 @@ export function HomeCard({
 
       {prReviews && prReviews.length > 0 && (
         <section className="py-4">
-          <p className="hint text-center mb-1">Total Requests Per Office</p>
+          <p className="hint text-center mb-1">Total Requests Per Reviewer Flow</p>
           <section className="flex justify-center gap-2">
             {prReviews.map((item, id) => (
               <OfficeCircle
@@ -76,6 +91,8 @@ export function HomeCard({
                 label={item.label}
                 value={item.value.toString()}
                 isLightBg={true}
+                className="cursor-pointer"
+                onClick={() => handleClickReviewer(item)}
               />
             ))}
           </section>

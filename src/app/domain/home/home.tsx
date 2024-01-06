@@ -93,6 +93,10 @@ function Home() {
   const handleRequestAction = (filter: string) => {
     navigate(`request?${filter}`);
   };
+  const handleReviewAction = (filter: string) => {
+    console.log(filter);
+    navigate(`request?${filter}`);
+  };
 
   return (
     <div className="page">
@@ -111,6 +115,7 @@ function Home() {
               key={id}
               {...item}
               onRequestAction={handleRequestAction}
+              onReviewerAction={handleReviewAction}
             />
           ))}
         </div>

@@ -7,12 +7,12 @@ import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const defaultFilter = (requestorDepartment: string | null, status = "") => {
-  const defaultFilter = {
-    department: "",
-    category: "",
-    status_name: "",
-  } as Record<string, string>;
+const defaultFilter = (
+  requestorDepartment: string | null,
+  status = "",
+  reviewer = ""
+) => {
+  const defaultFilter = {} as Record<string, string>;
 
   if (requestorDepartment) {
     defaultFilter.department = requestorDepartment;
@@ -22,19 +22,26 @@ const defaultFilter = (requestorDepartment: string | null, status = "") => {
     defaultFilter.status_name = status;
   }
 
+  if (reviewer) {
+    defaultFilter.reviewer = reviewer;
+  }
+
   return defaultFilter;
 };
 
 export function useRequestFilter() {
   let [searchParams] = useSearchParams();
-  const statusFilter = searchParams.get("status_name");
+  const statusParam = searchParams.get("status_name");
+  const reviewerParam = searchParams.get("reviewer");
 
   const { requestorDepartment } = useUserIdentity();
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(statusFilter || "");
+  const [selectedStatus, setSelectedStatus] = useState(statusParam || "");
+  const [selectedReviewer, setSelectedReviewer] = useState(reviewerParam || "");
+
   const [requestFilters, setRequestFilters] = useState<Record<string, string>>(
-    defaultFilter(requestorDepartment, statusFilter || "")
+    defaultFilter(requestorDepartment, statusParam || "", reviewerParam || "")
   );
 
   const { data: department } = useGetDepartmentQy("", 9999999, 0);
@@ -63,6 +70,29 @@ export function useRequestFilter() {
         value: item.name,
       } as LabelValue)
   );
+
+  const mappedReviewer = [
+    {
+      label: "CGSO",
+      value: "CGSO",
+    },
+    {
+      label: "CTO",
+      value: "CTO",
+    },
+    {
+      label: "CMO",
+      value: "CMO",
+    },
+    {
+      label: "CBO",
+      value: "CBO",
+    },
+    {
+      label: "CGSO_2",
+      value: "CGSO_FF",
+    },
+  ] as LabelValue[];
 
   const departmentSelectionElement = (
     <div>
@@ -131,11 +161,46 @@ export function useRequestFilter() {
     </div>
   );
 
+  const reviewerSelectionElement = (
+    <div>
+      <label>Reviewer</label>
+      <Dropdown
+        value={selectedReviewer}
+        onChange={(e) => {
+          setSelectedReviewer(e.value);
+
+          let filterVal = {
+            ...requestFilters,
+            reviewer: e.value,
+          } as Record<string, string>;
+
+          if (e.value === "CGSO") {
+            filterVal = {
+              reviewer: e.value,
+            };
+            setSelectedStatus('')
+          }
+
+          setRequestFilters(filterVal);
+        }}
+        options={mappedReviewer}
+        filter
+        placeholder="Select Reviewer"
+        className="w-full"
+        showClear
+      />
+    </div>
+  );
+
   return {
     requestFilters,
+    selectedCategory,
     selectedDepartment,
+    selectedStatus,
+    selectedReviewer,
     departmentSelectionElement,
     categorySelectionElement,
     statusSelectionElement,
+    reviewerSelectionElement,
   };
 }

@@ -1,7 +1,6 @@
 import {
   CreatePurchaseRequestDto,
   EditPurchaseRequestDto,
-  GetPrItemDto,
   MessageResponseDto,
   ProcessPurchaseRequestDto,
   PurchaseRequestApiFp,
@@ -13,6 +12,7 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { useErrorAction } from "@core/utility/error-action.hook";
 
 export function useGetRequestQy(
   search: string,
@@ -29,6 +29,7 @@ export function useGetRequestQy(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
   const apiFn = async (
     search: string | undefined = undefined,
     limit: number | undefined = undefined,
@@ -66,6 +67,8 @@ export function useGetRequestQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+      
       if (onError) {
         onError(err);
       }
@@ -101,6 +104,7 @@ export function useGetRequestByIdQy(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
   const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
     showProgress();
     const operation =
@@ -132,6 +136,8 @@ export function useGetRequestByIdQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+
       if (onError) {
         onError(err);
       }
@@ -150,6 +156,7 @@ export function useAddRequestQy(
 ) {
   const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
 
   const apiFn = async (payload: CreatePurchaseRequestDto) => {
     showProgress();
@@ -175,6 +182,8 @@ export function useAddRequestQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+
       if (onError) {
         onError(err);
       }
@@ -193,6 +202,7 @@ export function useEditRequestQy(
 ) {
   const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
 
   const apiFn = async (payload: EditPurchaseRequestDto) => {
     showProgress();
@@ -218,6 +228,8 @@ export function useEditRequestQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+
       if (onError) {
         onError(err);
       }
@@ -236,6 +248,7 @@ export function useProcessRequestQy(
 ) {
   const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
 
   const apiFn = async (payload: ProcessPurchaseRequestDto) => {
     showProgress();
@@ -261,6 +274,8 @@ export function useProcessRequestQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+
       if (onError) {
         onError(err);
       }

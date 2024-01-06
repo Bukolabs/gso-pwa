@@ -23,17 +23,13 @@ import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
-import { useUserIdentity } from "@core/utility/user-identity.hook";
-import { useRequestFilter } from "./request-filter.hook";
+import { useRequestFilterContext } from "./request-filter.context";
+import { RequestFilterForm } from "./request-filter.form";
 
 export function ListRequest() {
-  const { isRequestor } = useUserIdentity();
   const {
-    departmentSelectionElement,
-    categorySelectionElement,
-    statusSelectionElement,
     requestFilters,
-  } = useRequestFilter();
+  } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
   const { isMobileMode } = useScreenSize();
@@ -110,17 +106,7 @@ export function ListRequest() {
       </div>
 
       <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
-        <h2>Filters</h2>
-        <p className="mb-4">
-          Select the following filters you want to apply to the current table.
-        </p>
-        {!isRequestor ? (
-          <div className="mb-4">{departmentSelectionElement}</div>
-        ) : (
-          <></>
-        )}
-        <div className="mb-4">{categorySelectionElement}</div>
-        <div className="mb-4">{statusSelectionElement}</div>
+        <RequestFilterForm />
       </Sidebar>
     </div>
   );
