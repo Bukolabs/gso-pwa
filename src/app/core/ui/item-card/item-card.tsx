@@ -47,10 +47,10 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
           <p className="text-gray-800 font-bold">{item.unitName}</p>
           <p className="hint">Unit</p>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        {/* <div className="flex flex-col items-center justify-center">
           <p className="text-gray-800 font-bold">{item.brandName}</p>
           <p className="hint">Brand</p>
-        </div>
+        </div> */}
         {item.categoryName && (
           <div className="flex flex-col items-center justify-center">
             <p className="text-gray-800 font-bold">{item.categoryName}</p>

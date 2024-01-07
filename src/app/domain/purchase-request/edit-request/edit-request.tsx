@@ -14,13 +14,15 @@ import { SplitButton } from "primereact/splitbutton";
 import { useEditRequest } from "./edit-request.hook";
 import ReviewSection from "@core/ui/review-section/review-section";
 import RequestPrint from "./request-print/request-print";
+import { format } from "date-fns";
+import { SETTINGS } from "@core/utility/settings";
 
 export function EditRequest() {
   const {
     requests,
     visible,
     defaultPrItem,
-    requestItems,
+    displayRequestItems,
     formMethod,
     isLoading,
     requestError,
@@ -55,10 +57,19 @@ export function EditRequest() {
   const subHeader = () => {
     const data = requests?.data?.[0];
     const tag = tagTemplate(data?.status_name || "none");
+    const dateUpdated = data?.updated_at;
     return (
       <section className="mb-5">
         <h2>PR#: {data?.pr_no}</h2>
-        {tag}
+        <div>{tag}</div>
+        <span className="flex gap-1 mt-1">
+          <label className="hint">Date Updated:</label>
+          <p className="hint">
+            {dateUpdated
+              ? format(new Date(dateUpdated), SETTINGS.dateFormat)
+              : ""}
+          </p>
+        </span>
       </section>
     );
   };
@@ -106,7 +117,7 @@ export function EditRequest() {
 
           <div className="mt-2 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-              {requestItems.map((item, id) => (
+              {displayRequestItems.map((item, id) => (
                 <ItemCard
                   key={id}
                   itemNo={id}

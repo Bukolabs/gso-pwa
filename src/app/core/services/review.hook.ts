@@ -97,7 +97,16 @@ export function useReviewHook() {
           ? "pi pi-check"
           : "pi pi-times",
     };
-    const reviewers = [gso, treasurer, mayor, budget];
+    const gsoff = {
+      label: "CGSO_2",
+      value:
+        data.is_gso_ff === null
+          ? ""
+          : Boolean(data.is_budget)
+          ? "pi pi-check"
+          : "pi pi-times",
+    };
+    const reviewers = [gso, treasurer, mayor, budget, gsoff];
     return reviewers as LabelValue[];
   };
 
