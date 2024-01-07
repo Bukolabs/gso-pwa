@@ -29,6 +29,8 @@ import MainShell from "@domain/shell/main-shell/main-shell";
 import AuthShell from "@domain/shell/auth-shell/auth-shell";
 import Login from "@domain/login/login";
 import { ProtectedRoute } from "@core/authentication/protected-route";
+import ListOrder from "@domain/purchase-order/list-order/list-order";
+import NewOrder from "@domain/purchase-order/new-order/new-order";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +65,20 @@ const router = createBrowserRouter([
               },
             ],
           },
-          { path: "order", element: <PurchaseOrder /> },
+          {
+            path: "order",
+            element: <PurchaseOrder />,
+            children: [
+              {
+                path: "",
+                element: <ListOrder />,
+              },
+              {
+                path: "new",
+                element: <NewOrder />,
+              },
+            ],
+          },
           {
             path: "bidder",
             element: <Bidder />,

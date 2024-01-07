@@ -11,5 +11,6 @@ export enum QueryKey {
   Authentication = "authentication",
   Stage1 = "stage1",
   Stage1Review = "stage1review",
-  Status = 'status'
+  Status = 'status',
+  Order = 'order',
 }
