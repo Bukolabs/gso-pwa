@@ -7,10 +7,12 @@ import {
   useGetStage1SummaryReviewQy,
 } from "@core/query/dashboard.query";
 import { ApiToFormService } from "@core/services/api-to-form.service";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { data: stage1 } = useGetStage1SummaryQy();
   const { data: stage1Review } = useGetStage1SummaryReviewQy();
+  const navigate = useNavigate();
 
   const stage1Model = ApiToFormService.MapCountCardSummary(
     stage1?.data || [],
@@ -88,6 +90,14 @@ function Home() {
     },
   ] as HomeCardProps[];
 
+  const handleRequestAction = (filter: string) => {
+    navigate(`request?${filter}`);
+  };
+  const handleReviewAction = (filter: string) => {
+    console.log(filter);
+    navigate(`request?${filter}`);
+  };
+
   return (
     <div className="page">
       <HeaderContent title="Home">
@@ -101,7 +111,12 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
           {stage1Model.map((item, id) => (
-            <HomeCard key={id} {...item} />
+            <HomeCard
+              key={id}
+              {...item}
+              onRequestAction={handleRequestAction}
+              onReviewerAction={handleReviewAction}
+            />
           ))}
         </div>
 
@@ -111,7 +126,11 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
           {stage2Model.map((item, id) => (
-            <HomeCard key={id} {...item} />
+            <HomeCard
+              key={id}
+              {...item}
+              onRequestAction={handleRequestAction}
+            />
           ))}
         </div>
 
@@ -121,7 +140,11 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
           {stage3Model.map((item, id) => (
-            <HomeCard key={id} {...item} />
+            <HomeCard
+              key={id}
+              {...item}
+              onRequestAction={handleRequestAction}
+            />
           ))}
         </div>
 
@@ -131,7 +154,11 @@ function Home() {
         </section>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
           {stage4Model.map((item, id) => (
-            <HomeCard key={id} {...item} />
+            <HomeCard
+              key={id}
+              {...item}
+              onRequestAction={handleRequestAction}
+            />
           ))}
         </div>
       </div>

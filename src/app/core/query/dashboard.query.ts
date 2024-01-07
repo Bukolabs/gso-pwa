@@ -81,6 +81,20 @@ export function useGetStage1SummaryReviewQy(
         onSuccess(response);
       }
     },
+    select: (data) => {
+      const sortedArray = [...(data.data || [])];
+      const swapItem = sortedArray[3];
+      sortedArray[3] = sortedArray[4];
+      sortedArray[4] = {
+        ...swapItem,
+        approver: "CGSO_2",
+      };
+
+      return {
+        count: data.count,
+        data: sortedArray,
+      };
+    },
     onError: (err: AxiosError) => {
       hideProgress();
       const message = getApiErrorMessage(err);

@@ -7,6 +7,8 @@ export interface OfficeCircleProps {
   isIcon?: boolean;
   severity?: string;
   isLightBg?: boolean;
+  className?: string;
+  onClick?: (value: any) => any;
 }
 
 export function OfficeCircle({
@@ -14,6 +16,8 @@ export function OfficeCircle({
   value,
   isIcon,
   isLightBg,
+  className,
+  onClick,
 }: OfficeCircleProps) {
   let displayValue = <></>;
   if (isIcon && !!value) {
@@ -23,7 +27,13 @@ export function OfficeCircle({
   }
 
   return (
-    <div className={classNames("flex flex-col justify-center items-center")}>
+    <div
+      className={classNames(
+        "flex flex-col justify-center items-center",
+        className
+      )}
+      onClick={onClick}
+    >
       <div
         className={classNames(
           "border  rounded-full w-9 h-9 flex items-center justify-center mb-2",

@@ -23,19 +23,17 @@ import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
-import { useListRequestFilter } from "./list-request-filter.hook";
-import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { useRequestFilterContext } from "./request-filter.context";
+import { RequestFilterForm } from "./request-filter.form";
 
 export function ListRequest() {
-  const { isRequestor } = useUserIdentity();
   const {
-    departmentSelectionElement,
-    categorySelectionElement,
     requestFilters,
-  } = useListRequestFilter();
+  } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
-  const { isMobile } = useScreenSize();
+  const { isMobileMode } = useScreenSize();
+  const [isTableView, setIsTableView] = useState(!isMobileMode);
 
   const rowLimit = 20;
   const [pageNumber, setPageNumber] = useState(0);
@@ -66,6 +64,12 @@ export function ListRequest() {
     const offsetValue = event.page * rowLimit;
     setPageNumber(offsetValue);
   };
+  const handleTableViewMode = () => {
+    setIsTableView(true);
+  };
+  const handleCardViewMode = () => {
+    setIsTableView(false);
+  };
 
   const displayLoading = (
     <div className="card">
@@ -77,6 +81,11 @@ export function ListRequest() {
       <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
   );
+  const getFilterCount = () => {
+    const values = Object.values(requestFilters).filter((x) => !!x);
+    const count = values.length || 0;
+    return count.toString();
+  };
   const filterElement = (
     <div className="flex gap-4">
       <SearchInput
@@ -87,24 +96,17 @@ export function ListRequest() {
       />
       <div>
         <Button
-          className="block"
           label="Filter"
           severity="secondary"
           outlined
           onClick={() => setFilterPanel(true)}
+          badge={getFilterCount()}
+          badgeClassName="p-badge-danger" 
         />
       </div>
+
       <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
-        <h2>Filters</h2>
-        <p className="mb-4">
-          Select the following filters you want to apply to the current table.
-        </p>
-        {!isRequestor ? (
-          <div className="mb-4">{departmentSelectionElement}</div>
-        ) : (
-          <></>
-        )}
-        <div className="mb-4">{categorySelectionElement}</div>
+        <RequestFilterForm />
       </Sidebar>
     </div>
   );
@@ -130,6 +132,26 @@ export function ListRequest() {
       </div>
     );
   };
+  const viewMode = (
+    <div className="float-right">
+      <span className="p-buttonset">
+        <Button
+          outlined={true}
+          severity="secondary"
+          size="small"
+          icon="pi pi-table"
+          onClick={handleTableViewMode}
+        />
+        <Button
+          outlined={true}
+          severity="secondary"
+          size="small"
+          icon="pi pi-id-card"
+          onClick={handleCardViewMode}
+        />
+      </span>
+    </div>
+  );
   const grid = (
     <section>
       <DataTable
@@ -164,21 +186,23 @@ export function ListRequest() {
     </section>
   );
   const cards = (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline mb-20">
-      {(purchaseRequests?.data || []).map((item, id) => {
-        const reviewers = getReviewers(item);
-        return (
-          <PurchaseCard
-            key={id}
-            code={item.code}
-            title={`PR No. ${item.pr_no}` || "-"}
-            subTitle={item.department_name}
-            status={item.status_name}
-            reviewers={reviewers}
-            onClick={(code) => navigate(code)}
-          />
-        );
-      })}
+    <section>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
+        {(purchaseRequests?.data || []).map((item, id) => {
+          const reviewers = getReviewers(item);
+          return (
+            <PurchaseCard
+              key={id}
+              code={item.code}
+              title={`PR No. ${item.pr_no}` || "-"}
+              subTitle={item.department_name}
+              status={item.status_name}
+              reviewers={reviewers}
+              onClick={(code) => navigate(code)}
+            />
+          );
+        })}
+      </div>
 
       <Paginator
         first={first}
@@ -186,10 +210,16 @@ export function ListRequest() {
         totalRecords={purchaseRequests?.count}
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
+        className="mb-20"
       />
-    </div>
+    </section>
   );
-  const list = isMobile ? cards : grid;
+  const list = (
+    <>
+      <div>{viewMode}</div>
+      <section className="clear-both">{!isTableView ? cards : grid}</section>
+    </>
+  );
 
   return (
     <div className="list-request">
@@ -198,7 +228,7 @@ export function ListRequest() {
           className="w-full block md:m-0"
           label="New"
           onClick={() => navigate("new")}
-          text={isMobile}
+          text={!isTableView}
         ></Button>
       </HeaderContent>
 

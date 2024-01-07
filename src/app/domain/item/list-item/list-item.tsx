@@ -68,7 +68,7 @@ export function ListItem() {
           header="Suggested Price"
           body={(data: GetItemDto) => currencyTemplate(data.price)}
         ></Column>
-        <Column field="brand_name" header="Brand"></Column>
+        <Column field="unit_name" header="Unit"></Column>
         <Column field="category_name" header="Category"></Column>
       </DataTable>
 

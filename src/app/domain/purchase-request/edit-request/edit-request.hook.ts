@@ -192,6 +192,7 @@ export function useEditRequest() {
   });
   const { handleSubmit, setValue, watch } = formMethod;
   const requestItems = watch("items");
+  const displayRequestItems = requestItems.filter((item) => item.isActive);
 
   const handleBack = () => {
     navigate("../");
@@ -218,15 +219,25 @@ export function useEditRequest() {
     setDefaultPrItem(item);
   };
   const handleRemove = (item: ItemFormSchema) => {
+    const updatedIsActiveItems = requestItems.map((x) => {
+      if (x.code === item.code) {
+        return {
+          ...x,
+          isActive: false,
+        };
+      }
+
+      return x;
+    });
     const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
-    setValue("items", unmatchedCode);
+    setValue("items", updatedIsActiveItems);
   };
 
   return {
     requests,
     visible,
     defaultPrItem,
-    requestItems,
+    displayRequestItems,
     formMethod,
     isLoading,
     requestError,

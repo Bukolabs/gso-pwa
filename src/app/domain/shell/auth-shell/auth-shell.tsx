@@ -28,18 +28,11 @@ export function AuthShell() {
         requestNav,
         orderNav,
         itemNav,
-        bidderNav,
         accountNav,
       ] as NavigationProps[]);
   const mobileNavigation = isRequestor
     ? [homeNav, requestNav, moreNav]
-    : ([
-        homeNav,
-        requestNav,
-        orderNav,
-        bidderNav,
-        moreNav,
-      ] as NavigationProps[]);
+    : ([homeNav, requestNav, orderNav, moreNav] as NavigationProps[]);
 
   const mobileAllItem = [
     {

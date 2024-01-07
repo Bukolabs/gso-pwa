@@ -41,7 +41,7 @@ export function FormItem({
     )[0];
     setValue("description", selectedItemEntity.description || "");
     setValue("cost", selectedItemEntity.price);
-    setValue("brand", selectedItemEntity.brand);
+    setValue("brand", selectedItemEntity.brand || "");
     setValue("brandName", selectedItemEntity.brand_name);
     setValue("unit", selectedItemEntity.unit);
     setValue("unitName", selectedItemEntity.unit_name);
@@ -113,7 +113,7 @@ export function FormItem({
         )}
 
         <FormUnitItem />
-        <FormBrandItem />
+        {/* <FormBrandItem /> */}
         <FormCategoryItem />
       </div>
     </div>

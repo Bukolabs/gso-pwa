@@ -60,40 +60,6 @@ export function FormRequest() {
         placeholder="Enter Section"
         hint="e.g. Section Narra"
       />
-      <InputControl<RequestFormSchema>
-        control={control}
-        name="sai"
-        label="SAI"
-        className="w-full md:w-3/4"
-        containerClassName="pb-2"
-        placeholder="Enter SAI"
-        hint="e.g. 12345"
-      />
-      <InputDateControl<RequestFormSchema>
-        control={control}
-        name="saiDate"
-        label="SAI Date"
-        className="w-full md:w-3/4"
-        containerClassName="pb-2"
-        hint="e.g. 30/12/2023"
-      />
-      <InputControl<RequestFormSchema>
-        control={control}
-        name="alobs"
-        label="ALOBS"
-        className="w-full md:w-3/4"
-        containerClassName="pb-2"
-        placeholder="Enter ALOBS"
-        hint="e.g. 12345"
-      />
-      <InputDateControl<RequestFormSchema>
-        control={control}
-        name="alobsDate"
-        label="ALOBS Date"
-        className="w-full md:w-3/4"
-        containerClassName="pb-2"
-        hint="e.g. 30/12/2023"
-      />
       <InputTextareaControl<RequestFormSchema>
         control={control}
         name="purpose"

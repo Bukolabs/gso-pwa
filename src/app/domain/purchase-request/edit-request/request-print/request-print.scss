@@ -5,3 +5,11 @@
  * .request-print {
  * }
 */
+
+table {
+  page-break-before: auto;
+}
+tr {
+  page-break-inside: avoid;
+  page-break-after: auto;
+}
