@@ -23,18 +23,21 @@ export const requestFormDefault = {
 } as RequestFormSchema;
 
 export const orderFormDefault = {
+  pono: "",
+  poDate: "" as any,
+  resolutionNo: "",
   procurementMode: "",
-  requestNumbers: "",
   supplier: "",
   address: "",
   email: "",
   phone: "",
   tin: "",
   deliveryAddress: "",
-  deliveryDate: new Date(),
+  deliveryDate: "" as any,
   deliveryTerm: "",
   paymentTerm: "",
-  items: [],
+  isActive: true,
+  requests: [],
 } as OrderFormSchema;
 
 export const bidderFormDefault = {

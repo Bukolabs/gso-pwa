@@ -48,19 +48,23 @@ export const RequestFormRule = z.object({
   department: z.string().optional()
 });
 
-export const OrderItemRule = z.object({
+export const OrderFormRule = z.object({
+  code: z.string().optional(),
+  pono: z.string().optional(),
+  poDate: z.coerce.date(),
+  resolutionNo: z.string(),
   procurementMode: z.string(),
-  requestNumbers: z.string(),
   supplier: z.string(),
   address: z.string(),
   email: z.string(),
   phone: z.string(),
   tin: z.string(),
   deliveryAddress: z.string(),
-  deliveryDate: z.date(),
+  deliveryDate: z.coerce.date(),
   deliveryTerm: z.string(),
   paymentTerm: z.string(),
-  items: ItemFormRule.array(),
+  isActive: z.boolean(),
+  requests: RequestFormRule.array(),
 });
 
 export const PersonalRule = z.object({
@@ -110,7 +114,7 @@ export const BidderFormRule = PersonalRule.and(AddressRule);
 export const AccountFormRule = PersonalRule.and(AccountRule);
 
 export type RequestFormSchema = z.infer<typeof RequestFormRule>;
-export type OrderFormSchema = z.infer<typeof OrderItemRule>;
+export type OrderFormSchema = z.infer<typeof OrderFormRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
 export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;

@@ -37,8 +37,8 @@ export function ListRequest() {
 
   const rowLimit = 20;
   const [pageNumber, setPageNumber] = useState(0);
-  const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [first, setFirst] = useState(0);
   const [filterPanel, setFilterPanel] = useState(false);
   const {
     data: purchaseRequests,

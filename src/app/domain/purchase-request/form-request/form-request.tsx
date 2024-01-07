@@ -7,8 +7,6 @@ import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { useGetCategory } from "@core/query/category.query";
 import { LabelValue } from "@shared/models/label-value.interface";
-import { InputText } from "primereact/inputtext";
-import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function FormRequest() {
   const { control } = useFormContext<RequestFormSchema>();

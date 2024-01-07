@@ -4,6 +4,7 @@ import {
   CreateItemDto,
   CreatePersonDto,
   CreatePrItemDto,
+  CreatePurchaseOrderDto,
   CreatePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
@@ -15,6 +16,7 @@ import {
   BidderFormSchema,
   ItemFormSchema,
   LoginFormSchema,
+  OrderFormSchema,
   PurchaseItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
@@ -172,4 +174,20 @@ export class FormToApiService {
 
     return payload;
   }
+
+  static NewOrderRequest(form: OrderFormSchema) {
+    const payload = {
+      po_date: format(form.poDate as Date, SETTINGS.dateFormat),
+      resolution_no: form.resolutionNo,
+      mode_of_procurement: form.procurementMode,
+      delivery_location: form.deliveryAddress,
+      delivery_date: format(form.deliveryDate as Date, SETTINGS.dateFormat),
+      delivery_term: form.deliveryTerm,
+      is_active: true,
+      purchase_requests: []
+    } as CreatePurchaseOrderDto;
+
+    return payload;
+  }
+
 }
