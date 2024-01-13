@@ -45,7 +45,10 @@ export const RequestFormRule = z.object({
   items: PurchaseItemFormRule.array(),
   urgent: z.boolean().optional(),
   active: z.boolean().optional(),
-  department: z.string().optional()
+  department: z.string().optional(),
+  departmentLabel: z.string().optional(),
+  isPPMP: z.boolean(),
+  isActivityDesign: z.boolean(),
 });
 
 export const OrderFormRule = z.object({

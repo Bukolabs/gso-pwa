@@ -16,6 +16,7 @@ import ReviewSection from "@core/ui/review-section/review-section";
 import RequestPrint from "./request-print/request-print";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
+import { InputTextarea } from "primereact/inputtextarea";
 
 export function EditRequest() {
   const {
@@ -30,6 +31,9 @@ export function EditRequest() {
     dataEmpty,
     reviewers,
     componentRef,
+    remarksVisible,
+    reviewRemarks,
+    remarksMode,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -39,6 +43,10 @@ export function EditRequest() {
     handleValidate,
     handleValidateError,
     getActions,
+    setRemarksVisible,
+    setReviewRemarks,
+    handleApprove,
+    handleDecline,
   } = useEditRequest();
 
   const displayLoading = (
@@ -82,6 +90,28 @@ export function EditRequest() {
         <RequestPrint data={requests?.data?.[0]} />
       </div>
     </div>
+  );
+  const remarksSidebar = (
+    <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
+      <label>Remarks</label>
+      <InputTextarea
+        value={reviewRemarks}
+        onChange={(e) => setReviewRemarks(e.target.value)}
+        rows={5}
+        cols={30}
+      />
+      <small className="text-gray-400 mb-1 block">
+        Enter reason why you are approving/disapproving the item
+      </small>
+
+      <div className="flex justify-end mt-5">
+        {remarksMode === "approve" ? (
+          <Button label="Approve" onClick={() => handleApprove()} />
+        ) : (
+          <Button label="Decline" onClick={() => handleDecline()} />
+        )}
+      </div>
+    </Sidebar>
   );
   const formRequest = (
     <section>
@@ -144,6 +174,9 @@ export function EditRequest() {
           />
         </div>
       </HeaderContent>
+
+      {remarksSidebar}
+
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}

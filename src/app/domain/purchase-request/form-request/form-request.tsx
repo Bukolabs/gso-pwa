@@ -7,6 +7,7 @@ import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { useGetCategory } from "@core/query/category.query";
 import { LabelValue } from "@shared/models/label-value.interface";
+import CheckboxControl from "@shared/ui/hook-form/checkbox-control/checkbox-control";
 
 export function FormRequest() {
   const { control } = useFormContext<RequestFormSchema>();
@@ -42,7 +43,7 @@ export function FormRequest() {
       />
       <InputControl<RequestFormSchema>
         control={control}
-        name="department"
+        name="departmentLabel"
         label="Department"
         className="w-full md:w-3/4"
         containerClassName="pb-2"
@@ -66,6 +67,20 @@ export function FormRequest() {
         containerClassName="pb-2"
         placeholder="Enter purpose of request"
         hint="e.g. for the betterment of fellow citizen"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="isPPMP"
+        label="Contains PPMP"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="isActivityDesign"
+        label="Contains Activity Design"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
       />
     </div>
   );

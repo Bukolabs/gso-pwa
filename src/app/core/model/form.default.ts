@@ -20,6 +20,9 @@ export const requestFormDefault = {
   active: true,
   urgent: false,
   department: "",
+  departmentLabel: "",
+  isPPMP: false,
+  isActivityDesign: false
 } as RequestFormSchema;
 
 export const orderFormDefault = {

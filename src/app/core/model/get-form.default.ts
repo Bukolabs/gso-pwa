@@ -43,7 +43,10 @@ export const getRequestFormDefault = (
         items: items,
         urgent: cachedValue.is_urgent,
         active: true,
-        department: cachedValue.department_name,
+        department: cachedValue.department,
+        departmentLabel: cachedValue.department_name,
+        isPPMP: Boolean(cachedValue.has_ppmp),
+        isActivityDesign: Boolean(cachedValue.has_activity_design),
       } as RequestFormSchema);
 };
 

@@ -139,7 +139,6 @@ export class FormToApiService {
   }
 
   static EditPurchaseRequest(form: RequestFormSchema, id: string) {
-    const currentUser = StorageService.load(AUTH) as LocalAuth;
     const requestItemPayload = form.items.map((item) =>
       this.NewRequestPurchaseItem(item)
     );
@@ -149,11 +148,13 @@ export class FormToApiService {
       sai_no: form.sai,
       alobs_no: form.alobs,
       category: form.category,
-      department: currentUser.department_code, //ADMIN
+      department: form.department,
       section: form.section,
       is_urgent: false,
       items: requestItemPayload,
       purpose: form.purpose,
+      has_ppmp: form.isPPMP,
+      has_activity_design: form.isActivityDesign
     } as EditPurchaseRequestDto;
 
     return payload;

@@ -42,12 +42,23 @@ export function useEditRequest() {
     ItemFormSchema | undefined
   >(undefined);
 
+  const [remarksVisible, setRemarksVisible] = useState(false);
+  const [reviewRemarks, setReviewRemarks] = useState("");
+  const [remarksMode, setRemarksMode] = useState("");
+
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
   const getActions = () => {
     const defaultActions = [
+      {
+        label: "Submit",
+        command: () => {
+          const formValues = getValues();
+          console.log({ formValues });
+        },
+      },
       {
         label: "History",
         command: () => {},
@@ -67,35 +78,15 @@ export function useEditRequest() {
       {
         label: "Approve",
         command: () => {
-          const dataValue = requests?.data?.[0];
-
-          if (!dataValue) {
-            throw new Error("no data");
-          }
-
-          const reviewer = setReviewerEntityStatus(true);
-          const payload = {
-            code: dataValue.code,
-            ...reviewer,
-          } as ProcessPurchaseRequestDto;
-          processRequest(payload);
+          setRemarksVisible(true);
+          setRemarksMode("approve");
         },
       },
       {
         label: "Decline",
         command: () => {
-          const dataValue = requests?.data?.[0];
-
-          if (!dataValue) {
-            throw new Error("no data");
-          }
-
-          const reviewer = setReviewerEntityStatus(false);
-          const payload = {
-            code: dataValue.code,
-            ...reviewer,
-          } as ProcessPurchaseRequestDto;
-          processRequest(payload);
+          setRemarksVisible(true);
+          setRemarksMode("decline");
         },
       },
     ];
@@ -111,7 +102,7 @@ export function useEditRequest() {
 
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
-    showSuccess("Request is approved");
+    showSuccess("Request status is changed successfully");
   };
   const { mutate: processRequest } = useProcessRequestQy(handleProcessSuccess);
 
@@ -161,7 +152,10 @@ export function useEditRequest() {
         : [];
       setValue("items", items);
       setValue("urgent", responseData?.is_urgent || false);
-      setValue("department", responseData?.department_name);
+      setValue("department", responseData?.department);
+      setValue("departmentLabel", responseData?.department_name);
+      setValue("isPPMP", Boolean(responseData?.has_ppmp));
+      setValue("isActivityDesign", Boolean(responseData?.has_activity_design));
 
       setDataEmpty(false);
       hideProgress();
@@ -190,7 +184,7 @@ export function useEditRequest() {
     defaultValues: getRequestFormDefault(requests?.data?.[0]),
     resolver: zodResolver(RequestFormRule),
   });
-  const { handleSubmit, setValue, watch } = formMethod;
+  const { handleSubmit, setValue, watch, getValues } = formMethod;
   const requestItems = watch("items");
   const displayRequestItems = requestItems.filter((item) => item.isActive);
 
@@ -229,8 +223,40 @@ export function useEditRequest() {
 
       return x;
     });
-    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
     setValue("items", updatedIsActiveItems);
+  };
+
+  const handleApprove = () => {
+    const dataValue = requests?.data?.[0];
+
+    if (!dataValue) {
+      throw new Error("no data");
+    }
+
+    const reviewer = setReviewerEntityStatus(true);
+    const payload = {
+      code: dataValue.code,
+      ...reviewer,
+      remarks: reviewRemarks,
+    } as ProcessPurchaseRequestDto;
+    processRequest(payload);
+    setRemarksVisible(false);
+  };
+  const handleDecline = () => {
+    const dataValue = requests?.data?.[0];
+
+    if (!dataValue) {
+      throw new Error("no data");
+    }
+
+    const reviewer = setReviewerEntityStatus(false);
+    const payload = {
+      code: dataValue.code,
+      ...reviewer,
+      remarks: reviewRemarks,
+    } as ProcessPurchaseRequestDto;
+    processRequest(payload);
+    setRemarksVisible(false);
   };
 
   return {
@@ -245,6 +271,9 @@ export function useEditRequest() {
     dataEmpty,
     reviewers,
     componentRef,
+    remarksVisible,
+    reviewRemarks,
+    remarksMode,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,
@@ -255,5 +284,9 @@ export function useEditRequest() {
     handleValidate,
     handleValidateError,
     getActions,
+    setRemarksVisible,
+    setReviewRemarks,
+    handleApprove,
+    handleDecline,
   };
 }
