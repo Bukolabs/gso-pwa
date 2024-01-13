@@ -10,13 +10,13 @@ import AddItem from "../add-item/add-item";
 import { TabPanel, TabView } from "primereact/tabview";
 import { Sidebar } from "primereact/sidebar";
 import { tagTemplate } from "@core/utility/data-table-template";
-import { SplitButton } from "primereact/splitbutton";
 import { useEditRequest } from "./edit-request.hook";
 import ReviewSection from "@core/ui/review-section/review-section";
 import RequestPrint from "./request-print/request-print";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { InputTextarea } from "primereact/inputtextarea";
+import ActionButton from "./action-button/action-button";
 
 export function EditRequest() {
   const {
@@ -39,14 +39,11 @@ export function EditRequest() {
     handleEdit,
     handleRemove,
     navigate,
-    handleSubmit,
-    handleValidate,
-    handleValidateError,
-    getActions,
     setRemarksVisible,
     setReviewRemarks,
     handleApprove,
     handleDecline,
+    handleAction,
   } = useEditRequest();
 
   const displayLoading = (
@@ -167,10 +164,9 @@ export function EditRequest() {
     <div className="edit-request">
       <HeaderContent title="Edit Request" onBack={() => navigate("../")}>
         <div className="flex gap-2">
-          <SplitButton
-            label="Update"
-            onClick={handleSubmit(handleValidate, handleValidateError)}
-            model={getActions()}
+          <ActionButton
+            status={requests?.data?.[0].status_name || "DRAFT"}
+            onAction={handleAction}
           />
         </div>
       </HeaderContent>

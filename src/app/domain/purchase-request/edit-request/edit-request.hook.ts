@@ -26,12 +26,8 @@ import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
-import { useUserIdentity } from "@core/utility/user-identity.hook";
-import { showReviewControl } from "@core/utility/approve-control";
-import { RequestStatus } from "@core/model/request-status.enum";
 
 export function useEditRequest() {
-  const { isRequestor } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError, hideProgress } = useNotificationContext();
   const navigate = useNavigate();
@@ -50,54 +46,38 @@ export function useEditRequest() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const getActions = () => {
-    const defaultActions = [
-      {
-        label: "Submit",
-        command: () => {
-          const formValues = getValues();
-          console.log({ formValues });
-        },
-      },
-      {
-        label: "History",
-        command: () => {},
-      },
-      {
-        label: "Print",
-        command: () => {
-          handlePrint();
-        },
-      },
-      {
-        label: "Delete",
-        command: () => {},
-      },
-    ];
-    const reviewerActions = [
-      {
-        label: "Approve",
-        command: () => {
-          setRemarksVisible(true);
-          setRemarksMode("approve");
-        },
-      },
-      {
-        label: "Decline",
-        command: () => {
-          setRemarksVisible(true);
-          setRemarksMode("decline");
-        },
-      },
-    ];
 
-    const currentStatus = requests?.data?.[0].status_name;
-    const hasReviewerActions =
-      !isRequestor && showReviewControl(currentStatus as RequestStatus);
-    const actions = hasReviewerActions
-      ? [...reviewerActions, ...defaultActions]
-      : defaultActions;
-    return actions;
+  const handleAction = (action: string) => {
+    console.log({ action });
+    switch (action) {
+      case "Update":
+        handleSubmit(handleValidate, handleValidateError)();
+        break;
+      case "Submit":
+        const formValues = getValues();
+        const formData = FormToApiService.EditPurchaseRequest(
+          formValues,
+          requestId || ""
+        );
+        formData.status = "SUBMITTED";
+        editRequest(formData);
+        break;
+      case "History":
+        break;
+      case "Print":
+        handlePrint();
+        break;
+      case "Delete":
+        break;
+      case "Approve":
+        setRemarksVisible(true);
+        setRemarksMode("approve");
+        break;
+      case "Decline":
+        setRemarksVisible(true);
+        setRemarksMode("decline");
+        break;
+    }
   };
 
   // PROCESS REQUEST API
@@ -196,7 +176,6 @@ export function useEditRequest() {
       form,
       requestId || ""
     );
-    console.log("Edit request", { form, formData });
     editRequest(formData);
   };
   const handleValidateError = (err: FieldErrors<RequestFormSchema>) => {
@@ -283,10 +262,10 @@ export function useEditRequest() {
     handleSubmit,
     handleValidate,
     handleValidateError,
-    getActions,
     setRemarksVisible,
     setReviewRemarks,
     handleApprove,
     handleDecline,
+    handleAction,
   };
 }

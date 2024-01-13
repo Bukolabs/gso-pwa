@@ -48,7 +48,8 @@ export function NewRequest() {
   const formMethod = useForm<RequestFormSchema>({
     defaultValues: {
       ...requestFormDefault,
-      department: currentUser?.department_name,
+      department: currentUser?.department_code,
+      departmentLabel: currentUser?.department_name,
     },
     resolver: zodResolver(RequestFormRule),
   });

@@ -4322,6 +4322,30 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'reviewer'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'total_item'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'total_quantity'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'per_item_cost'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'total_amount'?: number;
 }
 /**
  * 
