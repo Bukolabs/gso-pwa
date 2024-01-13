@@ -24,6 +24,15 @@ export function FormOrder() {
     <div className="form-order py-2 md:bg-white md:px-6">
       <InputControl<OrderFormSchema>
         control={control}
+        name="pono"
+        label="PO No."
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter PO number"
+        hint="e.g. 123456"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
         name="resolutionNo"
         label="Resolution No."
         className="w-full md:w-3/4"

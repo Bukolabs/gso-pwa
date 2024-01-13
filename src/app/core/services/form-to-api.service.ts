@@ -178,6 +178,7 @@ export class FormToApiService {
 
   static NewOrderRequest(form: OrderFormSchema) {
     const payload = {
+      po_no: form.pono,
       po_date: format(form.poDate as Date, SETTINGS.dateFormat),
       resolution_no: form.resolutionNo,
       mode_of_procurement: form.procurementMode,

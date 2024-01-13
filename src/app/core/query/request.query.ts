@@ -126,7 +126,6 @@ export function useGetRequestByIdQy(
     queryKey: [QueryKey.Request, id],
     queryFn: () => apiFn(id),
     onSuccess: (response) => {
-      console.log("useGetRequestByIdQy", { response });
       hideProgress();
       if (onSuccess) {
         onSuccess(response);

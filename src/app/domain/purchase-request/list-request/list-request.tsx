@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import "./list-request";
 import { useNavigate } from "react-router-dom";
-import PurchaseCard from "@core/ui/purchase-card/purchase-card";
 import useScreenSize from "@core/utility/screen-size";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { useState } from "react";
@@ -25,11 +24,13 @@ import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
 import { useRequestFilterContext } from "./request-filter.context";
 import { RequestFilterForm } from "./request-filter.form";
+import { dateFormat } from "@shared/formats/date-time-format";
+import { currencyFormat } from "@shared/formats/currency-format";
+import { numberFormat } from "@shared/formats/number-format";
+import RequestCard from "@core/ui/request-card/request-card";
 
 export function ListRequest() {
-  const {
-    requestFilters,
-  } = useRequestFilterContext();
+  const { requestFilters } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
   const { isMobileMode } = useScreenSize();
@@ -101,7 +102,7 @@ export function ListRequest() {
           outlined
           onClick={() => setFilterPanel(true)}
           badge={getFilterCount()}
-          badgeClassName="p-badge-danger" 
+          badgeClassName="p-badge-danger"
         />
       </div>
 
@@ -110,12 +111,20 @@ export function ListRequest() {
       </Sidebar>
     </div>
   );
-  const totalAmountColumn = (data: GetPurchaseRequestDto) => {
+  const getTotalAmount = (data: GetPurchaseRequestDto) => {
     const total = sumBy(data?.items || [], (x) => x.price * (x.quantity || 0));
+    return total;
+  };
+  const getTotalItems = (data: GetPurchaseRequestDto) => {
+    const total = sumBy(data?.items || [], (x) => x.quantity || 0);
+    return total;
+  };
+  const totalAmountColumn = (data: GetPurchaseRequestDto) => {
+    const total = getTotalAmount(data);
     return currencyTemplate(total);
   };
   const totalItemsColumn = (data: GetPurchaseRequestDto) => {
-    const total = sumBy(data?.items || [], (x) => x.quantity || 0);
+    const total = getTotalItems(data);
     return numberTemplate(total);
   };
   const reviewColumn = (data: GetPurchaseRequestDto) => {
@@ -191,13 +200,16 @@ export function ListRequest() {
         {(purchaseRequests?.data || []).map((item, id) => {
           const reviewers = getReviewers(item);
           return (
-            <PurchaseCard
+            <RequestCard
               key={id}
               code={item.code}
               title={`PR No. ${item.pr_no}` || "-"}
               subTitle={item.department_name}
               status={item.status_name}
               reviewers={reviewers}
+              dueDate={dateFormat(item.pr_date)}
+              totalAmount={currencyFormat(getTotalAmount(item))}
+              totalItems={numberFormat(getTotalItems(item))}
               onClick={(code) => navigate(code)}
             />
           );

@@ -48,7 +48,6 @@ export function useEditRequest() {
   });
 
   const handleAction = (action: string) => {
-    console.log({ action });
     switch (action) {
       case "Update":
         handleSubmit(handleValidate, handleValidateError)();
