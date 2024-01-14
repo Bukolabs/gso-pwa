@@ -16,6 +16,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import FormOrder from "../form-order/form-order";
 import { Sidebar } from "primereact/sidebar";
 import { useState } from "react";
+import ManagePr from "../manage-pr/manage-pr";
 
 export function NewOrder() {
   const { showError, showSuccess } = useNotificationContext();
@@ -76,23 +77,19 @@ export function NewOrder() {
                 onHide={() => setVisible(false)}
                 className="w-full md:w-2/5"
               >
-                <div className="px-7">
-                  <h2>Select approved purchase requests from the following</h2>
-                </div>
+                <ManagePr />
               </Sidebar>
-              <Button
+              {/* <Button
                 icon="pi pi-plus"
                 label="Add Request"
                 className="block mb-4"
                 onClick={() => {
                   setVisible(true);
                 }}
-              />
+              /> */}
 
               <div className="mt-2 md:px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-                  PR's here
-                </div>
+                <ManagePr />
               </div>
             </TabPanel>
           </TabView>

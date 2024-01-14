@@ -211,7 +211,8 @@ export function useEditRequest() {
       throw new Error("no data");
     }
 
-    const reviewer = setReviewerEntityStatus(true);
+    const hasBudgetApproved = Boolean(dataValue.is_budget);
+    const reviewer = setReviewerEntityStatus(true, hasBudgetApproved);
     const payload = {
       code: dataValue.code,
       ...reviewer,

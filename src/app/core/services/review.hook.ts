@@ -8,21 +8,31 @@ import StorageService from "@shared/services/storage.service";
 export function useReviewHook() {
   const { data: roles } = useGetRoleQy();
 
-  const setReviewerStatus = (roleName: string, status: boolean) => {
+  const setReviewerStatus = (
+    roleName: string,
+    status: boolean,
+    budgetStatus: boolean = false
+  ) => {
     switch (roleName) {
-      case "MO":
+      case "MO_APRV":
         return {
           is_mayor: status,
         };
-      case "GSO":
+      case "GSO_ADMIN":
+        if (budgetStatus) {
+          return {
+            is_gso_ff: true,
+          };
+        }
+
         return {
           is_gso: status,
         };
-      case "TO":
+      case "TO_APRV":
         return {
           is_treasurer: status,
         };
-      case "BO":
+      case "BO_APRV":
         return {
           is_budget: status,
         };
@@ -33,11 +43,15 @@ export function useReviewHook() {
           is_gso: false,
           is_treasurer: false,
           is_budget: false,
+          is_gso_ff: false,
         };
     }
   };
 
-  const setReviewerEntityStatus = (status: boolean) => {
+  const setReviewerEntityStatus = (
+    status: boolean,
+    budgetStatus: boolean = false
+  ) => {
     const currentUser = StorageService.load(AUTH) as LocalAuth;
     const currentRoleId = currentUser.role_code;
 
@@ -52,7 +66,11 @@ export function useReviewHook() {
     const currentRole = filteredRole?.length > 0 ? filteredRole[0] : undefined;
 
     console.log("getReviewerEntity", { currentRole });
-    const reviewer = setReviewerStatus(currentRole?.name || "", status);
+    const reviewer = setReviewerStatus(
+      currentRole?.name || "",
+      status,
+      budgetStatus
+    );
     return reviewer;
   };
 

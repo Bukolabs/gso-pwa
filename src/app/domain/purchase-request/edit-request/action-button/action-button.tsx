@@ -13,15 +13,22 @@ export interface ActionButtonProps {
 export function ActionButton({ status, onAction }: ActionButtonProps) {
   const { isRequestor } = useUserIdentity();
 
-  const [mainAction, setMainAction] = useState('Update');
+  const [mainAction, setMainAction] = useState("Update");
 
   useEffect(() => {
     if (status === "DRAFT") {
       setMainAction("Update");
-    } else {
+    } else if (
+      (status === "SUBMITTED" ||
+        status === "REVIEW" ||
+        status === "DECLINED") &&
+      !isRequestor
+    ) {
       setMainAction("Approve");
+    } else {
+      setMainAction("History");
     }
-  }, [status]);
+  }, [status, isRequestor]);
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {
@@ -31,26 +38,25 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         onAction("Submit");
       },
     };
-    const defaultActions = [
-      {
-        label: "History",
-        command: () => {
-          onAction("History");
-        },
+    const print = {
+      label: "Print",
+      command: () => {
+        onAction("Print");
       },
-      {
-        label: "Print",
-        command: () => {
-          onAction("Print");
-        },
+    };
+
+    const history = {
+      label: "History",
+      command: () => {
+        onAction("History");
       },
-      {
-        label: "Delete",
-        command: () => {
-          onAction("Delete");
-        },
+    };
+    const deleteAction = {
+      label: "Delete",
+      command: () => {
+        onAction("Delete");
       },
-    ];
+    };
     const declineAction = {
       label: "Decline",
       command: () => {
@@ -60,10 +66,27 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
 
     const hasReviewerActions =
       !isRequestor && showReviewControl(status as RequestStatus);
-    const actions = hasReviewerActions
-      ? [declineAction, ...defaultActions]
-      : [initialAction, ...defaultActions];
-    return actions;
+
+
+      
+
+    if (status === "DRAFT") {
+      return [initialAction, print, deleteAction];
+    } else if (
+      (status === "SUBMITTED" || status === "REVIEW") &&
+      hasReviewerActions
+    ) {
+      return [declineAction, history, deleteAction];
+    } else if (
+      (status === "SUBMITTED" || status === "REVIEW") &&
+      !hasReviewerActions
+    ) {
+      return [deleteAction];
+    } else if (status === "DECLINED") {
+      return [history, deleteAction];
+    } else {
+      return [deleteAction];
+    }
   };
 
   return (

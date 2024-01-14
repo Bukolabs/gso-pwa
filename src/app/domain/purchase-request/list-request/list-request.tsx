@@ -13,12 +13,13 @@ import { Sidebar } from "primereact/sidebar";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
-  currencyTemplate,
   dateTemplate,
-  numberTemplate,
+  getTotalAmount,
+  getTotalItems,
   tagTemplate,
+  totalAmountColumn,
+  totalItemsColumn,
 } from "@core/utility/data-table-template";
-import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
 import { useReviewHook } from "@core/services/review.hook";
@@ -111,22 +112,6 @@ export function ListRequest() {
       </Sidebar>
     </div>
   );
-  const getTotalAmount = (data: GetPurchaseRequestDto) => {
-    const total = sumBy(data?.items || [], (x) => x.price * (x.quantity || 0));
-    return total;
-  };
-  const getTotalItems = (data: GetPurchaseRequestDto) => {
-    const total = sumBy(data?.items || [], (x) => x.quantity || 0);
-    return total;
-  };
-  const totalAmountColumn = (data: GetPurchaseRequestDto) => {
-    const total = getTotalAmount(data);
-    return currencyTemplate(total);
-  };
-  const totalItemsColumn = (data: GetPurchaseRequestDto) => {
-    const total = getTotalItems(data);
-    return numberTemplate(total);
-  };
   const reviewColumn = (data: GetPurchaseRequestDto) => {
     const reviewers = getReviewers(data);
 
