@@ -6,6 +6,7 @@ import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { LabelValue } from "@shared/models/label-value.interface";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
+import { useGetCategory } from "@core/query/category.query";
 
 export function FormOrder() {
   const { control } = useFormContext<OrderFormSchema>();
@@ -19,6 +20,14 @@ export function FormOrder() {
       value: "ITB",
     },
   ] as LabelValue[];
+  const { data: categories } = useGetCategory();
+  const mappedCategories = (categories?.data || []).map(
+    (item) =>
+      ({
+        label: item.name,
+        value: item.code,
+      } as LabelValue)
+  );
 
   return (
     <div className="form-order py-2 md:bg-white md:px-6">
@@ -47,6 +56,16 @@ export function FormOrder() {
         className="w-full md:w-3/4"
         containerClassName="pb-2"
         hint="e.g. 30/12/2025"
+      />
+      <DropdownControl<OrderFormSchema>
+        control={control}
+        name="category"
+        label="Category"
+        options={mappedCategories}
+        containerClassName="mb-9"
+        className="w-full md:w-3/4"
+        placeholder="Enter your category"
+        hint="Select from the dropdown"
       />
       <DropdownControl<OrderFormSchema>
         control={control}

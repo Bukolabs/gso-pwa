@@ -1,7 +1,4 @@
-import { useGetCategory } from "@core/query/category.query";
 import "./manage-pr.scss";
-import { LabelValue } from "@shared/models/label-value.interface";
-import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { useState } from "react";
 import { PickList } from "primereact/picklist";
 import { useGetRequestQy } from "@core/query/request.query";
@@ -17,25 +14,18 @@ import {
 import { dateFormat } from "@shared/formats/date-time-format";
 import { numberFormat } from "@shared/formats/number-format";
 
-/* eslint-disable-next-line */
-export interface ManagePrProps {}
+export interface ManagePrProps {
+  category: string;
+  selectedList: GetPurchaseRequestDto[];
+  onSelect: (selected: GetPurchaseRequestDto[]) => void;
+}
 
-export function ManagePr() {
+export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
   const [source, setSource] = useState<GetPurchaseRequestDto[]>([]);
-  const [target, setTarget] = useState([]);
+  const [target, setTarget] = useState(selectedList);
 
-  const { data: categories } = useGetCategory();
-  const mappedCategories = (categories?.data || []).map(
-    (item) =>
-      ({
-        label: item.name,
-        value: item.code,
-      } as LabelValue)
-  );
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const [filter, setFilter] = useState({
-    category: "",
+  const [filter] = useState({
+    category: category,
     status_name: "APPROVED",
   });
   const rowLimit = 99999;
@@ -44,7 +34,11 @@ export function ManagePr() {
   const handleApiSuccess = (
     response: PurchaseRequestControllerGetDataAsList200Response
   ) => {
-    setSource(response.data || []);
+    const alreadyIncludedRequestCodes = selectedList.map((item) => item.code);
+    const filteredData = (response.data || []).filter(
+      (item) => alreadyIncludedRequestCodes.indexOf(item.code) < 0
+    );
+    setSource(filteredData);
   };
   useGetRequestQy(
     "",
@@ -55,11 +49,6 @@ export function ManagePr() {
     undefined,
     handleApiSuccess
   );
-
-  const handleCategoryChange = (event: DropdownChangeEvent) => {
-    setSelectedCategory(event.value);
-    setFilter({ ...filter, category: event.value });
-  };
 
   const itemTemplate = (item: GetPurchaseRequestDto) => {
     return (
@@ -92,29 +81,21 @@ export function ManagePr() {
   const onChange = (event: any) => {
     setSource(event.source);
     setTarget(event.target);
+    onSelect(event.target);
   };
 
   return (
     <div className="manage-pr">
-      <h4>Select approved purchase requests from the following</h4>
-
-      <Dropdown
-        value={selectedCategory}
-        onChange={handleCategoryChange}
-        options={mappedCategories}
-        optionLabel="label"
-        placeholder="Select category"
-        filter
-        className="w-full md:w-3/4"
-      />
+      <p className="mb-4">
+        Select approved purchase requests from the following list box in the
+        left. Add the desired PR to the Selected PR list box on the right.
+      </p>
 
       <PickList
         source={source}
         target={target}
         onChange={onChange}
         itemTemplate={itemTemplate}
-        filter
-        filterBy="name"
         breakpoint="1280px"
         sourceHeader="Approved PR"
         targetHeader="Selected PR"

@@ -745,6 +745,12 @@ export interface CreatePurchaseOrderDto {
      * @type {string}
      * @memberof CreatePurchaseOrderDto
      */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
     'mode_of_procurement'?: string;
     /**
      * 
@@ -2625,6 +2631,12 @@ export interface EditPurchaseOrderDto {
      * @type {string}
      * @memberof EditPurchaseOrderDto
      */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
     'mode_of_procurement'?: string;
     /**
      * 
@@ -3781,6 +3793,18 @@ export interface GetPurchaseOrderDto {
      * @memberof GetPurchaseOrderDto
      */
     'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'category_name': string;
     /**
      * 
      * @type {string}

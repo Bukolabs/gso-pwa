@@ -22,7 +22,7 @@ export const requestFormDefault = {
   department: "",
   departmentLabel: "",
   isPPMP: false,
-  isActivityDesign: false
+  isActivityDesign: false,
 } as RequestFormSchema;
 
 export const orderFormDefault = {
@@ -41,6 +41,8 @@ export const orderFormDefault = {
   paymentTerm: "",
   isActive: true,
   requests: [],
+  category: "",
+  categoryName: "",
 } as OrderFormSchema;
 
 export const bidderFormDefault = {

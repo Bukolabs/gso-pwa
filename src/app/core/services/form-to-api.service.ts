@@ -3,6 +3,7 @@ import {
   CreateBidderDto,
   CreateItemDto,
   CreatePersonDto,
+  CreatePoPrDto,
   CreatePrItemDto,
   CreatePurchaseOrderDto,
   CreatePurchaseRequestDto,
@@ -19,6 +20,7 @@ import {
   OrderFormSchema,
   PurchaseItemFormSchema,
   RequestFormSchema,
+  RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
 import { AUTH, SETTINGS } from "@core/utility/settings";
@@ -58,7 +60,7 @@ export class FormToApiService {
       is_active: true,
       role: form.role,
       department: form.department,
-      password: form.password
+      password: form.password,
     } as CreatePersonDto;
 
     const payload = {
@@ -154,7 +156,7 @@ export class FormToApiService {
       items: requestItemPayload,
       purpose: form.purpose,
       has_ppmp: form.isPPMP,
-      has_activity_design: form.isActivityDesign
+      has_activity_design: form.isActivityDesign,
     } as EditPurchaseRequestDto;
 
     return payload;
@@ -177,6 +179,7 @@ export class FormToApiService {
   }
 
   static NewOrderRequest(form: OrderFormSchema) {
+    const requests = form.requests.map((item) => this.AddRequestInOrder(item));
     const payload = {
       po_no: form.pono,
       po_date: format(form.poDate as Date, SETTINGS.dateFormat),
@@ -186,10 +189,26 @@ export class FormToApiService {
       delivery_date: format(form.deliveryDate as Date, SETTINGS.dateFormat),
       delivery_term: form.deliveryTerm,
       is_active: true,
-      purchase_requests: []
+      purchase_requests: requests,
+      category: form.category,
     } as CreatePurchaseOrderDto;
 
     return payload;
   }
 
+  static AddRequestInOrder({
+    code,
+    purchaseOrder,
+    purchaseRequest,
+    isActive,
+  }: RequestInOrderFormSchema) {
+    const payload = {
+      code,
+      purchase_order: purchaseOrder,
+      purchase_request: purchaseRequest,
+      is_active: isActive,
+    } as CreatePoPrDto;
+
+    return payload;
+  }
 }

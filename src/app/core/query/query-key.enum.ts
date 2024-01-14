@@ -10,7 +10,8 @@ export enum QueryKey {
   Department = "department",
   Authentication = "authentication",
   Stage1 = "stage1",
-  Stage1Review = "stage1review",
+  Stage1Review = "stage-1-review",
   Status = 'status',
   Order = 'order',
+  RequestsInOrder = 'requests-in-orders',
 }
