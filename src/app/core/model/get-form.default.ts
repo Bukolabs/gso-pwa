@@ -1,4 +1,4 @@
-import { GetBidderDto, GetItemDto, GetPurchaseRequestDto } from "@api/api";
+import { GetBidderDto, GetItemDto, GetPurchaseOrderDto, GetPurchaseRequestDto } from "@api/api";
 import { bidderFormDefault, requestFormDefault } from "./form.default";
 import {
   BidderFormSchema,

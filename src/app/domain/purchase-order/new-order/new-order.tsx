@@ -109,14 +109,6 @@ export function NewOrder() {
               >
                 PR Details
               </Sidebar>
-              {/* <Button
-                icon="pi pi-plus"
-                label="Add Request"
-                className="block mb-4"
-                onClick={() => {
-                  setVisible(true);
-                }}
-              /> */}
 
               <div className="mt-2 md:px-6">
                 <ManagePr

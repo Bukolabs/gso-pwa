@@ -1,15 +1,33 @@
 import {
+  GetPoPrDto,
   GetPrItemDto,
   GetStage1ReviewSummaryDto,
   GetStage1SummaryDto,
   LoginResponseDto,
 } from "@api/api";
-import { PurchaseItemFormSchema } from "@core/model/form.rule";
+import {
+  PurchaseItemFormSchema,
+  RequestInOrderFormSchema,
+} from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
 import { HomeCardProps } from "@domain/home/home-card/home-card";
 import { LabelValue } from "@shared/models/label-value.interface";
 
 export class ApiToFormService {
+  static MapRequestsInOrder(prItems: GetPoPrDto[]) {
+    const mappedItem = prItems.map(
+      (item) =>
+        ({
+          code: item.code,
+          isActive: true,
+          purchaseOrder: item.purchase_order,
+          purchaseRequest: item.purchase_request,
+        } as RequestInOrderFormSchema)
+    );
+
+    return mappedItem;
+  }
+
   static MapRequestPruchaseItems(
     prItems: GetPrItemDto[]
   ): PurchaseItemFormSchema[] {

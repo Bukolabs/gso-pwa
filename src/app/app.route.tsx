@@ -1,5 +1,4 @@
 import {
-  Navigate,
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
@@ -31,6 +30,7 @@ import Login from "@domain/login/login";
 import { ProtectedRoute } from "@core/authentication/protected-route";
 import ListOrder from "@domain/purchase-order/list-order/list-order";
 import NewOrder from "@domain/purchase-order/new-order/new-order";
+import EditOrder from "@domain/purchase-order/edit-order/edit-order";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
               {
                 path: "new",
                 element: <NewOrder />,
+              },
+              {
+                path: ":orderId",
+                element: <EditOrder />,
               },
             ],
           },

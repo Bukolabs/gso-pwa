@@ -77,6 +77,59 @@ export function useGetOrderQy(
   });
 }
 
+export function useGetOrderByIdQy(
+  id: string,
+  onSuccess?:
+    | ((
+        data: PurchaseOrderControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
+    showProgress();
+    const operation =
+      await PurchaseOrderApiFp().purchaseOrderControllerGetDataAsList(
+        search,
+        limit,
+        offset,
+        undefined,
+        JSON.stringify({ code: id }) as any,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response[
+      "data"
+    ] as PurchaseOrderControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Order, id],
+    queryFn: () => apiFn(id),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
 export function useAddOrderQy(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
