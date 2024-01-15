@@ -11,6 +11,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import FormOrder from "../form-order/form-order";
 import { Sidebar } from "primereact/sidebar";
 import ManagePr from "../manage-pr/manage-pr";
+import ActionButton from "./action-button/action-button";
 
 export function EditOrder() {
   const {
@@ -26,6 +27,7 @@ export function EditOrder() {
     navigate,
     setVisible,
     handleSelectedRequests,
+    handleAction,
   } = useEditOrder();
 
   const displayLoading = (
@@ -92,7 +94,9 @@ export function EditOrder() {
   return (
     <div className="edit-order">
       <HeaderContent title="Edit Order" onBack={() => navigate("../")}>
-        <div className="flex gap-2">Button Here</div>
+        <div className="flex gap-2">
+          <ActionButton status={"CATEGORIZED"} onAction={handleAction} />
+        </div>
       </HeaderContent>
 
       <div className="p-7">

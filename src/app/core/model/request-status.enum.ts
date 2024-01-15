@@ -1,4 +1,5 @@
 export enum RequestStatus {
+   DRAFT = 'DRAFT',
    SUBMITTED = 'SUBMITTED',
    REVIEW = 'REVIEW',
    APPROVED = 'APPROVED',

@@ -9,6 +9,7 @@ import {
   CreatePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
+  EditPurchaseOrderDto,
   EditPurchaseRequestDto,
   LoginPersonDto,
 } from "@api/api";
@@ -192,6 +193,25 @@ export class FormToApiService {
       purchase_requests: requests,
       category: form.category,
     } as CreatePurchaseOrderDto;
+
+    return payload;
+  }
+
+  static EditOrderRequest(form: OrderFormSchema, orderId: string) {
+    const requests = form.requests.map((item) => this.AddRequestInOrder(item));
+    const payload = {
+      code: orderId,
+      po_no: form.pono,
+      po_date: format(form.poDate as Date, SETTINGS.dateFormat),
+      resolution_no: form.resolutionNo,
+      mode_of_procurement: form.procurementMode,
+      delivery_location: form.deliveryAddress,
+      delivery_date: format(form.deliveryDate as Date, SETTINGS.dateFormat),
+      delivery_term: form.deliveryTerm,
+      is_active: true,
+      purchase_requests: requests,
+      category: form.category,
+    } as EditPurchaseOrderDto;
 
     return payload;
   }

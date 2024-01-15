@@ -16,12 +16,29 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
   const [mainAction, setMainAction] = useState("Update");
 
   useEffect(() => {
-    if (status === RequestStatus.DRAFT) {
-      setMainAction("Update");
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        setMainAction("Update");
+        break;
+      case RequestStatus.POSTED:
+        setMainAction("Bid");
+        break;
+      case RequestStatus.BIDDING:
+        setMainAction("Award");
+        break;
+      case RequestStatus.AWARDED:
+        setMainAction("Approve");
+        break;
+
+      default:
+        setMainAction("History");
+        break;
+    }
+    if (status === RequestStatus.CATEGORIZED) {
     } else if (
-      (status === RequestStatus.SUBMITTED ||
-        status === RequestStatus.REVIEW ||
-        status === RequestStatus.DECLINED) &&
+      (status === "SUBMITTED" ||
+        status === "REVIEW" ||
+        status === "DECLINED") &&
       !isRequestor
     ) {
       setMainAction("Approve");
@@ -32,29 +49,22 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {
-    const submitAction = {
-      label: "Submit",
-      command: () => {
-        onAction("Submit");
-      },
-    };
     const print = {
       label: "Print",
       command: () => {
         onAction("Print");
       },
     };
-
+    const postAction = {
+      label: "Post",
+      command: () => {
+        onAction("Post");
+      },
+    };
     const history = {
       label: "History",
       command: () => {
         onAction("History");
-      },
-    };
-    const deleteAction = {
-      label: "Delete",
-      command: () => {
-        onAction("Delete");
       },
     };
     const declineAction = {
@@ -69,30 +79,25 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
 
     if (!hasReviewerActions) {
       switch (status) {
-        case RequestStatus.DRAFT:
-          return [submitAction, print, deleteAction];
-        case RequestStatus.SUBMITTED:
-        case RequestStatus.REVIEW:
-          return [history, deleteAction];
-        case RequestStatus.APPROVED:
-          return [history, deleteAction];
-        case RequestStatus.DECLINED:
-          return [history, deleteAction];
-        default:
-          return [history, deleteAction];
+        case RequestStatus.CATEGORIZED:
+          return [postAction, print, history];
+        case RequestStatus.POSTED:
+        case RequestStatus.BIDDING:
+          return [print, history];
+        case RequestStatus.AWARDED:
+          return [history];
       }
     }
 
     switch (status) {
-      case RequestStatus.DRAFT:
-        return [submitAction, print, deleteAction];
-      case RequestStatus.SUBMITTED:
-      case RequestStatus.REVIEW:
-        return [declineAction, history, deleteAction];
-      case RequestStatus.APPROVED:
-        return [declineAction, history, deleteAction];
+      case RequestStatus.AWARDED:
+        return [declineAction, history];
+      case RequestStatus.POREVIEW:
+        return [declineAction, history];
       case RequestStatus.DECLINED:
-        return [history, deleteAction];
+        return [history];
+      case RequestStatus.APPROVED:
+        return [declineAction, history];
     }
   };
 

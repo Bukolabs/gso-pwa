@@ -1,6 +1,7 @@
 import {
   CreatePoPrDto,
   CreatePurchaseOrderDto,
+  EditPurchaseOrderDto,
   MessageResponseDto,
   PurchaseOrderApiFp,
   PurchaseOrderControllerGetDataAsList200Response,
@@ -148,6 +149,52 @@ export function useAddOrderQy(
     );
     const response = (await operation()).data;
     return response as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Order);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useEditOrderQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: EditPurchaseOrderDto) => {
+    showProgress();
+    const operation =
+      await PurchaseOrderApiFp().purchaseOrderControllerEdit(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
   };
 
   return useMutation({

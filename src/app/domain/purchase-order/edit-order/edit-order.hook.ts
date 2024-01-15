@@ -8,14 +8,16 @@ import {
   OrderFormSchema,
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
-import { useGetOrderByIdQy } from "@core/query/order.query";
+import { useEditOrderQy, useGetOrderByIdQy } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SETTINGS } from "@core/utility/settings";
 import { format } from "date-fns";
+import { FormToApiService } from "@core/services/form-to-api.service";
+import { getFormErrorMessage } from "@core/utility/get-error-message";
 
 export function useEditOrder() {
   const navigate = useNavigate();
@@ -29,11 +31,17 @@ export function useEditOrder() {
     GetPurchaseRequestDto[]
   >([]);
 
-  const editError = false;
-
   const handleBack = () => {
     navigate("../");
   };
+
+  // EDIT REQUEST API
+  const handleApiSuccess = () => {
+    showSuccess("Request updated");
+    handleBack();
+  };
+  const { mutate: editOrder, isError: editError } =
+    useEditOrderQy(handleApiSuccess);
 
   // UNCACHED, GET API VALUES
   // GET REQUEST API
@@ -87,6 +95,15 @@ export function useEditOrder() {
   const { handleSubmit, setValue, watch, getValues } = formMethod;
   const category = watch("category");
 
+  const handleValidate = (form: OrderFormSchema) => {
+    const formData = FormToApiService.EditOrderRequest(form, orderId || "");
+    editOrder(formData);
+  };
+  const handleValidateError = (err: FieldErrors<OrderFormSchema>) => {
+    const formMessage = getFormErrorMessage(err);
+    showError(formMessage);
+  };
+
   const handleSelectedRequests = (requests: GetPurchaseRequestDto[]) => {
     const poNo = getValues("pono");
     if (!poNo) {
@@ -109,6 +126,14 @@ export function useEditOrder() {
     setValue("requests", requestListForm);
   };
 
+  const handleAction = (action: string) => {
+    switch (action) {
+      case "Update":
+        handleSubmit(handleValidate, handleValidateError)();
+        break;
+    }
+  };
+
   return {
     formMethod,
     orders,
@@ -122,5 +147,6 @@ export function useEditOrder() {
     navigate,
     setVisible,
     handleSelectedRequests,
+    handleAction,
   };
 }
