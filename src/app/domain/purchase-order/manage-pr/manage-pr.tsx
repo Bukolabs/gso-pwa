@@ -86,7 +86,10 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
 
   return (
     <div className="manage-pr">
-      <p className="mb-4">
+      <p>
+        Make sure to select a <b>category</b> in the <b>Information tab</b>.
+      </p>
+      <p className="mb-4 hint">
         Select approved purchase requests from the following list box in the
         left. Add the desired PR to the Selected PR list box on the right.
       </p>

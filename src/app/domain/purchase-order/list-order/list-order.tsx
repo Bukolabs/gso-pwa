@@ -4,7 +4,6 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useScreenSize from "@core/utility/screen-size";
-import ViewSelection from "@core/ui/view-selection/view-selection";
 import { useGetOrderQy } from "@core/query/order.query";
 import { DataTable } from "primereact/datatable";
 import { GetPurchaseOrderDto } from "@api/api";
@@ -17,6 +16,8 @@ import { dateFormat } from "@shared/formats/date-time-format";
 import { sumBy } from "lodash-es";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
+import ErrorSection from "@shared/ui/error-section/error-section";
 
 export function ListOrder() {
   const navigate = useNavigate();
@@ -64,7 +65,17 @@ export function ListOrder() {
     );
     return total;
   };
-
+  
+  const displayLoading = (
+    <div className="card">
+      <SkeletonList count={4} />
+    </div>
+  );
+  const displayError = (
+    <div className="card">
+      <ErrorSection title="Error Occured" message={(error as any)?.message} />
+    </div>
+  );
   const viewMode = (
     <div className="float-right">
       <span className="p-buttonset">
@@ -93,16 +104,25 @@ export function ListOrder() {
         selectionMode="single"
         onSelectionChange={(e) => editRecord(e.value)}
       >
-        <Column field="po_no" header="PO #"></Column>
-        <Column
-          header="Issued Date"
-          body={(data: GetPurchaseOrderDto) => dateTemplate(data.po_date)}
-        ></Column>
+        <Column field="po_no" header="PO#"></Column>
+        <Column field="category_name" header="Category"></Column>
         <Column field="mode_of_procurement" header="Procurement"></Column>
         <Column field="supplier" header="Supplier"></Column>
         <Column
+          header="Total Quantity"
+          body={(item) => numberFormat(getTotalItems(item))}
+        ></Column>
+        <Column
+          header="Total Amount"
+          body={(item) => currencyFormat(getTotalAmount(item))}
+        ></Column>
+        <Column
+          header="Due Date"
+          body={(data: GetPurchaseOrderDto) => dateTemplate(data.po_date)}
+        ></Column>
+        <Column
           header="Status"
-          body={(data: GetPurchaseOrderDto) => tagTemplate("CATEGORIZED")}
+          body={(data: any) => tagTemplate(data.status_name)}
         ></Column>
       </DataTable>
 
@@ -118,15 +138,16 @@ export function ListOrder() {
   const cards = (
     <section>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
-        {(purchaseOrders?.data || []).map((item, id) => {
+        {(purchaseOrders?.data || []).map((data, id) => {
+          const item = data as any; // TODO removed this line after BE fix
           return (
             <OrderCard
               key={id}
               code={item.code}
               title={`PO No. ${item.po_no}` || "-"}
-              subTitle={"Category"}
+              subTitle={item.category_name}
               supplier={item.supplier || "No Supplier Yet"}
-              status={"CATEGORIZED"}
+              status={item?.status_name}
               reviewers={[]}
               dueDate={dateFormat(item.po_date)}
               totalAmount={currencyFormat(getTotalAmount(item))}
@@ -164,7 +185,12 @@ export function ListOrder() {
         ></Button>
       </HeaderContent>
 
-      <div className="p-7">{list}</div>
+      <div className="p-7">
+        {/* {filterElement} */}
+        {isLoading && displayLoading}
+        {isError && !isLoading && displayError}
+        {!isLoading && !isError && list}
+      </div>
     </div>
   );
 }

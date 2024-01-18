@@ -808,6 +808,12 @@ export interface CreatePurchaseOrderDto {
     'payment_term'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'status'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof CreatePurchaseOrderDto
      */
@@ -2694,6 +2700,12 @@ export interface EditPurchaseOrderDto {
     'payment_term'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'status'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof EditPurchaseOrderDto
      */
@@ -3642,6 +3654,18 @@ export interface GetPoPrDto {
      */
     'created_by'?: string;
     /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'create_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'create_by_last_name'?: string;
+    /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
      * @memberof GetPoPrDto
@@ -3653,6 +3677,150 @@ export interface GetPoPrDto {
      * @memberof GetPoPrDto
      */
     'updated_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'update_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'update_by_last_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'pr_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'sai_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'sai_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'alobs_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'alobs_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'status_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'is_urgent': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_ppmp': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_activity_design': boolean;
+    /**
+     * 
+     * @type {Array<GetPrItemDto>}
+     * @memberof GetPoPrDto
+     */
+    'items'?: Array<GetPrItemDto>;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
+    'total_item'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
+    'total_quantity'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
+    'per_item_cost'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
+    'total_amount'?: number;
 }
 /**
  * 
@@ -7559,6 +7727,69 @@ export const PurchaseRequestApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseRequestControllerGetUnassisgnedPrAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/purchase-request/get-unassigned-pr`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {ProcessPurchaseRequestDto} processPurchaseRequestDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7657,6 +7888,20 @@ export const PurchaseRequestApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async purchaseRequestControllerGetUnassisgnedPrAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseRequestControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseRequestControllerGetUnassisgnedPrAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {ProcessPurchaseRequestDto} processPurchaseRequestDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7714,6 +7959,19 @@ export const PurchaseRequestApiFactory = function (configuration?: Configuration
          */
         purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PurchaseRequestControllerGetDataAsList200Response> {
             return localVarFp.purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseRequestControllerGetUnassisgnedPrAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PurchaseRequestControllerGetDataAsList200Response> {
+            return localVarFp.purchaseRequestControllerGetUnassisgnedPrAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7780,6 +8038,21 @@ export class PurchaseRequestApi extends BaseAPI {
      */
     public purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PurchaseRequestApi
+     */
+    public purchaseRequestControllerGetUnassisgnedPrAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
+        return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerGetUnassisgnedPrAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

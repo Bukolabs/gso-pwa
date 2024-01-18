@@ -10,7 +10,7 @@ import {
 } from "@core/model/form.rule";
 import { useEditOrderQy, useGetOrderByIdQy } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +18,7 @@ import { SETTINGS } from "@core/utility/settings";
 import { format } from "date-fns";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function useEditOrder() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export function useEditOrder() {
     useNotificationContext();
   const { orderId } = useParams();
   const [dataEmpty, setDataEmpty] = useState(false);
+  const componentRef = useRef(null);
 
   const [selectedRequests, setSelectedRequests] = useState<
     GetPurchaseRequestDto[]
@@ -75,6 +77,14 @@ export function useEditOrder() {
       );
       setValue("deliveryTerm", responseData?.delivery_term || "");
 
+      const requestInForm = requestListToForm(
+        responseData?.purchase_requests || [],
+        responseData?.po_no || ""
+      );
+      setValue("requests", requestInForm);
+
+      setSelectedRequests(responseData?.purchase_requests || []);
+
       hideProgress();
       return;
     }
@@ -114,22 +124,53 @@ export function useEditOrder() {
     }
 
     setSelectedRequests(requests);
-    const requestListForm = requests.map(
+    const requestListForm = requestListToForm(requests, poNo);
+    setValue("requests", requestListForm);
+  };
+  const requestListToForm = (
+    requests: GetPurchaseRequestDto[],
+    poNumber: string
+  ) =>
+    requests.map(
       (item) =>
         ({
           code: item.code,
           purchaseRequest: item.pr_no || "",
-          purchaseOrder: poNo || "",
+          purchaseOrder: poNumber || "",
           isActive: true,
         } as RequestInOrderFormSchema)
     );
-    setValue("requests", requestListForm);
+  const handleUpdateStatus = (status: RequestStatus) => {
+    const formValues = getValues();
+    formValues.poDate = new Date(formValues.poDate);
+    formValues.deliveryDate = new Date(formValues.deliveryDate);
+    const formData = FormToApiService.EditOrderRequest(
+      formValues,
+      orderId || ""
+    );
+    formData.status = status;
+    editOrder(formData);
   };
 
   const handleAction = (action: string) => {
     switch (action) {
       case "Update":
         handleSubmit(handleValidate, handleValidateError)();
+        break;
+      case "Post":
+        handleUpdateStatus(RequestStatus.POSTED);
+        break;
+      case "Bid":
+        handleUpdateStatus(RequestStatus.BIDDING);
+        break;
+      case "Award":
+        handleUpdateStatus(RequestStatus.AWARDED);
+        break;
+      case "Review":
+        handleUpdateStatus(RequestStatus.POREVIEW);
+        break;
+      case "Approve":
+        handleUpdateStatus(RequestStatus.POREVIEW);
         break;
     }
   };
@@ -144,6 +185,7 @@ export function useEditOrder() {
     editError,
     category,
     selectedRequests,
+    componentRef,
     navigate,
     setVisible,
     handleSelectedRequests,

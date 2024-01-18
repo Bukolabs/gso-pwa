@@ -27,6 +27,9 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         setMainAction("Award");
         break;
       case RequestStatus.AWARDED:
+        setMainAction("Review");
+        break;
+      case RequestStatus.POREVIEW:
         setMainAction("Approve");
         break;
 

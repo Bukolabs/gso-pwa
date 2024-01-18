@@ -130,7 +130,7 @@ export class FormToApiService {
         ? undefined
         : format(form.alobsDate as Date, SETTINGS.dateFormat),
       category: form.category,
-      department: currentUser.department_code, //TODO change to user department
+      department: currentUser.department_code, 
       section: form.section,
       status: "",
       is_urgent: false,

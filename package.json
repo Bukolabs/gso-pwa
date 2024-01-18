@@ -51,7 +51,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "plop": "plop",
-    "api": "openapi -i https://bukolabs.online/gso-api/docs-json -o src/api",
     "open-api": "npx openapi-generator-cli generate -g typescript-axios -i https://bukolabs.online/gso-api/docs-json -o ./src/api"
   },
   "eslintConfig": {

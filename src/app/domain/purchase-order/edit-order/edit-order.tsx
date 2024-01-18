@@ -12,6 +12,7 @@ import FormOrder from "../form-order/form-order";
 import { Sidebar } from "primereact/sidebar";
 import ManagePr from "../manage-pr/manage-pr";
 import ActionButton from "./action-button/action-button";
+import PrintOrder from "./print-order/print-order";
 
 export function EditOrder() {
   const {
@@ -24,6 +25,7 @@ export function EditOrder() {
     editError,
     category,
     selectedRequests,
+    componentRef,
     navigate,
     setVisible,
     handleSelectedRequests,
@@ -63,9 +65,19 @@ export function EditOrder() {
       </section>
     );
   };
+  const printSection = () => (
+    // <div>
+    <div style={{ display: "none" }}>
+      <div ref={componentRef}>
+        <PrintOrder data={orders?.data?.[0]} />
+      </div>
+    </div>
+  );
   const formOrder = (
     <section>
       {subHeader()}
+      {printSection()}
+
       <TabView className="mb-10">
         <TabPanel header="Information">
           <FormOrder />
