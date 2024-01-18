@@ -54,6 +54,7 @@ export function useEditRequest() {
         break;
       case "Submit":
         const formValues = getValues();
+        formValues.dueDate = new Date(formValues.dueDate);
         const formData = FormToApiService.EditPurchaseRequest(
           formValues,
           requestId || ""

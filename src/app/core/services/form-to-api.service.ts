@@ -120,7 +120,9 @@ export class FormToApiService {
       this.NewRequestPurchaseItem(item)
     );
     const payload = {
-      pr_date: format(form.dueDate as Date, SETTINGS.dateFormat),
+      pr_date: !form.dueDate
+        ? undefined
+        : format(form.dueDate as Date, SETTINGS.dateFormat),
       sai_no: form.sai,
       sai_date: !form.saiDate
         ? undefined
@@ -130,7 +132,7 @@ export class FormToApiService {
         ? undefined
         : format(form.alobsDate as Date, SETTINGS.dateFormat),
       category: form.category,
-      department: currentUser.department_code, 
+      department: currentUser.department_code,
       section: form.section,
       status: "",
       is_urgent: false,
@@ -148,6 +150,9 @@ export class FormToApiService {
     const payload = {
       code: id,
       pr_no: form.prno,
+      pr_date: !form.dueDate
+        ? undefined
+        : format(form.dueDate as Date, SETTINGS.dateFormat),
       sai_no: form.sai,
       alobs_no: form.alobs,
       category: form.category,

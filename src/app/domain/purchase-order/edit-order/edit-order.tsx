@@ -66,8 +66,8 @@ export function EditOrder() {
     );
   };
   const printSection = () => (
-    // <div>
-    <div style={{ display: "none" }}>
+    // <div> style={{ display: "none" }}
+    <div >
       <div ref={componentRef}>
         <PrintOrder data={orders?.data?.[0]} />
       </div>
