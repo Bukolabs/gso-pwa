@@ -216,6 +216,11 @@ export class FormToApiService {
       is_active: true,
       purchase_requests: requests,
       category: form.category,
+      supplier: form.supplier,
+      address: form.address,
+      contact_no: form.phone,
+      email: form.email,
+      tin: form.tin,
     } as EditPurchaseOrderDto;
 
     return payload;

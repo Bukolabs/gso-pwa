@@ -8,6 +8,7 @@ import {
   OrderFormSchema,
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
+import { confirmDialog } from "primereact/confirmdialog";
 import { useEditOrderQy, useGetOrderByIdQy } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useRef, useState } from "react";
@@ -76,6 +77,11 @@ export function useEditOrder() {
           : undefined
       );
       setValue("deliveryTerm", responseData?.delivery_term || "");
+      setValue("supplier", responseData?.supplier || "");
+      setValue("address", responseData?.address || "");
+      setValue("email", responseData?.email || "");
+      setValue("phone", responseData?.contact_no || "");
+      setValue("tin", responseData?.tin || "");
 
       const requestInForm = requestListToForm(
         responseData?.purchase_requests || [],
@@ -134,9 +140,9 @@ export function useEditOrder() {
     requests.map(
       (item) =>
         ({
-          code: item.code,
-          purchaseRequest: item.pr_no || "",
-          purchaseOrder: poNumber || "",
+          code: item.po_pr_code,
+          purchaseRequest: item.code || "",
+          purchaseOrder: orderId || "",
           isActive: true,
         } as RequestInOrderFormSchema)
     );
@@ -164,12 +170,26 @@ export function useEditOrder() {
         handleUpdateStatus(RequestStatus.BIDDING);
         break;
       case "Award":
-        handleUpdateStatus(RequestStatus.AWARDED);
+        const supplier = getValues("supplier");
+
+        if (!supplier) {
+          showWarning(
+            "No supplier information has been entered yet. Kindly, enter supplier information in the Supplier Tab"
+          );
+          return;
+        }
+
+        confirmDialog({
+          message: `You are about to award this order to ${supplier}. Once you submit you can't edit or change the information`,
+          header: "Confirmation",
+          icon: "pi pi-exclamation-triangle",
+          accept: () => {
+            handleUpdateStatus(RequestStatus.AWARDED);
+          },
+          reject: () => {},
+        });
         break;
-      case "Review":
-        handleUpdateStatus(RequestStatus.POREVIEW);
-        break;
-      case "Approve":
+      case "PO Review":
         handleUpdateStatus(RequestStatus.POREVIEW);
         break;
     }

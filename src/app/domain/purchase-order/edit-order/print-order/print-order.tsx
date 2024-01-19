@@ -2,6 +2,12 @@ import { GetPurchaseOrderDto } from "@api/api";
 import "./print-order.scss";
 import classNames from "classnames";
 import { dateFormat } from "@shared/formats/date-time-format";
+import {
+  currencyTemplate,
+  dateTemplate,
+  numberTemplate,
+} from "@core/utility/data-table-template";
+import { twoDigit } from "@core/utility/number-helper";
 
 export interface PrintOrderProps {
   data: GetPurchaseOrderDto | undefined;
@@ -9,6 +15,14 @@ export interface PrintOrderProps {
 
 export function PrintOrder({ data }: PrintOrderProps) {
   const logo = "/tagbilaran-logo.png";
+  const itemDisplay = (title: string, description: string) => {
+    return (
+      <span>
+        <label className="font-bold">{title}</label>
+        <small className="block">{description}</small>
+      </span>
+    );
+  };
 
   return (
     <div className="print-order">
@@ -49,8 +63,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label>Supplier: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.supplier && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.supplier ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.supplier}
@@ -60,8 +74,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label>Address: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.address && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.address ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.address}
@@ -71,8 +85,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">E-mail Address: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.email && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.email ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.email}
@@ -82,8 +96,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Telephone No.: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.contact_no && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.contact_no ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.contact_no}
@@ -93,8 +107,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label>T.I.N: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.tin && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.tin ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.tin}
@@ -106,8 +120,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">P.O. No.: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.po_no && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.po_no ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.po_no}
@@ -117,8 +131,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label>Date: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.po_date && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.po_date ? "top-[1px]" : "top-[10px]"
               )}
             >
               {dateFormat(data?.po_date)}
@@ -128,8 +142,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Mode of Procurement: </label>
             <span
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.mode_of_procurement && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.mode_of_procurement ? "top-[1px]" : "top-[10px]"
               )}
             >
               <p>{data?.mode_of_procurement}</p>
@@ -139,8 +153,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">P.R. No.: </label>
             <span
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                (data?.purchase_requests || []).length <= 0 && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                (data?.purchase_requests || []).length > 0
+                  ? "top-[1px]"
+                  : "top-[12px]"
               )}
             >
               {data?.purchase_requests?.map((x) => (
@@ -161,8 +177,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Place of Delivery: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.delivery_location && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.delivery_location ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.delivery_location}
@@ -172,8 +188,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Date of Delivery: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.delivery_date && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.delivery_date ? "top-[1px]" : "top-[10px]"
               )}
             >
               {dateFormat(data?.delivery_date)}
@@ -185,8 +201,8 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Delivery Term: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.delivery_term && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.delivery_term ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.delivery_term}
@@ -196,14 +212,72 @@ export function PrintOrder({ data }: PrintOrderProps) {
             <label className="whitespace-nowrap">Payment Term: </label>
             <h4
               className={classNames(
-                "block relative top-[1px] font-bold border-b border-black w-full",
-                !data?.payment_term && "top-[10px]"
+                "block relative font-bold border-b border-black w-full",
+                data?.payment_term ? "top-[1px]" : "top-[10px]"
               )}
             >
               {data?.payment_term}
             </h4>
           </span>
         </div>
+      </section>
+
+      <section>
+        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t border-b border-l-0 border-r-0">
+          <tbody className="border-t border-b border-l-0 border-r-0">
+            <tr>
+              <th className="px-6 py-3 border bg-gray-50">Item No.</th>
+              <th className="px-6 py-3 border bg-gray-50">Unit</th>
+              <th className="px-6 py-3 border bg-gray-50">Description</th>
+              <th className="px-6 py-3 border bg-gray-50">Quantity</th>
+              <th className="px-6 py-3 border bg-gray-50">Unit Cost</th>
+              <th className="px-6 py-3 border bg-gray-50">Total Cost</th>
+            </tr>
+            {(data?.purchase_requests || [])?.map((request) =>
+              request.items?.map((item, id) => (
+                <tr
+                  key={id}
+                  className="border-t border-b border-l-0 border-r-0"
+                >
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {twoDigit(id + 1)}
+                  </td>
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {item.unit_name}
+                  </td>
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {itemDisplay(item.item_name, item.description || "")}
+                  </td>
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {numberTemplate(item.quantity)}
+                  </td>
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {currencyTemplate(item.price)}
+                  </td>
+                  <td className="px-6 py-4 border bg-gray-50">
+                    {currencyTemplate(item.price * item.quantity)}
+                  </td>
+                </tr>
+              ))
+            )}
+            <tr>
+              <td className="border bg-gray-50"></td>
+              <td className="border bg-gray-50"></td>
+              <td className="border bg-gray-50"></td>
+              <td className="border bg-gray-50"></td>
+              <td className="px-6 py-4 border bg-gray-50">Total:</td>
+              <td className="px-6 py-4 border bg-gray-50">
+                {/* {currencyTemplate(overallTotal)} */}
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-6 py-5 bg-gray-50 font-bold">
+                Purpose:
+              </td>
+              <td className="border px-6 py-4 bg-gray-50" colSpan={5}></td>
+            </tr>
+          </tbody>
+        </table>
       </section>
     </div>
   );

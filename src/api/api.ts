@@ -4034,6 +4034,150 @@ export interface GetPurchaseOrderDto {
      */
     'payment_term'?: string;
     /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'status_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'is_gso'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'gso_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'is_treasurer'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'treasurer_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'is_mayor'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'mayor_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'reviewer'?: string;
+    /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
      * @memberof GetPurchaseOrderDto
@@ -4106,6 +4250,12 @@ export interface GetPurchaseOrderDto {
  * @interface GetPurchaseRequestDto
  */
 export interface GetPurchaseRequestDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_pr_code'?: string;
     /**
      * 
      * @type {string}
@@ -5063,6 +5213,43 @@ export interface PrItemControllerGetDataAsList200ResponseAllOf {
      * @memberof PrItemControllerGetDataAsList200ResponseAllOf
      */
     'data'?: Array<GetPrItemDto>;
+}
+/**
+ * 
+ * @export
+ * @interface ProcessPurchaseOrderDto
+ */
+export interface ProcessPurchaseOrderDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProcessPurchaseOrderDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProcessPurchaseOrderDto
+     */
+    'is_gso'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProcessPurchaseOrderDto
+     */
+    'is_treasurer'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProcessPurchaseOrderDto
+     */
+    'is_mayor'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProcessPurchaseOrderDto
+     */
+    'remarks'?: string;
 }
 /**
  * 
@@ -6995,6 +7182,50 @@ export const PurchaseOrderApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {ProcessPurchaseOrderDto} processPurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseOrderControllerProcess: async (processPurchaseOrderDto: ProcessPurchaseOrderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'processPurchaseOrderDto' is not null or undefined
+            assertParamExists('purchaseOrderControllerProcess', 'processPurchaseOrderDto', processPurchaseOrderDto)
+            const localVarPath = `/api/v1/purchase-order/process`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(processPurchaseOrderDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -7049,6 +7280,16 @@ export const PurchaseOrderApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {ProcessPurchaseOrderDto} processPurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async purchaseOrderControllerProcess(processPurchaseOrderDto: ProcessPurchaseOrderDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerProcess(processPurchaseOrderDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -7098,6 +7339,15 @@ export const PurchaseOrderApiFactory = function (configuration?: Configuration, 
          */
         purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PurchaseOrderControllerGetDataAsList200Response> {
             return localVarFp.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ProcessPurchaseOrderDto} processPurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseOrderControllerProcess(processPurchaseOrderDto: ProcessPurchaseOrderDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.purchaseOrderControllerProcess(processPurchaseOrderDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7155,6 +7405,17 @@ export class PurchaseOrderApi extends BaseAPI {
      */
     public purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ProcessPurchaseOrderDto} processPurchaseOrderDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PurchaseOrderApi
+     */
+    public purchaseOrderControllerProcess(processPurchaseOrderDto: ProcessPurchaseOrderDto, options?: AxiosRequestConfig) {
+        return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerProcess(processPurchaseOrderDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -13,6 +13,8 @@ import { Sidebar } from "primereact/sidebar";
 import ManagePr from "../manage-pr/manage-pr";
 import ActionButton from "./action-button/action-button";
 import PrintOrder from "./print-order/print-order";
+import FormBidder from "./form-bidder/form-bidder";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 export function EditOrder() {
   const {
@@ -47,7 +49,7 @@ export function EditOrder() {
   );
   const subHeader = () => {
     const data = orders?.data?.[0];
-    const tag = tagTemplate("CATEGORIZED" || "none");
+    const tag = tagTemplate(data?.status_name || "none");
     const dateUpdated = data?.updated_at;
 
     return (
@@ -66,14 +68,14 @@ export function EditOrder() {
     );
   };
   const printSection = () => (
-    // <div> style={{ display: "none" }}
-    <div >
+    // <div>
+    <div style={{ display: "none" }}>
       <div ref={componentRef}>
         <PrintOrder data={orders?.data?.[0]} />
       </div>
     </div>
   );
-  const formOrder = (
+  const orderTab = (
     <section>
       {subHeader()}
       {printSection()}
@@ -99,6 +101,9 @@ export function EditOrder() {
             />
           </div>
         </TabPanel>
+        <TabPanel header="Supplier">
+          <FormBidder />
+        </TabPanel>
       </TabView>
     </section>
   );
@@ -107,15 +112,19 @@ export function EditOrder() {
     <div className="edit-order">
       <HeaderContent title="Edit Order" onBack={() => navigate("../")}>
         <div className="flex gap-2">
-          <ActionButton status={"CATEGORIZED"} onAction={handleAction} />
+          <ActionButton
+            status={orders?.data?.[0].status_name || ""}
+            onAction={handleAction}
+          />
         </div>
       </HeaderContent>
 
+      <ConfirmDialog />
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
           {(orderError || editError || dataEmpty) && !isLoading && displayError}
-          {!isLoading && !dataEmpty && !editError ? formOrder : <></>}
+          {!isLoading && !dataEmpty && !editError ? orderTab : <></>}
         </FormProvider>
       </div>
     </div>

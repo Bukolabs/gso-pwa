@@ -75,10 +75,7 @@ export function NewOrder() {
     const requestListForm = requests.map(
       (item) =>
         ({
-          code: item.code,
-          purchaseRequest: item.pr_no || "",
-          purchaseOrder: poNo || "",
-          isActive: true,
+          purchaseRequest: item.code,
         } as RequestInOrderFormSchema)
     );
     setValue("requests", requestListForm);

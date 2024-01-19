@@ -34,19 +34,8 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         break;
 
       default:
-        setMainAction("History");
+        setMainAction("PO Review");
         break;
-    }
-    if (status === RequestStatus.CATEGORIZED) {
-    } else if (
-      (status === "SUBMITTED" ||
-        status === "REVIEW" ||
-        status === "DECLINED") &&
-      !isRequestor
-    ) {
-      setMainAction("Approve");
-    } else {
-      setMainAction("History");
     }
   }, [status, isRequestor]);
 

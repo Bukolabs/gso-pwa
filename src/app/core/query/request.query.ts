@@ -147,6 +147,71 @@ export function useGetRequestByIdQy(
   });
 }
 
+export function useGetUnassignedRequestQy(
+  search: string,
+  limit = 10,
+  offset = 0,
+  order?: object,
+  filter?: Record<string, string>,
+  enabled?: boolean,
+  onSuccess?:
+    | ((
+        data: PurchaseRequestControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    offset: number | undefined = undefined,
+    order: object | undefined = undefined,
+    filter: Record<string, string> | undefined = undefined
+  ) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerGetUnassisgnedPrAsList(
+        search,
+        limit,
+        offset,
+        order,
+        JSON.stringify(filter) as any,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response[
+      "data"
+    ] as PurchaseRequestControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    enabled,
+    queryKey: [QueryKey.Request, search, limit, offset, order, filter],
+    queryFn: () => apiFn(search, limit, offset, order, filter),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
 export function useAddRequestQy(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)

@@ -52,10 +52,10 @@ export const RequestFormRule = z.object({
 });
 
 export const RequestInOrderFormRule = z.object({
-  code: z.string(),
-  purchaseOrder: z.string(),
-  purchaseRequest: z.string(),
-  isActive: z.boolean(),
+  code: z.string().optional(),
+  purchaseOrder: z.string().optional(),
+  purchaseRequest: z.string().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const OrderFormRule = z.object({

@@ -1,3 +1,5 @@
+import { RequestStatus } from "@core/model/request-status.enum";
+
 export const getStatusStyleByStage = (stage: string) => {
   switch (stage) {
     case "STAGE_1":
@@ -16,32 +18,32 @@ export const getStatusStyleByStage = (stage: string) => {
 
 export const getStatusStyle = (status: string) => {
   switch (status) {
-    case "SUBMITTED":
+    case RequestStatus.SUBMITTED:
       return "bg-blue-200 text-blue-500";
-    case "REVIEW":
+    case RequestStatus.REVIEW:
       return "bg-yellow-200 text-yellow-500";
-    case "APPROVED":
+    case RequestStatus.APPROVED:
       return "bg-teal-200 text-teal-500";
-    case "DECLINED":
+    case RequestStatus.DECLINED:
       return "bg-red-200 text-red-500";
 
-    case "CATEGORIZED":
+    case RequestStatus.CATEGORIZED:
       return "bg-orange-200 text-orange-500";
-    case "POSTED":
+    case RequestStatus.POSTED:
       return "bg-amber-200 text-amber-500";
-    case "BIDDING":
+    case RequestStatus.BIDDING:
       return "bg-cyan-200 text-cyan-500";
-    case "AWARDED":
+    case RequestStatus.AWARDED:
       return "bg-teal-200 text-teal-500";
 
-    case "PO-REVIEW":
+    case RequestStatus.POREVIEW:
       return "bg-violet-200 text-violet-500";
-    case "PO-APPROVED":
+    case RequestStatus.POAPPROVED:
       return "bg-indigo-200 text-indigo-500";
-    case "PO-DECLINED":
+    case RequestStatus.PODECLINED:
       return "bg-purple-200 text-purple-500";
 
-    case "INSPECTION":
+    case RequestStatus.INSPECTION:
       return "bg-lime-200 text-lime-500";
     case "PARTIAL":
       return "bg-pink-200 text-pink-500";

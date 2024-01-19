@@ -1,7 +1,7 @@
 import "./manage-pr.scss";
 import { useState } from "react";
 import { PickList } from "primereact/picklist";
-import { useGetRequestQy } from "@core/query/request.query";
+import { useGetUnassignedRequestQy } from "@core/query/request.query";
 import {
   GetPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
@@ -40,7 +40,7 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
     );
     setSource(filteredData);
   };
-  useGetRequestQy(
+  useGetUnassignedRequestQy(
     "",
     rowLimit,
     pageNumber,
