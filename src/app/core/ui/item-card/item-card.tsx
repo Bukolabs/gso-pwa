@@ -7,8 +7,8 @@ import { twoDigit } from "@core/utility/number-helper";
 export interface ItemCardProps {
   item: ItemFormSchema;
   itemNo: number;
-  onEdit: (code: ItemFormSchema) => void;
-  onRemove: (code: ItemFormSchema) => void;
+  onEdit?: (code: ItemFormSchema) => void;
+  onRemove?: (code: ItemFormSchema) => void;
 }
 
 export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
@@ -47,10 +47,6 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
           <p className="text-gray-800 font-bold">{item.unitName}</p>
           <p className="hint">Unit</p>
         </div>
-        {/* <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">{item.brandName}</p>
-          <p className="hint">Brand</p>
-        </div> */}
         {item.categoryName && (
           <div className="flex flex-col items-center justify-center">
             <p className="text-gray-800 font-bold">{item.categoryName}</p>
@@ -59,18 +55,30 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
         )}
       </section>
       <section className="bg-gray-800 flex justify-between">
-        <Button
-          text
-          icon="pi pi-pencil"
-          label="Edit"
-          onClick={() => onEdit(item)}
-        ></Button>
-        <Button
-          text
-          icon="pi pi-trash"
-          label="Remove"
-          onClick={() => onRemove(item)}
-        ></Button>
+        {onEdit && (
+          <Button
+            text
+            icon="pi pi-pencil"
+            label="Edit"
+            onClick={() => {
+              if (onEdit) {
+                onEdit(item);
+              }
+            }}
+          ></Button>
+        )}
+        {onRemove && (
+          <Button
+            text
+            icon="pi pi-trash"
+            label="Remove"
+            onClick={() => {
+              if (onRemove) {
+                onRemove(item);
+              }
+            }}
+          ></Button>
+        )}
       </section>
     </div>
   );

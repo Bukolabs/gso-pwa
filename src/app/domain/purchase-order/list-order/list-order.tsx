@@ -10,7 +10,7 @@ import { GetPurchaseOrderDto } from "@api/api";
 import { Column } from "primereact/column";
 import { dateTemplate, tagTemplate } from "@core/utility/data-table-template";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
-import { useReviewHook } from "@core/services/review.hook";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import OrderCard from "@core/ui/order-card/order-card";
 import { dateFormat } from "@shared/formats/date-time-format";
 import { sumBy } from "lodash-es";
@@ -19,6 +19,7 @@ import { numberFormat } from "@shared/formats/number-format";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { Avatar } from "primereact/avatar";
 
 export function ListOrder() {
   const navigate = useNavigate();
@@ -54,18 +55,35 @@ export function ListOrder() {
     setIsTableView(false);
   };
   const getTotalAmount = (data: GetPurchaseOrderDto) => {
+    const prItems = data?.purchase_requests?.map((x) => x.items)[0];
     const total = sumBy(
-      data?.purchase_requests || [],
-      (x) => (x.total_amount || 0) * (x.total_quantity || 0)
+      prItems || [],
+      (x) => (x.price || 0) * (x.quantity || 0)
     );
     return total;
   };
   const getTotalItems = (data: GetPurchaseOrderDto) => {
-    const total = sumBy(
-      data?.purchase_requests || [],
-      (x) => x.total_quantity || 0
-    );
+    const prItems = data?.purchase_requests?.map((x) => x.items)[0];
+    const total = sumBy(prItems || [], (x) => x.quantity || 0);
     return total;
+  };
+  const reviewColumn = (data: GetPurchaseOrderDto) => {
+    const reviewers = getReviewers({
+      isGso: data.is_gso,
+      isTreasurer: data.is_treasurer,
+      isMayor: data.is_mayor,
+    } as ReviewerStatus);
+
+    return (
+      <div className="flex gap-2">
+        {reviewers.map((item, id) => (
+          <section key={id} className="flex flex-col items-center">
+            <Avatar shape="circle" icon={item.value} />
+            <label className="text-gray-500">{item.label}</label>
+          </section>
+        ))}
+      </div>
+    );
   };
 
   const displayLoading = (
@@ -126,6 +144,7 @@ export function ListOrder() {
           header="Status"
           body={(data: any) => tagTemplate(data.status_name)}
         ></Column>
+        <Column header="Review" body={reviewColumn}></Column>
       </DataTable>
 
       <Paginator

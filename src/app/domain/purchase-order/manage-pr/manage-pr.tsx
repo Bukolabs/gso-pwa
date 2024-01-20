@@ -1,5 +1,5 @@
 import "./manage-pr.scss";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { PickList } from "primereact/picklist";
 import { useGetUnassignedRequestQy } from "@core/query/request.query";
 import {
@@ -13,6 +13,10 @@ import {
 } from "@core/utility/data-table-template";
 import { dateFormat } from "@shared/formats/date-time-format";
 import { numberFormat } from "@shared/formats/number-format";
+import { Button } from "primereact/button";
+import { Sidebar } from "primereact/sidebar";
+import ItemCard from "@core/ui/item-card/item-card";
+import { ItemFormSchema } from "@core/model/form.rule";
 
 export interface ManagePrProps {
   category: string;
@@ -23,6 +27,8 @@ export interface ManagePrProps {
 export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
   const [source, setSource] = useState<GetPurchaseRequestDto[]>([]);
   const [target, setTarget] = useState(selectedList);
+  const [visible, setVisible] = useState(false);
+  const [viewData, setViewData] = useState<ItemFormSchema[]>([]);
 
   const [filter] = useState({
     category: category,
@@ -30,6 +36,26 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
   });
   const rowLimit = 99999;
   const pageNumber = 0;
+  const handleView = (e: SyntheticEvent, data: GetPurchaseRequestDto) => {
+    e.preventDefault();
+    setVisible(true);
+
+    const prItems = (data.items || []).map(
+      (item) =>
+        ({
+          name: item.item_name,
+          brand: item.brand_name,
+          category: item.category_name,
+          description: item.description,
+          isActive: true,
+          cost: item.price,
+          unit: item.unit_name,
+          quantity: item.quantity,
+        } as ItemFormSchema)
+    );
+
+    setViewData(prItems);
+  };
 
   const handleApiSuccess = (
     response: PurchaseRequestControllerGetDataAsList200Response
@@ -75,6 +101,14 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
             </div>
           </div>
         </section>
+        <section>
+          <Button
+            label="View"
+            severity="secondary"
+            outlined
+            onClick={(e) => handleView(e, item)}
+          />
+        </section>
       </div>
     );
   };
@@ -86,6 +120,21 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
 
   return (
     <div className="manage-pr">
+      <Sidebar
+        visible={visible}
+        onHide={() => {
+          setVisible(false);
+          setViewData([]);
+        }}
+      >
+        <h2>Request Items</h2>
+        <div className="flex flex-wrap gap-2">
+          {viewData.map((item, id) => (
+            <ItemCard key={id} itemNo={id} item={item} />
+          ))}
+        </div>
+      </Sidebar>
+
       <p>
         Make sure to select a <b>category</b> in the <b>Information tab</b>.
       </p>
