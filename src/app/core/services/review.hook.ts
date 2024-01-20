@@ -1,9 +1,16 @@
-import { GetPurchaseRequestDto } from "@api/api";
 import { LocalAuth } from "@core/model/local-auth";
 import { useGetRoleQy } from "@core/query/account.query";
 import { AUTH } from "@core/utility/settings";
 import { LabelValue } from "@shared/models/label-value.interface";
 import StorageService from "@shared/services/storage.service";
+
+export interface ReviewerStatus {
+  isGso?: boolean;
+  isGsoFF?: boolean;
+  isTreasurer?: boolean;
+  isMayor?: boolean;
+  isBudget?: boolean;
+}
 
 export function useReviewHook() {
   const { data: roles } = useGetRoleQy();
@@ -19,9 +26,10 @@ export function useReviewHook() {
           is_mayor: status,
         };
       case "GSO_ADMIN":
+      case "GSO_APRV":
         if (budgetStatus) {
           return {
-            is_gso_ff: true,
+            is_gso_ff: status,
           };
         }
 
@@ -74,58 +82,74 @@ export function useReviewHook() {
     return reviewer;
   };
 
-  const getReviewers = (data?: GetPurchaseRequestDto) => {
+  const getReviewers = (data?: ReviewerStatus) => {
     if (!data) {
       return [];
     }
 
-    const gso = {
-      label: "CGSO",
-      value:
-        data.is_gso === null
-          ? ""
-          : Boolean(data.is_gso)
-          ? "pi pi-check"
-          : "pi pi-times",
-    };
-    const treasurer = {
-      label: "CTO",
-      value:
-        data.is_treasurer === null
-          ? ""
-          : Boolean(data.is_treasurer)
-          ? "pi pi-check"
-          : "pi pi-times",
-    };
-    const mayor = {
-      label: "CMO",
-      value:
-        data.is_mayor === null
-          ? ""
-          : Boolean(data.is_mayor)
-          ? "pi pi-check"
-          : "pi pi-times",
-    };
-    const budget = {
-      label: "CBO",
-      value:
-        data.is_budget === null
-          ? ""
-          : Boolean(data.is_budget)
-          ? "pi pi-check"
-          : "pi pi-times",
-    };
-    const gsoff = {
-      label: "CGSO_2",
-      value:
-        data.is_gso_ff === null
-          ? ""
-          : Boolean(data.is_budget)
-          ? "pi pi-check"
-          : "pi pi-times",
-    };
+    const gso =
+      data.isGso === undefined
+        ? null
+        : {
+            label: "CGSO",
+            value:
+              data.isGso === null
+                ? ""
+                : Boolean(data.isGso)
+                ? "pi pi-check"
+                : "pi pi-times",
+          };
+    const treasurer =
+      data.isTreasurer === undefined
+        ? null
+        : {
+            label: "CTO",
+            value:
+              data.isTreasurer === null
+                ? ""
+                : Boolean(data.isTreasurer)
+                ? "pi pi-check"
+                : "pi pi-times",
+          };
+    const mayor =
+      data.isMayor === undefined
+        ? null
+        : {
+            label: "CMO",
+            value:
+              data.isMayor === null
+                ? ""
+                : Boolean(data.isMayor)
+                ? "pi pi-check"
+                : "pi pi-times",
+          };
+    const budget =
+      data.isBudget === undefined
+        ? null
+        : {
+            label: "CBO",
+            value:
+              data.isBudget === null
+                ? ""
+                : Boolean(data.isBudget)
+                ? "pi pi-check"
+                : "pi pi-times",
+          };
+    const gsoff =
+      data.isGsoFF === undefined
+        ? null
+        : {
+            label: "CGSO_2",
+            value:
+              data.isGsoFF === null
+                ? ""
+                : Boolean(data.isGsoFF)
+                ? "pi pi-check"
+                : "pi pi-times",
+          };
     const reviewers = [gso, treasurer, mayor, budget, gsoff];
-    return reviewers as LabelValue[];
+    const filteredReviewers = reviewers.filter((x) => !!x);
+    return filteredReviewers as LabelValue[];
   };
 
   return {

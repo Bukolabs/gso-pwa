@@ -1,5 +1,6 @@
 import {
   GetPurchaseRequestDto,
+  ProcessPurchaseOrderDto,
   PurchaseOrderControllerGetDataAsList200Response,
 } from "@api/api";
 import { orderFormDefault } from "@core/model/form.default";
@@ -9,7 +10,11 @@ import {
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
-import { useEditOrderQy, useGetOrderByIdQy } from "@core/query/order.query";
+import {
+  useEditOrderQy,
+  useGetOrderByIdQy,
+  useProcessOrderQy,
+} from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useRef, useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
@@ -20,8 +25,10 @@ import { format } from "date-fns";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { RequestStatus } from "@core/model/request-status.enum";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 
 export function useEditOrder() {
+  const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { showSuccess, showError, hideProgress, showWarning } =
@@ -30,6 +37,10 @@ export function useEditOrder() {
   const [dataEmpty, setDataEmpty] = useState(false);
   const componentRef = useRef(null);
 
+  const [remarksVisible, setRemarksVisible] = useState(false);
+  const [reviewRemarks, setReviewRemarks] = useState("");
+  const [remarksMode, setRemarksMode] = useState("");
+
   const [selectedRequests, setSelectedRequests] = useState<
     GetPurchaseRequestDto[]
   >([]);
@@ -37,6 +48,12 @@ export function useEditOrder() {
   const handleBack = () => {
     navigate("../");
   };
+
+  // PROCESS REQUEST API
+  const handleProcessSuccess = () => {
+    showSuccess("Order status is changed successfully");
+  };
+  const { mutate: processOrder } = useProcessOrderQy(handleProcessSuccess);
 
   // EDIT REQUEST API
   const handleApiSuccess = () => {
@@ -84,8 +101,7 @@ export function useEditOrder() {
       setValue("tin", responseData?.tin || "");
 
       const requestInForm = requestListToForm(
-        responseData?.purchase_requests || [],
-        responseData?.po_no || ""
+        responseData?.purchase_requests || []
       );
       setValue("requests", requestInForm);
 
@@ -102,6 +118,12 @@ export function useEditOrder() {
     isLoading,
     isError: orderError,
   } = useGetOrderByIdQy(orderId || "", handleGetApiSuccess);
+
+  const reviewers = getReviewers({
+    isGso: orders?.data?.[0].is_gso,
+    isTreasurer: orders?.data?.[0].is_treasurer,
+    isMayor: orders?.data?.[0].is_mayor,
+  } as ReviewerStatus);
 
   const formMethod = useForm<OrderFormSchema>({
     // CACHED / DEFAULT VALUES
@@ -121,22 +143,11 @@ export function useEditOrder() {
   };
 
   const handleSelectedRequests = (requests: GetPurchaseRequestDto[]) => {
-    const poNo = getValues("pono");
-    if (!poNo) {
-      showWarning(
-        "No Purchase Order number is supplied. Please supply it first"
-      );
-      return;
-    }
-
     setSelectedRequests(requests);
-    const requestListForm = requestListToForm(requests, poNo);
+    const requestListForm = requestListToForm(requests);
     setValue("requests", requestListForm);
   };
-  const requestListToForm = (
-    requests: GetPurchaseRequestDto[],
-    poNumber: string
-  ) =>
+  const requestListToForm = (requests: GetPurchaseRequestDto[]) =>
     requests.map(
       (item) =>
         ({
@@ -180,7 +191,7 @@ export function useEditOrder() {
         }
 
         confirmDialog({
-          message: `You are about to award this order to ${supplier}. Once you submit you can't edit or change the information`,
+          message: `You are about to award this order to ${supplier}. Once you submit you can't edit or change the information. Are you sure you want to continue?`,
           header: "Confirmation",
           icon: "pi pi-exclamation-triangle",
           accept: () => {
@@ -189,10 +200,38 @@ export function useEditOrder() {
           reject: () => {},
         });
         break;
-      case "PO Review":
+      case "Review":
         handleUpdateStatus(RequestStatus.POREVIEW);
         break;
+      case "Approve":
+        setRemarksVisible(true);
+        setRemarksMode("approve");
+        break;
+      case "Decline":
+        setRemarksVisible(true);
+        setRemarksMode("decline");
+        break;
+      case "Inspect":
+        handleUpdateStatus(RequestStatus.INSPECTION);
+        break;
     }
+  };
+  const handleReviewAction = (action: "approve" | "decline") => {
+    const dataValue = orders?.data?.[0];
+
+    if (!dataValue) {
+      throw new Error("no data");
+    }
+
+    const isApprove = action === "approve";
+    const reviewer = setReviewerEntityStatus(isApprove, false);
+    const payload = {
+      code: dataValue.code,
+      ...reviewer,
+      remarks: reviewRemarks,
+    } as ProcessPurchaseOrderDto;
+    processOrder(payload);
+    setRemarksVisible(false);
   };
 
   return {
@@ -206,9 +245,17 @@ export function useEditOrder() {
     category,
     selectedRequests,
     componentRef,
+    remarksVisible,
+    remarksMode,
+    reviewRemarks,
+    reviewers,
     navigate,
     setVisible,
     handleSelectedRequests,
     handleAction,
+    setRemarksVisible,
+    setRemarksMode,
+    setReviewRemarks,
+    handleReviewAction,
   };
 }

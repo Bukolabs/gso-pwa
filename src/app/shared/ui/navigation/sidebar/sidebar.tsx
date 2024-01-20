@@ -13,7 +13,8 @@ export interface SidebarProps {
   icon?: string;
   className?: string;
   username?: string;
-  email?: string;
+  userSubname?: string;
+  userInfo?: string;
   onLogout?: () => void;
 }
 
@@ -25,7 +26,8 @@ export function Sidebar({
   logoWidth = "w-36",
   logoClass,
   username,
-  email,
+  userSubname,
+  userInfo,
   onLogout,
 }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
@@ -93,7 +95,12 @@ export function Sidebar({
           >
             <div className="leading-4 text-left">
               {username && <h4 className="font-semibold">{username}</h4>}
-              {email && <span className="text-xs text-gray-600">{email}</span>}
+              {userSubname && (
+                <span className="text-sm text-gray-800">{userSubname}</span>
+              )}
+              {userInfo && (
+                <span className="text-xs text-gray-400 block">{userInfo}</span>
+              )}
             </div>
             {/* <i className="pi pi-ellipsis-v"></i> */}
           </div>

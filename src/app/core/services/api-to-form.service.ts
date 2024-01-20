@@ -66,6 +66,7 @@ export class ApiToFormService {
       person_last_name: data.person_last_name,
       role_code: data.role_code,
       role_name: data.role_name,
+      role_description: data.role_description,
       department_code: data.department_code,
       department_name: data.department_name,
     } as LocalAuth;

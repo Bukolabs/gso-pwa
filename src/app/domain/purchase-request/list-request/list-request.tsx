@@ -22,7 +22,7 @@ import {
 } from "@core/utility/data-table-template";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
-import { useReviewHook } from "@core/services/review.hook";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useRequestFilterContext } from "./request-filter.context";
 import { RequestFilterForm } from "./request-filter.form";
 import { dateFormat } from "@shared/formats/date-time-format";
@@ -113,7 +113,13 @@ export function ListRequest() {
     </div>
   );
   const reviewColumn = (data: GetPurchaseRequestDto) => {
-    const reviewers = getReviewers(data);
+    const reviewers = getReviewers({
+      isGso: data.is_gso,
+      isGsoFF: data.is_gso_ff,
+      isTreasurer: data.is_treasurer,
+      isMayor: data.is_mayor,
+      isBudget: data.is_budget,
+    } as ReviewerStatus);
 
     return (
       <div className="flex gap-2">
@@ -183,7 +189,14 @@ export function ListRequest() {
     <section>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         {(purchaseRequests?.data || []).map((item, id) => {
-          const reviewers = getReviewers(item);
+          const reviewers = getReviewers({
+            isGso: item.is_gso,
+            isGsoFF: item.is_gso_ff,
+            isTreasurer: item.is_treasurer,
+            isMayor: item.is_mayor,
+            isBudget: item.is_budget,
+          } as ReviewerStatus);
+
           return (
             <RequestCard
               key={id}

@@ -34,12 +34,12 @@ export const getStatusStyle = (status: string) => {
     case RequestStatus.BIDDING:
       return "bg-cyan-200 text-cyan-500";
     case RequestStatus.AWARDED:
-      return "bg-teal-200 text-teal-500";
+      return "bg-teal-300 text-teal-600";
 
     case RequestStatus.POREVIEW:
       return "bg-violet-200 text-violet-500";
     case RequestStatus.POAPPROVED:
-      return "bg-indigo-200 text-indigo-500";
+      return "bg-green-200 text-green-500";
     case RequestStatus.PODECLINED:
       return "bg-purple-200 text-purple-500";
 

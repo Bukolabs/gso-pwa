@@ -15,6 +15,10 @@ import ActionButton from "./action-button/action-button";
 import PrintOrder from "./print-order/print-order";
 import FormBidder from "./form-bidder/form-bidder";
 import { ConfirmDialog } from "primereact/confirmdialog";
+import { InputTextarea } from "primereact/inputtextarea";
+import { Button } from "primereact/button";
+import ReviewSection from "@core/ui/review-section/review-section";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function EditOrder() {
   const {
@@ -28,11 +32,20 @@ export function EditOrder() {
     category,
     selectedRequests,
     componentRef,
+    remarksVisible,
+    remarksMode,
+    reviewRemarks,
+    reviewers,
     navigate,
     setVisible,
     handleSelectedRequests,
     handleAction,
+    setRemarksVisible,
+    setReviewRemarks,
+    handleReviewAction,
   } = useEditOrder();
+
+  const status = orders?.data?.[0].status_name;
 
   const displayLoading = (
     <div className="card">
@@ -67,6 +80,37 @@ export function EditOrder() {
       </section>
     );
   };
+  const remarksSidebar = (
+    <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
+      <label>Remarks</label>
+      <InputTextarea
+        value={reviewRemarks}
+        onChange={(e) => setReviewRemarks(e.target.value)}
+        rows={5}
+        cols={30}
+      />
+      <small className="text-gray-400 mb-1 block">
+        Enter reason why you are approving/disapproving the item
+      </small>
+
+      <div className="flex justify-end mt-5">
+        {remarksMode === "approve" ? (
+          <Button
+            label="Approve"
+            onClick={() => handleReviewAction("approve")}
+          />
+        ) : (
+          <Button
+            label="Decline"
+            onClick={() => handleReviewAction("decline")}
+          />
+        )}
+      </div>
+    </Sidebar>
+  );
+  const reviewSection = () => (
+    <ReviewSection classname="mb-3" reviewers={reviewers} />
+  );
   const printSection = () => (
     // <div>
     <div style={{ display: "none" }}>
@@ -78,6 +122,7 @@ export function EditOrder() {
   const orderTab = (
     <section>
       {subHeader()}
+      {reviewSection()}
       {printSection()}
 
       <TabView className="mb-10">
@@ -101,9 +146,11 @@ export function EditOrder() {
             />
           </div>
         </TabPanel>
-        <TabPanel header="Supplier">
-          <FormBidder />
-        </TabPanel>
+        {status === RequestStatus.BIDDING && (
+          <TabPanel header="Supplier">
+            <FormBidder />
+          </TabPanel>
+        )}
       </TabView>
     </section>
   );
@@ -120,6 +167,8 @@ export function EditOrder() {
       </HeaderContent>
 
       <ConfirmDialog />
+      {remarksSidebar}
+
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}

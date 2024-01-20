@@ -23,7 +23,6 @@ export function Login() {
   const { showError } = useNotificationContext();
   const navigate = useNavigate();
   const logo = "/icon-152x152.png";
-  const loginBg = "/login-bg.jpg";
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");

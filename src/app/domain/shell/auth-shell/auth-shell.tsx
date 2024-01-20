@@ -2,7 +2,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import "./auth-shell";
 import {
   accountNav,
-  bidderNav,
   homeNav,
   itemNav,
   moreNav,
@@ -72,7 +71,8 @@ export function AuthShell() {
           username={
             currentUser.person_first_name + " " + currentUser.person_last_name
           }
-          email={currentUser.person_email}
+          userSubname={currentUser.role_description}
+          userInfo={currentUser.department_name}
           onLogout={handleLogout}
         >
           {desktopNavigation.map((item, id) => (

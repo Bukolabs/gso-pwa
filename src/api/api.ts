@@ -5091,6 +5091,12 @@ export interface LoginResponseDto {
      * @type {string}
      * @memberof LoginResponseDto
      */
+    'role_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponseDto
+     */
     'department_code': string;
     /**
      * 

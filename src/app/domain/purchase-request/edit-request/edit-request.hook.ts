@@ -24,7 +24,7 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
-import { useReviewHook } from "@core/services/review.hook";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
 
 export function useEditRequest() {
@@ -149,7 +149,13 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
-  const reviewers = getReviewers(requests?.data?.[0]);
+  const reviewers = getReviewers({
+    isGso: requests?.data?.[0].is_gso,
+    isGsoFF: requests?.data?.[0].is_gso_ff,
+    isTreasurer: requests?.data?.[0].is_treasurer,
+    isMayor: requests?.data?.[0].is_mayor,
+    isBudget: requests?.data?.[0].is_budget,
+  } as ReviewerStatus);
 
   // EDIT REQUEST API
   const handleApiSuccess = () => {
@@ -204,32 +210,16 @@ export function useEditRequest() {
     });
     setValue("items", updatedIsActiveItems);
   };
-
-  const handleApprove = () => {
+  const handleReviewAction = (action: "approve" | "decline") => {
     const dataValue = requests?.data?.[0];
 
     if (!dataValue) {
       throw new Error("no data");
     }
 
+    const isApprove = action === "approve";
     const hasBudgetApproved = Boolean(dataValue.is_budget);
-    const reviewer = setReviewerEntityStatus(true, hasBudgetApproved);
-    const payload = {
-      code: dataValue.code,
-      ...reviewer,
-      remarks: reviewRemarks,
-    } as ProcessPurchaseRequestDto;
-    processRequest(payload);
-    setRemarksVisible(false);
-  };
-  const handleDecline = () => {
-    const dataValue = requests?.data?.[0];
-
-    if (!dataValue) {
-      throw new Error("no data");
-    }
-
-    const reviewer = setReviewerEntityStatus(false);
+    const reviewer = setReviewerEntityStatus(isApprove, hasBudgetApproved);
     const payload = {
       code: dataValue.code,
       ...reviewer,
@@ -265,8 +255,7 @@ export function useEditRequest() {
     handleValidateError,
     setRemarksVisible,
     setReviewRemarks,
-    handleApprove,
-    handleDecline,
+    handleReviewAction,
     handleAction,
   };
 }

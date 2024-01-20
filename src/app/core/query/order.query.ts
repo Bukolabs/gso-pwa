@@ -3,6 +3,7 @@ import {
   CreatePurchaseOrderDto,
   EditPurchaseOrderDto,
   MessageResponseDto,
+  ProcessPurchaseOrderDto,
   PurchaseOrderApiFp,
   PurchaseOrderControllerGetDataAsList200Response,
   PurchaseOrderPurchaseRequestApiFp,
@@ -101,9 +102,7 @@ export function useGetOrderByIdQy(
         authHeaders()
       );
     const response = (await operation()).data;
-    return response[
-      "data"
-    ] as PurchaseOrderControllerGetDataAsList200Response;
+    return response["data"] as PurchaseOrderControllerGetDataAsList200Response;
   };
 
   return useQuery({
@@ -188,11 +187,10 @@ export function useEditOrderQy(
 
   const apiFn = async (payload: EditPurchaseOrderDto) => {
     showProgress();
-    const operation =
-      await PurchaseOrderApiFp().purchaseOrderControllerEdit(
-        payload,
-        authHeaders()
-      );
+    const operation = await PurchaseOrderApiFp().purchaseOrderControllerEdit(
+      payload,
+      authHeaders()
+    );
     const response = (await operation()).data;
     return response["message"] as MessageResponseDto;
   };
@@ -248,6 +246,51 @@ export function useAddRequestToOrderQy(
     onSuccess: (response) => {
       hideProgress();
       queryClient.invalidateQueries(QueryKey.RequestsInOrder);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useProcessOrderQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: ProcessPurchaseOrderDto) => {
+    showProgress();
+    const operation = await PurchaseOrderApiFp().purchaseOrderControllerProcess(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Order);
       if (onSuccess) {
         onSuccess(response);
       }

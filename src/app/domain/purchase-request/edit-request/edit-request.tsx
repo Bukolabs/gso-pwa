@@ -41,8 +41,7 @@ export function EditRequest() {
     navigate,
     setRemarksVisible,
     setReviewRemarks,
-    handleApprove,
-    handleDecline,
+    handleReviewAction,
     handleAction,
   } = useEditRequest();
 
@@ -103,9 +102,15 @@ export function EditRequest() {
 
       <div className="flex justify-end mt-5">
         {remarksMode === "approve" ? (
-          <Button label="Approve" onClick={() => handleApprove()} />
+          <Button
+            label="Approve"
+            onClick={() => handleReviewAction("approve")}
+          />
         ) : (
-          <Button label="Decline" onClick={() => handleDecline()} />
+          <Button
+            label="Decline"
+            onClick={() => handleReviewAction("decline")}
+          />
         )}
       </div>
     </Sidebar>

@@ -18,9 +18,11 @@ import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function ListOrder() {
   const navigate = useNavigate();
+  const { isBACApprover } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
   const [isTableView, setIsTableView] = useState(!isMobileMode);
   const { getReviewers } = useReviewHook();
@@ -65,7 +67,7 @@ export function ListOrder() {
     );
     return total;
   };
-  
+
   const displayLoading = (
     <div className="card">
       <SkeletonList count={4} />
@@ -177,12 +179,14 @@ export function ListOrder() {
   return (
     <div className="list-order">
       <HeaderContent title="Orders">
-        <Button
-          className="w-full block md:m-0"
-          label="New"
-          onClick={() => navigate("new")}
-          text={!isTableView}
-        ></Button>
+        {isBACApprover && (
+          <Button
+            className="w-full block md:m-0"
+            label="New"
+            onClick={() => navigate("new")}
+            text={!isTableView}
+          ></Button>
+        )}
       </HeaderContent>
 
       <div className="p-7">

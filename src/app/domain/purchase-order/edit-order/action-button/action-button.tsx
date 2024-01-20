@@ -2,8 +2,8 @@ import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
 import { useEffect, useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
-import { showReviewControl } from "@core/utility/review-control";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { Button } from "primereact/button";
 
 export interface ActionButtonProps {
   status: string;
@@ -11,46 +11,60 @@ export interface ActionButtonProps {
 }
 
 export function ActionButton({ status, onAction }: ActionButtonProps) {
-  const { isRequestor } = useUserIdentity();
+  const { isBACApprover, isReviewer } = useUserIdentity();
 
   const [mainAction, setMainAction] = useState("Update");
 
   useEffect(() => {
-    switch (status) {
-      case RequestStatus.CATEGORIZED:
-        setMainAction("Update");
-        break;
-      case RequestStatus.POSTED:
-        setMainAction("Bid");
-        break;
-      case RequestStatus.BIDDING:
-        setMainAction("Award");
-        break;
-      case RequestStatus.AWARDED:
-        setMainAction("Review");
-        break;
-      case RequestStatus.POREVIEW:
-        setMainAction("Approve");
-        break;
+    if (isBACApprover) {
+      switch (status) {
+        case RequestStatus.CATEGORIZED:
+          setMainAction("Post");
+          break;
+        case RequestStatus.POSTED:
+          setMainAction("Bid");
+          break;
+        case RequestStatus.BIDDING:
+          setMainAction("Award");
+          break;
+        case RequestStatus.AWARDED:
+          setMainAction("Review");
+          break;
 
-      default:
-        setMainAction("PO Review");
-        break;
+        default:
+          setMainAction("History");
+          break;
+      }
+    } else if (isReviewer) {
+      switch (status) {
+        case RequestStatus.POREVIEW:
+        case RequestStatus.PODECLINED:
+          setMainAction("Approve");
+          break;
+        case RequestStatus.POAPPROVED:
+          setMainAction("Inspect");
+          break;
+        default:
+          setMainAction("History");
+          break;
+      }
+    } else {
+      setMainAction("History");
     }
-  }, [status, isRequestor]);
+  }, [status, isBACApprover, isReviewer]);
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {
+    const updateAction = {
+      label: "Update",
+      command: () => {
+        onAction("Update");
+      },
+    };
     const print = {
       label: "Print",
       command: () => {
         onAction("Print");
-      },
-    };
-    const postAction = {
-      label: "Post",
-      command: () => {
-        onAction("Post");
       },
     };
     const history = {
@@ -66,40 +80,47 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
       },
     };
 
-    const hasReviewerActions =
-      !isRequestor && showReviewControl(status as RequestStatus);
+    if (isReviewer) {
+      switch (status) {
+        case RequestStatus.POREVIEW:
+          return [declineAction, history];
+        case RequestStatus.PODECLINED:
+          return [history];
+        case RequestStatus.POAPPROVED:
+          return [declineAction, history];
 
-    if (!hasReviewerActions) {
+        default:
+          return [];
+      }
+    } else if (isBACApprover) {
       switch (status) {
         case RequestStatus.CATEGORIZED:
-          return [postAction, print, history];
+          return [updateAction, history];
         case RequestStatus.POSTED:
         case RequestStatus.BIDDING:
-          return [print, history];
+          return [updateAction, history];
         case RequestStatus.AWARDED:
-          return [history];
-      }
-    }
+          return [print, history];
 
-    switch (status) {
-      case RequestStatus.AWARDED:
-        return [declineAction, history];
-      case RequestStatus.POREVIEW:
-        return [declineAction, history];
-      case RequestStatus.DECLINED:
-        return [history];
-      case RequestStatus.APPROVED:
-        return [declineAction, history];
+        default:
+          return [];
+      }
+    } else {
+      return [];
     }
   };
 
   return (
     <div className="action-button">
-      <SplitButton
-        label={mainAction}
-        onClick={handleMainAction}
-        model={getActions()}
-      />
+      {getActions().length === 0 ? (
+        <Button label={mainAction} onClick={handleMainAction}></Button>
+      ) : (
+        <SplitButton
+          label={mainAction}
+          onClick={handleMainAction}
+          model={getActions()}
+        />
+      )}
     </div>
   );
 }
