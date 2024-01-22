@@ -19,6 +19,8 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import ReviewSection from "@core/ui/review-section/review-section";
 import { RequestStatus } from "@core/model/request-status.enum";
+import { getOverallTotalAmount } from "@core/utility/order-helper";
+import { currencyFormat } from "@shared/formats/currency-format";
 
 export function EditOrder() {
   const {
@@ -64,19 +66,28 @@ export function EditOrder() {
     const data = orders?.data?.[0];
     const tag = tagTemplate(data?.status_name || "none");
     const dateUpdated = data?.updated_at;
+    const totalAmount = data !== undefined ? getOverallTotalAmount(data) : 0;
 
     return (
-      <section className="mb-5">
-        <h2>PO#: {data?.po_no}</h2>
-        <div>{tag}</div>
-        <span className="flex gap-1 mt-1">
-          <label className="hint">Date Updated:</label>
-          <p className="hint">
-            {dateUpdated
-              ? format(new Date(dateUpdated), SETTINGS.dateFormat)
-              : ""}
-          </p>
-        </span>
+      <section className="mb-5 flex justify-between">
+        <div>
+          <h2>PO#: {data?.po_no}</h2>
+          <div>{tag}</div>
+          <span className="flex gap-1 mt-1">
+            <label className="hint">Date Updated:</label>
+            <p className="hint">
+              {dateUpdated
+                ? format(new Date(dateUpdated), SETTINGS.dateFormat)
+                : ""}
+            </p>
+          </span>
+        </div>
+        <div>
+          <span>
+            <p className="block">{currencyFormat(totalAmount, "PHP")}</p>
+            <label className="block hint">Total Amount</label>
+          </span>
+        </div>
       </section>
     );
   };
@@ -112,8 +123,8 @@ export function EditOrder() {
     <ReviewSection classname="mb-3" reviewers={reviewers} />
   );
   const printSection = () => (
-    // <div>
-    <div style={{ display: "none" }}>
+    // <div style={{ display: "none" }}>
+    <div>
       <div ref={componentRef}>
         <PrintOrder data={orders?.data?.[0]} />
       </div>
@@ -157,7 +168,7 @@ export function EditOrder() {
 
   return (
     <div className="edit-order">
-      <HeaderContent title="Edit Order" onBack={() => navigate("../")}>
+      <HeaderContent title="Edit Purchase Order" onBack={() => navigate("../")}>
         <div className="flex gap-2">
           <ActionButton
             status={orders?.data?.[0].status_name || ""}

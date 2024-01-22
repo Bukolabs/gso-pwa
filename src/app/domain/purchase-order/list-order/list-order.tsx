@@ -8,12 +8,11 @@ import { useGetOrderQy } from "@core/query/order.query";
 import { DataTable } from "primereact/datatable";
 import { GetPurchaseOrderDto } from "@api/api";
 import { Column } from "primereact/column";
-import { dateTemplate, tagTemplate } from "@core/utility/data-table-template";
+import { dateTemplate, getTotalAmount, getTotalItems, tagTemplate } from "@core/utility/data-table-template";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import OrderCard from "@core/ui/order-card/order-card";
 import { dateFormat } from "@shared/formats/date-time-format";
-import { sumBy } from "lodash-es";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
@@ -53,19 +52,6 @@ export function ListOrder() {
   };
   const handleCardViewMode = () => {
     setIsTableView(false);
-  };
-  const getTotalAmount = (data: GetPurchaseOrderDto) => {
-    const prItems = data?.purchase_requests?.map((x) => x.items)[0];
-    const total = sumBy(
-      prItems || [],
-      (x) => (x.price || 0) * (x.quantity || 0)
-    );
-    return total;
-  };
-  const getTotalItems = (data: GetPurchaseOrderDto) => {
-    const prItems = data?.purchase_requests?.map((x) => x.items)[0];
-    const total = sumBy(prItems || [], (x) => x.quantity || 0);
-    return total;
   };
   const reviewColumn = (data: GetPurchaseOrderDto) => {
     const reviewers = getReviewers({
@@ -134,7 +120,7 @@ export function ListOrder() {
         ></Column>
         <Column
           header="Total Amount"
-          body={(item) => currencyFormat(getTotalAmount(item))}
+          body={(item) => currencyFormat(getTotalAmount(item), 'PHP')}
         ></Column>
         <Column
           header="Due Date"
@@ -171,7 +157,7 @@ export function ListOrder() {
               status={item?.status_name}
               reviewers={[]}
               dueDate={dateFormat(item.po_date)}
-              totalAmount={currencyFormat(getTotalAmount(item))}
+              totalAmount={currencyFormat(getTotalAmount(item), 'PHP')}
               totalPr={numberFormat(getTotalItems(item))}
               onClick={(code) => navigate(code)}
             />

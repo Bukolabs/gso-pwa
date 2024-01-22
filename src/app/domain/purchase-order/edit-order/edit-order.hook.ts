@@ -26,6 +26,7 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
+import { useReactToPrint } from "react-to-print";
 
 export function useEditOrder() {
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
@@ -35,7 +36,6 @@ export function useEditOrder() {
     useNotificationContext();
   const { orderId } = useParams();
   const [dataEmpty, setDataEmpty] = useState(false);
-  const componentRef = useRef(null);
 
   const [remarksVisible, setRemarksVisible] = useState(false);
   const [reviewRemarks, setReviewRemarks] = useState("");
@@ -44,6 +44,11 @@ export function useEditOrder() {
   const [selectedRequests, setSelectedRequests] = useState<
     GetPurchaseRequestDto[]
   >([]);
+
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const handleBack = () => {
     navigate("../");
@@ -213,6 +218,9 @@ export function useEditOrder() {
         break;
       case "Inspect":
         handleUpdateStatus(RequestStatus.INSPECTION);
+        break;
+      case "Print":
+        handlePrint();
         break;
     }
   };

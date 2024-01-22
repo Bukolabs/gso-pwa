@@ -30,14 +30,16 @@ export function useUserIdentity() {
   const isRequestor = requesterRoles.indexOf(currentUser.role_name) >= 0;
   const isBACApprover = bacRoles.indexOf(currentUser.role_name) >= 0;
   const isReviewer = reviewerRoles.indexOf(currentUser.role_name) >= 0;
+  const isAdmin = currentUser.role_name === "ADMIN";
 
   const requestorDepartment = isRequestor ? currentUser.department_code : null;
 
   return {
-    currentUser,
     isRequestor,
     isBACApprover,
     isReviewer,
+    isAdmin,
+    currentUser,
     requestorDepartment,
   };
 }

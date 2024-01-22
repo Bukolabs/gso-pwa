@@ -95,7 +95,7 @@ export function ManagePr({ category, selectedList, onSelect }: ManagePrProps) {
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="text-gray-800 font-bold">
-                {currencyFormat(getTotalAmount(item))}
+                {currencyFormat(getTotalAmount(item), 'PHP')}
               </p>
               <p className="hint">Total Amount</p>
             </div>

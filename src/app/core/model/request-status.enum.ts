@@ -15,4 +15,5 @@ export enum RequestStatus {
    PARTIAL = 'PARTIAL',
    FULFILLED = 'FULFILLED',
    UNFULFILLED = 'UNFULFILLED',
+   CANCELLED = 'CANCELLED',
 }

@@ -83,7 +83,7 @@ export function NewOrder() {
 
   return (
     <div className="new-order">
-      <HeaderContent title="New Order" onBack={() => navigate("../")}>
+      <HeaderContent title="New Purchase Order" onBack={() => navigate("../")}>
         <Button
           className="w-full block"
           label="Save"

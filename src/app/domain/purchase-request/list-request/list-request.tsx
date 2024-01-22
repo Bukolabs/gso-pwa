@@ -29,6 +29,7 @@ import { dateFormat } from "@shared/formats/date-time-format";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
 import RequestCard from "@core/ui/request-card/request-card";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function ListRequest() {
   const { requestFilters } = useRequestFilterContext();
@@ -113,13 +114,26 @@ export function ListRequest() {
     </div>
   );
   const reviewColumn = (data: GetPurchaseRequestDto) => {
-    const reviewers = getReviewers({
-      isGso: data.is_gso,
-      isGsoFF: data.is_gso_ff,
-      isTreasurer: data.is_treasurer,
-      isMayor: data.is_mayor,
-      isBudget: data.is_budget,
-    } as ReviewerStatus);
+    const isStage3And4 =
+      data.status_name === RequestStatus.POREVIEW ||
+      data.status_name === RequestStatus.POAPPROVED ||
+      data.status_name === RequestStatus.PODECLINED ||
+      data.status_name === RequestStatus.INSPECTION;
+    const stageReviewers = isStage3And4
+      ? ({
+          isGso: data.po_is_gso,
+          isTreasurer: data.po_is_treasurer,
+          isMayor: data.po_is_mayor,
+        } as ReviewerStatus)
+      : ({
+          isGso: data.is_gso,
+          isGsoFF: data.is_gso_ff,
+          isTreasurer: data.is_treasurer,
+          isMayor: data.is_mayor,
+          isBudget: data.is_budget,
+        } as ReviewerStatus);
+
+    const reviewers = getReviewers(stageReviewers);
 
     return (
       <div className="flex gap-2">
@@ -206,7 +220,7 @@ export function ListRequest() {
               status={item.status_name}
               reviewers={reviewers}
               dueDate={dateFormat(item.pr_date)}
-              totalAmount={currencyFormat(getTotalAmount(item))}
+              totalAmount={currencyFormat(getTotalAmount(item), 'PHP')}
               totalItems={numberFormat(getTotalItems(item))}
               onClick={(code) => navigate(code)}
             />

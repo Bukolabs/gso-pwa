@@ -4,10 +4,11 @@ import classNames from "classnames";
 import { dateFormat } from "@shared/formats/date-time-format";
 import {
   currencyTemplate,
-  dateTemplate,
   numberTemplate,
 } from "@core/utility/data-table-template";
 import { twoDigit } from "@core/utility/number-helper";
+import { getOverallTotalAmount } from "@core/utility/order-helper";
+import { numberToWords } from "@shared/formats/number-to-words";
 
 export interface PrintOrderProps {
   data: GetPurchaseOrderDto | undefined;
@@ -15,6 +16,9 @@ export interface PrintOrderProps {
 
 export function PrintOrder({ data }: PrintOrderProps) {
   const logo = "/tagbilaran-logo.png";
+  const overallTotal = data !== undefined ? getOverallTotalAmount(data) : 0;
+  const prNumbers = data?.purchase_requests?.map((x) => x.pr_no).join(",");
+
   const itemDisplay = (title: string, description: string) => {
     return (
       <span>
@@ -25,13 +29,19 @@ export function PrintOrder({ data }: PrintOrderProps) {
   };
 
   return (
-    <div className="print-order">
+    <div className="print-order mx-8">
       <header className="flex w-full my-4 justify-between">
         <div className="relative top-0 mx-4">
-          <small className="block">City Government of Tagbilaran</small>
-          <small className="block">Standard Form Number: xx-xxxx-xx</small>
-          <small className="block">Revised on: xx/xx/xxxx</small>
-          <small className="block">Standard Form Title: Purchase Order</small>
+          <span className="text-sm block mb-4">
+            City Government of Tagbilaran
+          </span>
+          <span className="text-sm block">
+            Standard Form Number: SF-GOODS-58
+          </span>
+          <span className="text-sm block">Revised on: May 24, 2004</span>
+          <span className="text-sm block">
+            Standard Form Title: Purchase Order
+          </span>
         </div>
         <div className="mx-4">
           <small className="w-20 whitespace-nowrap block">
@@ -159,9 +169,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
                   : "top-[12px]"
               )}
             >
-              {data?.purchase_requests?.map((x) => (
-                <p key={x.code}>{x.pr_no}</p>
-              ))}
+              <p>{prNumbers}</p>
             </span>
           </span>
         </div>
@@ -261,20 +269,91 @@ export function PrintOrder({ data }: PrintOrderProps) {
               ))
             )}
             <tr>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
+              <td className="border bg-gray-50" colSpan={2}>
+                <small className="w-full flex justify-center">
+                  Total amount in words:
+                </small>
+              </td>
+              <td className="border bg-gray-50" colSpan={2}>
+                **{numberToWords(overallTotal)}**
+              </td>
               <td className="px-6 py-4 border bg-gray-50">Total:</td>
               <td className="px-6 py-4 border bg-gray-50">
-                {/* {currencyTemplate(overallTotal)} */}
+                {currencyTemplate(overallTotal)}
               </td>
             </tr>
             <tr>
-              <td className="border px-6 py-5 bg-gray-50 font-bold">
-                Purpose:
+              <td className="border px-6 py-4 bg-gray-50" colSpan={6}>
+                <span>
+                  In case of failure to make the full delivery within the time
+                  specified above, a penalty of one-tenth (/10) of one (1)
+                  percent for every day of delay shall be imposed.
+                </span>
+                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-4">
+                  <div>
+                    <small className="block mb-14">Conforme:</small>
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="font-bold text-sm">{data?.supplier}</div>
+                      <small
+                        className={classNames(
+                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                        )}
+                      >
+                        Signature over printed name of Supplier
+                      </small>
+                      <small
+                        className={classNames(
+                          "mt-6 block relative top-[1px] font-bold border-t border-black w-2/4 text-center"
+                        )}
+                      >
+                        Date
+                      </small>
+                    </div>
+                  </div>
+                  <div>
+                    <small className="block mb-14">Very truly yours:</small>
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="font-bold text-sm">
+                        JANE CENSORIA C. YAP
+                      </div>
+                      <small
+                        className={classNames(
+                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                        )}
+                      >
+                        CITY MAYOR
+                      </small>
+                    </div>
+                  </div>
+                </section>
               </td>
-              <td className="border px-6 py-4 bg-gray-50" colSpan={5}></td>
+            </tr>
+            <tr>
+              <td className="border px-6 py-4 bg-gray-50" colSpan={6}>
+                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-4">
+                  <div>
+                    <small className="block mb-14">Funds Available:</small>
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="font-bold text-sm">HUBERT M. INAS</div>
+                      <small
+                        className={classNames(
+                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                        )}
+                      >
+                        CITY TREASURER
+                      </small>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="mb-14 float-left">OR:</span>
+                    <span
+                      className={classNames(
+                        "ml-8 block relative font-bold border-b border-black w-3/4 top-[20px]"
+                      )}
+                    ></span>
+                  </div>
+                </section>
+              </td>
             </tr>
           </tbody>
         </table>

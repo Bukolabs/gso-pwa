@@ -28,7 +28,7 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
           setMainAction("Award");
           break;
         case RequestStatus.AWARDED:
-          setMainAction("Review");
+          setMainAction("Print");
           break;
 
         default:
@@ -79,6 +79,12 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         onAction("Decline");
       },
     };
+    const reviewAction = {
+      label: "Review",
+      command: () => {
+        onAction("Review");
+      },
+    };
 
     if (isReviewer) {
       switch (status) {
@@ -100,7 +106,7 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         case RequestStatus.BIDDING:
           return [updateAction, history];
         case RequestStatus.AWARDED:
-          return [print, history];
+          return [reviewAction, history];
 
         default:
           return [];
