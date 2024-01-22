@@ -21,6 +21,7 @@ export const getStatusStyle = (status: string) => {
     case RequestStatus.SUBMITTED:
       return "bg-blue-200 text-blue-500";
     case RequestStatus.REVIEW:
+    case RequestStatus.REVIEWED:
       return "bg-yellow-200 text-yellow-500";
     case RequestStatus.APPROVED:
       return "bg-teal-200 text-teal-500";
@@ -37,6 +38,7 @@ export const getStatusStyle = (status: string) => {
       return "bg-teal-300 text-teal-600";
 
     case RequestStatus.POREVIEW:
+    case RequestStatus.POREVIEWED:
       return "bg-violet-200 text-violet-500";
     case RequestStatus.POAPPROVED:
       return "bg-green-200 text-green-500";
@@ -45,12 +47,16 @@ export const getStatusStyle = (status: string) => {
 
     case RequestStatus.INSPECTION:
       return "bg-lime-200 text-lime-500";
-    case "PARTIAL":
+    case RequestStatus.PARTIAL:
       return "bg-pink-200 text-pink-500";
-    case "FULFILLED":
+    case RequestStatus.FULFILLED:
       return "bg-emerald-200 text-emerald-500";
-    case "UNFULFILLED":
+    case RequestStatus.UNFULFILLED:
       return "bg-rose-200 text-rose-500";
+    case RequestStatus.LATE:
+      return "bg-emerald-400 text-emerald-700";
+    case RequestStatus.CANCELLED:
+      return "bg-orange-400 text-orange-700";
 
     default:
       return "bg-gray-200 text-gray-500";

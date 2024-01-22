@@ -1,6 +1,6 @@
 import { useGetCategory } from "@core/query/category.query";
 import { useGetDepartmentQy } from "@core/query/department.query";
-import { useGetStatus } from "@core/query/status.query";
+import { useGetStatusQy } from "@core/query/status.query";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Dropdown } from "primereact/dropdown";
@@ -62,7 +62,7 @@ export function useRequestFilter() {
       } as LabelValue)
   );
 
-  const { data: status } = useGetStatus();
+  const { data: status } = useGetStatusQy();
   const mappedStatus = (status?.data || []).map(
     (item) =>
       ({

@@ -76,21 +76,6 @@ export function useGetRequestQy(
     onSettled() {
       hideProgress();
     },
-    // select(data) {
-    //   const parseData = data.data?.map((pr) => {
-    //     const objectifiedItems = !pr.items
-    //       ? []
-    //       : (JSON.parse(pr.items as unknown as string) as GetPrItemDto[]);
-    //     const items = pr.items ? objectifiedItems : [];
-
-    //     return {
-    //       ...pr,
-    //       items,
-    //     };
-    //   });
-
-    //   return { ...data, data: parseData };
-    // },
   });
 }
 

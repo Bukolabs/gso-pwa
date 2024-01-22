@@ -27,8 +27,10 @@ import { SETTINGS } from "@core/utility/settings";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
 import { StageName } from "@core/model/stage-name.enum";
+import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 
 export function useEditRequest() {
+  const { historyData, getHistory } = usePurchaseHistory();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError, hideProgress } = useNotificationContext();
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ export function useEditRequest() {
   const [defaultPrItem, setDefaultPrItem] = useState<
     ItemFormSchema | undefined
   >(undefined);
+  const [historySidebar, setHistorySidebar] = useState(false);
 
   const [remarksVisible, setRemarksVisible] = useState(false);
   const [reviewRemarks, setReviewRemarks] = useState("");
@@ -64,6 +67,13 @@ export function useEditRequest() {
         editRequest(formData);
         break;
       case "History":
+        const dataValue = requests?.data?.[0];
+        if (!dataValue?.code) {
+          return;
+        }
+
+        getHistory(dataValue?.code);
+        setHistorySidebar(true);
         break;
       case "Print":
         handlePrint();
@@ -150,6 +160,7 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
+
   const getStageReviewers = () => {
     const requestData = requests?.data?.[0];
     const isStage3And4 =
@@ -260,6 +271,8 @@ export function useEditRequest() {
     remarksVisible,
     reviewRemarks,
     remarksMode,
+    historySidebar,
+    historyData,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,
@@ -274,5 +287,6 @@ export function useEditRequest() {
     handleReviewAction,
     handleAction,
     getStageReviewers,
+    setHistorySidebar,
   };
 }

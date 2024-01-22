@@ -1,55 +1,46 @@
 import {
-  UtilsBrandControllerGetDataAsList200Response,
-  UtilsDepartmentApiFp,
+  TransactionHistoryApiFp,
+  TransactionHistoryControllerGetDataAsList200Response,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { AxiosError } from "axios";
 import { authHeaders } from "./auth-header";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
-import { SETTINGS } from "@core/utility/settings";
 
-export function useGetDepartmentQy(
-  search: string,
-  limit = 10,
-  offset = 0,
-  order?: object,
-  filter?: Record<string, string>,
+export function useGetHistoryQy(
+  id: string,
   enabled?: boolean,
   onSuccess?:
     | ((
-        data: UtilsBrandControllerGetDataAsList200Response
+        data: TransactionHistoryControllerGetDataAsList200Response
       ) => void | Promise<unknown>)
     | undefined,
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
-  const apiFn = async (
-    search: string | undefined = undefined,
-    limit: number | undefined = undefined,
-    offset: number | undefined = undefined,
-    order: object | undefined = undefined,
-    filter: Record<string, string> | undefined = undefined
-  ) => {
+  const apiFn = async (id: string, search = "", limit = 9999, offset = 0) => {
     showProgress();
     const operation =
-      await UtilsDepartmentApiFp().utilsDepartmentControllerGetDataAsList(
+      await TransactionHistoryApiFp().transactionHistoryControllerGetDataAsList(
         search,
         limit,
         offset,
-        order,
-        filter,
+        undefined,
+        JSON.stringify({ request_code: id }) as any,
         authHeaders()
       );
     const response = (await operation()).data;
-    return response["data"] as UtilsBrandControllerGetDataAsList200Response;
+    return response[
+      "data"
+    ] as TransactionHistoryControllerGetDataAsList200Response;
   };
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Department, search, limit, offset, order, filter],
-    queryFn: () => apiFn(search, limit, offset, order, filter),
+    queryKey: [QueryKey.Unit, id],
+    queryFn: () => apiFn(id),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
@@ -64,6 +55,5 @@ export function useGetDepartmentQy(
         onError(err);
       }
     },
-    staleTime: SETTINGS.staleTime,
   });
 }

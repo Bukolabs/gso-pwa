@@ -2,6 +2,7 @@ import {
   AddPersonDto,
   MessageResponseDto,
   PersonApiFp,
+  PersonControllerGetDataAsList200Response,
   UtilitiesApiFp,
   UtilsBrandControllerGetDataAsList200Response,
 } from "@api/api";
@@ -11,6 +12,7 @@ import { authHeaders } from "./auth-header";
 import { QueryKey } from "./query-key.enum";
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { SETTINGS } from "@core/utility/settings";
 
 export function useGetRoleQy(
   onSuccess?:
@@ -48,6 +50,7 @@ export function useGetRoleQy(
         onError(err);
       }
     },
+    staleTime: SETTINGS.staleTime,
   });
 }
 
@@ -87,5 +90,66 @@ export function useAddPersonQy(
         onError(err);
       }
     },
+  });
+}
+
+export function useGetAccountsQy(
+  search: string,
+  limit = 10,
+  offset = 0,
+  order?: object,
+  filter?: Record<string, string>,
+  enabled?: boolean,
+  onSuccess?:
+    | ((
+        data: PersonControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const apiFn = async (
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    offset: number | undefined = undefined,
+    order: object | undefined = undefined,
+    filter: Record<string, string> | undefined = undefined
+  ) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerGetDataAsList(
+      search,
+      limit,
+      offset,
+      order,
+      JSON.stringify(filter) as any,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["data"] as PersonControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    enabled,
+    queryKey: [QueryKey.Account, search, limit, offset, order, filter],
+    queryFn: () => apiFn(search, limit, offset, order, filter),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+    staleTime: SETTINGS.staleTime,
   });
 }

@@ -14,4 +14,5 @@ export enum QueryKey {
   Status = 'status',
   Order = 'order',
   RequestsInOrder = 'requests-in-orders',
+  History = 'history',
 }

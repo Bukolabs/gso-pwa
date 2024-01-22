@@ -74,15 +74,18 @@ export function ManagePr({
     },
     {
       label: RequestStatusAction.UNFULFILL,
-      command: () => {},
+      command: () => {
+        onAction(RequestStatusAction.UNFULFILL, data);},
     },
     {
       label: RequestStatusAction.LATE,
-      command: () => {},
+      command: () => {
+        onAction(RequestStatusAction.LATE, data);},
     },
     {
       label: RequestStatusAction.CANCEL,
-      command: () => {},
+      command: () => {
+        onAction(RequestStatusAction.CANCEL, data);},
     },
   ];
 

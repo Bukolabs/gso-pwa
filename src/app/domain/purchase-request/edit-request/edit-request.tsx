@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { InputTextarea } from "primereact/inputtextarea";
 import ActionButton from "./action-button/action-button";
+import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 
 export function EditRequest() {
   const {
@@ -33,6 +34,8 @@ export function EditRequest() {
     remarksVisible,
     reviewRemarks,
     remarksMode,
+    historySidebar,
+    historyData,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -43,6 +46,7 @@ export function EditRequest() {
     handleReviewAction,
     handleAction,
     getStageReviewers,
+    setHistorySidebar,
   } = useEditRequest();
 
   const displayLoading = (
@@ -115,31 +119,44 @@ export function EditRequest() {
       </div>
     </Sidebar>
   );
+  const historySection = (
+    <Sidebar
+      visible={historySidebar}
+      position="right"
+      onHide={() => setHistorySidebar(false)}
+      className="w-full md:w-[500px]"
+    >
+      <PurchaseHistory data={historyData} />
+    </Sidebar>
+  );
+  const itemSection = (
+    <Sidebar
+      visible={visible}
+      onHide={() => setVisible(false)}
+      className="w-full md:w-2/5"
+    >
+      <h2>
+        {!!defaultPrItem ? "Edit" : "Add"} an item to current purchase request
+      </h2>
+      <AddItem
+        defaultItem={defaultPrItem}
+        closeSidebar={() => setVisible(false)}
+      />
+    </Sidebar>
+  );
   const formRequest = (
     <section>
       {subHeader()}
       {reviewSection()}
       {printSection()}
+      {historySection}
+      {itemSection}
 
       <TabView className="mb-10">
         <TabPanel header="Information">
           <FormRequest />
         </TabPanel>
         <TabPanel header="Request Items">
-          <Sidebar
-            visible={visible}
-            onHide={() => setVisible(false)}
-            className="w-full md:w-2/5"
-          >
-            <h2>
-              {!!defaultPrItem ? "Edit" : "Add"} an item to current purchase
-              request
-            </h2>
-            <AddItem
-              defaultItem={defaultPrItem}
-              closeSidebar={() => setVisible(false)}
-            />
-          </Sidebar>
           <Button
             icon="pi pi-plus"
             label="Add Item"
