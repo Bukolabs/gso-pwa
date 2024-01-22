@@ -29,7 +29,6 @@ export function EditRequest() {
     requestError,
     editError,
     dataEmpty,
-    reviewers,
     componentRef,
     remarksVisible,
     reviewRemarks,
@@ -43,6 +42,7 @@ export function EditRequest() {
     setReviewRemarks,
     handleReviewAction,
     handleAction,
+    getStageReviewers,
   } = useEditRequest();
 
   const displayLoading = (
@@ -78,7 +78,7 @@ export function EditRequest() {
     );
   };
   const reviewSection = () => (
-    <ReviewSection classname="mb-3" reviewers={reviewers} />
+    <ReviewSection classname="mb-3" reviewers={getStageReviewers()} />
   );
   const printSection = () => (
     <div style={{ display: "none" }}>

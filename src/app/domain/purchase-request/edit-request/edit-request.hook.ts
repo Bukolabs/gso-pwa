@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
+import { StageName } from "@core/model/stage-name.enum";
 
 export function useEditRequest() {
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
@@ -128,7 +129,7 @@ export function useEditRequest() {
       setValue("purpose", responseData?.purpose || "");
 
       const items = responseData?.items
-        ? ApiToFormService.MapRequestPruchaseItems(responseData.items)
+        ? ApiToFormService.MapRequestPurchaseItems(responseData.items)
         : [];
       setValue("items", items);
       setValue("urgent", responseData?.is_urgent || false);
@@ -149,13 +150,29 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
-  const reviewers = getReviewers({
-    isGso: requests?.data?.[0].is_gso,
-    isGsoFF: requests?.data?.[0].is_gso_ff,
-    isTreasurer: requests?.data?.[0].is_treasurer,
-    isMayor: requests?.data?.[0].is_mayor,
-    isBudget: requests?.data?.[0].is_budget,
-  } as ReviewerStatus);
+  const getStageReviewers = () => {
+    const requestData = requests?.data?.[0];
+    const isStage3And4 =
+      requestData?.stage_name === StageName.STAGE_3 ||
+      requestData?.stage_name === StageName.STAGE_4;
+
+    const stageReviewers = isStage3And4
+      ? ({
+          isGso: requestData?.po_is_gso,
+          isTreasurer: requestData?.po_is_treasurer,
+          isMayor: requestData?.po_is_mayor,
+        } as ReviewerStatus)
+      : ({
+          isGso: requestData?.is_gso,
+          isGsoFF: requestData?.is_gso_ff,
+          isTreasurer: requestData?.is_treasurer,
+          isMayor: requestData?.is_mayor,
+          isBudget: requestData?.is_budget,
+        } as ReviewerStatus);
+
+    const reviewers = getReviewers(stageReviewers);
+    return reviewers;
+  };
 
   // EDIT REQUEST API
   const handleApiSuccess = () => {
@@ -239,7 +256,6 @@ export function useEditRequest() {
     requestError,
     editError,
     dataEmpty,
-    reviewers,
     componentRef,
     remarksVisible,
     reviewRemarks,
@@ -257,5 +273,6 @@ export function useEditRequest() {
     setReviewRemarks,
     handleReviewAction,
     handleAction,
+    getStageReviewers,
   };
 }

@@ -7,6 +7,7 @@ import { orderFormDefault } from "@core/model/form.default";
 import {
   OrderFormRule,
   OrderFormSchema,
+  RequestFormSchema,
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
@@ -24,9 +25,14 @@ import { SETTINGS } from "@core/utility/settings";
 import { format } from "date-fns";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
-import { RequestStatus } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
+import { useEditRequestQy } from "@core/query/request.query";
+import { ApiToFormService } from "@core/services/api-to-form.service";
 
 export function useEditOrder() {
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
@@ -54,13 +60,19 @@ export function useEditOrder() {
     navigate("../");
   };
 
-  // PROCESS REQUEST API
+  // EDIT REQUEST API
+  const handleRequestApiSuccess = () => {
+    showSuccess("Request updated");
+  };
+  const { mutate: editRequest } = useEditRequestQy(handleRequestApiSuccess);
+
+  // PROCESS ORDER API
   const handleProcessSuccess = () => {
     showSuccess("Order status is changed successfully");
   };
   const { mutate: processOrder } = useProcessOrderQy(handleProcessSuccess);
 
-  // EDIT REQUEST API
+  // EDIT ORDER API
   const handleApiSuccess = () => {
     showSuccess("Request updated");
     handleBack();
@@ -69,7 +81,7 @@ export function useEditOrder() {
     useEditOrderQy(handleApiSuccess);
 
   // UNCACHED, GET API VALUES
-  // GET REQUEST API
+  // GET ORDER API
   const handleGetApiSuccess = (
     data: PurchaseOrderControllerGetDataAsList200Response
   ) => {
@@ -224,6 +236,35 @@ export function useEditOrder() {
         break;
     }
   };
+  const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
+    if (action === RequestStatusAction.PRINT) {
+      console.log("printing");
+      return;
+    }
+
+    let newStatus = RequestStatus.FULFILLED;
+    switch (action) {
+      case RequestStatusAction.UNFULFILL:
+        newStatus = RequestStatus.UNFULFILLED;
+        break;
+
+      case RequestStatusAction.LATE:
+        newStatus = RequestStatus.LATE;
+        break;
+
+      case RequestStatusAction.CANCEL:
+        newStatus = RequestStatus.CANCELLED;
+        break;
+    }
+
+    const editSchema = ApiToFormService.MapPurchaseRequestToForm(item);
+    const formData = FormToApiService.EditPurchaseRequest(
+      editSchema,
+      item.code
+    );
+    formData.status = newStatus;
+    editRequest(formData);
+  };
   const handleReviewAction = (action: "approve" | "decline") => {
     const dataValue = orders?.data?.[0];
 
@@ -261,6 +302,7 @@ export function useEditOrder() {
     setVisible,
     handleSelectedRequests,
     handleAction,
+    handlePrAction,
     setRemarksVisible,
     setRemarksMode,
     setReviewRemarks,

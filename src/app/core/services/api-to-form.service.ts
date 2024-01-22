@@ -1,12 +1,14 @@
 import {
   GetPoPrDto,
   GetPrItemDto,
+  GetPurchaseRequestDto,
   GetStage1ReviewSummaryDto,
   GetStage1SummaryDto,
   LoginResponseDto,
 } from "@api/api";
 import {
   PurchaseItemFormSchema,
+  RequestFormSchema,
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
@@ -28,7 +30,7 @@ export class ApiToFormService {
     return mappedItem;
   }
 
-  static MapRequestPruchaseItems(
+  static MapRequestPurchaseItems(
     prItems: GetPrItemDto[]
   ): PurchaseItemFormSchema[] {
     const mappedItem = prItems.map((x: GetPrItemDto) => {
@@ -101,5 +103,29 @@ export class ApiToFormService {
     });
 
     return cardModel;
+  }
+
+  static MapPurchaseRequestToForm(item: GetPurchaseRequestDto) {
+    const mappedPrItems = this.MapRequestPurchaseItems(item.items || []);
+    const mappedItem = {
+      prno: item.pr_no,
+      dueDate: new Date(item.pr_date as any),
+      category: item.category,
+      section: item.section,
+      sai: item.sai_no,
+      saiDate: new Date(item.sai_date as any),
+      alobs: item.alobs_no,
+      alobsDate: new Date(item.alobs_date as any),
+      purpose: item.purpose,
+      items: mappedPrItems,
+      active: true,
+      urgent: item.is_urgent,
+      department: item.department,
+      departmentLabel: item.department_name,
+      isPPMP: item.has_ppmp,
+      isActivityDesign: item.has_activity_design,
+    } as RequestFormSchema;
+
+    return mappedItem;
   }
 }

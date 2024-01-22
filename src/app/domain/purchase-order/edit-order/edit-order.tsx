@@ -42,6 +42,7 @@ export function EditOrder() {
     setVisible,
     handleSelectedRequests,
     handleAction,
+    handlePrAction,
     setRemarksVisible,
     setReviewRemarks,
     handleReviewAction,
@@ -123,8 +124,7 @@ export function EditOrder() {
     <ReviewSection classname="mb-3" reviewers={reviewers} />
   );
   const printSection = () => (
-    // <div style={{ display: "none" }}>
-    <div>
+    <div style={{ display: "none" }}>
       <div ref={componentRef}>
         <PrintOrder data={orders?.data?.[0]} />
       </div>
@@ -151,9 +151,11 @@ export function EditOrder() {
 
           <div className="mt-2 md:px-6">
             <ManagePr
+              status={status || ""}
               category={category}
               selectedList={selectedRequests}
               onSelect={handleSelectedRequests}
+              onAction={handlePrAction}
             />
           </div>
         </TabPanel>

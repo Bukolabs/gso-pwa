@@ -296,14 +296,14 @@ export function PrintOrder({ data }: PrintOrderProps) {
                       <div className="font-bold text-sm">{data?.supplier}</div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                          "block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         Signature over printed name of Supplier
                       </small>
                       <small
                         className={classNames(
-                          "mt-6 block relative top-[1px] font-bold border-t border-black w-2/4 text-center"
+                          "mt-6 block relative top-[1px] border-t border-black w-2/4 text-center"
                         )}
                       >
                         Date
@@ -318,7 +318,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
                       </div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                          "block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         CITY MAYOR
@@ -337,7 +337,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
                       <div className="font-bold text-sm">HUBERT M. INAS</div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] font-bold border-t border-black w-3/4 text-center"
+                          "block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         CITY TREASURER
@@ -345,12 +345,19 @@ export function PrintOrder({ data }: PrintOrderProps) {
                     </div>
                   </div>
                   <div>
-                    <span className="mb-14 float-left">OR:</span>
-                    <span
-                      className={classNames(
-                        "ml-8 block relative font-bold border-b border-black w-3/4 top-[20px]"
-                      )}
-                    ></span>
+                    <section>
+                      <span className="mb-4 float-left">OR:</span>
+                      <span
+                        className={classNames(
+                          "ml-8 block relative border-b border-black w-3/4 top-[20px]"
+                        )}
+                      ></span>
+                    </section>
+                    <div className="clear-both"></div>
+                    <section>
+                      <span className="mb-4 float-left">AMOUNT:</span>
+                      <span className="ml-4 text-gray-600">P</span>
+                    </section>
                   </div>
                 </section>
               </td>

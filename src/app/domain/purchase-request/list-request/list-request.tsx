@@ -29,7 +29,7 @@ import { dateFormat } from "@shared/formats/date-time-format";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
 import RequestCard from "@core/ui/request-card/request-card";
-import { RequestStatus } from "@core/model/request-status.enum";
+import { StageName } from "@core/model/stage-name.enum";
 
 export function ListRequest() {
   const { requestFilters } = useRequestFilterContext();
@@ -115,10 +115,7 @@ export function ListRequest() {
   );
   const reviewColumn = (data: GetPurchaseRequestDto) => {
     const isStage3And4 =
-      data.status_name === RequestStatus.POREVIEW ||
-      data.status_name === RequestStatus.POAPPROVED ||
-      data.status_name === RequestStatus.PODECLINED ||
-      data.status_name === RequestStatus.INSPECTION;
+      data.stage_name === StageName.STAGE_3 || data.stage_name === StageName.STAGE_4;
     const stageReviewers = isStage3And4
       ? ({
           isGso: data.po_is_gso,

@@ -11,106 +11,122 @@ export interface ActionButtonProps {
 }
 
 export function ActionButton({ status, onAction }: ActionButtonProps) {
-  const { isBACApprover, isReviewer } = useUserIdentity();
+  const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
 
   const [mainAction, setMainAction] = useState("Update");
 
+  const updateAction = {
+    label: "Update",
+    command: () => {
+      onAction("Update");
+    },
+  };
+  const print = {
+    label: "Print",
+    command: () => {
+      onAction("Print");
+    },
+  };
+  const history = {
+    label: "History",
+    command: () => {
+      onAction("History");
+    },
+  };
+  const declineAction = {
+    label: "Decline",
+    command: () => {
+      onAction("Decline");
+    },
+  };
+  const reviewAction = {
+    label: "Review",
+    command: () => {
+      onAction("Review");
+    },
+  };
+  const bacMainActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        return setMainAction("Post");
+
+      case RequestStatus.POSTED:
+        return setMainAction("Bid");
+
+      case RequestStatus.BIDDING:
+        return setMainAction("Award");
+
+      case RequestStatus.AWARDED:
+        return setMainAction("Print");
+
+      default:
+        return setMainAction("History");
+    }
+  };
+  const approverMainActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.POREVIEW:
+      case RequestStatus.PODECLINED:
+        return setMainAction("Approve");
+
+      case RequestStatus.POAPPROVED:
+        return setMainAction("Inspect");
+
+      default:
+        return setMainAction("History");
+    }
+  };
+  const bacOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        return [updateAction, history];
+      case RequestStatus.POSTED:
+      case RequestStatus.BIDDING:
+        return [updateAction, history];
+      case RequestStatus.AWARDED:
+        return [reviewAction, history];
+
+      default:
+        return [];
+    }
+  };
+  const approverOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.POREVIEW:
+        return [declineAction, history];
+      case RequestStatus.PODECLINED:
+        return [history];
+      case RequestStatus.POAPPROVED:
+        return [declineAction, history];
+
+      default:
+        return [];
+    }
+  };
+
   useEffect(() => {
     if (isBACApprover) {
-      switch (status) {
-        case RequestStatus.CATEGORIZED:
-          setMainAction("Post");
-          break;
-        case RequestStatus.POSTED:
-          setMainAction("Bid");
-          break;
-        case RequestStatus.BIDDING:
-          setMainAction("Award");
-          break;
-        case RequestStatus.AWARDED:
-          setMainAction("Print");
-          break;
-
-        default:
-          setMainAction("History");
-          break;
-      }
+      bacMainActions(status);
     } else if (isReviewer) {
-      switch (status) {
-        case RequestStatus.POREVIEW:
-        case RequestStatus.PODECLINED:
-          setMainAction("Approve");
-          break;
-        case RequestStatus.POAPPROVED:
-          setMainAction("Inspect");
-          break;
-        default:
-          setMainAction("History");
-          break;
-      }
+      approverMainActions(status);
+    } else if (isAdmin) {
+      bacMainActions(status);
+      approverMainActions(status);
     } else {
       setMainAction("History");
     }
-  }, [status, isBACApprover, isReviewer]);
+  }, [status, isBACApprover, isReviewer, isAdmin]);
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {
-    const updateAction = {
-      label: "Update",
-      command: () => {
-        onAction("Update");
-      },
-    };
-    const print = {
-      label: "Print",
-      command: () => {
-        onAction("Print");
-      },
-    };
-    const history = {
-      label: "History",
-      command: () => {
-        onAction("History");
-      },
-    };
-    const declineAction = {
-      label: "Decline",
-      command: () => {
-        onAction("Decline");
-      },
-    };
-    const reviewAction = {
-      label: "Review",
-      command: () => {
-        onAction("Review");
-      },
-    };
-
     if (isReviewer) {
-      switch (status) {
-        case RequestStatus.POREVIEW:
-          return [declineAction, history];
-        case RequestStatus.PODECLINED:
-          return [history];
-        case RequestStatus.POAPPROVED:
-          return [declineAction, history];
-
-        default:
-          return [];
-      }
+      return approverOtherActions(status);
     } else if (isBACApprover) {
-      switch (status) {
-        case RequestStatus.CATEGORIZED:
-          return [updateAction, history];
-        case RequestStatus.POSTED:
-        case RequestStatus.BIDDING:
-          return [updateAction, history];
-        case RequestStatus.AWARDED:
-          return [reviewAction, history];
-
-        default:
-          return [];
-      }
+      return bacOtherActions(status);
+    } else if (isAdmin) {
+      const approverActions = approverOtherActions(status);
+      const bacActions = bacOtherActions(status);
+      return [...approverActions, ...bacActions, print];
     } else {
       return [];
     }

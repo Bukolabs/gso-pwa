@@ -21,6 +21,7 @@ import FormOrder from "../form-order/form-order";
 import { Sidebar } from "primereact/sidebar";
 import { useState } from "react";
 import ManagePr from "../manage-pr/manage-pr";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function NewOrder() {
   const { showError, showSuccess, showWarning } = useNotificationContext();
@@ -80,6 +81,7 @@ export function NewOrder() {
     );
     setValue("requests", requestListForm);
   };
+  const handlePrAction = () => {}
 
   return (
     <div className="new-order">
@@ -109,9 +111,11 @@ export function NewOrder() {
 
               <div className="mt-2 md:px-6">
                 <ManagePr
+                  status={RequestStatus.CATEGORIZED}
                   category={category}
                   selectedList={selectedRequests}
                   onSelect={handleSelectedRequests}
+                  onAction={handlePrAction}
                 />
               </div>
             </TabPanel>
