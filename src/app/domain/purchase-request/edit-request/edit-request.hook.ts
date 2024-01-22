@@ -46,51 +46,6 @@ export function useEditRequest() {
   const [reviewRemarks, setReviewRemarks] = useState("");
   const [remarksMode, setRemarksMode] = useState("");
 
-  const componentRef = useRef(null);
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const handleAction = (action: string) => {
-    switch (action) {
-      case "Update":
-        handleSubmit(handleValidate, handleValidateError)();
-        break;
-      case "Submit":
-        const formValues = getValues();
-        formValues.dueDate = new Date(formValues.dueDate);
-        const formData = FormToApiService.EditPurchaseRequest(
-          formValues,
-          requestId || ""
-        );
-        formData.status = "SUBMITTED";
-        editRequest(formData);
-        break;
-      case "History":
-        const dataValue = requests?.data?.[0];
-        if (!dataValue?.code) {
-          return;
-        }
-
-        getHistory(dataValue?.code);
-        setHistorySidebar(true);
-        break;
-      case "Print":
-        handlePrint();
-        break;
-      case "Delete":
-        break;
-      case "Approve":
-        setRemarksVisible(true);
-        setRemarksMode("approve");
-        break;
-      case "Decline":
-        setRemarksVisible(true);
-        setRemarksMode("decline");
-        break;
-    }
-  };
-
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
     showSuccess("Request status is changed successfully");
@@ -255,6 +210,51 @@ export function useEditRequest() {
     } as ProcessPurchaseRequestDto;
     processRequest(payload);
     setRemarksVisible(false);
+  };
+
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const handleAction = (action: string) => {
+    switch (action) {
+      case "Update":
+        handleSubmit(handleValidate, handleValidateError)();
+        break;
+      case "Submit":
+        const formValues = getValues();
+        formValues.dueDate = new Date(formValues.dueDate);
+        const formData = FormToApiService.EditPurchaseRequest(
+          formValues,
+          requestId || ""
+        );
+        formData.status = "SUBMITTED";
+        editRequest(formData);
+        break;
+      case "History":
+        const dataValue = requests?.data?.[0];
+        if (!dataValue?.code) {
+          return;
+        }
+
+        getHistory(dataValue?.code);
+        setHistorySidebar(true);
+        break;
+      case "Print":
+        handlePrint();
+        break;
+      case "Delete":
+        break;
+      case "Approve":
+        setRemarksVisible(true);
+        setRemarksMode("approve");
+        break;
+      case "Decline":
+        setRemarksVisible(true);
+        setRemarksMode("decline");
+        break;
+    }
   };
 
   return {

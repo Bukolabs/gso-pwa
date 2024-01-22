@@ -7,7 +7,6 @@ import { orderFormDefault } from "@core/model/form.default";
 import {
   OrderFormRule,
   OrderFormSchema,
-  RequestFormSchema,
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
@@ -33,8 +32,12 @@ import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
 import { useEditRequestQy } from "@core/query/request.query";
 import { ApiToFormService } from "@core/services/api-to-form.service";
+import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 
 export function useEditOrder() {
+  const { historyData, getHistory } = usePurchaseHistory(true);
+  const [historySidebar, setHistorySidebar] = useState(false);
+
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
@@ -234,6 +237,15 @@ export function useEditOrder() {
       case "Print":
         handlePrint();
         break;
+      case "History":
+        const dataValue = orders?.data?.[0];
+        if (!dataValue?.code) {
+          return;
+        }
+
+        getHistory(dataValue?.code);
+        setHistorySidebar(true);
+        break;
     }
   };
   const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
@@ -298,6 +310,8 @@ export function useEditOrder() {
     remarksMode,
     reviewRemarks,
     reviewers,
+    historyData,
+    historySidebar,
     navigate,
     setVisible,
     handleSelectedRequests,
@@ -307,5 +321,6 @@ export function useEditOrder() {
     setRemarksMode,
     setReviewRemarks,
     handleReviewAction,
+    setHistorySidebar,
   };
 }

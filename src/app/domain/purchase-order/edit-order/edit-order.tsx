@@ -21,6 +21,7 @@ import ReviewSection from "@core/ui/review-section/review-section";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { getOverallTotalAmount } from "@core/utility/order-helper";
 import { currencyFormat } from "@shared/formats/currency-format";
+import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 
 export function EditOrder() {
   const {
@@ -38,14 +39,18 @@ export function EditOrder() {
     remarksMode,
     reviewRemarks,
     reviewers,
+    historyData,
+    historySidebar,
     navigate,
     setVisible,
     handleSelectedRequests,
     handleAction,
     handlePrAction,
     setRemarksVisible,
+    setRemarksMode,
     setReviewRemarks,
     handleReviewAction,
+    setHistorySidebar,
   } = useEditOrder();
 
   const status = orders?.data?.[0].status_name;
@@ -130,11 +135,22 @@ export function EditOrder() {
       </div>
     </div>
   );
+  const historySection = (
+    <Sidebar
+      visible={historySidebar}
+      position="right"
+      onHide={() => setHistorySidebar(false)}
+      className="w-full md:w-[500px]"
+    >
+      <PurchaseHistory data={historyData} />
+    </Sidebar>
+  );
   const orderTab = (
     <section>
       {subHeader()}
       {reviewSection()}
       {printSection()}
+      {historySection}
 
       <TabView className="mb-10">
         <TabPanel header="Information">

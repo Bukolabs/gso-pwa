@@ -15,7 +15,7 @@ import { useGetHistoryQy } from "@core/query/history.query";
 import { useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 
-export function usePurchaseHistory() {
+export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
   const [historyData, setHistoryData] = useState<PurchaseHistoryModel[]>([]);
   const { data: statusQy } = useGetStatusQy(true);
@@ -35,14 +35,14 @@ export function usePurchaseHistory() {
   };
 
   const getReviewerRemarks = (data: GetPurchaseRequestDto) => {
-    const reviewers = [
+    let reviewers = [
       data.is_gso,
       data.is_treasurer,
       data.is_mayor,
       data.is_budget,
       data.is_gso_ff,
     ];
-    const remarksRecord = {
+    let remarksRecord = {
       0: "",
       1: data.gso_remarks,
       2: data.treasurer_remarks,
@@ -50,6 +50,19 @@ export function usePurchaseHistory() {
       4: data.budget_remarks,
       5: data.gso_ff_remarks,
     };
+
+    if (isOrder) {
+      reviewers = [data.is_gso, data.is_mayor, data.is_treasurer];
+      remarksRecord = {
+        0: "",
+        1: data.gso_remarks,
+        2: data.mayor_remarks,
+        3: data.treasurer_remarks,
+        4: "",
+        5: "",
+      };
+    }
+
     const approvers = reviewers.filter((x) => !!x).length;
     return remarksRecord[approvers as keyof typeof remarksRecord] || "";
   };
@@ -67,7 +80,7 @@ export function usePurchaseHistory() {
       const isStage3And4 =
         stage === StageName.STAGE_3 || stage === StageName.STAGE_4;
 
-      const stageReviewers = isStage3And4
+      let stageReviewers = isStage3And4
         ? getReviewers({
             isGso: newValue?.po_is_gso,
             isTreasurer: newValue?.po_is_treasurer,
@@ -81,6 +94,14 @@ export function usePurchaseHistory() {
             isBudget: newValue?.is_budget,
           } as ReviewerStatus);
 
+      if (isOrder) {
+        stageReviewers = getReviewers({
+          isGso: newValue?.is_gso,
+          isTreasurer: newValue?.is_treasurer,
+          isMayor: newValue?.is_mayor,
+        } as ReviewerStatus);
+      }
+
       const historyModel = {
         date: newValue?.updated_at
           ? (format(new Date(newValue?.updated_at), SETTINGS.dateFormat) as any)
@@ -93,6 +114,10 @@ export function usePurchaseHistory() {
         remarks: getReviewerRemarks(newValue),
       } as PurchaseHistoryModel;
 
+      console.log({
+        historyModel,
+        newValue,
+      });
       return historyModel;
     });
 
