@@ -11,100 +11,120 @@ export interface ActionButtonProps {
 }
 
 export function ActionButton({ status, onAction }: ActionButtonProps) {
-  const { isBACApprover, isReviewer } = useUserIdentity();
+  const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
+  const [mainAction, setMainAction] = useState("History");
+  const submitAction = {
+    label: "Submit",
+    command: () => {
+      onAction("Submit");
+    },
+  };
+  const print = {
+    label: "Print",
+    command: () => {
+      onAction("Print");
+    },
+  };
+  const history = {
+    label: "History",
+    command: () => {
+      onAction("History");
+    },
+  };
+  const deleteAction = {
+    label: "Delete",
+    command: () => {
+      onAction("Delete");
+    },
+  };
+  const declineAction = {
+    label: "Decline",
+    command: () => {
+      onAction("Decline");
+    },
+  };
+  const approverMainActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.SUBMITTED:
+      case RequestStatus.REVIEW:
+      case RequestStatus.DECLINED:
+        setMainAction("Approve");
+        break;
 
-  const [mainAction, setMainAction] = useState("Update");
+      default:
+        setMainAction("History");
+        break;
+    }
+  };
+  const requesterMainActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.DRAFT:
+        setMainAction("Update");
+        break;
+      case RequestStatus.SUBMITTED:
+        setMainAction("Print");
+        break;
+
+      default:
+        setMainAction("History");
+        break;
+    }
+  };
+  const approverOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.SUBMITTED:
+      case RequestStatus.REVIEW:
+        return [declineAction, history];
+      case RequestStatus.APPROVED:
+        return [declineAction];
+      case RequestStatus.DECLINED:
+        return [history];
+
+      default:
+        return [];
+    }
+  };
+  const adminOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.SUBMITTED:
+        return [];
+
+      default:
+        return [print];
+    }
+  };
+  const requesterOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.DRAFT:
+        return [submitAction, deleteAction];
+      case RequestStatus.SUBMITTED:
+        return [history, deleteAction];
+
+      default:
+        return [];
+    }
+  };
 
   useEffect(() => {
     if (isBACApprover) {
       setMainAction("History");
     } else if (isReviewer) {
-      switch (status) {
-        case RequestStatus.SUBMITTED:
-        case RequestStatus.REVIEW:
-        case RequestStatus.DECLINED:
-          setMainAction("Approve");
-          break;
-
-        default:
-          setMainAction("History");
-          break;
-      }
+      approverMainActions(status);
     } else {
-      switch (status) {
-        case RequestStatus.DRAFT:
-          setMainAction("Update");
-          break;
-        case RequestStatus.SUBMITTED:
-          setMainAction("Print");
-          break;
-
-        default:
-          setMainAction("History");
-          break;
-      }
+      requesterMainActions(status);
     }
-  }, [status, isBACApprover, isReviewer]);
+  }, [status, isBACApprover, isReviewer, isAdmin]);
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {
-    const submitAction = {
-      label: "Submit",
-      command: () => {
-        onAction("Submit");
-      },
-    };
-    const print = {
-      label: "Print",
-      command: () => {
-        onAction("Print");
-      },
-    };
-
-    const history = {
-      label: "History",
-      command: () => {
-        onAction("History");
-      },
-    };
-    const deleteAction = {
-      label: "Delete",
-      command: () => {
-        onAction("Delete");
-      },
-    };
-    const declineAction = {
-      label: "Decline",
-      command: () => {
-        onAction("Decline");
-      },
-    };
-
     if (isReviewer) {
-      switch (status) {
-        case RequestStatus.SUBMITTED:
-        case RequestStatus.REVIEW:
-          return [declineAction, history];
-        case RequestStatus.APPROVED:
-          return [declineAction];
-        case RequestStatus.DECLINED:
-          return [history];
-
-        default:
-          return [];
-      }
+      return approverOtherActions(status);
     } else if (isBACApprover) {
       return [];
+    } else if (isAdmin) {
+      return adminOtherActions(status);
     } else {
-      switch (status) {
-        case RequestStatus.DRAFT:
-          return [submitAction, deleteAction];
-        case RequestStatus.SUBMITTED:
-          return [history, deleteAction];
-
-        default:
-          return [];
-      }
+      return requesterOtherActions(status);
     }
   };
 

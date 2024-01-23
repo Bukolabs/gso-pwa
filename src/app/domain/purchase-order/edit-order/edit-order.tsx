@@ -26,6 +26,7 @@ import {
 import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { numberFormat } from "@shared/formats/number-format";
+import PrintInspection from "./print-inspection/print-inspection";
 
 export function EditOrder() {
   const {
@@ -195,6 +196,7 @@ export function EditOrder() {
               status={status || ""}
               category={category}
               selectedList={selectedRequests}
+              order={orders?.data?.[0]}
               onSelect={handleSelectedRequests}
               onAction={handlePrAction}
             />

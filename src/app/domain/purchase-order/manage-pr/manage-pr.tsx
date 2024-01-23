@@ -1,8 +1,9 @@
 import "./manage-pr.scss";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 import { PickList } from "primereact/picklist";
 import { useGetUnassignedRequestQy } from "@core/query/request.query";
 import {
+  GetPurchaseOrderDto,
   GetPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
@@ -24,6 +25,8 @@ import {
 } from "@core/model/request-status.enum";
 import { SplitButton } from "primereact/splitbutton";
 import { useNavigate } from "react-router-dom";
+import PrintInspection from "../edit-order/print-inspection/print-inspection";
+import { useReactToPrint } from "react-to-print";
 
 interface ViewPRData {
   data: GetPurchaseRequestDto;
@@ -33,6 +36,7 @@ export interface ManagePrProps {
   status: string;
   category: string;
   selectedList: GetPurchaseRequestDto[];
+  order?: GetPurchaseOrderDto;
   onSelect: (selected: GetPurchaseRequestDto[]) => void;
   onAction: (action: string, item: GetPurchaseRequestDto) => void;
 }
@@ -41,6 +45,7 @@ export function ManagePr({
   status,
   category,
   selectedList,
+  order,
   onSelect,
   onAction,
 }: ManagePrProps) {
@@ -71,6 +76,30 @@ export function ManagePr({
     status === RequestStatus.CANCELLED;
   const rowLimit = 99999;
   const pageNumber = 0;
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const handleApiSuccess = (
+    response: PurchaseRequestControllerGetDataAsList200Response
+  ) => {
+    const alreadyIncludedRequestCodes = selectedList.map((item) => item.code);
+    const filteredData = (response.data || []).filter(
+      (item) => alreadyIncludedRequestCodes.indexOf(item.code) < 0
+    );
+    setSource(filteredData);
+  };
+  useGetUnassignedRequestQy(
+    "",
+    rowLimit,
+    pageNumber,
+    undefined,
+    filter,
+    undefined,
+    handleApiSuccess
+  );
+
   const getSplitButtonItems = (data: GetPurchaseRequestDto) => [
     {
       label: RequestStatusAction.FULFILL,
@@ -121,30 +150,26 @@ export function ManagePr({
       requests,
     });
   };
-
-  const handleApiSuccess = (
-    response: PurchaseRequestControllerGetDataAsList200Response
-  ) => {
-    const alreadyIncludedRequestCodes = selectedList.map((item) => item.code);
-    const filteredData = (response.data || []).filter(
-      (item) => alreadyIncludedRequestCodes.indexOf(item.code) < 0
-    );
-    setSource(filteredData);
+  const handleReadyPrint = (data: GetPurchaseRequestDto) => {
+    setViewData({ data, requests: [] });
+    setTimeout(() => {
+      handlePrint();
+    }, 100);
   };
-  useGetUnassignedRequestQy(
-    "",
-    rowLimit,
-    pageNumber,
-    undefined,
-    filter,
-    undefined,
-    handleApiSuccess
-  );
 
   const handlePRView = (prId: string) => {
     navigate(`/request/${prId}`);
   };
 
+  const printInspectionSection = () => (
+    <div style={{ display: "none" }}>
+      <div ref={componentRef}>
+        {viewData?.data && (
+          <PrintInspection data={viewData?.data} order={order} />
+        )}
+      </div>
+    </div>
+  );
   const viewButton = (item: GetPurchaseRequestDto) => (
     <Button
       label="View"
@@ -196,7 +221,7 @@ export function ManagePr({
                 label="Print"
                 severity="secondary"
                 outlined
-                onClick={(e) => onAction(RequestStatusAction.PRINT, item)}
+                onClick={() => handleReadyPrint(item)}
               />
               <SplitButton
                 label="View"
@@ -220,6 +245,7 @@ export function ManagePr({
 
   return (
     <div className="manage-pr">
+      {printInspectionSection()}
       <Sidebar
         visible={visible}
         onHide={() => {

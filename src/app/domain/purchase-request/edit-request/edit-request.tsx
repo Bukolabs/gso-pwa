@@ -160,12 +160,14 @@ export function EditRequest() {
           <FormRequest />
         </TabPanel>
         <TabPanel header="Request Items">
-          {isDraft && <Button
-            icon="pi pi-plus"
-            label="Add Item"
-            className="block mb-4"
-            onClick={handleAddAnItem}
-          />}
+          {isDraft && (
+            <Button
+              icon="pi pi-plus"
+              label="Add Item"
+              className="block mb-4"
+              onClick={handleAddAnItem}
+            />
+          )}
 
           <div className="mt-2 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">

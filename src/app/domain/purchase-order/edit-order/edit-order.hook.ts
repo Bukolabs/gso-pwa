@@ -251,11 +251,6 @@ export function useEditOrder() {
     }
   };
   const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
-    if (action === RequestStatusAction.PRINT) {
-      console.log("printing");
-      return;
-    }
-
     let newStatus = RequestStatus.FULFILLED;
     switch (action) {
       case RequestStatusAction.UNFULFILL:
