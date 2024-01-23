@@ -19,9 +19,13 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import ReviewSection from "@core/ui/review-section/review-section";
 import { RequestStatus } from "@core/model/request-status.enum";
-import { getOverallTotalAmount } from "@core/utility/order-helper";
+import {
+  getOverallAmount,
+  getOverallAmountByStatus,
+} from "@core/utility/order-helper";
 import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
+import { numberFormat } from "@shared/formats/number-format";
 
 export function EditOrder() {
   const {
@@ -71,28 +75,50 @@ export function EditOrder() {
     const data = orders?.data?.[0];
     const tag = tagTemplate(data?.status_name || "none");
     const dateUpdated = data?.updated_at;
-    const totalAmount = data !== undefined ? getOverallTotalAmount(data) : 0;
+    const totalAmount = data !== undefined ? getOverallAmount(data) : 0;
+    const totalFulfilledAmount =
+      data !== undefined
+        ? getOverallAmountByStatus(data, RequestStatus.FULFILLED)
+        : 0;
+    const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
+    const percentile = (totalFulfilledAmount / totalAmount) * 100;
 
     return (
-      <section className="mb-5 flex justify-between">
-        <div>
-          <h2>PO#: {data?.po_no}</h2>
-          <div>{tag}</div>
-          <span className="flex gap-1 mt-1">
-            <label className="hint">Date Updated:</label>
-            <p className="hint">
-              {dateUpdated
-                ? format(new Date(dateUpdated), SETTINGS.dateFormat)
-                : ""}
+      <section className="flex flex-col md:flex-row md:justify-between">
+        <section className="mb-5 flex justify-between">
+          <div>
+            <h2>PO#: {data?.po_no}</h2>
+            <div>{tag}</div>
+            <span className="flex gap-1 mt-1">
+              <label className="hint">Date Updated:</label>
+              <p className="hint">
+                {dateUpdated
+                  ? format(new Date(dateUpdated), SETTINGS.dateFormat)
+                  : ""}
+              </p>
+            </span>
+          </div>
+        </section>
+        <section className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
+          <div className="border border-gray-200 rounded p-5 text-center bg-white">
+            <p className="block font-bold">
+              {currencyFormat(totalAmount, "PHP")}
             </p>
-          </span>
-        </div>
-        <div>
-          <span>
-            <p className="block">{currencyFormat(totalAmount, "PHP")}</p>
             <label className="block hint">Total Amount</label>
-          </span>
-        </div>
+          </div>
+          <div className="border border-gray-200 rounded p-5 text-center bg-white">
+            <p className="block font-bold">
+              {currencyFormat(totalUnfulfilledAmount, "PHP")}
+            </p>
+            <label className="block hint">Unfulfilled Amount</label>
+          </div>
+          <div className="border border-gray-200 rounded p-5 text-center bg-white">
+            <p className="block font-bold">
+              {numberFormat(Math.round(percentile))}%
+            </p>
+            <label className="block hint">Completion</label>
+          </div>
+        </section>
       </section>
     );
   };

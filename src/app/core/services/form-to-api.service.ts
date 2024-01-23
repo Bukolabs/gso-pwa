@@ -138,6 +138,8 @@ export class FormToApiService {
       is_urgent: false,
       items: requestItemPayload,
       purpose: form.purpose,
+      has_ppmp: form.isPPMP,
+      has_activity_design: form.isActivityDesign,
     } as CreatePurchaseRequestDto;
 
     return payload;

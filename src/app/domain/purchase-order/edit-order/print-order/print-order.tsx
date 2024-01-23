@@ -7,7 +7,7 @@ import {
   numberTemplate,
 } from "@core/utility/data-table-template";
 import { twoDigit } from "@core/utility/number-helper";
-import { getOverallTotalAmount } from "@core/utility/order-helper";
+import { getOverallAmount } from "@core/utility/order-helper";
 import { numberToWords } from "@shared/formats/number-to-words";
 
 export interface PrintOrderProps {
@@ -16,7 +16,7 @@ export interface PrintOrderProps {
 
 export function PrintOrder({ data }: PrintOrderProps) {
   const logo = "/tagbilaran-logo.png";
-  const overallTotal = data !== undefined ? getOverallTotalAmount(data) : 0;
+  const overallTotal = data !== undefined ? getOverallAmount(data) : 0;
   const prNumbers = data?.purchase_requests?.map((x) => x.pr_no).join(",");
 
   const itemDisplay = (title: string, description: string) => {

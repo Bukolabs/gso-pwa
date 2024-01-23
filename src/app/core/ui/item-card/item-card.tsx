@@ -3,15 +3,24 @@ import "./item-card";
 import { Button } from "primereact/button";
 import { ItemFormSchema } from "@core/model/form.rule";
 import { twoDigit } from "@core/utility/number-helper";
+import { currencyFormat } from "@shared/formats/currency-format";
+import { numberFormat } from "@shared/formats/number-format";
 
 export interface ItemCardProps {
   item: ItemFormSchema;
   itemNo: number;
+  showActions?: boolean;
   onEdit?: (code: ItemFormSchema) => void;
   onRemove?: (code: ItemFormSchema) => void;
 }
 
-export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
+export function ItemCard({
+  itemNo,
+  item,
+  showActions = true,
+  onEdit,
+  onRemove,
+}: ItemCardProps) {
   const totalCost = item.cost * (item.quantity || 1);
   return (
     <div
@@ -30,15 +39,21 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
       </section>
       <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">{item.cost}</p>
+          <p className="text-gray-800 font-bold">
+            {currencyFormat(item.cost, "PHP")}
+          </p>
           <p className="hint">Cost</p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">{item.quantity}</p>
+          <p className="text-gray-800 font-bold">
+            {numberFormat(item.quantity || 0)}
+          </p>
           <p className="hint">Quantity</p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">{totalCost}</p>
+          <p className="text-gray-800 font-bold">
+            {currencyFormat(totalCost || 0, 'PHP')}
+          </p>
           <p className="hint">Total Cost</p>
         </div>
       </section>
@@ -54,32 +69,34 @@ export function ItemCard({ itemNo, item, onEdit, onRemove }: ItemCardProps) {
           </div>
         )}
       </section>
-      <section className="bg-gray-800 flex justify-between">
-        {onEdit && (
-          <Button
-            text
-            icon="pi pi-pencil"
-            label="Edit"
-            onClick={() => {
-              if (onEdit) {
-                onEdit(item);
-              }
-            }}
-          ></Button>
-        )}
-        {onRemove && (
-          <Button
-            text
-            icon="pi pi-trash"
-            label="Remove"
-            onClick={() => {
-              if (onRemove) {
-                onRemove(item);
-              }
-            }}
-          ></Button>
-        )}
-      </section>
+      {showActions && (
+        <section className="bg-gray-800 flex justify-between">
+          {onEdit && (
+            <Button
+              text
+              icon="pi pi-pencil"
+              label="Edit"
+              onClick={() => {
+                if (onEdit) {
+                  onEdit(item);
+                }
+              }}
+            ></Button>
+          )}
+          {onRemove && (
+            <Button
+              text
+              icon="pi pi-trash"
+              label="Remove"
+              onClick={() => {
+                if (onRemove) {
+                  onRemove(item);
+                }
+              }}
+            ></Button>
+          )}
+        </section>
+      )}
     </div>
   );
 }

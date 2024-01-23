@@ -18,6 +18,7 @@ import { SETTINGS } from "@core/utility/settings";
 import { InputTextarea } from "primereact/inputtextarea";
 import ActionButton from "./action-button/action-button";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export function EditRequest() {
   const {
@@ -48,6 +49,8 @@ export function EditRequest() {
     getStageReviewers,
     setHistorySidebar,
   } = useEditRequest();
+
+  const isDraft = requests?.data?.[0].status_name === RequestStatus.DRAFT;
 
   const displayLoading = (
     <div className="card">
@@ -157,12 +160,12 @@ export function EditRequest() {
           <FormRequest />
         </TabPanel>
         <TabPanel header="Request Items">
-          <Button
+          {isDraft && <Button
             icon="pi pi-plus"
             label="Add Item"
             className="block mb-4"
             onClick={handleAddAnItem}
-          />
+          />}
 
           <div className="mt-2 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
@@ -173,6 +176,7 @@ export function EditRequest() {
                   item={item}
                   onEdit={handleEdit}
                   onRemove={handleRemove}
+                  showActions={isDraft}
                 />
               ))}
             </div>

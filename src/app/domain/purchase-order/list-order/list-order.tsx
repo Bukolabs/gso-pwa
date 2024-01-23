@@ -19,10 +19,7 @@ import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Avatar } from "primereact/avatar";
-import {
-  getOrderTotalAmount,
-  getOrderTotalItems,
-} from "@core/utility/order-helper";
+import { getOverallAmount, getOverallItems } from "@core/utility/order-helper";
 
 export function ListOrder() {
   const navigate = useNavigate();
@@ -120,11 +117,11 @@ export function ListOrder() {
         <Column field="supplier" header="Supplier"></Column>
         <Column
           header="Total Quantity"
-          body={(item) => numberFormat(getOrderTotalItems(item))}
+          body={(item) => numberFormat(getOverallItems(item))}
         ></Column>
         <Column
           header="Total Amount"
-          body={(item) => currencyFormat(getOrderTotalAmount(item), "PHP")}
+          body={(item) => currencyFormat(getOverallAmount(item), "PHP")}
         ></Column>
         <Column
           header="Due Date"
@@ -167,11 +164,8 @@ export function ListOrder() {
               status={item?.status_name}
               reviewers={reviewers}
               dueDate={dateFormat(item.po_date)}
-              totalAmount={currencyFormat(
-                getOrderTotalAmount(item as any),
-                "PHP"
-              )}
-              totalPr={numberFormat(getOrderTotalItems(item as any))}
+              totalAmount={currencyFormat(getOverallAmount(item as any), "PHP")}
+              totalPr={numberFormat(getOverallItems(item as any))}
               onClick={(code) => navigate(code)}
             />
           );
