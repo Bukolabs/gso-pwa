@@ -12,6 +12,7 @@ import {
   RequestInOrderFormSchema,
 } from "@core/model/form.rule";
 import { LocalAuth } from "@core/model/local-auth";
+import { RequestStatus } from "@core/model/request-status.enum";
 import { HomeCardProps } from "@domain/home/home-card/home-card";
 import { LabelValue } from "@shared/models/label-value.interface";
 
@@ -77,10 +78,11 @@ export class ApiToFormService {
   }
 
   static MapCountCardSummary(
-    stage1: GetStage1SummaryDto[],
-    review: GetStage1ReviewSummaryDto[]
+    stage: GetStage1SummaryDto[],
+    review: GetStage1ReviewSummaryDto[],
+    field: "requests" | "orders" = "requests"
   ) {
-    const stage1Data = stage1.map(
+    const stageData = stage.map(
       (item) => ({ label: item.name, value: item.tally } as LabelValue<number>)
     );
     const mappedReview = review.map(
@@ -88,14 +90,17 @@ export class ApiToFormService {
         ({ label: item.approver, value: item.tally } as LabelValue<number>)
     );
 
-    const cardModel = stage1Data.map((item) => {
+    const cardModel = stageData.map((item) => {
       const statusEntity = {
         status: item.label,
-        requests: item.value,
+        [field]: item.value,
         stage: "STAGE1",
       } as HomeCardProps;
 
-      if (item.label === "REVIEW") {
+      if (
+        item.label === RequestStatus.REVIEW ||
+        item.label === RequestStatus.POREVIEW
+      ) {
         statusEntity.prReviews = mappedReview;
       }
 

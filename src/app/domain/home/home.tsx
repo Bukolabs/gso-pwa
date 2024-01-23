@@ -5,90 +5,47 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import {
   useGetStage1SummaryQy,
   useGetStage1SummaryReviewQy,
+  useGetStage2SummaryQy,
+  useGetStage3SummaryQy,
+  useGetStage3SummaryReviewQy,
+  useGetStage4SummaryQy,
 } from "@core/query/dashboard.query";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { useNavigate } from "react-router-dom";
+import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 
 function Home() {
-  const { data: stage1 } = useGetStage1SummaryQy();
+  const { data: stage1, isLoading: s1Loading } = useGetStage1SummaryQy();
   const { data: stage1Review } = useGetStage1SummaryReviewQy();
+
+  const { data: stage2, isLoading: s2Loading } = useGetStage2SummaryQy();
+
+  const { data: stage3, isLoading: s3Loading } = useGetStage3SummaryQy();
+  const { data: stage3Review } = useGetStage3SummaryReviewQy();
+
+  const { data: stage4, isLoading: s4Loading } = useGetStage4SummaryQy();
+
   const navigate = useNavigate();
 
   const stage1Model = ApiToFormService.MapCountCardSummary(
     stage1?.data || [],
     stage1Review?.data || []
   );
-  const stage2Model = [
-    {
-      status: "CATEGORIZED",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "POSTED",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "BIDDING",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "AWARDED",
-      requests: 0,
-      orders: 0,
-    },
-  ] as HomeCardProps[];
-  const stage3Model = [
-    {
-      status: "PO-REVIEW",
-      requests: 0,
-      orders: 0,
-      poReviews: [
-        { label: "CGSO", value: 0 },
-        { label: "CTO", value: 0 },
-        { label: "CMO", value: 0 },
-      ] as LabelValue<number>[],
-      prReviews: [
-        { label: "CGSO", value: 0 },
-        { label: "CTO", value: 0 },
-        { label: "CMO", value: 0 },
-      ] as LabelValue<number>[],
-    },
-    {
-      status: "PO-APPROVED",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "PO-DECLINED",
-      requests: 0,
-      orders: 0,
-    },
-  ] as HomeCardProps[];
-  const stage4Model = [
-    {
-      status: "INSPECTION",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "PARTIAL",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "FULFILLED",
-      requests: 0,
-      orders: 0,
-    },
-    {
-      status: "UNFULFILLED",
-      requests: 0,
-      orders: 0,
-    },
-  ] as HomeCardProps[];
+  const stage2Model = ApiToFormService.MapCountCardSummary(
+    stage2?.data || [],
+    [],
+    "orders"
+  );
+  const stage3Model = ApiToFormService.MapCountCardSummary(
+    stage3?.data || [],
+    stage3Review?.data || [],
+    "orders"
+  );
+  const stage4Model = ApiToFormService.MapCountCardSummary(
+    stage4?.data || [],
+    [],
+    "orders"
+  );
 
   const handleRequestAction = (filter: string) => {
     navigate(`request?${filter}`);
@@ -98,6 +55,60 @@ function Home() {
     navigate(`request?${filter}`);
   };
 
+  const displayLoading = (
+    <div className="card">
+      <SkeletonList count={4} mode="dashboard" />
+    </div>
+  );
+  const dashboard = (
+    <section>
+      <section className="mb-2">
+        <h3>Stage 1: PRE-GSO</h3>
+        <small>Purchase Request Summary</small>
+      </section>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
+        {stage1Model.map((item, id) => (
+          <HomeCard
+            key={id}
+            {...item}
+            onRequestAction={handleRequestAction}
+            onReviewerAction={handleReviewAction}
+          />
+        ))}
+      </div>
+
+      <section className="mb-2">
+        <h3>Stage 2: BAC</h3>
+        <small>Purchase Request Summary</small>
+      </section>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
+        {stage2Model.map((item, id) => (
+          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+        ))}
+      </div>
+
+      <section className="mb-2">
+        <h3>Stage 3: POST-GSO</h3>
+        <small>Purchase Orders & Requests Summary</small>
+      </section>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
+        {stage3Model.map((item, id) => (
+          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+        ))}
+      </div>
+
+      <section className="mb-2">
+        <h3>Stage 4: Completion</h3>
+        <small>Purchase Orders & Requests Summary</small>
+      </section>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
+        {stage4Model.map((item, id) => (
+          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+        ))}
+      </div>
+    </section>
+  );
+
   return (
     <div className="page">
       <HeaderContent title="Home">
@@ -105,62 +116,9 @@ function Home() {
       </HeaderContent>
 
       <div className="p-7">
-        <section className="mb-2">
-          <h3>Stage 1: PRE-GSO</h3>
-          <small>Purchase Request Summary</small>
-        </section>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
-          {stage1Model.map((item, id) => (
-            <HomeCard
-              key={id}
-              {...item}
-              onRequestAction={handleRequestAction}
-              onReviewerAction={handleReviewAction}
-            />
-          ))}
-        </div>
-
-        <section className="mb-2">
-          <h3>Stage 2: BAC</h3>
-          <small>Purchase Request Summary</small>
-        </section>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
-          {stage2Model.map((item, id) => (
-            <HomeCard
-              key={id}
-              {...item}
-              onRequestAction={handleRequestAction}
-            />
-          ))}
-        </div>
-
-        <section className="mb-2">
-          <h3>Stage 3: POST-GSO</h3>
-          <small>Purchase Orders & Requests Summary</small>
-        </section>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
-          {stage3Model.map((item, id) => (
-            <HomeCard
-              key={id}
-              {...item}
-              onRequestAction={handleRequestAction}
-            />
-          ))}
-        </div>
-
-        <section className="mb-2">
-          <h3>Stage 4: Completion</h3>
-          <small>Purchase Orders & Requests Summary</small>
-        </section>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
-          {stage4Model.map((item, id) => (
-            <HomeCard
-              key={id}
-              {...item}
-              onRequestAction={handleRequestAction}
-            />
-          ))}
-        </div>
+        {!s1Loading && !s2Loading && !s3Loading && !s4Loading
+          ? dashboard
+          : displayLoading}
       </div>
     </div>
   );

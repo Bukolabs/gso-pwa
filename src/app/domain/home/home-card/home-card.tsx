@@ -61,13 +61,15 @@ export function HomeCard({
 
       {!prReviews ? (
         <section className="flex justify-center gap-3 py-4">
-          <div
-            className="flex flex-col items-center justify-center cursor-pointer"
-            onClick={() => handleClickRequest(status)}
-          >
-            <p className="text-gray-800 font-bold">{requests} </p>
-            <p className="hint">Total Requests</p>
-          </div>
+          {requests && (
+            <div
+              className="flex flex-col items-center justify-center cursor-pointer"
+              onClick={() => handleClickRequest(status)}
+            >
+              <p className="text-gray-800 font-bold">{requests} </p>
+              <p className="hint">Total Requests</p>
+            </div>
+          )}
           {orders === undefined || orders === null ? (
             <></>
           ) : (
@@ -83,7 +85,9 @@ export function HomeCard({
 
       {prReviews && prReviews.length > 0 && (
         <section className="py-4">
-          <p className="hint text-center mb-1">Total Requests Per Reviewer Flow</p>
+          <p className="hint text-center mb-1">
+            Total Requests Per Reviewer Flow
+          </p>
           <section className="flex justify-center gap-2">
             {prReviews.map((item, id) => (
               <OfficeCircle
