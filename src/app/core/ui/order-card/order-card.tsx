@@ -10,6 +10,7 @@ export interface OrderCardProps {
   title: string;
   subTitle: string;
   supplier: string;
+  procurement: string;
   status: string;
   reviewers: LabelValue[];
   dueDate: string;
@@ -23,6 +24,7 @@ export function OrderCard({
   title,
   subTitle,
   supplier,
+  procurement,
   status,
   reviewers,
   dueDate,
@@ -41,6 +43,7 @@ export function OrderCard({
             <h3 className="text-gray-800">{title}</h3>
             <h4 className="text-gray-500">{supplier}</h4>
             <h5 className="text-gray-500">{subTitle}</h5>
+            <h5 className="text-gray-500">{procurement}</h5>
           </div>
           <div>
             <Tag
@@ -61,7 +64,7 @@ export function OrderCard({
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="text-gray-800 font-bold">{totalPr}</p>
-          <p className="hint">Total PR</p>
+          <p className="hint">Total Item</p>
         </div>
       </section>
       {reviewers.length > 0 && (

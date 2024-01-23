@@ -64,7 +64,7 @@ export function PurchaseHistory({ data }: PurchaseHistoryProps) {
       <Timeline
         value={data}
         align="left"
-        className="customized-timeline"
+        className="ml-[-20rem]"
         content={customizedContent}
       />
     </div>

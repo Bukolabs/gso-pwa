@@ -47,7 +47,6 @@ export function EditOrder() {
     handleAction,
     handlePrAction,
     setRemarksVisible,
-    setRemarksMode,
     setReviewRemarks,
     handleReviewAction,
     setHistorySidebar,

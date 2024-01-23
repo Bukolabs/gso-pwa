@@ -66,12 +66,14 @@ export function useEditOrder() {
   // EDIT REQUEST API
   const handleRequestApiSuccess = () => {
     showSuccess("Request updated");
+    handleBack();
   };
   const { mutate: editRequest } = useEditRequestQy(handleRequestApiSuccess);
 
   // PROCESS ORDER API
   const handleProcessSuccess = () => {
     showSuccess("Order status is changed successfully");
+    handleBack();
   };
   const { mutate: processOrder } = useProcessOrderQy(handleProcessSuccess);
 

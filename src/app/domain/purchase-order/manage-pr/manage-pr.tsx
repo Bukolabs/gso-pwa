@@ -53,7 +53,13 @@ export function ManagePr({
     category: category,
     status_name: "APPROVED",
   });
-  const isPOStage4 =
+  const isStage4 =
+    status === RequestStatus.INSPECTION ||
+    status === RequestStatus.PARTIAL ||
+    status === RequestStatus.FULFILLED ||
+    status === RequestStatus.UNFULFILLED ||
+    status === RequestStatus.CANCELLED;
+  const isStage3And4 =
     status === RequestStatus.AWARDED ||
     status === RequestStatus.POREVIEW ||
     status === RequestStatus.POAPPROVED ||
@@ -61,7 +67,7 @@ export function ManagePr({
     status === RequestStatus.INSPECTION ||
     status === RequestStatus.PARTIAL ||
     status === RequestStatus.FULFILLED ||
-    status === RequestStatus.UNFULFILLED || 
+    status === RequestStatus.UNFULFILLED ||
     status === RequestStatus.CANCELLED;
   const rowLimit = 99999;
   const pageNumber = 0;
@@ -75,17 +81,20 @@ export function ManagePr({
     {
       label: RequestStatusAction.UNFULFILL,
       command: () => {
-        onAction(RequestStatusAction.UNFULFILL, data);},
+        onAction(RequestStatusAction.UNFULFILL, data);
+      },
     },
     {
       label: RequestStatusAction.LATE,
       command: () => {
-        onAction(RequestStatusAction.LATE, data);},
+        onAction(RequestStatusAction.LATE, data);
+      },
     },
     {
       label: RequestStatusAction.CANCEL,
       command: () => {
-        onAction(RequestStatusAction.CANCEL, data);},
+        onAction(RequestStatusAction.CANCEL, data);
+      },
     },
   ];
 
@@ -181,7 +190,7 @@ export function ManagePr({
           </div>
         </section>
         <section className="flex justify-end w-full px-4 pb-4">
-          {isPOStage4 ? (
+          {isStage4 ? (
             <section className="gap-2 flex">
               <Button
                 label="Print"
@@ -234,7 +243,7 @@ export function ManagePr({
         </div>
       </Sidebar>
 
-      {isPOStage4 ? (
+      {isStage3And4 ? (
         <section className="grid md:grid-cols-2 gap-4 grid-cols-1">
           {target.map((item, id) => (
             <div key={id}>{itemTemplate(item)}</div>

@@ -114,10 +114,6 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         remarks: getReviewerRemarks(newValue),
       } as PurchaseHistoryModel;
 
-      console.log({
-        historyModel,
-        newValue,
-      });
       return historyModel;
     });
 

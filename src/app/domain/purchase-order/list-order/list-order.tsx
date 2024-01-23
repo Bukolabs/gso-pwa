@@ -8,7 +8,7 @@ import { useGetOrderQy } from "@core/query/order.query";
 import { DataTable } from "primereact/datatable";
 import { GetPurchaseOrderDto } from "@api/api";
 import { Column } from "primereact/column";
-import { dateTemplate, getTotalAmount, getTotalItems, tagTemplate } from "@core/utility/data-table-template";
+import { dateTemplate, tagTemplate } from "@core/utility/data-table-template";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import OrderCard from "@core/ui/order-card/order-card";
@@ -19,6 +19,10 @@ import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Avatar } from "primereact/avatar";
+import {
+  getOrderTotalAmount,
+  getOrderTotalItems,
+} from "@core/utility/order-helper";
 
 export function ListOrder() {
   const navigate = useNavigate();
@@ -116,11 +120,11 @@ export function ListOrder() {
         <Column field="supplier" header="Supplier"></Column>
         <Column
           header="Total Quantity"
-          body={(item) => numberFormat(getTotalItems(item))}
+          body={(item) => numberFormat(getOrderTotalItems(item))}
         ></Column>
         <Column
           header="Total Amount"
-          body={(item) => currencyFormat(getTotalAmount(item), 'PHP')}
+          body={(item) => currencyFormat(getOrderTotalAmount(item), "PHP")}
         ></Column>
         <Column
           header="Due Date"
@@ -145,8 +149,13 @@ export function ListOrder() {
   const cards = (
     <section>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
-        {(purchaseOrders?.data || []).map((data, id) => {
-          const item = data as any; // TODO removed this line after BE fix
+        {(purchaseOrders?.data || []).map((item, id) => {
+          const reviewers = getReviewers({
+            isGso: item.is_gso,
+            isTreasurer: item.is_treasurer,
+            isMayor: item.is_mayor,
+          } as ReviewerStatus);
+
           return (
             <OrderCard
               key={id}
@@ -154,11 +163,15 @@ export function ListOrder() {
               title={`PO No. ${item.po_no}` || "-"}
               subTitle={item.category_name}
               supplier={item.supplier || "No Supplier Yet"}
+              procurement={item.mode_of_procurement || "-"}
               status={item?.status_name}
-              reviewers={[]}
+              reviewers={reviewers}
               dueDate={dateFormat(item.po_date)}
-              totalAmount={currencyFormat(getTotalAmount(item), 'PHP')}
-              totalPr={numberFormat(getTotalItems(item))}
+              totalAmount={currencyFormat(
+                getOrderTotalAmount(item as any),
+                "PHP"
+              )}
+              totalPr={numberFormat(getOrderTotalItems(item as any))}
               onClick={(code) => navigate(code)}
             />
           );

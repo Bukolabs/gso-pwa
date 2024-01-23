@@ -76,6 +76,31 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         return setMainAction("History");
     }
   };
+  const adminActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        return setMainAction("Post");
+
+      case RequestStatus.POSTED:
+        return setMainAction("Bid");
+
+      case RequestStatus.BIDDING:
+        return setMainAction("Award");
+
+      case RequestStatus.AWARDED:
+        return setMainAction("Print");
+
+      case RequestStatus.POREVIEW:
+      case RequestStatus.PODECLINED:
+        return setMainAction("Approve");
+
+      case RequestStatus.POAPPROVED:
+        return setMainAction("Inspect");
+
+      default:
+        return setMainAction("History");
+    }
+  };
   const bacOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
@@ -103,6 +128,26 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
         return [];
     }
   };
+  const adminOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        return [updateAction, history];
+      case RequestStatus.POSTED:
+      case RequestStatus.BIDDING:
+        return [updateAction, history];
+      case RequestStatus.AWARDED:
+        return [reviewAction, history];
+      case RequestStatus.POREVIEW:
+        return [declineAction, history];
+      case RequestStatus.PODECLINED:
+        return [history];
+      case RequestStatus.POAPPROVED:
+        return [declineAction, history];
+
+      default:
+        return [];
+    }
+  };
 
   useEffect(() => {
     if (isBACApprover) {
@@ -110,8 +155,7 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
     } else if (isReviewer) {
       approverMainActions(status);
     } else if (isAdmin) {
-      bacMainActions(status);
-      approverMainActions(status);
+      adminActions(status);
     } else {
       setMainAction("History");
     }
@@ -124,9 +168,8 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
     } else if (isBACApprover) {
       return bacOtherActions(status);
     } else if (isAdmin) {
-      const approverActions = approverOtherActions(status);
-      const bacActions = bacOtherActions(status);
-      return [...approverActions, ...bacActions, print];
+      const adminActions = adminOtherActions(status);
+      return [...adminActions, print];
     } else {
       return [];
     }
