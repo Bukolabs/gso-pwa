@@ -32,22 +32,22 @@ export function PrintOrder({ data }: PrintOrderProps) {
     <div className="print-order mx-8">
       <header className="flex w-full my-4 justify-between">
         <div className="relative top-0 mx-4">
-          <span className="text-sm block mb-4">
+          <span className="print-normal block mb-4">
             City Government of Tagbilaran
           </span>
-          <span className="text-sm block">
+          <span className="print-normal block">
             Standard Form Number: SF-GOODS-58
           </span>
-          <span className="text-sm block">Revised on: May 24, 2004</span>
-          <span className="text-sm block">
+          <span className="print-normal block">Revised on: May 24, 2004</span>
+          <span className="print-normal block">
             Standard Form Title: Purchase Order
           </span>
         </div>
         <div className="mx-4">
-          <small className="w-20 whitespace-nowrap block">
+          <small className="w-20 print-normal whitespace-nowrap block">
             Resolution No: {data?.resolution_no}
           </small>
-          <small className="w-20">Procurement of Goods</small>
+          <small className="w-20 print-normal">Procurement of Goods</small>
         </div>
       </header>
 
@@ -60,20 +60,24 @@ export function PrintOrder({ data }: PrintOrderProps) {
           />
         </div>
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-5">Purchase Order</h1>
-          <small className="underline">CITY GOVERNMENT OF TAGBILARAN</small>
-          <small className="font-bold">Agency / Procuring Entity</small>
+          <p className="mb-5 print-header">Purchase Order</p>
+          <small className="underline print-normal">
+            CITY GOVERNMENT OF TAGBILARAN
+          </small>
+          <small className="font-bold print-normal">
+            Agency / Procuring Entity
+          </small>
         </div>
         <div className="mx-4"></div>
       </header>
 
-      <section className="grid grid-cols-2 grid-rows-1 gap-4 mb-6">
+      <section className="grid grid-cols-2 grid-rows-1 gap-4 mb-4">
         <div>
           <span className="flex items-center gap-2">
-            <label>Supplier: </label>
+            <label className="print-normal">Supplier: </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.supplier ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -81,10 +85,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label>Address: </label>
+            <label className="print-normal">Address: </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.address ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -92,10 +96,12 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">E-mail Address: </label>
+            <label className="print-normal whitespace-nowrap">
+              E-mail Address:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.email ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -103,10 +109,12 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Telephone No.: </label>
+            <label className="print-normal whitespace-nowrap">
+              Telephone No.:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.contact_no ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -114,10 +122,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label>T.I.N: </label>
+            <label className="print-normal">T.I.N: </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.tin ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -127,10 +135,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
         </div>
         <div className="ml-16">
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">P.O. No.: </label>
+            <label className="whitespace-nowrap print-normal">P.O. No.: </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.po_no ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -138,10 +146,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label>Date: </label>
+            <label className="print-normal">Date: </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.po_date ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -149,43 +157,47 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Mode of Procurement: </label>
+            <label className="print-normal whitespace-nowrap">
+              Mode of Procurement:{" "}
+            </label>
             <span
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.mode_of_procurement ? "top-[1px]" : "top-[10px]"
               )}
             >
-              <p>{data?.mode_of_procurement}</p>
+              {data?.mode_of_procurement}
             </span>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">P.R. No.: </label>
+            <label className="print-normal whitespace-nowrap">P.R. No.: </label>
             <span
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 (data?.purchase_requests || []).length > 0
                   ? "top-[1px]"
                   : "top-[12px]"
               )}
             >
-              <p>{prNumbers}</p>
+              {prNumbers}
             </span>
           </span>
         </div>
       </section>
 
-      <section className="mb-2 border-t border-b border-t-gray-600 border-b-gray-600">
-        <p className="pl-10 pb-6">Gentlemen:</p>
+      <section className="border-t border-b border-t-gray-600 border-b-gray-600">
+        <p className="print-normal pl-10 py-3">Gentlemen:</p>
       </section>
 
       <section className="grid grid-cols-2 grid-rows-1 gap-4 mb-6">
         <div>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Place of Delivery: </label>
+            <label className="print-normal whitespace-nowrap">
+              Place of Delivery:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.delivery_location ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -193,10 +205,12 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Date of Delivery: </label>
+            <label className="print-normal whitespace-nowrap">
+              Date of Delivery:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.delivery_date ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -206,10 +220,12 @@ export function PrintOrder({ data }: PrintOrderProps) {
         </div>
         <div className="ml-16">
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Delivery Term: </label>
+            <label className="print-normal whitespace-nowrap">
+              Delivery Term:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.delivery_term ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -217,10 +233,12 @@ export function PrintOrder({ data }: PrintOrderProps) {
             </h4>
           </span>
           <span className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Payment Term: </label>
+            <label className="print-normal whitespace-nowrap">
+              Payment Term:{" "}
+            </label>
             <h4
               className={classNames(
-                "block relative font-bold border-b border-black w-full",
+                "print-normal block relative font-bold border-b border-black w-full",
                 data?.payment_term ? "top-[1px]" : "top-[10px]"
               )}
             >
@@ -234,12 +252,24 @@ export function PrintOrder({ data }: PrintOrderProps) {
         <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t border-b border-l-0 border-r-0">
           <tbody className="border-t border-b border-l-0 border-r-0">
             <tr>
-              <th className="px-6 py-3 border bg-gray-50">Item No.</th>
-              <th className="px-6 py-3 border bg-gray-50">Unit</th>
-              <th className="px-6 py-3 border bg-gray-50">Description</th>
-              <th className="px-6 py-3 border bg-gray-50">Quantity</th>
-              <th className="px-6 py-3 border bg-gray-50">Unit Cost</th>
-              <th className="px-6 py-3 border bg-gray-50">Total Cost</th>
+              <th
+                className="print-normal px-2 py-1 border bg-gray-50 w-20"
+              >
+                Item No.
+              </th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">Unit</th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">
+                Description
+              </th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">
+                Quantity
+              </th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">
+                Unit Cost
+              </th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">
+                Total Cost
+              </th>
             </tr>
             {(data?.purchase_requests || [])?.map((request) =>
               request.items?.map((item, id) => (
@@ -247,22 +277,22 @@ export function PrintOrder({ data }: PrintOrderProps) {
                   key={id}
                   className="border-t border-b border-l-0 border-r-0"
                 >
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {twoDigit(id + 1)}
                   </td>
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {item.unit_name}
                   </td>
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {itemDisplay(item.item_name, item.description || "")}
                   </td>
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {numberTemplate(item.quantity)}
                   </td>
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {currencyTemplate(item.price)}
                   </td>
-                  <td className="px-6 py-4 border bg-gray-50">
+                  <td className="print-normal px-2 py-1 border bg-gray-50">
                     {currencyTemplate(item.price * item.quantity)}
                   </td>
                 </tr>
@@ -270,40 +300,42 @@ export function PrintOrder({ data }: PrintOrderProps) {
             )}
             <tr>
               <td className="border bg-gray-50" colSpan={2}>
-                <small className="w-full flex justify-center">
+                <small className="print-normal w-full flex justify-center">
                   Total amount in words:
                 </small>
               </td>
-              <td className="border bg-gray-50" colSpan={2}>
+              <td className="print-normal border bg-gray-50" colSpan={2}>
                 **{numberToWords(overallTotal)}**
               </td>
-              <td className="px-6 py-4 border bg-gray-50">Total:</td>
-              <td className="px-6 py-4 border bg-gray-50">
+              <td className="print-normal px-2 py-1 border bg-gray-50">
+                Total:
+              </td>
+              <td className="print-normal px-2 py-1 border bg-gray-50">
                 {currencyTemplate(overallTotal)}
               </td>
             </tr>
             <tr>
-              <td className="border px-6 py-4 bg-gray-50" colSpan={6}>
-                <span>
+              <td className="border px-2 pt-4 pb-1 bg-gray-50" colSpan={6}>
+                <span className="print-normal">
                   In case of failure to make the full delivery within the time
                   specified above, a penalty of one-tenth (/10) of one (1)
                   percent for every day of delay shall be imposed.
                 </span>
-                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-4">
+                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-1">
                   <div>
-                    <small className="block mb-14">Conforme:</small>
+                    <small className="print-normal block mb-5">Conforme:</small>
                     <div className="flex flex-col items-center justify-center">
                       <div className="font-bold text-sm">{data?.supplier}</div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] border-t border-black w-3/4 text-center"
+                          "print-normal block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         Signature over printed name of Supplier
                       </small>
                       <small
                         className={classNames(
-                          "mt-6 block relative top-[1px] border-t border-black w-2/4 text-center"
+                          "print-normal mt-6 block relative top-[1px] border-t border-black w-2/4 text-center"
                         )}
                       >
                         Date
@@ -311,14 +343,16 @@ export function PrintOrder({ data }: PrintOrderProps) {
                     </div>
                   </div>
                   <div>
-                    <small className="block mb-14">Very truly yours:</small>
+                    <small className="print-normal block mb-5">
+                      Very truly yours:
+                    </small>
                     <div className="flex flex-col items-center justify-center">
-                      <div className="font-bold text-sm">
+                      <div className="print-normal font-bold text-sm">
                         JANE CENSORIA C. YAP
                       </div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] border-t border-black w-3/4 text-center"
+                          "print-normal block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         CITY MAYOR
@@ -329,15 +363,19 @@ export function PrintOrder({ data }: PrintOrderProps) {
               </td>
             </tr>
             <tr>
-              <td className="border px-6 py-4 bg-gray-50" colSpan={6}>
-                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-4">
+              <td className="border px-2 py-1 bg-gray-50" colSpan={6}>
+                <section className="grid grid-cols-2 grid-rows-1 gap-4 py-1">
                   <div>
-                    <small className="block mb-14">Funds Available:</small>
+                    <small className="print-normal block mb-14">
+                      Funds Available:
+                    </small>
                     <div className="flex flex-col items-center justify-center">
-                      <div className="font-bold text-sm">HUBERT M. INAS</div>
+                      <div className="print-normal font-bold text-sm">
+                        HUBERT M. INAS
+                      </div>
                       <small
                         className={classNames(
-                          "block relative top-[1px] border-t border-black w-3/4 text-center"
+                          "print-normal block relative top-[1px] border-t border-black w-3/4 text-center"
                         )}
                       >
                         CITY TREASURER
@@ -349,14 +387,16 @@ export function PrintOrder({ data }: PrintOrderProps) {
                       <span className="mb-4 float-left">OR:</span>
                       <span
                         className={classNames(
-                          "ml-8 block relative border-b border-black w-3/4 top-[20px]"
+                          "print-normal ml-8 block relative border-b border-black w-3/4 top-[20px]"
                         )}
                       ></span>
                     </section>
                     <div className="clear-both"></div>
                     <section>
-                      <span className="mb-4 float-left">AMOUNT:</span>
-                      <span className="ml-4 text-gray-600">P</span>
+                      <span className="print-normal mb-4 float-left">
+                        AMOUNT:
+                      </span>
+                      <span className="print-normal ml-4 text-gray-600">P</span>
                     </section>
                   </div>
                 </section>

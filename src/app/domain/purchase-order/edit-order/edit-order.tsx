@@ -81,7 +81,7 @@ export function EditOrder() {
         ? getOverallAmountByStatus(data, RequestStatus.FULFILLED)
         : 0;
     const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
-    const percentile = (totalFulfilledAmount / totalAmount) * 100;
+    const percentile = (totalFulfilledAmount / totalAmount) * 100 || 0;
 
     return (
       <section className="flex flex-col md:flex-row md:justify-between">
