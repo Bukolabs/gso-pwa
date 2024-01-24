@@ -23,7 +23,7 @@ export function AuthShell() {
   const navigate = useNavigate();
   const { isRequestor, currentUser } = useUserIdentity();
   const desktopNavigation = isRequestor
-    ? [homeNav, requestNav]
+    ? [requestNav]
     : ([
         homeNav,
         requestNav,
@@ -32,7 +32,7 @@ export function AuthShell() {
         accountNav,
       ] as NavigationProps[]);
   const mobileNavigation = isRequestor
-    ? [homeNav, requestNav, moreNav]
+    ? [requestNav, moreNav]
     : ([homeNav, requestNav, orderNav, moreNav] as NavigationProps[]);
 
   useGetStatusQy();

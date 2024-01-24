@@ -115,7 +115,8 @@ export function ListRequest() {
   );
   const reviewColumn = (data: GetPurchaseRequestDto) => {
     const isStage3And4 =
-      data.stage_name === StageName.STAGE_3 || data.stage_name === StageName.STAGE_4;
+      data.stage_name === StageName.STAGE_3 ||
+      data.stage_name === StageName.STAGE_4;
     const stageReviewers = isStage3And4
       ? ({
           isGso: data.po_is_gso,
@@ -217,7 +218,7 @@ export function ListRequest() {
               status={item.status_name}
               reviewers={reviewers}
               dueDate={dateFormat(item.pr_date)}
-              totalAmount={currencyFormat(getTotalAmount(item), 'PHP')}
+              totalAmount={currencyFormat(getTotalAmount(item), "PHP")}
               totalItems={numberFormat(getTotalItems(item))}
               onClick={(code) => navigate(code)}
             />

@@ -18,6 +18,7 @@ import { LocalAuth } from "@core/model/local-auth";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { AUTH } from "@core/utility/settings";
 import { useNavigate } from "react-router-dom";
+import { requesterRoles } from "@core/utility/user-identity.hook";
 
 export function Login() {
   const { showError } = useNotificationContext();
@@ -46,7 +47,10 @@ export function Login() {
   const handleSuccess = (data: LoginResponseDto) => {
     const mappedData = ApiToFormService.MapLocalAuth(data);
     StorageService.save<LocalAuth>(AUTH, mappedData);
-    navigate("/");
+
+    if (requesterRoles.indexOf(mappedData.role_description) >= 0) {
+      navigate("/request");
+    } else navigate("/");
   };
   const { mutate: loginUser } = useLoginQy(handleSuccess);
 

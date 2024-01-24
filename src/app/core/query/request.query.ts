@@ -13,6 +13,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 import { useErrorAction } from "@core/utility/error-action.hook";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { isEmpty } from "lodash-es";
 
 export function useGetRequestQy(
   search: string,
@@ -28,6 +30,8 @@ export function useGetRequestQy(
     | undefined,
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
+  const queryFilter = { ...filter };
+  const { requestorDepartment } = useUserIdentity();
   const { showProgress, hideProgress, showError } = useNotificationContext();
   const { errorAction } = useErrorAction();
   const apiFn = async (
@@ -53,10 +57,14 @@ export function useGetRequestQy(
     ] as PurchaseRequestControllerGetDataAsList200Response;
   };
 
+  if (!!requestorDepartment) {
+    queryFilter.department = requestorDepartment;
+  }
+
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Request, search, limit, offset, order, filter],
-    queryFn: () => apiFn(search, limit, offset, order, filter),
+    queryKey: [QueryKey.Request, search, limit, offset, order, queryFilter],
+    queryFn: () => apiFn(search, limit, offset, order, queryFilter),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
@@ -68,7 +76,7 @@ export function useGetRequestQy(
       const message = getApiErrorMessage(err);
       showError(message);
       errorAction(err.response);
-      
+
       if (onError) {
         onError(err);
       }
@@ -186,7 +194,7 @@ export function useGetUnassignedRequestQy(
       const message = getApiErrorMessage(err);
       showError(message);
       errorAction(err.response);
-      
+
       if (onError) {
         onError(err);
       }
