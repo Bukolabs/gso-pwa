@@ -7,10 +7,14 @@ import {
   CreatePrItemDto,
   CreatePurchaseOrderDto,
   CreatePurchaseRequestDto,
+  DeletePoPrDto,
+  DeletePurchaseOrderDto,
+  DeletePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
   EditPurchaseOrderDto,
   EditPurchaseRequestDto,
+  GetPurchaseRequestDto,
   LoginPersonDto,
 } from "@api/api";
 import {
@@ -186,6 +190,15 @@ export class FormToApiService {
     return payload;
   }
 
+  static DeletePurchaseRequest(form: RequestFormSchema) {
+    const payload = {
+      code: form.code,
+      is_active: false,
+    } as DeletePurchaseRequestDto;
+
+    return payload;
+  }
+
   static NewOrderRequest(form: OrderFormSchema) {
     const requests = form.requests.map((item) => this.AddRequestInOrder(item));
     const payload = {
@@ -240,6 +253,24 @@ export class FormToApiService {
       purchase_request: purchaseRequest,
       is_active: isActive,
     } as CreatePoPrDto;
+
+    return payload;
+  }
+
+  static DeleteOrderRequest(form: OrderFormSchema) {
+    const payload = {
+      code: form.code,
+      is_active: false,
+    } as DeletePurchaseOrderDto;
+
+    return payload;
+  }
+
+  static DeletePurchaseRequestInPo(item: GetPurchaseRequestDto) {
+    const payload = {
+      code: item.po_pr_code,
+      is_active: false,
+    } as DeletePoPrDto;
 
     return payload;
   }

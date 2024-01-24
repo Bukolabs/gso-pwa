@@ -48,11 +48,27 @@ export class ApiToFormService {
         cost: x.price,
         isActive: true,
         quantity: x.quantity,
-        itemArrayCode: x.code
+        itemArrayCode: x.code,
       } as PurchaseItemFormSchema;
     });
 
     return mappedItem as PurchaseItemFormSchema[];
+  }
+
+  static MapOrderRequestsToForm(
+    requests: GetPurchaseRequestDto[],
+    orderId: string,
+    isActive: boolean = true
+  ) {
+    return requests.map(
+      (item) =>
+        ({
+          code: item.po_pr_code,
+          purchaseRequest: item.code || "",
+          purchaseOrder: orderId || "",
+          isActive,
+        } as RequestInOrderFormSchema)
+    );
   }
 
   static MapLocalAuth(data: LoginResponseDto): LocalAuth {

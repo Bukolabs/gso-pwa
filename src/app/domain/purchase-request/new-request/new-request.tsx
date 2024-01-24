@@ -34,16 +34,13 @@ export function NewRequest() {
     undefined
   );
 
-  const handleBack = () => {
-    navigate("../");
-  };
   const handleApiSuccess = (response: MessageResponseDto) => {
     const data = response.data as any;
 
     showSuccess(`New purchase request created ${data.pr_no}`);
-    handleBack();
+    navigate(`../${data.code}`);
   };
-  const { mutate: addPurchaseRequest } = useAddRequestQy(handleApiSuccess);
+  const { mutate: addPurchaseRequest, isLoading: isCreating } = useAddRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     defaultValues: {
@@ -90,6 +87,7 @@ export function NewRequest() {
         <Button
           className="w-full block"
           label="Save"
+          disabled={isCreating}
           text={isMobileMode}
           onClick={handleSubmit(handleValidate, handleValidateError)}
         ></Button>

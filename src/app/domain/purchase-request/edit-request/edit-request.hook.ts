@@ -7,6 +7,7 @@ import {
   PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
 import {
+  useDeleteRequestQy,
   useEditRequestQy,
   useGetRequestByIdQy,
   useProcessRequestQy,
@@ -32,7 +33,8 @@ import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.h
 export function useEditRequest() {
   const { historyData, getHistory } = usePurchaseHistory();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
-  const { showSuccess, showError, hideProgress } = useNotificationContext();
+  const { showSuccess, showError, showWarning, hideProgress } =
+    useNotificationContext();
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
   const { requestId } = useParams();
@@ -49,8 +51,19 @@ export function useEditRequest() {
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
     showSuccess("Request status is changed successfully");
+    handleBack();
   };
-  const { mutate: processRequest } = useProcessRequestQy(handleProcessSuccess);
+  const { mutate: processRequest, isLoading: isProcessing } =
+    useProcessRequestQy(handleProcessSuccess);
+
+  // PROCESS REQUEST API
+  const handleDeleteApiSuccess = () => {
+    showSuccess("Request is deleted successfully");
+    handleBack();
+  };
+  const { mutate: deleteRequest, isLoading: isDeleting } = useDeleteRequestQy(
+    handleDeleteApiSuccess
+  );
 
   // UNCACHED, GET API VALUES
   // GET REQUEST API
@@ -59,6 +72,7 @@ export function useEditRequest() {
   ) => {
     if (data && data.count && data.count > 0) {
       const responseData = data.data?.[0];
+      setValue("code", responseData?.code);
       setValue("prno", responseData?.pr_no);
       setValue(
         "dueDate",
@@ -145,8 +159,11 @@ export function useEditRequest() {
     showSuccess("Request updated");
     handleBack();
   };
-  const { mutate: editRequest, isError: editError } =
-    useEditRequestQy(handleApiSuccess);
+  const {
+    mutate: editRequest,
+    isError: editError,
+    isLoading: isUpdating,
+  } = useEditRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     // CACHED / DEFAULT VALUES
@@ -161,6 +178,12 @@ export function useEditRequest() {
     navigate("../");
   };
   const handleValidate = (form: RequestFormSchema) => {
+    const activeItems = form.items.filter((x) => x.isActive);
+    if (activeItems.length === 0) {
+      showWarning("Kindly, add items for your requests.");
+      return;
+    }
+
     const formData = FormToApiService.EditPurchaseRequest(
       form,
       requestId || ""
@@ -245,6 +268,10 @@ export function useEditRequest() {
         handlePrint();
         break;
       case "Delete":
+        const formValuesForDelete = getValues();
+        const formDataForDelete =
+          FormToApiService.DeletePurchaseRequest(formValuesForDelete);
+        deleteRequest(formDataForDelete);
         break;
       case "Approve":
         setRemarksVisible(true);
@@ -273,6 +300,9 @@ export function useEditRequest() {
     remarksMode,
     historySidebar,
     historyData,
+    isUpdating,
+    isProcessing,
+    isDeleting,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,

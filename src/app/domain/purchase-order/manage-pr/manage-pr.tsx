@@ -240,6 +240,7 @@ export function ManagePr({
   const onChange = (event: any) => {
     setSource(event.source);
     setTarget(event.target);
+
     onSelect(event.target);
   };
 

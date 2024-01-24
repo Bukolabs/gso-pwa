@@ -1,8 +1,14 @@
-import { GetBidderDto, GetItemDto, GetPurchaseOrderDto, GetPurchaseRequestDto } from "@api/api";
+import {
+  GetBidderDto,
+  GetItemDto,
+  GetPurchaseOrderDto,
+  GetPurchaseRequestDto,
+} from "@api/api";
 import { bidderFormDefault, requestFormDefault } from "./form.default";
 import {
   BidderFormSchema,
   ItemFormSchema,
+  OrderFormSchema,
   RequestFormSchema,
 } from "./form.rule";
 import { ApiToFormService } from "@core/services/api-to-form.service";
@@ -19,6 +25,7 @@ export const getRequestFormDefault = (
   return !cachedValue
     ? requestFormDefault
     : ({
+        code: cachedValue.code,
         prno: cachedValue.pr_no,
         dueDate: cachedValue?.pr_date
           ? (format(new Date(cachedValue?.pr_date), SETTINGS.dateFormat) as any)
@@ -75,4 +82,46 @@ export const getItemFormDefault = (cachedValue: GetItemDto | undefined) => {
         cost: cachedValue.price || 0,
         unit: cachedValue.unit,
       } as ItemFormSchema);
+};
+
+export const getOrderFormDefault = (
+  cachedValue: GetPurchaseOrderDto | undefined
+) => {
+  const code = cachedValue?.code;
+  const requests = cachedValue?.purchase_requests
+    ? ApiToFormService.MapOrderRequestsToForm(
+        cachedValue?.purchase_requests || [],
+        code || ""
+      )
+    : [];
+
+  return !cachedValue
+    ? requestFormDefault
+    : ({
+        code,
+        pono: cachedValue.po_no,
+        poDate: cachedValue?.po_date
+          ? (format(new Date(cachedValue?.po_date), SETTINGS.dateFormat) as any)
+          : ("" as any),
+        resolutionNo: cachedValue.resolution_no,
+        procurementMode: cachedValue.mode_of_procurement,
+        category: cachedValue.category,
+        categoryName: cachedValue.category_name,
+        deliveryAddress: cachedValue.delivery_location,
+        deliveryDate: cachedValue?.delivery_date
+          ? (format(
+              new Date(cachedValue?.delivery_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : ("" as any),
+        deliveryTerm: cachedValue.delivery_term,
+        paymentTerm: cachedValue.payment_term,
+        supplier: cachedValue.supplier,
+        address: cachedValue.address,
+        email: cachedValue.email,
+        phone: cachedValue.contact_no,
+        tin: cachedValue.tin,
+        isActive: true,
+        requests,
+      } as OrderFormSchema);
 };

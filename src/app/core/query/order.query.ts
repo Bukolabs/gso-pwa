@@ -1,6 +1,8 @@
 import {
   CreatePoPrDto,
   CreatePurchaseOrderDto,
+  DeletePoPrDto,
+  DeletePurchaseOrderDto,
   EditPurchaseOrderDto,
   MessageResponseDto,
   ProcessPurchaseOrderDto,
@@ -291,6 +293,98 @@ export function useProcessOrderQy(
     onSuccess: (response) => {
       hideProgress();
       queryClient.invalidateQueries(QueryKey.Order);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useDeleteOrderQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: DeletePurchaseOrderDto) => {
+    showProgress();
+    const operation = await PurchaseOrderApiFp().purchaseOrderControllerDelete(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Order);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useDeletePurchaseRequestInOrderQy(
+  id: string,
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: DeletePoPrDto) => {
+    showProgress();
+    const operation =
+      await PurchaseOrderPurchaseRequestApiFp().poPrControllerDelete(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries([QueryKey.Order, id]);
       if (onSuccess) {
         onSuccess(response);
       }

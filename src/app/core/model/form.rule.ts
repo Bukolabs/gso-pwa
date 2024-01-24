@@ -75,7 +75,7 @@ export const OrderFormRule = z.object({
   deliveryDate: z.coerce.date(),
   deliveryTerm: z.string(),
   paymentTerm: z.string(),
-  isActive: z.boolean(),
+  isActive: z.boolean().optional(),
   requests: RequestInOrderFormRule.array(),
 });
 

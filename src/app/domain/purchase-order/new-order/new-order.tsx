@@ -33,9 +33,14 @@ export function NewOrder() {
 
   const [visible, setVisible] = useState(false);
 
-  const handleBack = () => {
-    navigate("../");
+  const handleApiSuccess = (response: MessageResponseDto) => {
+    const data = response.data as any;
+
+    showSuccess(`New purchase order created ${data.pono}`);
+    handleBack();
   };
+  const { mutate: addPurchaseRequest, isLoading: isCreating } =
+    useAddOrderQy(handleApiSuccess);
 
   const formMethod = useForm<OrderFormSchema>({
     defaultValues: {
@@ -54,14 +59,9 @@ export function NewOrder() {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
-
-  const handleApiSuccess = (response: MessageResponseDto) => {
-    const data = response.data as any;
-
-    showSuccess(`New purchase order created ${data.pono}`);
-    handleBack();
+  const handleBack = () => {
+    navigate("../");
   };
-  const { mutate: addPurchaseRequest } = useAddOrderQy(handleApiSuccess);
 
   const handleSelectedRequests = (requests: GetPurchaseRequestDto[]) => {
     const poNo = getValues("pono");
@@ -81,7 +81,7 @@ export function NewOrder() {
     );
     setValue("requests", requestListForm);
   };
-  const handlePrAction = () => {}
+  const handlePrAction = () => {};
 
   return (
     <div className="new-order">
@@ -90,6 +90,7 @@ export function NewOrder() {
           className="w-full block"
           label="Save"
           text={isMobileMode}
+          disabled={isCreating}
           onClick={handleSubmit(handleValidate, handleValidateError)}
         ></Button>
       </HeaderContent>

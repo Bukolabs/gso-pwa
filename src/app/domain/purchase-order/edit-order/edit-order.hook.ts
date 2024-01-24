@@ -3,7 +3,6 @@ import {
   ProcessPurchaseOrderDto,
   PurchaseOrderControllerGetDataAsList200Response,
 } from "@api/api";
-import { orderFormDefault } from "@core/model/form.default";
 import {
   OrderFormRule,
   OrderFormSchema,
@@ -11,6 +10,8 @@ import {
 } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
 import {
+  useDeleteOrderQy,
+  useDeletePurchaseRequestInOrderQy,
   useEditOrderQy,
   useGetOrderByIdQy,
   useProcessOrderQy,
@@ -33,6 +34,7 @@ import { useReactToPrint } from "react-to-print";
 import { useEditRequestQy } from "@core/query/request.query";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
+import { getOrderFormDefault } from "@core/model/get-form.default";
 
 export function useEditOrder() {
   const { historyData, getHistory } = usePurchaseHistory(true);
@@ -53,6 +55,9 @@ export function useEditOrder() {
   const [selectedRequests, setSelectedRequests] = useState<
     GetPurchaseRequestDto[]
   >([]);
+  const [originalRequests, setOriginalRequests] = useState<
+    GetPurchaseRequestDto[]
+  >([]);
 
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
@@ -63,27 +68,51 @@ export function useEditOrder() {
     navigate("../");
   };
 
+  // DELETE ORDER API
+  const handleDeleteRequestInPoApiSuccess = () => {
+    showSuccess("PR removed from PO successfully");
+  };
+  const { mutate: deleteRequestInPo, isLoading: isDeletingPrinPo } =
+    useDeletePurchaseRequestInOrderQy(
+      orderId || "",
+      handleDeleteRequestInPoApiSuccess
+    );
+
+  // DELETE ORDER API
+  const handleDeleteApiSuccess = () => {
+    showSuccess("Order deleted successfully");
+    handleBack();
+  };
+  const { mutate: deleteRequest, isLoading: isDeleting } = useDeleteOrderQy(
+    handleDeleteApiSuccess
+  );
+
   // EDIT REQUEST API
   const handleRequestApiSuccess = () => {
     showSuccess("Request updated");
     handleBack();
   };
-  const { mutate: editRequest } = useEditRequestQy(handleRequestApiSuccess);
+  const { mutate: editRequest, isLoading: isUpdatingRequest } =
+    useEditRequestQy(handleRequestApiSuccess);
 
   // PROCESS ORDER API
   const handleProcessSuccess = () => {
     showSuccess("Order status is changed successfully");
     handleBack();
   };
-  const { mutate: processOrder } = useProcessOrderQy(handleProcessSuccess);
+  const { mutate: processOrder, isLoading: isProcessing } =
+    useProcessOrderQy(handleProcessSuccess);
 
   // EDIT ORDER API
   const handleApiSuccess = () => {
     showSuccess("Request updated");
     handleBack();
   };
-  const { mutate: editOrder, isError: editError } =
-    useEditOrderQy(handleApiSuccess);
+  const {
+    mutate: editOrder,
+    isError: editError,
+    isLoading: isUpdating,
+  } = useEditOrderQy(handleApiSuccess);
 
   // UNCACHED, GET API VALUES
   // GET ORDER API
@@ -92,8 +121,8 @@ export function useEditOrder() {
   ) => {
     if (data && data.count && data.count > 0) {
       const responseData = data.data?.[0];
+      setValue("code", responseData?.code);
       setValue("pono", responseData?.po_no);
-      setValue("resolutionNo", responseData?.resolution_no || "");
       setValue(
         "poDate",
         responseData?.po_date
@@ -103,9 +132,12 @@ export function useEditOrder() {
             ) as any)
           : undefined
       );
-      setValue("category", responseData?.category || "");
+      setValue("resolutionNo", responseData?.resolution_no || "");
       setValue("procurementMode", responseData?.mode_of_procurement || "");
+      setValue("category", responseData?.category || "");
+      setValue("categoryName", responseData?.category_name || "");
       setValue("deliveryAddress", responseData?.delivery_location || "");
+      setValue("paymentTerm", responseData?.payment_term || "");
       setValue(
         "deliveryDate",
         responseData?.delivery_date
@@ -122,13 +154,14 @@ export function useEditOrder() {
       setValue("phone", responseData?.contact_no || "");
       setValue("tin", responseData?.tin || "");
 
-      const requestInForm = requestListToForm(
-        responseData?.purchase_requests || []
+      const requestInForm = ApiToFormService.MapOrderRequestsToForm(
+        responseData?.purchase_requests || [],
+        orderId || ""
       );
       setValue("requests", requestInForm);
 
       setSelectedRequests(responseData?.purchase_requests || []);
-
+      setOriginalRequests(responseData?.purchase_requests || []);
       hideProgress();
       return;
     }
@@ -149,13 +182,20 @@ export function useEditOrder() {
 
   const formMethod = useForm<OrderFormSchema>({
     // CACHED / DEFAULT VALUES
-    defaultValues: orderFormDefault,
+    defaultValues: getOrderFormDefault(orders?.data?.[0]),
     resolver: zodResolver(OrderFormRule),
   });
   const { handleSubmit, setValue, watch, getValues } = formMethod;
   const category = watch("category");
 
   const handleValidate = (form: OrderFormSchema) => {
+    if (form.requests.length === 0) {
+      showWarning("Kindly, add requests for your orders");
+      return;
+    }
+
+    handleRequestDifferences(form);
+
     const formData = FormToApiService.EditOrderRequest(form, orderId || "");
     editOrder(formData);
   };
@@ -163,22 +203,29 @@ export function useEditOrder() {
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
+  const handleRequestDifferences = (form: OrderFormSchema) => {
+    const prCards = form.requests;
+    const prCardsCode = prCards.map((item) => item.code);
+    const isDeletingPR = originalRequests.length > prCards.length;
+    if (isDeletingPR) {
+      const removedPrs = originalRequests.filter(
+        (original) => !prCardsCode.includes(original.po_pr_code)
+      );
+      removedPrs.forEach((item) => {
+        const deleteForm = FormToApiService.DeletePurchaseRequestInPo(item)
+        deleteRequestInPo(deleteForm);
+      });
+    }
+  };
 
   const handleSelectedRequests = (requests: GetPurchaseRequestDto[]) => {
     setSelectedRequests(requests);
-    const requestListForm = requestListToForm(requests);
+    const requestListForm = ApiToFormService.MapOrderRequestsToForm(
+      requests,
+      orderId || ""
+    );
     setValue("requests", requestListForm);
   };
-  const requestListToForm = (requests: GetPurchaseRequestDto[]) =>
-    requests.map(
-      (item) =>
-        ({
-          code: item.po_pr_code,
-          purchaseRequest: item.code || "",
-          purchaseOrder: orderId || "",
-          isActive: true,
-        } as RequestInOrderFormSchema)
-    );
   const handleUpdateStatus = (status: RequestStatus) => {
     const formValues = getValues();
     formValues.poDate = new Date(formValues.poDate);
@@ -248,6 +295,13 @@ export function useEditOrder() {
         getHistory(dataValue?.code);
         setHistorySidebar(true);
         break;
+
+      case "Delete":
+        const formValuesForDelete = getValues();
+        const formDataForDelete =
+          FormToApiService.DeleteOrderRequest(formValuesForDelete);
+        deleteRequest(formDataForDelete);
+        break;
     }
   };
   const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
@@ -309,6 +363,10 @@ export function useEditOrder() {
     reviewers,
     historyData,
     historySidebar,
+    isDeleting,
+    isUpdatingRequest,
+    isProcessing,
+    isUpdating,
     navigate,
     setVisible,
     handleSelectedRequests,

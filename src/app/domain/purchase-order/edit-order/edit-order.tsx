@@ -26,7 +26,6 @@ import {
 import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { numberFormat } from "@shared/formats/number-format";
-import PrintInspection from "./print-inspection/print-inspection";
 
 export function EditOrder() {
   const {
@@ -46,6 +45,10 @@ export function EditOrder() {
     reviewers,
     historyData,
     historySidebar,
+    isDeleting,
+    isUpdatingRequest,
+    isProcessing,
+    isUpdating,
     navigate,
     setVisible,
     handleSelectedRequests,
@@ -218,6 +221,9 @@ export function EditOrder() {
           <ActionButton
             status={orders?.data?.[0].status_name || ""}
             onAction={handleAction}
+            disabled={
+              isDeleting || isUpdatingRequest || isProcessing || isUpdating
+            }
           />
         </div>
       </HeaderContent>

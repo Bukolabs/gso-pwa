@@ -7,44 +7,34 @@ import { Button } from "primereact/button";
 
 export interface ActionButtonProps {
   status: string;
+  disabled?: boolean;
   onAction: (action: string) => void;
 }
 
-export function ActionButton({ status, onAction }: ActionButtonProps) {
+export function ActionButton({
+  status,
+  disabled,
+  onAction,
+}: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
 
   const [mainAction, setMainAction] = useState("Update");
 
-  const updateAction = {
-    label: "Update",
-    command: () => {
-      onAction("Update");
-    },
+  const getAction = (action: string) => {
+    return {
+      label: action,
+      command: () => {
+        onAction(action);
+      },
+    };
   };
-  const print = {
-    label: "Print",
-    command: () => {
-      onAction("Print");
-    },
-  };
-  const history = {
-    label: "History",
-    command: () => {
-      onAction("History");
-    },
-  };
-  const declineAction = {
-    label: "Decline",
-    command: () => {
-      onAction("Decline");
-    },
-  };
-  const reviewAction = {
-    label: "Review",
-    command: () => {
-      onAction("Review");
-    },
-  };
+  const updateAction = getAction("Update");
+  const print = getAction("Print");
+  const history = getAction("History");
+  const deleteAction = getAction("Delete");
+  const declineAction = getAction("Decline");
+  const reviewAction = getAction("Review");
+
   const bacMainActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
@@ -104,10 +94,10 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
   const bacOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
-        return [updateAction, history];
+        return [updateAction, history, deleteAction];
       case RequestStatus.POSTED:
       case RequestStatus.BIDDING:
-        return [updateAction, history];
+        return [updateAction, history, deleteAction];
       case RequestStatus.AWARDED:
         return [reviewAction, history];
 
@@ -178,12 +168,17 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
   return (
     <div className="action-button">
       {getActions().length === 0 ? (
-        <Button label={mainAction} onClick={handleMainAction}></Button>
+        <Button
+          label={mainAction}
+          onClick={handleMainAction}
+          disabled={disabled}
+        ></Button>
       ) : (
         <SplitButton
           label={mainAction}
           onClick={handleMainAction}
           model={getActions()}
+          disabled={disabled}
         />
       )}
     </div>

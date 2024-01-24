@@ -37,6 +37,9 @@ export function EditRequest() {
     remarksMode,
     historySidebar,
     historyData,
+    isUpdating,
+    isProcessing,
+    isDeleting,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -195,6 +198,7 @@ export function EditRequest() {
           <ActionButton
             status={requests?.data?.[0].status_name || "DRAFT"}
             onAction={handleAction}
+            disable={isUpdating || isProcessing || isDeleting}
           />
         </div>
       </HeaderContent>

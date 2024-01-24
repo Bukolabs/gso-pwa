@@ -1,5 +1,6 @@
 import {
   CreatePurchaseRequestDto,
+  DeletePurchaseRequestDto,
   EditPurchaseRequestDto,
   MessageResponseDto,
   ProcessPurchaseRequestDto,
@@ -14,7 +15,6 @@ import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 import { useErrorAction } from "@core/utility/error-action.hook";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
-import { isEmpty } from "lodash-es";
 
 export function useGetRequestQy(
   search: string,
@@ -311,6 +311,52 @@ export function useProcessRequestQy(
     showProgress();
     const operation =
       await PurchaseRequestApiFp().purchaseRequestControllerProcess(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Request);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useDeleteRequestQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: DeletePurchaseRequestDto) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerDelete(
         payload,
         authHeaders()
       );

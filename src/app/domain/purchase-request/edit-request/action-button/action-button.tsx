@@ -7,10 +7,11 @@ import { Button } from "primereact/button";
 
 export interface ActionButtonProps {
   status: string;
+  disable: boolean;
   onAction: (action: string) => void;
 }
 
-export function ActionButton({ status, onAction }: ActionButtonProps) {
+export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
   const [mainAction, setMainAction] = useState("History");
   const submitAction = {
@@ -131,12 +132,13 @@ export function ActionButton({ status, onAction }: ActionButtonProps) {
   return (
     <div className="action-button">
       {getActions().length === 0 ? (
-        <Button label={mainAction} onClick={handleMainAction}></Button>
+        <Button label={mainAction} onClick={handleMainAction} disabled={disable}></Button>
       ) : (
         <SplitButton
           label={mainAction}
           onClick={handleMainAction}
           model={getActions()}
+          disabled={disable}
         />
       )}
     </div>
