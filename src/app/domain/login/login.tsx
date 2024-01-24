@@ -5,7 +5,7 @@ import InputControl, {
 } from "@shared/ui/hook-form/input-control/input-control";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { Button } from "primereact/button";
 import StorageService from "@shared/services/storage.service";
@@ -27,6 +27,10 @@ export function Login() {
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
+
+  useEffect(() => {
+    StorageService.clear(AUTH);
+  }, []);
 
   // FORM
   const formMethod = useForm<LoginFormSchema>({

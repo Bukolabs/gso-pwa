@@ -4,6 +4,7 @@ import {
   accountNav,
   homeNav,
   itemNav,
+  logoutNav,
   moreNav,
   orderNav,
   requestNav,
@@ -21,46 +22,67 @@ import { useGetAccountsQy } from "@core/query/account.query";
 
 export function AuthShell() {
   const navigate = useNavigate();
-  const { isRequestor, currentUser } = useUserIdentity();
-  const desktopNavigation = isRequestor
-    ? [requestNav]
-    : ([
-        homeNav,
-        requestNav,
-        orderNav,
-        itemNav,
-        accountNav,
-      ] as NavigationProps[]);
-  const mobileNavigation = isRequestor
-    ? [requestNav, moreNav]
-    : ([homeNav, requestNav, orderNav, moreNav] as NavigationProps[]);
+  const { isRequestor, isAdmin, currentUser } = useUserIdentity();
+
+  const getDesktopNavigation = () => {
+    if (isRequestor) {
+      return [requestNav];
+    } else if (isAdmin) {
+      return [homeNav, requestNav, orderNav, itemNav, accountNav];
+    } else {
+      return [homeNav, requestNav, orderNav, itemNav];
+    }
+  };
+  const getMobileNavigation = () => {
+    if (isRequestor) {
+      return [requestNav, logoutNav];
+    } else {
+      return [homeNav, requestNav, orderNav, moreNav] as NavigationProps[];
+    }
+  };
+  const getMobileMoreNavigation = () => {
+    if (isAdmin) {
+      return [
+        {
+          label: "Item",
+          command: () => {
+            navigate("/item");
+          },
+        },
+        {
+          label: "Account",
+          command: () => {
+            navigate("/account");
+          },
+        },
+        {
+          label: "Logout",
+          command: () => {
+            navigate("/login");
+          },
+        },
+      ];
+    } else {
+      return [
+        {
+          label: "Account",
+          command: () => {
+            navigate("/account");
+          },
+        },
+        {
+          label: "Logout",
+          command: () => {
+            navigate("/login");
+          },
+        },
+      ];
+    }
+  };
 
   useGetStatusQy();
   useGetAccountsQy("", 9999999, 0);
 
-  const mobileAllItem = [
-    {
-      label: "Account",
-      command: () => {
-        navigate("/account");
-      },
-    },
-    {
-      label: "Item",
-      command: () => {
-        navigate("/item");
-      },
-    },
-  ];
-  const mobileLogoutItem = {
-    label: "Logout",
-    command: () => {
-      navigate("/login");
-    },
-  };
-  const mobileMoreNavigation = isRequestor
-    ? [mobileLogoutItem]
-    : [...mobileAllItem, mobileLogoutItem];
   const handleLogout = () => {
     StorageService.clear(AUTH);
     navigate("/login");
@@ -80,14 +102,14 @@ export function AuthShell() {
           userInfo={currentUser.department_name}
           onLogout={handleLogout}
         >
-          {desktopNavigation.map((item, id) => (
+          {getDesktopNavigation().map((item, id) => (
             <SidebarItem key={id} {...item} />
           ))}
         </Sidebar>
         <MobileMenu
           className="flex md:hidden"
-          menus={mobileNavigation}
-          more={mobileMoreNavigation}
+          menus={getMobileNavigation()}
+          more={getMobileMoreNavigation()}
         />
         <div className="h-screen flex-1">
           <Outlet />

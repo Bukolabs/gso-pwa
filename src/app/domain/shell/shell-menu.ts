@@ -51,3 +51,11 @@ export const moreNav = {
   activeClass,
   hoverClass,
 };
+export const logoutNav = {
+  title: "Logout",
+  icon: "pi-power-off",
+  path: "login",
+  isMore: false,
+  activeClass,
+  hoverClass,
+};
