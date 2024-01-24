@@ -3,7 +3,6 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import {
   ItemFormRule,
   ItemFormSchema,
-  PurchaseItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
 import {
@@ -141,18 +140,18 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     const updatedPurchaseItemForm = newItemCode
       ? ({
           ...newPurchaseItemForm,
-          itemCode: newItemCode,
-        } as PurchaseItemFormSchema)
+          code: newItemCode,
+        } as ItemFormSchema)
       : newPurchaseItemForm;
     const itemCodeExistInPurchaseItemValues =
       requestFormPurchaseItemValues.filter(
-        (x) => x.itemCode === updatedPurchaseItemForm.itemCode
+        (x) => x.code === updatedPurchaseItemForm.code
       ).length > 0;
     let allItems = requestFormPurchaseItemValues;
 
     if (itemCodeExistInPurchaseItemValues) {
       allItems = requestFormPurchaseItemValues.map((prItem) => {
-        if (prItem.itemCode === updatedPurchaseItemForm.itemCode) {
+        if (prItem.code === updatedPurchaseItemForm.code) {
           return updatedPurchaseItemForm;
         }
         return prItem;
@@ -160,7 +159,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     } else {
       allItems = [
         ...requestFormPurchaseItemValues,
-        { ...newPurchaseItemForm, itemCode: updatedPurchaseItemForm.itemCode },
+        { ...newPurchaseItemForm, code: updatedPurchaseItemForm.code },
       ];
     }
 

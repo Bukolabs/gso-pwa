@@ -55,6 +55,7 @@ export function NewRequest() {
   });
   const { handleSubmit, setValue, watch } = formMethod;
   const requestItems = watch("items");
+  const displayRequestItems = requestItems.filter((item) => item.isActive);
 
   const handleValidate = (form: RequestFormSchema) => {
     const formData = FormToApiService.NewPurchaseRequest(form);
@@ -70,8 +71,17 @@ export function NewRequest() {
     setEditPrItem(item);
   };
   const handleRemove = (item: ItemFormSchema) => {
-    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
-    setValue("items", unmatchedCode);
+    const updatedIsActiveItems = requestItems.map((x) => {
+      if (x.code === item.code) {
+        return {
+          ...x,
+          isActive: false,
+        };
+      }
+
+      return x;
+    });
+    setValue("items", updatedIsActiveItems);
   };
 
   return (
@@ -117,7 +127,7 @@ export function NewRequest() {
 
               <div className="mt-2 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-                  {requestItems.map((item, id) => (
+                  {displayRequestItems.map((item, id) => (
                     <ItemCard
                       key={id}
                       itemNo={id}

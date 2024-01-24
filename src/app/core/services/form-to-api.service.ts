@@ -172,7 +172,7 @@ export class FormToApiService {
 
   static NewRequestPurchaseItem(form: PurchaseItemFormSchema) {
     const payload = {
-      item: form.itemCode,
+      item: form.code,
       description: form.description,
       quantity: form.quantity,
       unit: form.unit,
@@ -180,7 +180,7 @@ export class FormToApiService {
       category: form.category,
       price: form.cost,
       is_active: form.isActive,
-      code: form.code,
+      code: form.itemArrayCode,
     } as CreatePrItemDto;
 
     return payload;

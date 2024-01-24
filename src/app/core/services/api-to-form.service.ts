@@ -36,8 +36,7 @@ export class ApiToFormService {
   ): PurchaseItemFormSchema[] {
     const mappedItem = prItems.map((x: GetPrItemDto) => {
       return {
-        code: x.code,
-        itemCode: x.item,
+        code: x.item,
         name: x.item_name,
         description: x.description,
         unit: x.unit,
@@ -49,6 +48,7 @@ export class ApiToFormService {
         cost: x.price,
         isActive: true,
         quantity: x.quantity,
+        itemArrayCode: x.code
       } as PurchaseItemFormSchema;
     });
 

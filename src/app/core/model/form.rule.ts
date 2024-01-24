@@ -27,7 +27,7 @@ export const ItemFormRule = z
 
 export const PurchaseItemFormRule = z
   .object({
-    itemCode: z.string().optional(),
+    itemArrayCode: z.string().optional(),
   })
   .and(ItemFormRule);
 
