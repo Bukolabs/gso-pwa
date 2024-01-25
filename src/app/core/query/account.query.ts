@@ -13,6 +13,76 @@ import { QueryKey } from "./query-key.enum";
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 import { SETTINGS } from "@core/utility/settings";
+import { useErrorAction } from "@core/utility/error-action.hook";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
+
+export function useGetAccountQy(
+  search: string,
+  limit = 10,
+  offset = 0,
+  order?: object,
+  filter?: Record<string, string>,
+  enabled?: boolean,
+  onSuccess?:
+    | ((
+        data: PersonControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const queryFilter = { ...filter };
+  const { requestorDepartment } = useUserIdentity();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    offset: number | undefined = undefined,
+    order: object | undefined = undefined,
+    filter: Record<string, string> | undefined = undefined
+  ) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerGetDataAsList(
+      search,
+      limit,
+      offset,
+      order,
+      JSON.stringify(filter) as any,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["data"] as PersonControllerGetDataAsList200Response;
+  };
+
+  if (!!requestorDepartment) {
+    queryFilter.department = requestorDepartment;
+  }
+
+  return useQuery({
+    enabled,
+    queryKey: [QueryKey.Request, search, limit, offset, order, queryFilter],
+    queryFn: () => apiFn(search, limit, offset, order, queryFilter),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
 
 export function useGetRoleQy(
   onSuccess?:
