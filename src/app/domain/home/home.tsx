@@ -54,8 +54,10 @@ function Home() {
     navigate(`order?${filter}`);
   };
   const handleReviewAction = (filter: string) => {
-    console.log(filter);
     navigate(`request?${filter}`);
+  };
+  const handleOrderReviewAction = (filter: string) => {
+    navigate(`order?${filter}`);
   };
 
   const displayLoading = (
@@ -89,7 +91,6 @@ function Home() {
           <HomeCard
             key={id}
             {...item}
-            onRequestAction={handleRequestAction}
             onOrderAction={handleOrderAction}
           />
         ))}
@@ -101,7 +102,7 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage3Model.map((item, id) => (
-          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} onOrderReviewerAction={handleOrderReviewAction} />
         ))}
       </div>
 
@@ -111,7 +112,7 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
         {stage4Model.map((item, id) => (
-          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
         ))}
       </div>
     </section>

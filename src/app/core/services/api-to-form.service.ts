@@ -96,13 +96,13 @@ export class ApiToFormService {
   static MapCountCardSummary(
     stage: GetStage1SummaryDto[],
     review: GetStage1ReviewSummaryDto[],
-    field: "requests" | "orders" = "requests"
+    mode: "requests" | "orders" = "requests"
   ) {
     const stageData = stage.map(
       (item) => ({ label: item.name, value: item.tally } as LabelValue<number>)
     );
     const mappedReview = review.map((item) => {
-      const rename = item.approver === 'CGSO_2' ? 'CGSO' : item.approver;
+      const rename = item.approver === "CGSO_2" ? "CGSO" : item.approver;
       return {
         label: rename,
         value: item.tally,
@@ -113,20 +113,20 @@ export class ApiToFormService {
     const cardModel = stageData.map((item) => {
       const statusEntity = {
         status: item.label,
-        [field]: item.value,
+        [mode]: item.value,
         stage: "STAGE1",
       } as HomeCardProps;
 
-      if (
-        item.label === RequestStatus.REVIEW ||
-        item.label === RequestStatus.POREVIEW
-      ) {
+      if (mode === "requests" && item.label === RequestStatus.REVIEW) {
         statusEntity.prReviews = mappedReview;
+      } else if (mode === "orders" && item.label === RequestStatus.POREVIEW) {
+        statusEntity.poReviews = mappedReview;
       }
 
       return statusEntity;
     });
 
+    console.log({cardModel})
     return cardModel;
   }
 

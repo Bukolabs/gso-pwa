@@ -15,6 +15,7 @@ export interface HomeCardProps {
   onRequestAction?: (filter: string) => void;
   onOrderAction?: (filter: string) => void;
   onReviewerAction?: (filter: string) => void;
+  onOrderReviewerAction?: (filter: string) => void;
 }
 
 export function HomeCard({
@@ -26,6 +27,7 @@ export function HomeCard({
   onRequestAction,
   onOrderAction,
   onReviewerAction,
+  onOrderReviewerAction,
 }: HomeCardProps) {
   const handleClickRequest = (status: string) => {
     const filter = `status_name=${status}`;
@@ -46,10 +48,16 @@ export function HomeCard({
       filter = `reviewer=${action.payload}`;
     } else if (action.payload === "CGSO_2") {
       filter = `status_name=REVIEW&reviewer=CGSO_FF`;
+    } else {
+      filter = `status_name=${status}&reviewer=${action.payload}`;
     }
 
     if (onReviewerAction) {
       onReviewerAction(filter);
+    }
+
+    if (onOrderReviewerAction) {
+      onOrderReviewerAction(filter);
     }
   };
 
@@ -67,32 +75,29 @@ export function HomeCard({
         </div>
       </section>
 
-      {!prReviews ? (
+      {(prReviews || []).length <= 0 && requests ? (
         <section className="flex justify-center gap-3 py-4">
-          {requests && (
-            <div
-              className="flex flex-col items-center justify-center cursor-pointer"
-              onClick={() => handleClickRequest(status)}
-            >
-              <p className="text-gray-800 font-bold">{requests} </p>
-              <p className="hint">Total Requests</p>
-            </div>
-          )}
-          {orders === undefined || orders === null ? (
-            <></>
-          ) : (
-            <div
-              className="flex flex-col items-center justify-center cursor-pointer"
-              onClick={() => handleClickOrder(status)}
-            >
-              <p className="text-gray-800 font-bold">{orders}</p>
-              <p className="hint">Total Orders</p>
-            </div>
-          )}
+          <div
+            className="flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => handleClickRequest(status)}
+          >
+            <p className="text-gray-800 font-bold">{requests} </p>
+            <p className="hint">Total Requests</p>
+          </div>
         </section>
-      ) : (
-        <></>
-      )}
+      ) : null}
+
+      {(poReviews || []).length <= 0 && orders ? (
+        <section className="flex justify-center gap-3 py-4">
+          <div
+            className="flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => handleClickOrder(status)}
+          >
+            <p className="text-gray-800 font-bold">{orders}</p>
+            <p className="hint">Total Orders</p>
+          </div>
+        </section>
+      ) : null}
 
       {prReviews && prReviews.length > 0 && (
         <section className="py-4">
@@ -116,7 +121,9 @@ export function HomeCard({
 
       {poReviews && poReviews.length > 0 && (
         <section className="py-4">
-          <p className="hint text-center mb-1">Total Orders Per Office</p>
+          <p className="hint text-center mb-1">
+            Total Requests Per Reviewer Flow
+          </p>
           <section className="flex justify-center gap-2">
             {poReviews.map((item, id) => (
               <OfficeCircle
@@ -124,6 +131,8 @@ export function HomeCard({
                 label={item.label}
                 value={item.value.toString()}
                 isLightBg={true}
+                className="cursor-pointer"
+                onClick={() => handleClickReviewer(item)}
               />
             ))}
           </section>

@@ -82,7 +82,6 @@ export function ListOrder() {
     );
   };
   const getFilterCount = () => {
-    if (!orderFilters) return "0";
     const values = Object.values(orderFilters).filter((x) => !!x);
     const count = values.length || 0;
     return count.toString();
