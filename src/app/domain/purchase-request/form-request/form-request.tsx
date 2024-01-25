@@ -8,6 +8,7 @@ import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-cont
 import { useGetCategory } from "@core/query/category.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import CheckboxControl from "@shared/ui/hook-form/checkbox-control/checkbox-control";
+import FormCategory from "./form-category/form-category";
 
 export function FormRequest() {
   const { control } = useFormContext<RequestFormSchema>();
@@ -30,7 +31,7 @@ export function FormRequest() {
         containerClassName="pb-2"
         hint="e.g. 30/12/2023"
       />
-      <DropdownControl<RequestFormSchema>
+      {/* <DropdownControl<RequestFormSchema>
         control={control}
         name="category"
         label="Category"
@@ -38,9 +39,10 @@ export function FormRequest() {
         containerClassName="mb-9"
         className="w-full md:w-3/4"
         placeholder="Enter your category"
-        hint="Select from the created category dropdown"
+        hint="Select from the created category dropdown. Otherwise, hit ENTER to create a new category. If the category doesn't exist select N/A"
         filter
-      />
+      /> */}
+      <FormCategory />
       <InputControl<RequestFormSchema>
         control={control}
         name="departmentLabel"

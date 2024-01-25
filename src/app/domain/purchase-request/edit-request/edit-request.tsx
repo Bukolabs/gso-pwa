@@ -19,6 +19,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import ActionButton from "./action-button/action-button";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { RequestStatus } from "@core/model/request-status.enum";
+import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 
 export function EditRequest() {
   const {
@@ -160,7 +161,9 @@ export function EditRequest() {
 
       <TabView className="mb-10">
         <TabPanel header="Information">
-          <FormRequest />
+          <FormCategoryItemProvider>
+            <FormRequest />
+          </FormCategoryItemProvider>
         </TabPanel>
         <TabPanel header="Request Items">
           {isDraft && (

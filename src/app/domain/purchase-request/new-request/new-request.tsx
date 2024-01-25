@@ -23,6 +23,7 @@ import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { MessageResponseDto } from "@api/api";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 
 export function NewRequest() {
   const { currentUser } = useUserIdentity();
@@ -40,7 +41,8 @@ export function NewRequest() {
     showSuccess(`New purchase request created ${data.pr_no}`);
     navigate(`../${data.code}`);
   };
-  const { mutate: addPurchaseRequest, isLoading: isCreating } = useAddRequestQy(handleApiSuccess);
+  const { mutate: addPurchaseRequest, isLoading: isCreating } =
+    useAddRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     defaultValues: {
@@ -97,7 +99,9 @@ export function NewRequest() {
         <FormProvider {...formMethod}>
           <TabView className="mb-10">
             <TabPanel header="Information">
-              <FormRequest />
+              <FormCategoryItemProvider>
+                <FormRequest />
+              </FormCategoryItemProvider>
             </TabPanel>
             <TabPanel header="Request Items">
               <Sidebar
