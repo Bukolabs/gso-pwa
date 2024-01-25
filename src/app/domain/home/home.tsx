@@ -50,6 +50,9 @@ function Home() {
   const handleRequestAction = (filter: string) => {
     navigate(`request?${filter}`);
   };
+  const handleOrderAction = (filter: string) => {
+    navigate(`order?${filter}`);
+  };
   const handleReviewAction = (filter: string) => {
     console.log(filter);
     navigate(`request?${filter}`);
@@ -83,7 +86,12 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage2Model.map((item, id) => (
-          <HomeCard key={id} {...item} onRequestAction={handleRequestAction} />
+          <HomeCard
+            key={id}
+            {...item}
+            onRequestAction={handleRequestAction}
+            onOrderAction={handleOrderAction}
+          />
         ))}
       </div>
 

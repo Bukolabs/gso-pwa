@@ -1,11 +1,13 @@
 import {
   CreatePurchaseRequestDto,
   DeletePurchaseRequestDto,
+  EditPrItemDto,
   EditPurchaseRequestDto,
   MessageResponseDto,
   ProcessPurchaseRequestDto,
   PurchaseRequestApiFp,
   PurchaseRequestControllerGetDataAsList200Response,
+  PurchaseRequestItemApiFp,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { authHeaders } from "./auth-header";
@@ -270,6 +272,52 @@ export function useEditRequestQy(
       );
     const response = (await operation()).data;
     return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Request);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useEditRequestItemQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: EditPrItemDto) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestItemApiFp().prItemControllerEdit(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response as MessageResponseDto;
   };
 
   return useMutation({

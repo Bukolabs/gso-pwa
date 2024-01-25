@@ -20,8 +20,13 @@ import ErrorSection from "@shared/ui/error-section/error-section";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Avatar } from "primereact/avatar";
 import { getOverallAmount, getOverallItems } from "@core/utility/order-helper";
+import { useOrderFilterContext } from "./order.filter.context";
+import SearchInput from "@shared/ui/search-input/search-input";
+import { Sidebar } from "primereact/sidebar";
+import { OrderFilterForm } from "./order-filter.form";
 
 export function ListOrder() {
+  const { orderFilters } = useOrderFilterContext();
   const navigate = useNavigate();
   const { isBACApprover } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
@@ -32,14 +37,18 @@ export function ListOrder() {
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
+  const [filterPanel, setFilterPanel] = useState(false);
 
   const {
     data: purchaseOrders,
     isLoading,
     isError,
     error,
-  } = useGetOrderQy(searchTerm, rowLimit, pageNumber, undefined, undefined);
+  } = useGetOrderQy(searchTerm, rowLimit, pageNumber, undefined, orderFilters);
 
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+  };
   const editRecord = (item: GetPurchaseOrderDto) => {
     navigate(`${item.code}`);
   };
@@ -72,6 +81,36 @@ export function ListOrder() {
       </div>
     );
   };
+  const getFilterCount = () => {
+    if (!orderFilters) return "0";
+    const values = Object.values(orderFilters).filter((x) => !!x);
+    const count = values.length || 0;
+    return count.toString();
+  };
+  const filterElement = (
+    <div className="flex gap-4">
+      <SearchInput
+        searchTerm={searchTerm}
+        onSearch={handleSearch}
+        placeholder="Search order"
+        className="w-full block"
+      />
+      <div>
+        <Button
+          label="Filter"
+          severity="secondary"
+          outlined
+          onClick={() => setFilterPanel(true)}
+          badge={getFilterCount()}
+          badgeClassName="p-badge-danger"
+        />
+      </div>
+
+      <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
+        <OrderFilterForm />
+      </Sidebar>
+    </div>
+  );
 
   const displayLoading = (
     <div className="card">
@@ -202,7 +241,7 @@ export function ListOrder() {
       </HeaderContent>
 
       <div className="p-7">
-        {/* {filterElement} */}
+        {filterElement}
         {isLoading && displayLoading}
         {isError && !isLoading && displayError}
         {!isLoading && !isError && list}

@@ -12,6 +12,7 @@ import {
   DeletePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
+  EditPrItemDto,
   EditPurchaseOrderDto,
   EditPurchaseRequestDto,
   GetPurchaseRequestDto,
@@ -99,6 +100,15 @@ export class FormToApiService {
       unit: form.unit,
       price: form.cost,
     } as CreateItemDto;
+
+    return payload;
+  }
+
+  static EditPrItem(form: ItemFormSchema, prCode: string) {
+    const payload = {
+      code: form.code,
+      purchase_request: prCode,
+    } as EditPrItemDto;
 
     return payload;
   }

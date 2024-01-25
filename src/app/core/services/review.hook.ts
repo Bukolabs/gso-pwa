@@ -139,7 +139,7 @@ export function useReviewHook() {
       data.isGsoFF === undefined
         ? null
         : {
-            label: "CGSO_2",
+            label: "CGSO",
             value:
               data.isGsoFF === null
                 ? ""

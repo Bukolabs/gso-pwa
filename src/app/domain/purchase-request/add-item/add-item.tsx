@@ -87,11 +87,14 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
   const { mutate: addItem } = useAddItem(handleAddApiSuccess);
 
   // EDIT ITEM
-  const handleApiSuccess = () => {
+  const handleEditApiSuccess = (response: MessageResponseDto) => {
+    const field = response.data as GetPrItemDto;
+    const categoryName = field.category_name;
+    const unitName = field.unit_name;
+    addToRequestPurchaseItem("", "", categoryName, unitName);
     showSuccess("Item updated");
-    addToRequestPurchaseItem();
   };
-  const { mutate: editItem } = useEditItem(handleApiSuccess);
+  const { mutate: editItem } = useEditItem(handleEditApiSuccess);
 
   // FORM
   const defaultValues = defaultItem || itemFormDefault;

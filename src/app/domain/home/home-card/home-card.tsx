@@ -13,6 +13,7 @@ export interface HomeCardProps {
   prReviews?: LabelValue<number>[];
   poReviews?: LabelValue<number>[];
   onRequestAction?: (filter: string) => void;
+  onOrderAction?: (filter: string) => void;
   onReviewerAction?: (filter: string) => void;
 }
 
@@ -23,12 +24,19 @@ export function HomeCard({
   status,
   poReviews,
   onRequestAction,
+  onOrderAction,
   onReviewerAction,
 }: HomeCardProps) {
   const handleClickRequest = (status: string) => {
     const filter = `status_name=${status}`;
     if (onRequestAction) {
       onRequestAction(filter);
+    }
+  };
+  const handleClickOrder = (status: string) => {
+    const filter = `status_name=${status}`;
+    if (onOrderAction) {
+      onOrderAction(filter);
     }
   };
   const handleClickReviewer = (action: LabelValue<any>) => {
@@ -73,7 +81,10 @@ export function HomeCard({
           {orders === undefined || orders === null ? (
             <></>
           ) : (
-            <div className="flex flex-col items-center justify-center">
+            <div
+              className="flex flex-col items-center justify-center cursor-pointer"
+              onClick={() => handleClickOrder(status)}
+            >
               <p className="text-gray-800 font-bold">{orders}</p>
               <p className="hint">Total Orders</p>
             </div>
