@@ -87,7 +87,7 @@ export function useGetStage1SummaryReviewQy(
       sortedArray[3] = sortedArray[4];
       sortedArray[4] = {
         ...swapItem,
-        approver: "CGSO",
+        approver: "CGSO_2",
       };
 
       return {

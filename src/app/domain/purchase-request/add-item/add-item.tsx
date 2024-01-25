@@ -159,7 +159,6 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
       allItems = [...itemsInForm, newPurchaseItemForm];
     }
 
-    console.log("Add Items", { allItems });
     hideProgress();
     setValue("items", allItems);
     showSuccess(

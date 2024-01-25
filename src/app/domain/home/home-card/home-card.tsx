@@ -40,11 +40,11 @@ export function HomeCard({
     }
   };
   const handleClickReviewer = (action: LabelValue<any>) => {
-    let filter = `status_name=REVIEW&reviewer=${action.label}`;
+    let filter = `status_name=REVIEW&reviewer=${action.payload}`;
 
-    if (action.label === "CGSO") {
-      filter = `reviewer=${action.label}`;
-    } else if (action.label === "CGSO_2") {
+    if (action.payload === "CGSO") {
+      filter = `reviewer=${action.payload}`;
+    } else if (action.payload === "CGSO_2") {
       filter = `status_name=REVIEW&reviewer=CGSO_FF`;
     }
 

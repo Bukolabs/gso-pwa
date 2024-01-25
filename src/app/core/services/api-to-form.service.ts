@@ -101,10 +101,14 @@ export class ApiToFormService {
     const stageData = stage.map(
       (item) => ({ label: item.name, value: item.tally } as LabelValue<number>)
     );
-    const mappedReview = review.map(
-      (item) =>
-        ({ label: item.approver, value: item.tally } as LabelValue<number>)
-    );
+    const mappedReview = review.map((item) => {
+      const rename = item.approver === 'CGSO_2' ? 'CGSO' : item.approver;
+      return {
+        label: rename,
+        value: item.tally,
+        payload: item.approver,
+      } as LabelValue<number>;
+    });
 
     const cardModel = stageData.map((item) => {
       const statusEntity = {
