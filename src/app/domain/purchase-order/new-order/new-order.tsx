@@ -52,6 +52,11 @@ export function NewOrder() {
   const category = watch("category");
 
   const handleValidate = (form: OrderFormSchema) => {
+    if (form.requests.length === 0) {
+      showWarning("Kindly, add requests for your orders");
+      return;
+    }
+
     const formData = FormToApiService.NewOrderRequest(form);
     addPurchaseRequest(formData);
   };

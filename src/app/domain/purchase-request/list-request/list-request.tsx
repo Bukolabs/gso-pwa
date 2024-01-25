@@ -30,8 +30,10 @@ import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
 import RequestCard from "@core/ui/request-card/request-card";
 import { StageName } from "@core/model/stage-name.enum";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function ListRequest() {
+  const { isBACApprover, isReviewer } = useUserIdentity();
   const { requestFilters } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
@@ -246,12 +248,14 @@ export function ListRequest() {
   return (
     <div className="list-request">
       <HeaderContent title="Requests">
-        <Button
-          className="w-full block md:m-0"
-          label="New"
-          onClick={() => navigate("new")}
-          text={!isTableView}
-        ></Button>
+        {isBACApprover || isReviewer ? null : (
+          <Button
+            className="w-full block md:m-0"
+            label="New"
+            onClick={() => navigate("new")}
+            text={!isTableView}
+          ></Button>
+        )}
       </HeaderContent>
 
       <div className="p-7">

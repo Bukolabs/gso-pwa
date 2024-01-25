@@ -96,7 +96,8 @@ export function FormItem({
           className="w-full md:w-3/4"
           placeholder="Enter the item cost"
           hint="e.g. 150"
-          prefix="₱"
+          mode="currency"
+          currency="PHP"
         />
 
         {onSearch && suggestions && (
@@ -107,7 +108,7 @@ export function FormItem({
             containerClassName="mb-9"
             className="w-full md:w-3/4"
             placeholder="Enter the item quantity"
-            hint="e.g. 300"
+            hint="e.g. 5"
           />
         )}
 

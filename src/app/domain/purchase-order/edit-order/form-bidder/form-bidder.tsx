@@ -20,7 +20,7 @@ export function FormBidder() {
           className="w-full md:w-3/4"
           containerClassName="pb-2"
           placeholder="Enter supplier name"
-          hint="e.g. Juan Tamad"
+          hint="e.g. Juan de la Cruz"
         />
         <InputTextareaControl<OrderFormSchema>
           control={control}
@@ -38,7 +38,7 @@ export function FormBidder() {
           className="w-full md:w-3/4"
           containerClassName="pb-2"
           placeholder="Enter supplier email"
-          hint="e.g. johnlazy9229@gmail.com"
+          hint="e.g. juandelacruz090@gmail.com"
         />
         <InputControl<OrderFormSchema>
           control={control}

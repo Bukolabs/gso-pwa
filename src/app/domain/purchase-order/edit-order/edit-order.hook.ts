@@ -3,11 +3,7 @@ import {
   ProcessPurchaseOrderDto,
   PurchaseOrderControllerGetDataAsList200Response,
 } from "@api/api";
-import {
-  OrderFormRule,
-  OrderFormSchema,
-  RequestInOrderFormSchema,
-} from "@core/model/form.rule";
+import { OrderFormRule, OrderFormSchema } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
 import {
   useDeleteOrderQy,
@@ -72,11 +68,10 @@ export function useEditOrder() {
   const handleDeleteRequestInPoApiSuccess = () => {
     showSuccess("PR removed from PO successfully");
   };
-  const { mutate: deleteRequestInPo, isLoading: isDeletingPrinPo } =
-    useDeletePurchaseRequestInOrderQy(
-      orderId || "",
-      handleDeleteRequestInPoApiSuccess
-    );
+  const { mutate: deleteRequestInPo } = useDeletePurchaseRequestInOrderQy(
+    orderId || "",
+    handleDeleteRequestInPoApiSuccess
+  );
 
   // DELETE ORDER API
   const handleDeleteApiSuccess = () => {
@@ -212,7 +207,7 @@ export function useEditOrder() {
         (original) => !prCardsCode.includes(original.po_pr_code)
       );
       removedPrs.forEach((item) => {
-        const deleteForm = FormToApiService.DeletePurchaseRequestInPo(item)
+        const deleteForm = FormToApiService.DeletePurchaseRequestInPo(item);
         deleteRequestInPo(deleteForm);
       });
     }
@@ -251,6 +246,14 @@ export function useEditOrder() {
         break;
       case "Award":
         const supplier = getValues("supplier");
+        const requests = getValues("requests");
+
+        if (requests.length === 0) {
+          showWarning(
+            "No purchase requests in your current purchase order. Don't forget to add one."
+          );
+          return;
+        }
 
         if (!supplier) {
           showWarning(

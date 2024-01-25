@@ -66,6 +66,7 @@ export function FormOrder() {
         className="w-full md:w-3/4"
         placeholder="Enter your category"
         hint="Select from the dropdown"
+        filter
       />
       <DropdownControl<OrderFormSchema>
         control={control}

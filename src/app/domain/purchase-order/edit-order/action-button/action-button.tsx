@@ -16,7 +16,7 @@ export function ActionButton({
   disabled,
   onAction,
 }: ActionButtonProps) {
-  const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
+  const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
 
   const [mainAction, setMainAction] = useState("Update");
 
@@ -29,6 +29,7 @@ export function ActionButton({
     };
   };
   const updateAction = getAction("Update");
+  const postAction = getAction("Post");
   const print = getAction("Print");
   const history = getAction("History");
   const deleteAction = getAction("Delete");
@@ -38,7 +39,7 @@ export function ActionButton({
   const bacMainActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
-        return setMainAction("Post");
+        return setMainAction("Update");
 
       case RequestStatus.POSTED:
         return setMainAction("Bid");
@@ -60,7 +61,12 @@ export function ActionButton({
         return setMainAction("Approve");
 
       case RequestStatus.POAPPROVED:
-        return setMainAction("Inspect");
+        if (isGso) {
+          setMainAction("Inspect");
+        } else {
+          setMainAction("History");
+        }
+        return;
 
       default:
         return setMainAction("History");
@@ -94,7 +100,7 @@ export function ActionButton({
   const bacOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
-        return [updateAction, history, deleteAction];
+        return [postAction, history, deleteAction];
       case RequestStatus.POSTED:
       case RequestStatus.BIDDING:
         return [updateAction, history, deleteAction];
@@ -112,7 +118,11 @@ export function ActionButton({
       case RequestStatus.PODECLINED:
         return [history];
       case RequestStatus.POAPPROVED:
-        return [declineAction, history];
+        if (isGso) {
+          return [declineAction, history];
+        } else {
+          return [declineAction];
+        }
 
       default:
         return [];
