@@ -1,9 +1,10 @@
-import { ItemFormSchema } from "@core/model/form.rule";
+import { PurchaseItemFormSchema } from "@core/model/form.rule";
 
 export class UiMapService {
-  static ItemFormToPurchaseItem(form: ItemFormSchema) {
+  static ItemFormToPurchaseItem(form: PurchaseItemFormSchema, newCode: string = '') {
     return {
-      code: form.code,
+      itemArrayCode: form.itemArrayCode,
+      code: form.code || newCode,
       name: form.name,
       description: form.description,
       unit: form.unit,
@@ -15,6 +16,6 @@ export class UiMapService {
       cost: form.cost,
       isActive: true,
       quantity: form.quantity,
-    } as ItemFormSchema;
+    } as PurchaseItemFormSchema;
   }
 }

@@ -3,6 +3,7 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import {
   ItemFormRule,
   ItemFormSchema,
+  PurchaseItemFormSchema,
   RequestFormSchema,
 } from "@core/model/form.rule";
 import {
@@ -28,12 +29,12 @@ import { GetPrItemDto, MessageResponseDto } from "@api/api";
 import { UiMapService } from "@core/services/ui-map.service";
 
 export interface AddItemProps {
-  defaultItem?: ItemFormSchema;
+  defaultItem?: PurchaseItemFormSchema;
   closeSidebar: () => void;
 }
 
 export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
-  const { getValues: getRequestPurchaseItemValues, setValue } =
+  const { getValues: getItemsInForm, setValue } =
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess, hideProgress } = useNotificationContext();
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +73,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
 
   // ADD ITEM
   const handleAddApiSuccess = (response: MessageResponseDto) => {
-    const itemForm = getItemFormValues();
+    const itemForm = getCurrentItemValue();
 
     const field = response.data as GetPrItemDto;
     const code = field.code;
@@ -98,7 +99,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     defaultValues,
     resolver: zodResolver(ItemFormRule),
   });
-  const { handleSubmit, getValues: getItemFormValues, reset } = formMethod;
+  const { handleSubmit, getValues: getCurrentItemValue, reset } = formMethod;
   const handleValidate = (form: ItemFormSchema) => {
     const itemNameExist =
       (itemList?.data || []).filter((x) => x.name === form.name).length > 0;
@@ -123,44 +124,36 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
     categoryName = "",
     unitName = ""
   ) => {
-    const requestFormPurchaseItemValues = getRequestPurchaseItemValues("items");
-    let itemFormValues = getItemFormValues();
+    const itemsInForm = getItemsInForm("items");
+    let currentItemValue = getCurrentItemValue();
 
     if (brandName || categoryName || unitName) {
-      itemFormValues = {
-        ...itemFormValues,
+      currentItemValue = {
+        ...currentItemValue,
         brandName,
         categoryName,
         unitName,
       };
     }
 
-    const newPurchaseItemForm =
-      UiMapService.ItemFormToPurchaseItem(itemFormValues);
-    const updatedPurchaseItemForm = newItemCode
-      ? ({
-          ...newPurchaseItemForm,
-          code: newItemCode,
-        } as ItemFormSchema)
-      : newPurchaseItemForm;
+    const newPurchaseItemForm = UiMapService.ItemFormToPurchaseItem(
+      currentItemValue,
+      newItemCode
+    );
+
     const itemCodeExistInPurchaseItemValues =
-      requestFormPurchaseItemValues.filter(
-        (x) => x.code === updatedPurchaseItemForm.code
-      ).length > 0;
-    let allItems = requestFormPurchaseItemValues;
+      itemsInForm.filter((x) => x.code === newPurchaseItemForm.code).length > 0;
+    let allItems = itemsInForm;
 
     if (itemCodeExistInPurchaseItemValues) {
-      allItems = requestFormPurchaseItemValues.map((prItem) => {
-        if (prItem.code === updatedPurchaseItemForm.code) {
-          return updatedPurchaseItemForm;
+      allItems = itemsInForm.map((prItem) => {
+        if (prItem.code === newPurchaseItemForm.code) {
+          return newPurchaseItemForm;
         }
         return prItem;
       });
     } else {
-      allItems = [
-        ...requestFormPurchaseItemValues,
-        { ...newPurchaseItemForm, code: updatedPurchaseItemForm.code },
-      ];
+      allItems = [...itemsInForm, newPurchaseItemForm];
     }
 
     console.log("Add Items", { allItems });
