@@ -3,7 +3,7 @@ import {
   TransactionHistoryControllerGetDataAsList200Response,
 } from "@api/api";
 import { StageName } from "@core/model/stage-name.enum";
-import { useGetAccountsQy } from "@core/query/account.query";
+import { useGetAccountQy } from "@core/query/account.query";
 import { useGetStatusQy } from "@core/query/status.query";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { getStageNameByStatus } from "@core/utility/get-stage-name";
@@ -19,7 +19,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
   const [historyData, setHistoryData] = useState<PurchaseHistoryModel[]>([]);
   const { data: statusQy } = useGetStatusQy(true);
-  const { data: accountsQy } = useGetAccountsQy("", 999999, 0);
+  const { data: accountsQy } = useGetAccountQy("", 999999, 0);
   const { getReviewers } = useReviewHook();
 
   const renameStatus = (status: string) => {

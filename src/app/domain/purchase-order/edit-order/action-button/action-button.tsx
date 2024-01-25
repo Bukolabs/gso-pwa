@@ -119,7 +119,7 @@ export function ActionButton({
         return [history];
       case RequestStatus.POAPPROVED:
         if (isGso) {
-          return [declineAction, history];
+          return [history];
         } else {
           return [declineAction];
         }

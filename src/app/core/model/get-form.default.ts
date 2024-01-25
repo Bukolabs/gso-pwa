@@ -1,11 +1,17 @@
 import {
   GetBidderDto,
   GetItemDto,
+  GetPersonDto,
   GetPurchaseOrderDto,
   GetPurchaseRequestDto,
 } from "@api/api";
-import { bidderFormDefault, requestFormDefault } from "./form.default";
 import {
+  accountFormDefault,
+  bidderFormDefault,
+  requestFormDefault,
+} from "./form.default";
+import {
+  AccountFormSchema,
   BidderFormSchema,
   ItemFormSchema,
   OrderFormSchema,
@@ -124,4 +130,25 @@ export const getOrderFormDefault = (
         isActive: true,
         requests,
       } as OrderFormSchema);
+};
+
+export const getAccountFormDefault = (
+  cachedValue: GetPersonDto | undefined
+) => {
+  return !cachedValue
+    ? accountFormDefault
+    : ({
+        country: "Philippines",
+        username: "",
+        name: cachedValue.person_first_name,
+        lastName: cachedValue.person_last_name,
+        email: cachedValue.person_email,
+        mobile: cachedValue.person_mobile,
+        streetName: "",
+        barangay: "",
+        city: "",
+        role: cachedValue.role_code,
+        department: cachedValue.department_code,
+        password: "",
+      } as AccountFormSchema);
 };

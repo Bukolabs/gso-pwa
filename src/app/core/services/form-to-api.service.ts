@@ -12,11 +12,13 @@ import {
   DeletePurchaseRequestDto,
   EditBidderDto,
   EditItemDto,
+  EditPersonDto,
   EditPrItemDto,
   EditPurchaseOrderDto,
   EditPurchaseRequestDto,
   GetPurchaseRequestDto,
   LoginPersonDto,
+  UpdatePersonDto,
 } from "@api/api";
 import {
   AccountFormSchema,
@@ -72,6 +74,25 @@ export class FormToApiService {
     const payload = {
       person,
     } as AddPersonDto;
+
+    return payload;
+  }
+
+  static EditAccount(form: AccountFormSchema, code: string) {
+    const person = {
+      code,
+      first_name: form.name,
+      last_name: form.lastName,
+      email: form.email,
+      mobile: form.mobile,
+      is_active: true,
+      role: form.role,
+      department: form.department,
+    } as EditPersonDto;
+
+    const payload = {
+      person,
+    } as UpdatePersonDto;
 
     return payload;
   }

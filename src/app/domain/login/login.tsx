@@ -115,7 +115,6 @@ export function Login() {
           className="flex flex-col items-center justify-center"
           onClick={handleBukoLogo}
         >
-          <p>v240125.2</p>
           <p className="m-0 font-bold">Powered by:</p>
           <img
             src={bukoLogo}
@@ -123,6 +122,7 @@ export function Login() {
             alt="buko-labs"
           />
         </div>
+        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240125.3</span>
       </LeftContentPage>
     </div>
   );

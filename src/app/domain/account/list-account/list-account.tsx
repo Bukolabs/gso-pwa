@@ -23,6 +23,9 @@ export function ListAccount() {
     isError,
   } = useGetAccountQy(searchTerm, rowLimit, pageNumber, undefined, undefined);
 
+  const editRecord = (item: GetPersonDto) => {
+    navigate(`${item.person_code}`);
+  };
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setFirst(event.first);
     const offsetValue = event.page * rowLimit;
@@ -38,6 +41,7 @@ export function ListAccount() {
         value={accounts?.data}
         tableStyle={{ zIndex: 1 }}
         selectionMode="single"
+        onSelectionChange={(e) => editRecord(e.value)}
       >
         <Column header="Name" body={nameColumn}></Column>
         <Column field="role_name" header="Role"></Column>

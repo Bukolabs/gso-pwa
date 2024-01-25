@@ -18,7 +18,7 @@ import StorageService from "@shared/services/storage.service";
 import { AUTH } from "@core/utility/settings";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useGetStatusQy } from "@core/query/status.query";
-import { useGetAccountsQy } from "@core/query/account.query";
+import { useGetAccountQy } from "@core/query/account.query";
 
 export function AuthShell() {
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ export function AuthShell() {
   };
 
   useGetStatusQy();
-  useGetAccountsQy("", 9999999, 0);
+  useGetAccountQy("", 9999999, 0);
 
   const handleLogout = () => {
     StorageService.clear(AUTH);

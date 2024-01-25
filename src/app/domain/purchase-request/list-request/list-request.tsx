@@ -183,6 +183,7 @@ export function ListRequest() {
           header="Issued Date"
           body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
         ></Column>
+        <Column field="stage_description" header="Phase"></Column>
         <Column
           header="Status"
           body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}

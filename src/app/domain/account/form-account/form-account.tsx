@@ -10,7 +10,10 @@ import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-cont
 import { useGetDepartmentQy } from "@core/query/department.query";
 import { useState } from "react";
 
-export function FormAccount() {
+export interface FormAccountProps {
+  isEdit?: boolean;
+}
+export function FormAccount({ isEdit }: FormAccountProps) {
   const { control } = useFormContext<AccountFormSchema>();
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
@@ -28,7 +31,7 @@ export function FormAccount() {
   const mappedDepartments = (department?.data || []).map(
     (item) =>
       ({
-        label: item.name,
+        label: item.description,
         value: item.code,
       } as LabelValue)
   );
@@ -41,25 +44,29 @@ export function FormAccount() {
   return (
     <div className="form-account">
       <div className="form-request py-2 md:bg-white md:px-6">
-        <InputControl<AccountFormSchema>
-          control={control}
-          name="username"
-          label="Username (Required)"
-          containerClassName="mb-9"
-          className="w-full md:w-3/4"
-          placeholder="Enter your username"
-          hint="e.g. juangomez"
-        />
-        <InputControl<AccountFormSchema>
-          control={control}
-          name="password"
-          label="Password (Required)"
-          className="w-full md:w-3/4"
-          type={passwordType}
-          iconRight="pi-eye"
-          iconRightAction={handleRightIconAction}
-          hint="Enter a really hard to remember password"
-        />
+        {!isEdit && (
+          <>
+            <InputControl<AccountFormSchema>
+              control={control}
+              name="username"
+              label="Username (Required)"
+              containerClassName="mb-9"
+              className="w-full md:w-3/4"
+              placeholder="Enter your username"
+              hint="e.g. juangomez"
+            />
+            <InputControl<AccountFormSchema>
+              control={control}
+              name="password"
+              label="Password (Required)"
+              className="w-full md:w-3/4"
+              type={passwordType}
+              iconRight="pi-eye"
+              iconRightAction={handleRightIconAction}
+              hint="Enter a really hard to remember password"
+            />
+          </>
+        )}
         <InputControl<AccountFormSchema>
           control={control}
           name="name"

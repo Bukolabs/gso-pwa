@@ -201,8 +201,11 @@ export function useEditOrder() {
   const handleRequestDifferences = (form: OrderFormSchema) => {
     const prCards = form.requests;
     const prCardsCode = prCards.map((item) => item.code);
-    const isDeletingPR = originalRequests.length > prCards.length;
-    if (isDeletingPR) {
+    const removedPrs = originalRequests.filter(
+      (original) => !prCardsCode.includes(original.po_pr_code)
+    );
+
+    if (removedPrs.length > 0) {
       const removedPrs = originalRequests.filter(
         (original) => !prCardsCode.includes(original.po_pr_code)
       );

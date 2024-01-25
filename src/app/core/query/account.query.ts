@@ -3,6 +3,7 @@ import {
   MessageResponseDto,
   PersonApiFp,
   PersonControllerGetDataAsList200Response,
+  UpdatePersonDto,
   UtilitiesApiFp,
   UtilsBrandControllerGetDataAsList200Response,
 } from "@api/api";
@@ -60,8 +61,58 @@ export function useGetAccountQy(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Request, search, limit, offset, order, queryFilter],
+    queryKey: [QueryKey.Account, search, limit, offset, order, queryFilter],
     queryFn: () => apiFn(search, limit, offset, order, queryFilter),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useGetAccountByIdQy(
+  id: string,
+  onSuccess?:
+    | ((
+        data: PersonControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerGetDataAsList(
+      search,
+      limit,
+      offset,
+      undefined,
+      JSON.stringify({ person_code: id }) as any,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["data"] as PersonControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Account, id],
+    queryFn: () => apiFn(id),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
@@ -163,47 +214,31 @@ export function useAddPersonQy(
   });
 }
 
-export function useGetAccountsQy(
-  search: string,
-  limit = 10,
-  offset = 0,
-  order?: object,
-  filter?: Record<string, string>,
-  enabled?: boolean,
+
+export function useEditPersonQy(
   onSuccess?:
-    | ((
-        data: PersonControllerGetDataAsList200Response
-      ) => void | Promise<unknown>)
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
-  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
 ) {
+  const queryClient = useQueryClient();
   const { showProgress, hideProgress, showError } = useNotificationContext();
-  const apiFn = async (
-    search: string | undefined = undefined,
-    limit: number | undefined = undefined,
-    offset: number | undefined = undefined,
-    order: object | undefined = undefined,
-    filter: Record<string, string> | undefined = undefined
-  ) => {
+
+  const apiFn = async (payload: UpdatePersonDto) => {
     showProgress();
-    const operation = await PersonApiFp().personControllerGetDataAsList(
-      search,
-      limit,
-      offset,
-      order,
-      JSON.stringify(filter) as any,
+    const operation = await PersonApiFp().personControllerUpdatePerson(
+      payload,
       authHeaders()
     );
     const response = (await operation()).data;
-    return response["data"] as PersonControllerGetDataAsList200Response;
+    return response["message"] as MessageResponseDto;
   };
 
-  return useQuery({
-    enabled,
-    queryKey: [QueryKey.Account, search, limit, offset, order, filter],
-    queryFn: () => apiFn(search, limit, offset, order, filter),
+  return useMutation({
+    mutationFn: apiFn,
     onSuccess: (response) => {
       hideProgress();
+      queryClient.invalidateQueries(QueryKey.Account);
       if (onSuccess) {
         onSuccess(response);
       }
@@ -212,14 +247,9 @@ export function useGetAccountsQy(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
-
       if (onError) {
         onError(err);
       }
     },
-    onSettled() {
-      hideProgress();
-    },
-    staleTime: SETTINGS.staleTime,
   });
 }

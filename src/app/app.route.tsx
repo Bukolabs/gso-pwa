@@ -114,7 +114,7 @@ const router = createBrowserRouter([
                 element: <NewAccount />,
               },
               {
-                path: ":bidderId",
+                path: ":accountId",
                 element: <EditAccount />,
               },
             ],

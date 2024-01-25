@@ -126,7 +126,6 @@ export class ApiToFormService {
       return statusEntity;
     });
 
-    console.log({cardModel})
     return cardModel;
   }
 
