@@ -12,7 +12,7 @@ export interface ActionButtonProps {
 }
 
 export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
-  const { isBACApprover, isReviewer, isAdmin } = useUserIdentity();
+  const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
   const [mainAction, setMainAction] = useState("History");
   const submitAction = {
     label: "Submit",
@@ -75,6 +75,9 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
     switch (status) {
       case RequestStatus.SUBMITTED:
       case RequestStatus.REVIEW:
+        if (isGso) {
+          return [print, declineAction, history];
+        }
         return [declineAction, history];
       case RequestStatus.APPROVED:
         return [declineAction];
@@ -132,7 +135,11 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
   return (
     <div className="action-button">
       {getActions().length === 0 ? (
-        <Button label={mainAction} onClick={handleMainAction} disabled={disable}></Button>
+        <Button
+          label={mainAction}
+          onClick={handleMainAction}
+          disabled={disable}
+        ></Button>
       ) : (
         <SplitButton
           label={mainAction}

@@ -33,7 +33,7 @@ import { StageName } from "@core/model/stage-name.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function ListRequest() {
-  const { isBACApprover, isReviewer } = useUserIdentity();
+  const { isBACApprover, isReviewer, isRestrictedView } = useUserIdentity();
   const { requestFilters } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
@@ -175,10 +175,14 @@ export function ListRequest() {
         onSelectionChange={(e) => editRecord(e.value)}
       >
         <Column field="pr_no" header="PR #"></Column>
-        <Column field="department_name" header="Department"></Column>
-        <Column field="category_name" header="Category"></Column>
-        <Column header="Total Quantity" body={totalItemsColumn}></Column>
-        <Column header="Total Amount" body={totalAmountColumn}></Column>
+        {!isRestrictedView && (
+          <>
+            <Column field="department_name" header="Department"></Column>
+            <Column field="category_name" header="Category"></Column>
+            <Column header="Total Quantity" body={totalItemsColumn}></Column>
+            <Column header="Total Amount" body={totalAmountColumn}></Column>
+          </>
+        )}
         <Column
           header="Issued Date"
           body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}

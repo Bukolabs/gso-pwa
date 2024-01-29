@@ -27,6 +27,7 @@ import { SplitButton } from "primereact/splitbutton";
 import { useNavigate } from "react-router-dom";
 import PrintInspection from "../edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
+import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 
 interface ViewPRData {
   data: GetPurchaseRequestDto;
@@ -140,7 +141,9 @@ export function ManagePr({
           description: item.description,
           isActive: true,
           cost: item.price,
-          unit: item.unit_name,
+          unit: item.unit,
+          unitName: item.unit_name,
+          categoryName: item.category_name,
           quantity: item.quantity,
         } as ItemFormSchema)
     );
@@ -156,7 +159,12 @@ export function ManagePr({
       handlePrint();
     }, 100);
   };
+  const onChange = (event: any) => {
+    setSource(event.source);
+    setTarget(event.target);
 
+    onSelect(event.target);
+  };
   const handlePRView = (prId: string) => {
     navigate(`/request/${prId}`);
   };
@@ -237,38 +245,38 @@ export function ManagePr({
       </div>
     );
   };
-  const onChange = (event: any) => {
-    setSource(event.source);
-    setTarget(event.target);
-
-    onSelect(event.target);
-  };
+  const prSidebar = (
+    <Sidebar
+      visible={visible}
+      onHide={() => {
+        setVisible(false);
+        setViewData(null);
+      }}
+      className="w-full md:w-2/5"
+    >
+      <h2>Request Items</h2>
+      <Button
+        label="View full request"
+        onClick={(e) => handlePRView(viewData?.data.code || "")}
+        size="small"
+        className="block mb-4"
+        severity="secondary"
+        outlined
+      />
+      <div className="flex flex-wrap gap-2">
+        {(viewData?.requests || []).map((item, id) => (
+          <ItemCard key={id} itemNo={id} item={item}>
+            <FormBrandItemProvider>Hello</FormBrandItemProvider>
+          </ItemCard>
+        ))}
+      </div>
+    </Sidebar>
+  );
 
   return (
     <div className="manage-pr">
       {printInspectionSection()}
-      <Sidebar
-        visible={visible}
-        onHide={() => {
-          setVisible(false);
-          setViewData(null);
-        }}
-      >
-        <h2>Request Items</h2>
-        <Button
-          label="View full request"
-          onClick={(e) => handlePRView(viewData?.data.code || "")}
-          size="small"
-          className="block mb-4"
-          severity="secondary"
-          outlined
-        />
-        <div className="flex flex-wrap gap-2">
-          {(viewData?.requests || []).map((item, id) => (
-            <ItemCard key={id} itemNo={id} item={item} />
-          ))}
-        </div>
-      </Sidebar>
+      {prSidebar}
 
       {isStage3And4 ? (
         <section className="grid md:grid-cols-2 gap-4 grid-cols-1">

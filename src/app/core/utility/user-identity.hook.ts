@@ -27,7 +27,11 @@ export function useUserIdentity() {
   const currentUser = StorageService.load(AUTH) as LocalAuth;
   const bacRoles = ["BAC_APRV", `Bids and Awards Committee (Approver)`];
 
-  const isGso = ['GSO_APRV', 'GSO_ADMIN'].indexOf(currentUser.role_name) >= 0;
+  const isGso = ["GSO_APRV", "GSO_ADMIN"].indexOf(currentUser.role_name) >= 0;
+  const isCmo = ["MO_APRV"].indexOf(currentUser.role_name) >= 0;
+  const isCto = ["TO_APRV"].indexOf(currentUser.role_name) >= 0;
+  const isCbo = ["BO_APRV"].indexOf(currentUser.role_name) >= 0;
+  const isRestrictedView = ["MO_APRV", "TO_APRV", "BO_APRV"];
   const isRequestor = requesterRoles.indexOf(currentUser.role_name) >= 0;
   const isBACApprover = bacRoles.indexOf(currentUser.role_name) >= 0;
   const isReviewer = reviewerRoles.indexOf(currentUser.role_name) >= 0;
@@ -42,6 +46,10 @@ export function useUserIdentity() {
     isAdmin,
     currentUser,
     requestorDepartment,
-    isGso
+    isGso,
+    isCmo,
+    isCto,
+    isCbo,
+    isRestrictedView
   };
 }

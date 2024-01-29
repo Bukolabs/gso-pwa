@@ -41,6 +41,7 @@ export function EditRequest() {
     isUpdating,
     isProcessing,
     isDeleting,
+    isRestrictedView,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -159,38 +160,40 @@ export function EditRequest() {
       {historySection}
       {itemSection}
 
-      <TabView className="mb-10">
-        <TabPanel header="Information">
-          <FormCategoryItemProvider>
-            <FormRequest />
-          </FormCategoryItemProvider>
-        </TabPanel>
-        <TabPanel header="Request Items">
-          {isDraft && (
-            <Button
-              icon="pi pi-plus"
-              label="Add Item"
-              className="block mb-4"
-              onClick={handleAddAnItem}
-            />
-          )}
+      {!isRestrictedView && (
+        <TabView className="mb-10">
+          <TabPanel header="Information">
+            <FormCategoryItemProvider>
+              <FormRequest />
+            </FormCategoryItemProvider>
+          </TabPanel>
+          <TabPanel header="Request Items">
+            {isDraft && (
+              <Button
+                icon="pi pi-plus"
+                label="Add Item"
+                className="block mb-4"
+                onClick={handleAddAnItem}
+              />
+            )}
 
-          <div className="mt-2 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-              {displayRequestItems.map((item, id) => (
-                <ItemCard
-                  key={id}
-                  itemNo={id}
-                  item={item}
-                  onEdit={handleEdit}
-                  onRemove={handleRemove}
-                  showActions={isDraft}
-                />
-              ))}
+            <div className="mt-2 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
+                {displayRequestItems.map((item, id) => (
+                  <ItemCard
+                    key={id}
+                    itemNo={id}
+                    item={item}
+                    onEdit={handleEdit}
+                    onRemove={handleRemove}
+                    showActions={isDraft}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </TabPanel>
-      </TabView>
+          </TabPanel>
+        </TabView>
+      )}
     </section>
   );
 

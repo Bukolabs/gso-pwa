@@ -34,7 +34,6 @@ export function EditOrder() {
     isLoading,
     orderError,
     dataEmpty,
-    visible,
     editError,
     category,
     selectedRequests,
@@ -50,7 +49,6 @@ export function EditOrder() {
     isProcessing,
     isUpdating,
     navigate,
-    setVisible,
     handleSelectedRequests,
     handleAction,
     handlePrAction,
@@ -186,13 +184,6 @@ export function EditOrder() {
           <FormOrder />
         </TabPanel>
         <TabPanel header="Purchase Requests">
-          <Sidebar
-            visible={visible}
-            onHide={() => setVisible(false)}
-            className="w-full md:w-2/5"
-          >
-            PR Details
-          </Sidebar>
 
           <div className="mt-2 md:px-6">
             <ManagePr

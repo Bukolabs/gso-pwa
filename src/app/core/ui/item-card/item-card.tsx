@@ -5,11 +5,13 @@ import { ItemFormSchema } from "@core/model/form.rule";
 import { twoDigit } from "@core/utility/number-helper";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import { ReactNode } from "react";
 
 export interface ItemCardProps {
   item: ItemFormSchema;
   itemNo: number;
   showActions?: boolean;
+  children?: ReactNode;
   onEdit?: (code: ItemFormSchema) => void;
   onRemove?: (code: ItemFormSchema) => void;
 }
@@ -18,6 +20,7 @@ export function ItemCard({
   itemNo,
   item,
   showActions = true,
+  children,
   onEdit,
   onRemove,
 }: ItemCardProps) {
@@ -52,7 +55,7 @@ export function ItemCard({
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="text-gray-800 font-bold">
-            {currencyFormat(totalCost || 0, 'PHP')}
+            {currencyFormat(totalCost || 0, "PHP")}
           </p>
           <p className="hint">Total Cost</p>
         </div>
@@ -69,6 +72,7 @@ export function ItemCard({
           </div>
         )}
       </section>
+      {!!children ? children : null}
       {showActions && (
         <section className="bg-gray-800 flex justify-between">
           {onEdit && (

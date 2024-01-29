@@ -38,7 +38,6 @@ export function useEditOrder() {
 
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const navigate = useNavigate();
-  const [visible, setVisible] = useState(false);
   const { showSuccess, showError, hideProgress, showWarning } =
     useNotificationContext();
   const { orderId } = useParams();
@@ -358,7 +357,6 @@ export function useEditOrder() {
     isLoading,
     orderError,
     dataEmpty,
-    visible,
     editError,
     category,
     selectedRequests,
@@ -374,7 +372,6 @@ export function useEditOrder() {
     isProcessing,
     isUpdating,
     navigate,
-    setVisible,
     handleSelectedRequests,
     handleAction,
     handlePrAction,

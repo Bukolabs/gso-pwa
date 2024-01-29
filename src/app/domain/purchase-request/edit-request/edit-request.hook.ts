@@ -29,9 +29,11 @@ import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
 import { StageName } from "@core/model/stage-name.enum";
 import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function useEditRequest() {
   const { historyData, getHistory } = usePurchaseHistory();
+  const { isRestrictedView } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError, showWarning, hideProgress } =
     useNotificationContext();
@@ -303,6 +305,7 @@ export function useEditRequest() {
     isUpdating,
     isProcessing,
     isDeleting,
+    isRestrictedView,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,
