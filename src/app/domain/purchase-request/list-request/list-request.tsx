@@ -176,12 +176,16 @@ export function ListRequest() {
       >
         <Column field="pr_no" header="PR #"></Column>
         {!isRestrictedView && (
-          <>
-            <Column field="department_name" header="Department"></Column>
-            <Column field="category_name" header="Category"></Column>
-            <Column header="Total Quantity" body={totalItemsColumn}></Column>
-            <Column header="Total Amount" body={totalAmountColumn}></Column>
-          </>
+          <Column field="department_name" header="Department"></Column>
+        )}
+        {!isRestrictedView && (
+          <Column field="category_name" header="Category"></Column>
+        )}
+        {!isRestrictedView && (
+          <Column header="Total Quantity" body={totalItemsColumn}></Column>
+        )}
+        {!isRestrictedView && (
+          <Column header="Total Amount" body={totalAmountColumn}></Column>
         )}
         <Column
           header="Issued Date"

@@ -234,15 +234,20 @@ export class FormToApiService {
     const requests = form.requests.map((item) => this.AddRequestInOrder(item));
     const payload = {
       po_no: form.pono,
-      po_date: format(form.poDate as Date, SETTINGS.dateFormat),
+      po_date: !!form.poDate ? format(form.poDate as Date, SETTINGS.dateFormat) : null,
       resolution_no: form.resolutionNo,
       mode_of_procurement: form.procurementMode,
       delivery_location: form.deliveryAddress,
-      delivery_date: format(form.deliveryDate as Date, SETTINGS.dateFormat),
+      delivery_date: !!form.deliveryDate ? format(form.deliveryDate as Date, SETTINGS.dateFormat) : null,
       delivery_term: form.deliveryTerm,
+      payment_term: form.paymentTerm,
       is_active: true,
       purchase_requests: requests,
       category: form.category,
+      iar_no: form.iar,
+      iar_date: !!form.iarDate ? format(form.iarDate as Date, SETTINGS.dateFormat) : null,
+      invoice_no: form.invoice,
+      invoice_date: !!form.invoiceDate ? format(form.invoiceDate as Date, SETTINGS.dateFormat) : null,
     } as CreatePurchaseOrderDto;
 
     return payload;
@@ -253,11 +258,11 @@ export class FormToApiService {
     const payload = {
       code: orderId,
       po_no: form.pono,
-      po_date: format(form.poDate as Date, SETTINGS.dateFormat),
+      po_date: !!form.poDate ? format(form.poDate as Date, SETTINGS.dateFormat) : null,
       resolution_no: form.resolutionNo,
       mode_of_procurement: form.procurementMode,
       delivery_location: form.deliveryAddress,
-      delivery_date: format(form.deliveryDate as Date, SETTINGS.dateFormat),
+      delivery_date:  !!form.deliveryDate ? format(form.deliveryDate as Date, SETTINGS.dateFormat) : null,
       delivery_term: form.deliveryTerm,
       is_active: true,
       purchase_requests: requests,
@@ -267,6 +272,10 @@ export class FormToApiService {
       contact_no: form.phone,
       email: form.email,
       tin: form.tin,
+      iar_no: form.iar,
+      iar_date: !!form.iarDate ? format(form.iarDate as Date, SETTINGS.dateFormat) : null,
+      invoice_no: form.invoice,
+      invoice_date: !!form.invoiceDate ? format(form.invoiceDate as Date, SETTINGS.dateFormat) : null,
     } as EditPurchaseOrderDto;
 
     return payload;

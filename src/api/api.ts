@@ -669,6 +669,12 @@ export interface CreatePrItemDto {
     'quantity': number;
     /**
      * 
+     * @type {number}
+     * @memberof CreatePrItemDto
+     */
+    'delivered_quantity': number;
+    /**
+     * 
      * @type {string}
      * @memberof CreatePrItemDto
      */
@@ -818,6 +824,30 @@ export interface CreatePurchaseOrderDto {
      * @memberof CreatePurchaseOrderDto
      */
     'is_active'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'iar_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'iar_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'invoice_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'invoice_date'?: string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
@@ -2549,6 +2579,12 @@ export interface EditPrItemDto {
     'quantity': number;
     /**
      * 
+     * @type {number}
+     * @memberof EditPrItemDto
+     */
+    'delivered_quantity': number;
+    /**
+     * 
      * @type {string}
      * @memberof EditPrItemDto
      */
@@ -2710,6 +2746,30 @@ export interface EditPurchaseOrderDto {
      * @memberof EditPurchaseOrderDto
      */
     'is_active'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'iar_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'iar_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'invoice_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'invoice_date'?: string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
@@ -3814,6 +3874,12 @@ export interface GetPoPrDto {
      * @type {number}
      * @memberof GetPoPrDto
      */
+    'total_delivered_quantity'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
     'per_item_cost'?: number;
     /**
      * 
@@ -3821,6 +3887,12 @@ export interface GetPoPrDto {
      * @memberof GetPoPrDto
      */
     'total_amount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPoPrDto
+     */
+    'total_delivered_amount'?: number;
 }
 /**
  * 
@@ -3888,6 +3960,12 @@ export interface GetPrItemDto {
      * @memberof GetPrItemDto
      */
     'quantity': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPrItemDto
+     */
+    'delivered_quantity': number;
     /**
      * 
      * @type {string}
@@ -4177,6 +4255,30 @@ export interface GetPurchaseOrderDto {
      * @memberof GetPurchaseOrderDto
      */
     'reviewer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'iar_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'iar_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'invoice_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'invoice_date'?: string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
@@ -4681,6 +4783,12 @@ export interface GetPurchaseRequestDto {
      * @type {number}
      * @memberof GetPurchaseRequestDto
      */
+    'total_delivered_quantity'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
     'per_item_cost'?: number;
     /**
      * 
@@ -4688,6 +4796,12 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'total_amount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPurchaseRequestDto
+     */
+    'total_delivered_amount'?: number;
     /**
      * 
      * @type {boolean}

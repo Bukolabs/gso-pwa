@@ -48,7 +48,7 @@ export function NewOrder() {
     },
     resolver: zodResolver(OrderFormRule),
   });
-  const { handleSubmit, watch, setValue, getValues } = formMethod;
+  const { handleSubmit, watch, setValue } = formMethod;
   const category = watch("category");
 
   const handleValidate = (form: OrderFormSchema) => {
@@ -69,14 +69,6 @@ export function NewOrder() {
   };
 
   const handleSelectedRequests = (requests: GetPurchaseRequestDto[]) => {
-    const poNo = getValues("pono");
-    if (!poNo) {
-      showWarning(
-        "No Purchase Order number is supplied. Please supply it first"
-      );
-      return;
-    }
-
     setSelectedRequests(requests);
     const requestListForm = requests.map(
       (item) =>

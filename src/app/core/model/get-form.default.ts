@@ -129,6 +129,20 @@ export const getOrderFormDefault = (
         tin: cachedValue.tin,
         isActive: true,
         requests,
+        iar: cachedValue.iar_no,
+        iarDate: cachedValue?.iar_date
+          ? (format(
+              new Date(cachedValue?.iar_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : ("" as any),
+        invoice: cachedValue.invoice_no,
+        invoiceDate: cachedValue?.invoice_date
+          ? (format(
+              new Date(cachedValue?.invoice_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : ("" as any),
       } as OrderFormSchema);
 };
 

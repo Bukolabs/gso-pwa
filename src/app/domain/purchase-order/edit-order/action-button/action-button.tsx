@@ -48,7 +48,7 @@ export function ActionButton({
         return setMainAction("Award");
 
       case RequestStatus.AWARDED:
-        return setMainAction("Print");
+        return setMainAction("Review");
 
       default:
         return setMainAction("History");
@@ -105,7 +105,7 @@ export function ActionButton({
       case RequestStatus.BIDDING:
         return [updateAction, history, deleteAction];
       case RequestStatus.AWARDED:
-        return [reviewAction, history];
+        return [history, print];
 
       default:
         return [];
@@ -114,12 +114,15 @@ export function ActionButton({
   const approverOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.POREVIEW:
+        if (isGso) {
+          return [declineAction, updateAction, history, print];
+        }
         return [declineAction, history];
       case RequestStatus.PODECLINED:
         return [history];
       case RequestStatus.POAPPROVED:
         if (isGso) {
-          return [history];
+          return [history, print];
         } else {
           return [declineAction];
         }

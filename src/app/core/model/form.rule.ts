@@ -58,26 +58,36 @@ export const RequestInOrderFormRule = z.object({
   isActive: z.boolean().optional(),
 });
 
-export const OrderFormRule = z.object({
-  code: z.string().optional(),
-  pono: z.string().optional(),
-  poDate: z.coerce.date(),
-  resolutionNo: z.string(),
-  procurementMode: z.string(),
-  category: z.string(),
-  categoryName: z.string(),
-  supplier: z.string(),
-  address: z.string(),
-  email: z.string(),
-  phone: z.string(),
-  tin: z.string(),
-  deliveryAddress: z.string(),
-  deliveryDate: z.coerce.date(),
-  deliveryTerm: z.string(),
-  paymentTerm: z.string(),
-  isActive: z.boolean().optional(),
-  requests: RequestInOrderFormRule.array(),
-});
+export const OrderFormRule = z
+  .object({
+    code: z.string().optional(),
+    pono: z.string().optional(),
+    poDate: z.coerce.date().nullish().catch(null),
+    resolutionNo: z.string().optional(),
+    procurementMode: z.string().optional(),
+    category: z.string(),
+    categoryName: z.string(),
+    supplier: z.string(),
+    address: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    tin: z.string(),
+    deliveryAddress: z.string(),
+    deliveryDate: z.coerce.date().nullish().catch(null),
+    deliveryTerm: z.string(),
+    paymentTerm: z.string(),
+    isActive: z.boolean().optional(),
+    requests: RequestInOrderFormRule.array(),
+    iar: z.string().optional(),
+    iarDate: z.coerce.date().nullish().catch(null),
+    invoice: z.string().optional(),
+    invoiceDate: z.coerce.date().nullish().catch(null),
+  })
+  .superRefine((val, ctx) => {
+    if (val.deliveryDate === null || val.deliveryDate === undefined) {
+      return true;
+    }
+  });
 
 export const PersonalRule = z.object({
   name: z

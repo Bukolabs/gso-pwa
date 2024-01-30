@@ -31,6 +31,17 @@ export function FormOrder() {
 
   return (
     <div className="form-order py-2 md:bg-white md:px-6">
+      <DropdownControl<OrderFormSchema>
+        control={control}
+        name="category"
+        label="Category"
+        options={mappedCategories}
+        containerClassName="mb-9"
+        className="w-full md:w-3/4"
+        placeholder="Enter your category"
+        hint="Select from the dropdown"
+        filter
+      />
       <InputControl<OrderFormSchema>
         control={control}
         name="pono"
@@ -56,17 +67,6 @@ export function FormOrder() {
         className="w-full md:w-3/4"
         containerClassName="pb-2"
         hint="e.g. 30/12/2025"
-      />
-      <DropdownControl<OrderFormSchema>
-        control={control}
-        name="category"
-        label="Category"
-        options={mappedCategories}
-        containerClassName="mb-9"
-        className="w-full md:w-3/4"
-        placeholder="Enter your category"
-        hint="Select from the dropdown"
-        filter
       />
       <DropdownControl<OrderFormSchema>
         control={control}
@@ -103,6 +103,49 @@ export function FormOrder() {
         containerClassName="pb-2"
         placeholder="Enter terms of delivery"
         hint="e.g. It should be concise and detailed"
+      />
+      <InputTextareaControl<OrderFormSchema>
+        control={control}
+        name="paymentTerm"
+        label="Payment Terms"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter terms of payment"
+        hint="e.g. paid on delivery"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="iar"
+        label="IAR No."
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter IAR number"
+        hint="e.g. 123"
+      />
+      <InputDateControl<OrderFormSchema>
+        control={control}
+        name="iarDate"
+        label="IAR Date"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        hint="e.g. 30/12/2025"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="invoice"
+        label="Invoice No."
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter invoice number"
+        hint="e.g. 44566"
+      />
+      <InputDateControl<OrderFormSchema>
+        control={control}
+        name="invoiceDate"
+        label="Invoice Date"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        hint="e.g. 30/12/2025"
       />
     </div>
   );

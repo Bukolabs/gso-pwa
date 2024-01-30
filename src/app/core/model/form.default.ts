@@ -43,6 +43,10 @@ export const orderFormDefault = {
   requests: [],
   category: "",
   categoryName: "",
+  iar: "",
+  iarDate: "" as any,
+  invoice: "",
+  invoiceDate: "" as any,
 } as OrderFormSchema;
 
 export const bidderFormDefault = {

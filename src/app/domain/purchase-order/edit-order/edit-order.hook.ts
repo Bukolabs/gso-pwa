@@ -225,8 +225,19 @@ export function useEditOrder() {
   };
   const handleUpdateStatus = (status: RequestStatus) => {
     const formValues = getValues();
-    formValues.poDate = new Date(formValues.poDate);
-    formValues.deliveryDate = new Date(formValues.deliveryDate);
+    formValues.poDate = formValues.poDate
+      ? new Date(formValues?.poDate)
+      : undefined;
+    formValues.deliveryDate = formValues.deliveryDate
+      ? new Date(formValues.deliveryDate)
+      : null;
+    formValues.iarDate = formValues.iarDate
+      ? new Date(formValues.iarDate)
+      : null;
+    formValues.invoiceDate = formValues.invoiceDate
+      ? new Date(formValues.invoiceDate)
+      : null;
+
     const formData = FormToApiService.EditOrderRequest(
       formValues,
       orderId || ""
