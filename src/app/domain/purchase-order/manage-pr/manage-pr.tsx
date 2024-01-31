@@ -10,14 +10,15 @@ import {
 import { currencyFormat } from "@shared/formats/currency-format";
 import {
   getTotalAmount,
-  getTotalItems,
+  getTotalDeliveredItemsQuantity,
+  getTotalFulfilledAmount,
+  getTotalItemsQuantity,
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { dateFormat } from "@shared/formats/date-time-format";
 import { numberFormat } from "@shared/formats/number-format";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
-import { ItemFormSchema } from "@core/model/form.rule";
 import {
   RequestStatus,
   RequestStatusAction,
@@ -26,18 +27,12 @@ import { SplitButton } from "primereact/splitbutton";
 import PrintInspection from "../edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
 import PrItemInfo from "./pr-item-info/pr-item-info";
-
-interface ViewPRData {
-  data: GetPurchaseRequestDto;
-  requests: ItemFormSchema[];
-}
+import { shouldShowInspectionElements } from "@core/utility/stage-helper";
 
 const isStage4 = (status: string) =>
   status === RequestStatus.INSPECTION ||
   status === RequestStatus.PARTIAL ||
-  status === RequestStatus.FULFILLED ||
-  status === RequestStatus.UNFULFILLED ||
-  status === RequestStatus.CANCELLED;
+  status === RequestStatus.COMPLETE;
 const shouldDisplayAwardedCards = (status: string) =>
   status === RequestStatus.AWARDED ||
   status === RequestStatus.POREVIEW ||
@@ -45,9 +40,7 @@ const shouldDisplayAwardedCards = (status: string) =>
   status === RequestStatus.PODECLINED ||
   status === RequestStatus.INSPECTION ||
   status === RequestStatus.PARTIAL ||
-  status === RequestStatus.FULFILLED ||
-  status === RequestStatus.UNFULFILLED ||
-  status === RequestStatus.CANCELLED;
+  status === RequestStatus.COMPLETE;
 const shouldGetUnassigned = (status: string) =>
   status === RequestStatus.CATEGORIZED ||
   status === RequestStatus.POSTED ||
@@ -73,9 +66,8 @@ export function ManagePr({
   const [source, setSource] = useState<GetPurchaseRequestDto[]>([]);
   const [target, setTarget] = useState(selectedList);
   const [visible, setVisible] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState<ViewPRData | null>(
-    null
-  );
+  const [selectedRequest, setSelectedRequest] =
+    useState<GetPurchaseRequestDto | null>(null);
   const [filter] = useState({
     category: category,
     status_name: "APPROVED",
@@ -110,27 +102,15 @@ export function ManagePr({
 
   const getSplitButtonItems = (data: GetPurchaseRequestDto) => [
     {
-      label: RequestStatusAction.FULFILL,
+      label: RequestStatusAction.PARTIAL,
       command: () => {
-        onAction(RequestStatusAction.FULFILL, data);
+        onAction(RequestStatusAction.PARTIAL, data);
       },
     },
     {
-      label: RequestStatusAction.UNFULFILL,
+      label: RequestStatusAction.COMPLETE,
       command: () => {
-        onAction(RequestStatusAction.UNFULFILL, data);
-      },
-    },
-    {
-      label: RequestStatusAction.LATE,
-      command: () => {
-        onAction(RequestStatusAction.LATE, data);
-      },
-    },
-    {
-      label: RequestStatusAction.CANCEL,
-      command: () => {
-        onAction(RequestStatusAction.CANCEL, data);
+        onAction(RequestStatusAction.COMPLETE, data);
       },
     },
   ];
@@ -138,31 +118,10 @@ export function ManagePr({
     e.preventDefault();
     setVisible(true);
 
-    const requests = (data.items || []).map(
-      (item) =>
-        ({
-          code: item.item,
-          name: item.item_name,
-          brand: item.brand_name,
-          category: item.category_name,
-          description: item.description,
-          isActive: true,
-          cost: item.price,
-          unit: item.unit,
-          unitName: item.unit_name,
-          categoryName: item.category_name,
-          quantity: item.quantity,
-          deliveredQuantity: item.delivered_quantity,
-        } as ItemFormSchema)
-    );
-
-    setSelectedRequest({
-      data,
-      requests,
-    });
+    setSelectedRequest(data);
   };
   const handleReadyPrint = (data: GetPurchaseRequestDto) => {
-    setSelectedRequest({ data, requests: [] });
+    setSelectedRequest(data);
     setTimeout(() => {
       handlePrint();
     }, 100);
@@ -177,8 +136,8 @@ export function ManagePr({
   const printInspectionSection = () => (
     <div style={{ display: "none" }}>
       <div ref={componentRef}>
-        {selectedRequest?.data && (
-          <PrintInspection data={selectedRequest?.data} order={order} />
+        {selectedRequest && (
+          <PrintInspection data={selectedRequest} order={order} />
         )}
       </div>
     </div>
@@ -192,9 +151,11 @@ export function ManagePr({
     />
   );
   const itemTemplate = (item: GetPurchaseRequestDto) => {
+    const totalDeliveredItems = getTotalDeliveredItemsQuantity(item);
+    const totalFulfilledAmount = getTotalFulfilledAmount(item);
     return (
-      <div className="flex flex-wrap items-center gap-3 border border-gray-300 rounded">
-        <section className="w-full border-0 px-4 py-2">
+      <div className="flex flex-wrap items-center border border-gray-300 rounded">
+        <section className="w-full border-b border-gray-200 px-4 py-2">
           <div className="flex justify-between">
             <div>
               <h4 className="text-gray-800">PR#: {item.pr_no}</h4>
@@ -207,7 +168,7 @@ export function ManagePr({
             </div>
           </div>
         </section>
-        <section className="flex justify-center gap-3 border-t border-b border-gray-400 w-full p-4">
+        <section className="flex justify-center gap-3 border-b border-gray-200 w-full p-4">
           <div className="flex flex-col items-center justify-center">
             <p className="text-gray-800 font-bold">
               {dateFormat(item.pr_date)}
@@ -216,9 +177,9 @@ export function ManagePr({
           </div>
           <div className="flex flex-col items-center justify-center">
             <p className="text-gray-800 font-bold">
-              {numberFormat(getTotalItems(item))}
+              {numberFormat(getTotalItemsQuantity(item))}
             </p>
-            <p className="hint">Total Items</p>
+            <p className="hint">Total Quantity</p>
           </div>
           <div className="flex flex-col items-center justify-center">
             <p className="text-gray-800 font-bold">
@@ -227,7 +188,23 @@ export function ManagePr({
             <p className="hint">Total Amount</p>
           </div>
         </section>
-        <section className="flex justify-end w-full px-4 pb-4">
+        {shouldShowInspectionElements(status) ? (
+          <section className="flex justify-center gap-3 border-b border-gray-200 w-full p-4">
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-gray-800 font-bold">
+                {currencyFormat(totalFulfilledAmount || 0, "PHP")}
+              </p>
+              <p className="hint">Fulfilled Amount</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-gray-800 font-bold">
+                {numberFormat(totalDeliveredItems || 0)}
+              </p>
+              <p className="hint">Delivered Items</p>
+            </div>
+          </section>
+        ) : null}
+        <section className="flex justify-end w-full px-4 py-4">
           {isStage4(status) ? (
             <section className="gap-2 flex">
               <Button
@@ -259,10 +236,7 @@ export function ManagePr({
       }}
       className="w-full md:w-2/5"
     >
-      <PrItemInfo
-        requestData={selectedRequest?.data}
-        requestItems={selectedRequest?.requests || []}
-      />
+      <PrItemInfo requestData={selectedRequest} />
     </Sidebar>
   );
 

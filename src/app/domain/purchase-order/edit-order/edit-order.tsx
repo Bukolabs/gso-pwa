@@ -26,6 +26,7 @@ import {
 import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { numberFormat } from "@shared/formats/number-format";
+import { shouldDisableBidder } from "@core/utility/stage-helper";
 
 export function EditOrder() {
   const {
@@ -48,6 +49,9 @@ export function EditOrder() {
     isUpdatingRequest,
     isProcessing,
     isUpdating,
+    status,
+    procurement,
+    shouldShowBidderDisplay,
     navigate,
     handleSelectedRequests,
     handleAction,
@@ -57,8 +61,7 @@ export function EditOrder() {
     handleReviewAction,
     setHistorySidebar,
   } = useEditOrder();
-
-  const status = orders?.data?.[0].status_name;
+  const shouldDisableBidderForm = shouldDisableBidder(status);
 
   const displayLoading = (
     <div className="card">
@@ -80,7 +83,7 @@ export function EditOrder() {
     const totalAmount = data !== undefined ? getOverallAmount(data) : 0;
     const totalFulfilledAmount =
       data !== undefined
-        ? getOverallAmountByStatus(data, RequestStatus.FULFILLED)
+        ? getOverallAmountByStatus(data, RequestStatus.COMPLETE)
         : 0;
     const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
     const percentile = (totalFulfilledAmount / totalAmount) * 100 || 0;
@@ -184,7 +187,6 @@ export function EditOrder() {
           <FormOrder />
         </TabPanel>
         <TabPanel header="Purchase Requests">
-
           <div className="mt-2 md:px-6">
             <ManagePr
               status={status || ""}
@@ -196,9 +198,9 @@ export function EditOrder() {
             />
           </div>
         </TabPanel>
-        {status === RequestStatus.BIDDING && (
+        {shouldShowBidderDisplay && (
           <TabPanel header="Supplier">
-            <FormBidder />
+            <FormBidder isDisabled={shouldDisableBidderForm} />
           </TabPanel>
         )}
       </TabView>
@@ -215,6 +217,7 @@ export function EditOrder() {
             disabled={
               isDeleting || isUpdatingRequest || isProcessing || isUpdating
             }
+            procurement={procurement}
           />
         </div>
       </HeaderContent>

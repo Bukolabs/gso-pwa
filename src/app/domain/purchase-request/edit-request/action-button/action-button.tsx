@@ -80,6 +80,9 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
         }
         return [declineAction, history];
       case RequestStatus.APPROVED:
+        if (isGso) {
+          return [print, declineAction];
+        }
         return [declineAction];
       case RequestStatus.DECLINED:
         return [history];

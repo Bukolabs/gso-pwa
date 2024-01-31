@@ -60,7 +60,7 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
               <td
                 className="print-normal px-2 py-1 bg-gray-50 align-top"
-                colSpan={2}
+                colSpan={3}
               >
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
                   {order?.supplier}
@@ -80,7 +80,9 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
                 <label className="print-normal block">Date:</label>
               </td>
               <td className="align-top border-r bg-gray-50">
-                <span className="print-normal block relative font-bold border-b border-black w-full mt-4"></span>
+                <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
+                  {order?.iar_no}
+                </label>
                 <span className="print-normal block relative font-bold border-b border-black w-full mt-6"></span>
                 <span className="print-normal block relative font-bold border-b border-black w-full  mt-9"></span>
                 <span className="print-normal block relative font-bold border-b border-black w-full mt-5"></span>
@@ -92,6 +94,9 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </th>
               <th className="print-normal px-2 py-1 border bg-gray-50">
                 Description
+              </th>
+              <th className="print-normal px-2 py-1 border bg-gray-50">
+                Brand
               </th>
               <th className="print-normal px-2 py-1 border bg-gray-50">Unit</th>
               <th className="print-normal px-2 py-1 border bg-gray-50">
@@ -113,6 +118,9 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
                   {itemDisplay(item.item_name, item.description || "")}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
+                  {item.brand_name}
+                </td>
+                <td className="print-normal px-2 py-1 border bg-gray-50">
                   {item.unit_name}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
@@ -127,10 +135,7 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </tr>
             ))}
             <tr>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
-              <td className="border bg-gray-50"></td>
+              <td className="border bg-gray-50" colSpan={5}></td>
               <td className="print-normal px-2 py-1 border bg-gray-50">
                 Total:
               </td>
@@ -139,15 +144,15 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
             </tr>
             <tr>
-              <td colSpan={2} className="border bg-gray-50 text-center">
+              <td colSpan={3} className="border bg-gray-50 text-center">
                 <span className="font-bold">INSPECTION</span>
               </td>
-              <td colSpan={5} className="border bg-gray-50 text-center">
+              <td colSpan={4} className="border bg-gray-50 text-center">
                 <span className="font-bold">ACCEPTANCE</span>
               </td>
             </tr>
             <tr>
-              <td className="border px-2 pb-1 bg-gray-50" colSpan={2}>
+              <td className="border px-2 pb-1 bg-gray-50" colSpan={3}>
                 <span className="print-normal">Date Inspected:</span>
                 <span className="print-normal block mt-4">
                   Inspected, verified and found in order as to quantity and
@@ -188,7 +193,7 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
             </tr>
             <tr>
-              <td className="border px-2 pb-1 bg-gray-50" colSpan={6}>
+              <td className="border px-2 pb-1 bg-gray-50" colSpan={7}>
                 <span className="print-normal">Approved by:</span>
                 <section className="grid grid-cols-1 gap-4 py-1 mt-10">
                   <div className="flex flex-col items-center justify-center">

@@ -18,6 +18,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
   const logo = "/tagbilaran-logo.png";
   const overallTotal = data !== undefined ? getOverallAmount(data) : 0;
   const prNumbers = data?.purchase_requests?.map((x) => x.pr_no).join(",");
+  let rowCounter = 0;
 
   const itemDisplay = (title: string, description: string) => {
     return (
@@ -252,9 +253,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
         <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t border-b border-l-0 border-r-0">
           <tbody className="border-t border-b border-l-0 border-r-0">
             <tr>
-              <th
-                className="print-normal px-2 py-1 border bg-gray-50 w-20"
-              >
+              <th className="print-normal px-2 py-1 border bg-gray-50 w-20">
                 Item No.
               </th>
               <th className="print-normal px-2 py-1 border bg-gray-50">Unit</th>
@@ -271,32 +270,35 @@ export function PrintOrder({ data }: PrintOrderProps) {
                 Total Cost
               </th>
             </tr>
-            {(data?.purchase_requests || [])?.map((request) =>
-              request.items?.map((item, id) => (
-                <tr
-                  key={id}
-                  className="border-t border-b border-l-0 border-r-0"
-                >
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {twoDigit(id + 1)}
-                  </td>
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {item.unit_name}
-                  </td>
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {itemDisplay(item.item_name, item.description || "")}
-                  </td>
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {numberTemplate(item.quantity)}
-                  </td>
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {currencyTemplate(item.price)}
-                  </td>
-                  <td className="print-normal px-2 py-1 border bg-gray-50">
-                    {currencyTemplate(item.price * item.quantity)}
-                  </td>
-                </tr>
-              ))
+            {(data?.purchase_requests || [])?.map((request, idx) =>
+              request.items?.map((item, id) => {
+                rowCounter++;
+                return (
+                  <tr
+                    key={id}
+                    className="border-t border-b border-l-0 border-r-0"
+                  >
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {twoDigit(rowCounter)}
+                    </td>
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {item.unit_name}
+                    </td>
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {itemDisplay(item.item_name, item.description || "")}
+                    </td>
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {numberTemplate(item.quantity)}
+                    </td>
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {currencyTemplate(item.price)}
+                    </td>
+                    <td className="print-normal px-2 py-1 border bg-gray-50">
+                      {currencyTemplate(item.price * item.quantity)}
+                    </td>
+                  </tr>
+                );
+              })
             )}
             <tr>
               <td className="border bg-gray-50" colSpan={2}>

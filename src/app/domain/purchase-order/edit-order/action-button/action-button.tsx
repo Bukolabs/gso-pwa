@@ -8,12 +8,14 @@ import { Button } from "primereact/button";
 export interface ActionButtonProps {
   status: string;
   disabled?: boolean;
+  procurement?: string;
   onAction: (action: string) => void;
 }
 
 export function ActionButton({
   status,
   disabled,
+  procurement,
   onAction,
 }: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
@@ -35,6 +37,7 @@ export function ActionButton({
   const deleteAction = getAction("Delete");
   const declineAction = getAction("Decline");
   const reviewAction = getAction("Review");
+  const isRFQ = procurement === "RFQ";
 
   const bacMainActions = (status: string) => {
     switch (status) {
@@ -114,18 +117,25 @@ export function ActionButton({
   const approverOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.POREVIEW:
-        if (isGso) {
+        if (isGso && isRFQ) {
           return [declineAction, updateAction, history, print];
+        } else if (isGso && !isRFQ) {
+          return [declineAction, updateAction, history];
         }
         return [declineAction, history];
       case RequestStatus.PODECLINED:
         return [history];
       case RequestStatus.POAPPROVED:
-        if (isGso) {
+        if (isGso && isRFQ) {
           return [history, print];
+        } else if (isGso && !isRFQ) {
+          return [history];
         } else {
           return [declineAction];
         }
+
+      case RequestStatus.INSPECTION:
+        return [];
 
       default:
         return [];

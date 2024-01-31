@@ -1,6 +1,5 @@
 import "./home";
-import { LabelValue } from "@shared/models/label-value.interface";
-import HomeCard, { HomeCardProps } from "./home-card/home-card";
+import HomeCard from "./home-card/home-card";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import {
   useGetStage1SummaryQy,
@@ -88,11 +87,7 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage2Model.map((item, id) => (
-          <HomeCard
-            key={id}
-            {...item}
-            onOrderAction={handleOrderAction}
-          />
+          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
         ))}
       </div>
 
@@ -102,7 +97,12 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage3Model.map((item, id) => (
-          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} onOrderReviewerAction={handleOrderReviewAction} />
+          <HomeCard
+            key={id}
+            {...item}
+            onOrderAction={handleOrderAction}
+            onOrderReviewerAction={handleOrderReviewAction}
+          />
         ))}
       </div>
 

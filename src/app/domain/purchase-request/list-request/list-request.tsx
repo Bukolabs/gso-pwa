@@ -15,7 +15,7 @@ import { Column } from "primereact/column";
 import {
   dateTemplate,
   getTotalAmount,
-  getTotalItems,
+  getTotalItemsQuantity,
   tagTemplate,
   totalAmountColumn,
   totalItemsColumn,
@@ -230,7 +230,7 @@ export function ListRequest() {
               reviewers={reviewers}
               dueDate={dateFormat(item.pr_date)}
               totalAmount={currencyFormat(getTotalAmount(item), "PHP")}
-              totalItems={numberFormat(getTotalItems(item))}
+              totalItems={numberFormat(getTotalItemsQuantity(item))}
               onClick={(code) => navigate(code)}
             />
           );

@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import "./pr-item-info.scss";
 import { QueryKey } from "@core/query/query-key.enum";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useEditRequestQy } from "@core/query/request.query";
@@ -13,59 +13,73 @@ import ItemCard from "@core/ui/item-card/item-card";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 import PrItemAction from "../pr-item-action/pr-item-action";
+import { shouldShowInspectionElements } from "@core/utility/stage-helper";
 
 export interface PrItemInfoProps {
-  requestItems: ItemFormSchema[];
-  requestData?: GetPurchaseRequestDto;
+  requestData: GetPurchaseRequestDto | null;
 }
 
-export function PrItemInfo({ requestData, requestItems }: PrItemInfoProps) {
+export function PrItemInfo({ requestData }: PrItemInfoProps) {
+  const { orderId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { showSuccess } = useNotificationContext();
+  const status = requestData?.status_name;
+  const formItems = (requestData?.items || []).map(
+    (item) =>
+      ({
+        code: item.item,
+        name: item.item_name,
+        brand: item.brand,
+        brandName: item.brand_name,
+        category: item.category_name,
+        description: item.description,
+        isActive: true,
+        cost: item.price,
+        unit: item.unit,
+        unitName: item.unit_name,
+        categoryName: item.category_name,
+        quantity: item.quantity,
+        deliveredQuantity: item.delivered_quantity,
+      } as ItemFormSchema)
+  );
 
   // EDIT REQUEST
   const handleRequestApiSuccess = () => {
-    queryClient.invalidateQueries(QueryKey.Order);
+    queryClient.invalidateQueries([QueryKey.Order, orderId]);
     showSuccess("Request items updated");
+    window.location.reload();
   };
   const { mutate: editRequest } = useEditRequestQy(handleRequestApiSuccess);
 
+  // FORM
   const handlePRView = (prId: string) => {
     navigate(`/request/${prId}`);
   };
-  const handleUpdatePRItem = (
-    item: ItemFormSchema,
-    brand: string,
-    deliveredQuantity: number | null,
-    newQuantity: number | null
-  ) => {
+  const handleUpdatePRItem = (form: ItemFormSchema) => {
     if (requestData) {
       const editSchema = ApiToFormService.MapPurchaseRequestToForm(requestData);
       const updatedItems = editSchema.items.map((subItem) => {
-        if (item.code === subItem.code) {
+        if (form.code === subItem.code) {
           const quantity =
-            newQuantity !== null ? newQuantity : subItem.quantity;
+            form.quantity !== null ? form.quantity : subItem.quantity;
           return {
             ...subItem,
-            brand: brand,
+            brand: form.brand,
             quantity,
-            deliveredQuantity: deliveredQuantity,
+            deliveredQuantity: form.deliveredQuantity,
           };
         }
-
         return subItem;
       }) as PurchaseItemFormSchema[];
       const updatedSchema = {
         ...editSchema,
         items: updatedItems,
       };
-
       const formData = FormToApiService.EditPurchaseRequest(
         updatedSchema,
         requestData.code
       );
-      console.log({ editSchema, updatedSchema });
       editRequest(formData);
     }
   };
@@ -82,27 +96,31 @@ export function PrItemInfo({ requestData, requestItems }: PrItemInfoProps) {
         outlined
       />
       <div className="flex flex-wrap gap-2">
-        {(requestItems || []).map((item, id) => {
+        {(formItems || []).map((item, id) => {
           const releasedAmount = (item.deliveredQuantity || 0) * item.cost;
           return (
             <ItemCard key={id} itemNo={id} item={item}>
-              <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-gray-800 font-bold">
-                    {item.deliveredQuantity || 0}
-                  </p>
-                  <p className="hint">Delivered Quantity</p>
+              {shouldShowInspectionElements(status) ? (
+                <div>
+                  <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
+                    <div className="flex flex-col items-center justify-center">
+                      <p className="text-gray-800 font-bold">
+                        {item.deliveredQuantity || 0}
+                      </p>
+                      <p className="hint">Delivered Quantity</p>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <p className="text-gray-800 font-bold">
+                        {currencyFormat(releasedAmount, "PHP")}
+                      </p>
+                      <p className="hint">Released Amount</p>
+                    </div>
+                  </section>
+                  <FormBrandItemProvider>
+                    <PrItemAction item={item} onUpdate={handleUpdatePRItem} />
+                  </FormBrandItemProvider>
                 </div>
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-gray-800 font-bold">
-                    {currencyFormat(releasedAmount, "PHP")}
-                  </p>
-                  <p className="hint">Released Amount</p>
-                </div>
-              </section>
-              <FormBrandItemProvider>
-                <PrItemAction item={item} onUpdate={handleUpdatePRItem} />
-              </FormBrandItemProvider>
+              ) : null}
             </ItemCard>
           );
         })}

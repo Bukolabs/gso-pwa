@@ -273,6 +273,7 @@ export class FormToApiService {
       contact_no: form.phone,
       email: form.email,
       tin: form.tin,
+      payment_term: form.paymentTerm,
       iar_no: form.iar,
       iar_date: !!form.iarDate ? format(form.iarDate as Date, SETTINGS.dateFormat) : null,
       invoice_no: form.invoice,

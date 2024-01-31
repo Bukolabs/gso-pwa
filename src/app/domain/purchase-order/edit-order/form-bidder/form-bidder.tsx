@@ -5,9 +5,11 @@ import { useFormContext } from "react-hook-form";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 
 /* eslint-disable-next-line */
-export interface FormBidderProps {}
+export interface FormBidderProps {
+  isDisabled: boolean;
+}
 
-export function FormBidder() {
+export function FormBidder({ isDisabled }: FormBidderProps) {
   const { control } = useFormContext<OrderFormSchema>();
 
   return (
@@ -21,6 +23,7 @@ export function FormBidder() {
           containerClassName="pb-2"
           placeholder="Enter supplier name"
           hint="e.g. Juan de la Cruz"
+          disabled={isDisabled}
         />
         <InputTextareaControl<OrderFormSchema>
           control={control}
@@ -30,6 +33,7 @@ export function FormBidder() {
           containerClassName="pb-2"
           placeholder="Enter supplier's address"
           hint="e.g. J.A Clarin Street cor. E. Calceta Street, Cogon, Tagbilaran City, Bohol, 6300"
+          disabled={isDisabled}
         />
         <InputControl<OrderFormSchema>
           control={control}
@@ -39,6 +43,7 @@ export function FormBidder() {
           containerClassName="pb-2"
           placeholder="Enter supplier email"
           hint="e.g. juandelacruz090@gmail.com"
+          disabled={isDisabled}
         />
         <InputControl<OrderFormSchema>
           control={control}
@@ -48,6 +53,7 @@ export function FormBidder() {
           containerClassName="pb-2"
           placeholder="Enter supplier contact number"
           hint="e.g. 09196681122"
+          disabled={isDisabled}
         />
         <InputControl<OrderFormSchema>
           control={control}
@@ -57,6 +63,7 @@ export function FormBidder() {
           containerClassName="pb-2"
           placeholder="Enter supplier TIN"
           hint="e.g. xxxx-xx-xxxx"
+          disabled={isDisabled}
         />
       </div>
     </div>

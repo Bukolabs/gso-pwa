@@ -43,20 +43,14 @@ export const getStatusStyle = (status: string) => {
     case RequestStatus.POAPPROVED:
       return "bg-green-200 text-green-500";
     case RequestStatus.PODECLINED:
-      return "bg-purple-200 text-purple-500";
+      return "bg-red-200 text-red-500";
 
     case RequestStatus.INSPECTION:
       return "bg-lime-200 text-lime-500";
     case RequestStatus.PARTIAL:
       return "bg-pink-200 text-pink-500";
-    case RequestStatus.FULFILLED:
-      return "bg-emerald-200 text-emerald-500";
-    case RequestStatus.UNFULFILLED:
-      return "bg-rose-200 text-rose-500";
-    case RequestStatus.LATE:
-      return "bg-emerald-400 text-emerald-700";
-    case RequestStatus.CANCELLED:
-      return "bg-orange-400 text-orange-700";
+    case RequestStatus.COMPLETE:
+      return "bg-emerald-200 text-emerald-700";
 
     default:
       return "bg-gray-200 text-gray-500";

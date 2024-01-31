@@ -19,8 +19,16 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
   const [historyData, setHistoryData] = useState<PurchaseHistoryModel[]>([]);
   const { data: statusQy } = useGetStatusQy(true);
-  const { data: accountsQy } = useGetAccountQy("", 999997, 0, undefined, undefined, !!historyId);
+  const { data: accountsQy } = useGetAccountQy(
+    "",
+    999997,
+    0,
+    undefined,
+    undefined
+  );
   const { getReviewers } = useReviewHook();
+  const statusRecord = keyBy(statusQy?.data || [], "code");
+  const accountsRecord = keyBy(accountsQy?.data || [], "person_code");
 
   const renameStatus = (status: string) => {
     switch (status) {
@@ -35,6 +43,8 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   };
 
   const getReviewerRemarks = (data: GetPurchaseRequestDto) => {
+    const status = statusRecord[data.status]?.name;
+    const currentStage = getStageNameByStatus(status);
     let reviewers = [
       data.is_gso,
       data.is_treasurer,
@@ -52,26 +62,26 @@ export function usePurchaseHistory(isOrder: boolean = false) {
     };
 
     if (isOrder) {
-      reviewers = [data.is_gso, data.is_mayor, data.is_treasurer];
+      reviewers = [data.is_gso, data.is_treasurer, data.is_mayor];
       remarksRecord = {
         0: "",
         1: data.gso_remarks,
-        2: data.mayor_remarks,
-        3: data.treasurer_remarks,
+        2: data.treasurer_remarks,
+        3: data.mayor_remarks,
         4: "",
         5: "",
       };
+    } else if (!isOrder && currentStage === StageName.STAGE_3) {
+      return "";
     }
 
-    const approvers = reviewers.filter((x) => !!x).length;
+    const approvers = reviewers.filter((x) => x !== null).length;
     return remarksRecord[approvers as keyof typeof remarksRecord] || "";
   };
 
   const handleHistorySuccess = (
     data: TransactionHistoryControllerGetDataAsList200Response
   ) => {
-    const statusRecord = keyBy(statusQy?.data || [], "code");
-    const accountsRecord = keyBy(accountsQy?.data || [], "person_code");
     const responseHistory = data.data;
     const historicalData = responseHistory?.map((item) => {
       const newValue = JSON.parse(item.new_values as string);

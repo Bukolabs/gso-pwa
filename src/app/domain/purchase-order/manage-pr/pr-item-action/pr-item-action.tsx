@@ -1,21 +1,22 @@
 import { InputText } from "primereact/inputtext";
+import { zodResolver } from "@hookform/resolvers/zod";
 import "./pr-item-action.scss";
 import { useFormBrandItemContext } from "@domain/item/new-item/form-brand-item/brand.context";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
-import { Dropdown, DropdownFilterEvent } from "primereact/dropdown";
-import { useState } from "react";
-import { InputNumber } from "primereact/inputnumber";
-import { ItemFormSchema } from "@core/model/form.rule";
+import { DropdownFilterEvent } from "primereact/dropdown";
+import { ItemFormRule, ItemFormSchema } from "@core/model/form.rule";
+import { FieldErrors, useForm } from "react-hook-form";
+import InputDigitControl from "@shared/ui/hook-form/input-digit-control/input-digit-control";
+import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
+import { Accordion, AccordionTab } from "primereact/accordion";
+import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
+import { getFormErrorMessage } from "@core/utility/get-error-message";
+import { useNotificationContext } from "@shared/ui/notification/notification.context";
 
 export interface PrItemActionProps {
   item: ItemFormSchema;
-  onUpdate: (
-    item: ItemFormSchema,
-    brand: string,
-    deliveredQuantity: number | null,
-    newQuantity: number | null
-  ) => void;
+  onUpdate: (form: ItemFormSchema) => void;
 }
 
 export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
@@ -30,14 +31,25 @@ export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
     handleFilterInput,
     handleAdd,
   } = useFormBrandItemContext();
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [deliveredQuantity, setDeliveredQuantity] = useState<number | null>(
-    null
-  );
-  const [newQuantity, setNewQuantity] = useState<number | null>(null);
+  const { showError } = useNotificationContext();
+
+  // FORM
+  const formMethod = useForm<ItemFormSchema>({
+    defaultValues: item,
+    resolver: zodResolver(ItemFormRule),
+  });
+  const { handleSubmit, control } = formMethod;
+
+  const handleValidate = (form: ItemFormSchema) => {
+    onUpdate(form);
+  };
+  const handleValidateError = (err: FieldErrors<ItemFormSchema>) => {
+    const formMessage = getFormErrorMessage(err);
+    showError(formMessage);
+  };
 
   const handleUpdate = () => {
-    onUpdate(item, selectedBrand, deliveredQuantity, newQuantity);
+    handleSubmit(handleValidate, handleValidateError)();
   };
 
   return (
@@ -76,34 +88,56 @@ export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
       )}
 
       <section className="m-2 mb-4">
-        <span className="p-2 flex flex-col">
-          <label>Quantity</label>
-          <InputNumber
-            value={newQuantity}
-            onChange={(e) => setNewQuantity(e.value)}
-          />
-        </span>
-        <span className="p-2 flex flex-col">
-          <label>Delivered Quantity:</label>
-          <InputNumber
-            value={deliveredQuantity}
-            onChange={(e) => setDeliveredQuantity(e.value)}
-          />
-        </span>
-        <span className="p-2 flex flex-col">
-          <label>Brand Name:</label>
-          <Dropdown
-            value={selectedBrand}
-            onChange={(e) => setSelectedBrand(e.value)}
-            options={mappedBrands}
-            className="w-full md:w-3/4"
-            placeholder="Enter your brand name"
-            filter
-            onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
-            onKeyDown={handleFilterInput}
-          />
-        </span>
-        <Button className="block m-2" label="Update" onClick={handleUpdate} />
+        <Accordion>
+          <AccordionTab header="Update Actions">
+            <InputTextareaControl<ItemFormSchema>
+              control={control}
+              name="description"
+              label="Description (If you want to update)"
+              containerClassName="mb-9"
+              className="w-full md:w-3/4"
+              placeholder="Enter the item description"
+              hint="e.g. Amplifies airflow. To heat you or cool you fast"
+            />
+            <InputDigitControl<ItemFormSchema>
+              control={control}
+              name="quantity"
+              label="Quantity (If you want to update)"
+              containerClassName="mb-9"
+              className="w-full md:w-3/4"
+              placeholder="Enter the item quantity"
+              hint="e.g. 5"
+            />
+            <InputDigitControl<ItemFormSchema>
+              control={control}
+              name="deliveredQuantity"
+              label="Delivered Quantity (If you want to update)"
+              containerClassName="mb-9"
+              className="w-full md:w-3/4"
+              placeholder="Enter the total delivered item quantity"
+              hint="e.g. 5"
+            />
+            <DropdownControl<ItemFormSchema>
+              control={control}
+              name="brand"
+              label="Brand"
+              options={mappedBrands}
+              containerClassName="mb-9"
+              className="w-full md:w-3/4"
+              placeholder="Enter your brand name"
+              hint="e.g. Dyson. Hit ENTER to create a new brand. Otherwise, if the brand doesn't exist select N/A"
+              filter
+              onFilter={(e: DropdownFilterEvent) => setFilter(e.filter)}
+              onKeyDown={handleFilterInput}
+            />
+
+            <Button
+              className="block m-2"
+              label="Update"
+              onClick={handleUpdate}
+            />
+          </AccordionTab>
+        </Accordion>
       </section>
     </div>
   );

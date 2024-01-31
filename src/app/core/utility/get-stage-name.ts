@@ -23,9 +23,7 @@ export function getStageNameByStatus(status: string) {
 
     case RequestStatus.INSPECTION:
     case RequestStatus.PARTIAL:
-    case RequestStatus.FULFILLED:
-    case RequestStatus.UNFULFILLED:
-    case RequestStatus.CANCELLED:
+    case RequestStatus.COMPLETE:
       return StageName.STAGE_4;
   }
 }

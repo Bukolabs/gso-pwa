@@ -31,6 +31,7 @@ import { useEditRequestQy } from "@core/query/request.query";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 import { getOrderFormDefault } from "@core/model/get-form.default";
+import { shouldShowBidder } from "@core/utility/stage-helper";
 
 export function useEditOrder() {
   const { historyData, getHistory } = usePurchaseHistory(true);
@@ -147,6 +148,26 @@ export function useEditOrder() {
       setValue("email", responseData?.email || "");
       setValue("phone", responseData?.contact_no || "");
       setValue("tin", responseData?.tin || "");
+      setValue("iar", responseData?.iar_no || "");
+      setValue(
+        "iarDate",
+        responseData?.iar_date
+          ? (format(
+              new Date(responseData?.iar_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined
+      );
+      setValue("invoice", responseData?.invoice_no || "");
+      setValue(
+        "invoiceDate",
+        responseData?.invoice_date
+          ? (format(
+              new Date(responseData?.invoice_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined
+      );
 
       const requestInForm = ApiToFormService.MapOrderRequestsToForm(
         responseData?.purchase_requests || [],
@@ -167,6 +188,9 @@ export function useEditOrder() {
     isLoading,
     isError: orderError,
   } = useGetOrderByIdQy(orderId || "", handleGetApiSuccess);
+  const status = orders?.data?.[0].status_name;
+  const procurement = orders?.data?.[0].mode_of_procurement;
+  const shouldShowBidderDisplay = shouldShowBidder(status);
 
   const reviewers = getReviewers({
     isGso: orders?.data?.[0].is_gso,
@@ -321,18 +345,10 @@ export function useEditOrder() {
     }
   };
   const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
-    let newStatus = RequestStatus.FULFILLED;
+    let newStatus = RequestStatus.PARTIAL;
     switch (action) {
-      case RequestStatusAction.UNFULFILL:
-        newStatus = RequestStatus.UNFULFILLED;
-        break;
-
-      case RequestStatusAction.LATE:
-        newStatus = RequestStatus.LATE;
-        break;
-
-      case RequestStatusAction.CANCEL:
-        newStatus = RequestStatus.CANCELLED;
+      case RequestStatusAction.COMPLETE:
+        newStatus = RequestStatus.COMPLETE;
         break;
     }
 
@@ -382,6 +398,9 @@ export function useEditOrder() {
     isUpdatingRequest,
     isProcessing,
     isUpdating,
+    status,
+    procurement,
+    shouldShowBidderDisplay,
     navigate,
     handleSelectedRequests,
     handleAction,
