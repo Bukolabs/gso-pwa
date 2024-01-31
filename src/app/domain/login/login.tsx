@@ -122,7 +122,7 @@ export function Login() {
             alt="buko-labs"
           />
         </div>
-        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240125.3</span>
+        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240131.1</span>
       </LeftContentPage>
     </div>
   );
