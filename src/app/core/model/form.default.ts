@@ -83,4 +83,5 @@ export const itemFormDefault = {
   cost: 0,
   unit: "",
   quantity: 0,
+  deliveredQuantity: 0,
 } as ItemFormSchema;

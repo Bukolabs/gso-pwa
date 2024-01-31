@@ -14,6 +14,7 @@ export const ItemFormRule = z
     cost: z.number(),
     isActive: z.boolean().optional(),
     quantity: z.number().optional(),
+    deliveredQuantity: z.number().optional()
   })
   .superRefine((val, ctx) => {
     if (val.cost <= 0) {

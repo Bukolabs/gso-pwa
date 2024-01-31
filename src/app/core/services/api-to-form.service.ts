@@ -49,6 +49,7 @@ export class ApiToFormService {
         isActive: true,
         quantity: x.quantity,
         itemArrayCode: x.code,
+        deliveredQuantity: x.delivered_quantity,
       } as PurchaseItemFormSchema;
     });
 

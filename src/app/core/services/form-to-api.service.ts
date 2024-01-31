@@ -216,6 +216,7 @@ export class FormToApiService {
       price: form.cost,
       is_active: form.isActive,
       code: form.itemArrayCode,
+      delivered_quantity: form.deliveredQuantity
     } as CreatePrItemDto;
 
     return payload;

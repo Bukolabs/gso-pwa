@@ -17,22 +17,42 @@ import { dateFormat } from "@shared/formats/date-time-format";
 import { numberFormat } from "@shared/formats/number-format";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
-import ItemCard from "@core/ui/item-card/item-card";
 import { ItemFormSchema } from "@core/model/form.rule";
 import {
   RequestStatus,
   RequestStatusAction,
 } from "@core/model/request-status.enum";
 import { SplitButton } from "primereact/splitbutton";
-import { useNavigate } from "react-router-dom";
 import PrintInspection from "../edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
-import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
+import PrItemInfo from "./pr-item-info/pr-item-info";
 
 interface ViewPRData {
   data: GetPurchaseRequestDto;
   requests: ItemFormSchema[];
 }
+
+const isStage4 = (status: string) =>
+  status === RequestStatus.INSPECTION ||
+  status === RequestStatus.PARTIAL ||
+  status === RequestStatus.FULFILLED ||
+  status === RequestStatus.UNFULFILLED ||
+  status === RequestStatus.CANCELLED;
+const shouldDisplayAwardedCards = (status: string) =>
+  status === RequestStatus.AWARDED ||
+  status === RequestStatus.POREVIEW ||
+  status === RequestStatus.POAPPROVED ||
+  status === RequestStatus.PODECLINED ||
+  status === RequestStatus.INSPECTION ||
+  status === RequestStatus.PARTIAL ||
+  status === RequestStatus.FULFILLED ||
+  status === RequestStatus.UNFULFILLED ||
+  status === RequestStatus.CANCELLED;
+const shouldGetUnassigned = (status: string) =>
+  status === RequestStatus.CATEGORIZED ||
+  status === RequestStatus.POSTED ||
+  status === RequestStatus.BIDDING;
+
 export interface ManagePrProps {
   status: string;
   category: string;
@@ -50,31 +70,17 @@ export function ManagePr({
   onSelect,
   onAction,
 }: ManagePrProps) {
-  const navigate = useNavigate();
   const [source, setSource] = useState<GetPurchaseRequestDto[]>([]);
   const [target, setTarget] = useState(selectedList);
   const [visible, setVisible] = useState(false);
-  const [viewData, setViewData] = useState<ViewPRData | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<ViewPRData | null>(
+    null
+  );
   const [filter] = useState({
     category: category,
     status_name: "APPROVED",
   });
-  const isStage4 =
-    status === RequestStatus.INSPECTION ||
-    status === RequestStatus.PARTIAL ||
-    status === RequestStatus.FULFILLED ||
-    status === RequestStatus.UNFULFILLED ||
-    status === RequestStatus.CANCELLED;
-  const isStage3And4 =
-    status === RequestStatus.AWARDED ||
-    status === RequestStatus.POREVIEW ||
-    status === RequestStatus.POAPPROVED ||
-    status === RequestStatus.PODECLINED ||
-    status === RequestStatus.INSPECTION ||
-    status === RequestStatus.PARTIAL ||
-    status === RequestStatus.FULFILLED ||
-    status === RequestStatus.UNFULFILLED ||
-    status === RequestStatus.CANCELLED;
+
   const rowLimit = 99999;
   const pageNumber = 0;
   const componentRef = useRef(null);
@@ -82,6 +88,7 @@ export function ManagePr({
     content: () => componentRef.current,
   });
 
+  // GET UNASSIGNED PR
   const handleApiSuccess = (
     response: PurchaseRequestControllerGetDataAsList200Response
   ) => {
@@ -97,7 +104,7 @@ export function ManagePr({
     pageNumber,
     undefined,
     filter,
-    undefined,
+    shouldGetUnassigned(status),
     handleApiSuccess
   );
 
@@ -127,7 +134,6 @@ export function ManagePr({
       },
     },
   ];
-
   const handleView = (e: SyntheticEvent, data: GetPurchaseRequestDto) => {
     e.preventDefault();
     setVisible(true);
@@ -135,6 +141,7 @@ export function ManagePr({
     const requests = (data.items || []).map(
       (item) =>
         ({
+          code: item.item,
           name: item.item_name,
           brand: item.brand_name,
           category: item.category_name,
@@ -145,16 +152,17 @@ export function ManagePr({
           unitName: item.unit_name,
           categoryName: item.category_name,
           quantity: item.quantity,
+          deliveredQuantity: item.delivered_quantity,
         } as ItemFormSchema)
     );
 
-    setViewData({
+    setSelectedRequest({
       data,
       requests,
     });
   };
   const handleReadyPrint = (data: GetPurchaseRequestDto) => {
-    setViewData({ data, requests: [] });
+    setSelectedRequest({ data, requests: [] });
     setTimeout(() => {
       handlePrint();
     }, 100);
@@ -165,15 +173,12 @@ export function ManagePr({
 
     onSelect(event.target);
   };
-  const handlePRView = (prId: string) => {
-    navigate(`/request/${prId}`);
-  };
 
   const printInspectionSection = () => (
     <div style={{ display: "none" }}>
       <div ref={componentRef}>
-        {viewData?.data && (
-          <PrintInspection data={viewData?.data} order={order} />
+        {selectedRequest?.data && (
+          <PrintInspection data={selectedRequest?.data} order={order} />
         )}
       </div>
     </div>
@@ -223,7 +228,7 @@ export function ManagePr({
           </div>
         </section>
         <section className="flex justify-end w-full px-4 pb-4">
-          {isStage4 ? (
+          {isStage4(status) ? (
             <section className="gap-2 flex">
               <Button
                 label="Print"
@@ -250,26 +255,14 @@ export function ManagePr({
       visible={visible}
       onHide={() => {
         setVisible(false);
-        setViewData(null);
+        setSelectedRequest(null);
       }}
       className="w-full md:w-2/5"
     >
-      <h2>Request Items</h2>
-      <Button
-        label="View full request"
-        onClick={(e) => handlePRView(viewData?.data.code || "")}
-        size="small"
-        className="block mb-4"
-        severity="secondary"
-        outlined
+      <PrItemInfo
+        requestData={selectedRequest?.data}
+        requestItems={selectedRequest?.requests || []}
       />
-      <div className="flex flex-wrap gap-2">
-        {(viewData?.requests || []).map((item, id) => (
-          <ItemCard key={id} itemNo={id} item={item}>
-            <FormBrandItemProvider>Hello</FormBrandItemProvider>
-          </ItemCard>
-        ))}
-      </div>
     </Sidebar>
   );
 
@@ -278,7 +271,7 @@ export function ManagePr({
       {printInspectionSection()}
       {prSidebar}
 
-      {isStage3And4 ? (
+      {shouldDisplayAwardedCards(status) ? (
         <section className="grid md:grid-cols-2 gap-4 grid-cols-1">
           {target.map((item, id) => (
             <div key={id}>{itemTemplate(item)}</div>

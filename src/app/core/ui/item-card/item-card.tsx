@@ -12,6 +12,7 @@ export interface ItemCardProps {
   itemNo: number;
   showActions?: boolean;
   children?: ReactNode;
+  classname?: string;
   onEdit?: (code: ItemFormSchema) => void;
   onRemove?: (code: ItemFormSchema) => void;
 }
@@ -21,13 +22,17 @@ export function ItemCard({
   item,
   showActions = true,
   children,
+  classname,
   onEdit,
   onRemove,
 }: ItemCardProps) {
   const totalCost = item.cost * (item.quantity || 1);
   return (
     <div
-      className={classNames("bg-white w-full shadow rounded-md flex flex-col")}
+      className={classNames(
+        "bg-white w-full shadow rounded-md flex flex-col",
+        classname
+      )}
     >
       <section className="w-full border-b border-gray-200">
         <div className="flex justify-between p-4">

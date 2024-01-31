@@ -19,7 +19,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
   const [historyData, setHistoryData] = useState<PurchaseHistoryModel[]>([]);
   const { data: statusQy } = useGetStatusQy(true);
-  const { data: accountsQy } = useGetAccountQy("", 999999, 0);
+  const { data: accountsQy } = useGetAccountQy("", 999997, 0, undefined, undefined, !!historyId);
   const { getReviewers } = useReviewHook();
 
   const renameStatus = (status: string) => {

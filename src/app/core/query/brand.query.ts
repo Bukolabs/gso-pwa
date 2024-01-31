@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 
-export function useGetBrand(
+export function useGetBrandQy(
   search: string,
   limit = 10,
   offset = 0,

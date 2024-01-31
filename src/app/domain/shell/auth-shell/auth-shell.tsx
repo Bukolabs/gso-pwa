@@ -81,7 +81,7 @@ export function AuthShell() {
   };
 
   useGetStatusQy();
-  useGetAccountQy("", 9999999, 0);
+  useGetAccountQy("", 9999998, 0);
 
   const handleLogout = () => {
     StorageService.clear(AUTH);

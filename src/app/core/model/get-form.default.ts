@@ -87,6 +87,7 @@ export const getItemFormDefault = (cachedValue: GetItemDto | undefined) => {
         description: cachedValue.description,
         cost: cachedValue.price || 0,
         unit: cachedValue.unit,
+        deliveredQuantity: 0,
       } as ItemFormSchema);
 };
 
