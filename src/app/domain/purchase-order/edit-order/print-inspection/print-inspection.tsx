@@ -83,9 +83,15 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
                   {order?.iar_no}
                 </label>
-                <span className="print-normal block relative font-bold border-b border-black w-full mt-6"></span>
-                <span className="print-normal block relative font-bold border-b border-black w-full  mt-9"></span>
-                <span className="print-normal block relative font-bold border-b border-black w-full mt-5"></span>
+                <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
+                  {dateFormat(order?.iar_date)}
+                </label>
+                <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
+                  {order?.invoice_no}
+                </label>
+                <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
+                  {dateFormat(order?.invoice_date)}
+                </label>
               </td>
             </tr>
             <tr>
