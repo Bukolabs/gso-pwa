@@ -1,7 +1,4 @@
-import {
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./domain/home/home";
 import PurchaseOrder from "./domain/purchase-order/purchase-order";
 import PurchaseRequest from "./domain/purchase-request/purchase-request";
@@ -31,6 +28,8 @@ import { ProtectedRoute } from "@core/authentication/protected-route";
 import ListOrder from "@domain/purchase-order/list-order/list-order";
 import NewOrder from "@domain/purchase-order/new-order/new-order";
 import EditOrder from "@domain/purchase-order/edit-order/edit-order";
+import PrItemInfo from "@domain/purchase-order/manage-pr/pr-item-info/pr-item-info";
+import { EditOrderProvider } from "@domain/purchase-order/edit-order/edit-order.context";
 
 const router = createBrowserRouter([
   {
@@ -79,7 +78,17 @@ const router = createBrowserRouter([
               },
               {
                 path: ":orderId",
-                element: <EditOrder />,
+                element: (
+                  <EditOrderProvider>
+                    <EditOrder />
+                  </EditOrderProvider>
+                ),
+                children: [
+                  {
+                    path: ":requestId",
+                    element: <PrItemInfo />,
+                  },
+                ],
               },
             ],
           },

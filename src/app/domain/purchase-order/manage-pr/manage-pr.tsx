@@ -3,7 +3,6 @@ import { SyntheticEvent, useRef, useState } from "react";
 import { PickList } from "primereact/picklist";
 import { useGetUnassignedRequestQy } from "@core/query/request.query";
 import {
-  GetPurchaseOrderDto,
   GetPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
@@ -18,7 +17,6 @@ import {
 import { dateFormat } from "@shared/formats/date-time-format";
 import { numberFormat } from "@shared/formats/number-format";
 import { Button } from "primereact/button";
-import { Sidebar } from "primereact/sidebar";
 import {
   RequestStatus,
   RequestStatusAction,
@@ -26,8 +24,9 @@ import {
 import { SplitButton } from "primereact/splitbutton";
 import PrintInspection from "../edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
-import PrItemInfo from "./pr-item-info/pr-item-info";
 import { shouldShowInspectionElements } from "@core/utility/stage-helper";
+import { useNavigate } from "react-router-dom";
+import { useEditOrderContext } from "../edit-order/edit-order.context";
 
 const isStage4 = (status: string) =>
   status === RequestStatus.INSPECTION ||
@@ -50,7 +49,6 @@ export interface ManagePrProps {
   status: string;
   category: string;
   selectedList: GetPurchaseRequestDto[];
-  order?: GetPurchaseOrderDto;
   onSelect: (selected: GetPurchaseRequestDto[]) => void;
   onAction: (action: string, item: GetPurchaseRequestDto) => void;
 }
@@ -59,19 +57,20 @@ export function ManagePr({
   status,
   category,
   selectedList,
-  order,
   onSelect,
   onAction,
 }: ManagePrProps) {
+  const navigate = useNavigate();
+  const { orders } = useEditOrderContext();
   const [source, setSource] = useState<GetPurchaseRequestDto[]>([]);
   const [target, setTarget] = useState(selectedList);
-  const [visible, setVisible] = useState(false);
   const [selectedRequest, setSelectedRequest] =
     useState<GetPurchaseRequestDto | null>(null);
   const [filter] = useState({
     category: category,
     status_name: "APPROVED",
   });
+  const currentOrder = orders?.data?.[0];
 
   const rowLimit = 99999;
   const pageNumber = 0;
@@ -116,9 +115,7 @@ export function ManagePr({
   ];
   const handleView = (e: SyntheticEvent, data: GetPurchaseRequestDto) => {
     e.preventDefault();
-    setVisible(true);
-
-    setSelectedRequest(data);
+    navigate(`${data.code}`);
   };
   const handleReadyPrint = (data: GetPurchaseRequestDto) => {
     setSelectedRequest(data);
@@ -137,7 +134,7 @@ export function ManagePr({
     <div style={{ display: "none" }}>
       <div ref={componentRef}>
         {selectedRequest && (
-          <PrintInspection data={selectedRequest} order={order} />
+          <PrintInspection data={selectedRequest} order={currentOrder} />
         )}
       </div>
     </div>
@@ -227,27 +224,14 @@ export function ManagePr({
       </div>
     );
   };
-  const prSidebar = (
-    <Sidebar
-      visible={visible}
-      onHide={() => {
-        setVisible(false);
-        setSelectedRequest(null);
-      }}
-      className="w-full md:w-2/5"
-    >
-      <PrItemInfo requestData={selectedRequest} />
-    </Sidebar>
-  );
 
   return (
     <div className="manage-pr">
       {printInspectionSection()}
-      {prSidebar}
 
       {shouldDisplayAwardedCards(status) ? (
         <section className="grid md:grid-cols-2 gap-4 grid-cols-1">
-          {target.map((item, id) => (
+          {(currentOrder?.purchase_requests || []).map((item, id) => (
             <div key={id}>{itemTemplate(item)}</div>
           ))}
         </section>

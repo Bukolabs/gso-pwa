@@ -27,6 +27,8 @@ import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { numberFormat } from "@shared/formats/number-format";
 import { shouldDisableBidder } from "@core/utility/stage-helper";
+import { useEditOrderContext } from "./edit-order.context";
+import { Outlet } from "react-router-dom";
 
 export function EditOrder() {
   const {
@@ -60,7 +62,7 @@ export function EditOrder() {
     setReviewRemarks,
     handleReviewAction,
     setHistorySidebar,
-  } = useEditOrder();
+  } = useEditOrderContext();
   const shouldDisableBidderForm = shouldDisableBidder(status);
 
   const displayLoading = (
@@ -87,8 +89,11 @@ export function EditOrder() {
         : 0;
     const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
     const totalRequests = (data?.purchase_requests || []).length;
-    const totalCompletedRequests = ( data?.purchase_requests || []).filter(item => item.status_name === RequestStatus.COMPLETED).length;
-    const completionPercentile = (totalCompletedRequests / totalRequests) * 100 || 0;
+    const totalCompletedRequests = (data?.purchase_requests || []).filter(
+      (item) => item.status_name === RequestStatus.COMPLETED
+    ).length;
+    const completionPercentile =
+      (totalCompletedRequests / totalRequests) * 100 || 0;
 
     return (
       <section className="flex flex-col md:flex-row md:justify-between">
@@ -194,7 +199,6 @@ export function EditOrder() {
               status={status || ""}
               category={category}
               selectedList={selectedRequests}
-              order={orders?.data?.[0]}
               onSelect={handleSelectedRequests}
               onAction={handlePrAction}
             />
@@ -234,6 +238,7 @@ export function EditOrder() {
           {!isLoading && !dataEmpty && !editError ? orderTab : <></>}
         </FormProvider>
       </div>
+      <Outlet />
     </div>
   );
 }
