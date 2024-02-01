@@ -32,7 +32,7 @@ import { shouldShowInspectionElements } from "@core/utility/stage-helper";
 const isStage4 = (status: string) =>
   status === RequestStatus.INSPECTION ||
   status === RequestStatus.PARTIAL ||
-  status === RequestStatus.COMPLETE;
+  status === RequestStatus.COMPLETED;
 const shouldDisplayAwardedCards = (status: string) =>
   status === RequestStatus.AWARDED ||
   status === RequestStatus.POREVIEW ||
@@ -40,7 +40,7 @@ const shouldDisplayAwardedCards = (status: string) =>
   status === RequestStatus.PODECLINED ||
   status === RequestStatus.INSPECTION ||
   status === RequestStatus.PARTIAL ||
-  status === RequestStatus.COMPLETE;
+  status === RequestStatus.COMPLETED;
 const shouldGetUnassigned = (status: string) =>
   status === RequestStatus.CATEGORIZED ||
   status === RequestStatus.POSTED ||

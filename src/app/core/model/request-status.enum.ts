@@ -18,7 +18,7 @@ export enum RequestStatus {
 
   INSPECTION = "INSPECTION",
   PARTIAL = "PARTIAL",
-  COMPLETE = "COMPLETED",
+  COMPLETED = "COMPLETED",
 }
 
 export enum RequestStatusAction {

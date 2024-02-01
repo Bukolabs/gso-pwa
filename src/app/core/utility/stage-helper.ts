@@ -23,6 +23,6 @@ export const shouldShowInspectionElements = (status?: string) => {
   return (
     status === RequestStatus.INSPECTION ||
     status === RequestStatus.PARTIAL ||
-    status === RequestStatus.COMPLETE
+    status === RequestStatus.COMPLETED
   );
 };

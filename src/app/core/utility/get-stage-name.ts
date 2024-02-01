@@ -23,7 +23,7 @@ export function getStageNameByStatus(status: string) {
 
     case RequestStatus.INSPECTION:
     case RequestStatus.PARTIAL:
-    case RequestStatus.COMPLETE:
+    case RequestStatus.COMPLETED:
       return StageName.STAGE_4;
   }
 }

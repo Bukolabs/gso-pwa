@@ -83,10 +83,12 @@ export function EditOrder() {
     const totalAmount = data !== undefined ? getOverallAmount(data) : 0;
     const totalFulfilledAmount =
       data !== undefined
-        ? getOverallAmountByStatus(data, RequestStatus.COMPLETE)
+        ? getOverallAmountByStatus(data, RequestStatus.COMPLETED)
         : 0;
     const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
-    const percentile = (totalFulfilledAmount / totalAmount) * 100 || 0;
+    const totalRequests = (data?.purchase_requests || []).length;
+    const totalCompletedRequests = ( data?.purchase_requests || []).filter(item => item.status_name === RequestStatus.COMPLETED).length;
+    const completionPercentile = (totalCompletedRequests / totalRequests) * 100 || 0;
 
     return (
       <section className="flex flex-col md:flex-row md:justify-between">
@@ -119,7 +121,7 @@ export function EditOrder() {
           </div>
           <div className="border border-gray-200 rounded p-5 text-center bg-white">
             <p className="block font-bold">
-              {numberFormat(Math.round(percentile))}%
+              {numberFormat(Math.round(completionPercentile))}%
             </p>
             <label className="block hint">Completion</label>
           </div>

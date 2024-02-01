@@ -49,7 +49,7 @@ export const getStatusStyle = (status: string) => {
       return "bg-lime-200 text-lime-500";
     case RequestStatus.PARTIAL:
       return "bg-pink-200 text-pink-500";
-    case RequestStatus.COMPLETE:
+    case RequestStatus.COMPLETED:
       return "bg-emerald-200 text-emerald-700";
 
     default:

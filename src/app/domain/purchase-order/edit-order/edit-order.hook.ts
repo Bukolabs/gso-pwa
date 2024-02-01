@@ -348,7 +348,7 @@ export function useEditOrder() {
     let newStatus = RequestStatus.PARTIAL;
     switch (action) {
       case RequestStatusAction.COMPLETE:
-        newStatus = RequestStatus.COMPLETE;
+        newStatus = RequestStatus.COMPLETED;
         break;
     }
 
