@@ -12,7 +12,7 @@ import ItemCard from "@core/ui/item-card/item-card";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 import PrItemAction from "../pr-item-action/pr-item-action";
-import { shouldShowInspectionElements } from "@core/utility/stage-helper";
+import { showEditRequestItemElements } from "@core/utility/stage-helper";
 import { Sidebar } from "primereact/sidebar";
 import { useEditOrderContext } from "@domain/purchase-order/edit-order/edit-order.context";
 import { GetPurchaseOrderDto } from "@api/api";
@@ -75,12 +75,12 @@ export function PrItemInfo() {
       const editSchema = ApiToFormService.MapPurchaseRequestToForm(requestData);
       const updatedItems = editSchema.items.map((subItem) => {
         if (form.code === subItem.code) {
-          const quantity =
-            form.quantity !== null ? form.quantity : subItem.quantity;
           return {
             ...subItem,
             brand: form.brand,
-            quantity,
+            description: form.description,
+            cost: form.cost,
+            quantity: form.quantity,
             deliveredQuantity: form.deliveredQuantity,
           };
         }
@@ -118,25 +118,10 @@ export function PrItemInfo() {
         />
         <div className="flex flex-wrap gap-2">
           {(formItems || []).map((item, id) => {
-            const releasedAmount = (item.deliveredQuantity || 0) * item.cost;
             return (
               <ItemCard key={id} itemNo={id} item={item}>
-                {shouldShowInspectionElements(status) ? (
+                {showEditRequestItemElements(status) ? (
                   <div>
-                    <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
-                      <div className="flex flex-col items-center justify-center">
-                        <p className="text-gray-800 font-bold">
-                          {item.deliveredQuantity || 0}
-                        </p>
-                        <p className="hint">Delivered Quantity</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <p className="text-gray-800 font-bold">
-                          {currencyFormat(releasedAmount, "PHP")}
-                        </p>
-                        <p className="hint">Released Amount</p>
-                      </div>
-                    </section>
                     <FormBrandItemProvider>
                       <PrItemAction item={item} onUpdate={handleUpdatePRItem} />
                     </FormBrandItemProvider>

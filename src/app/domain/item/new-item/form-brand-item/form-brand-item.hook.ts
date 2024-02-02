@@ -53,7 +53,8 @@ export const useFormBrandItem = () => {
         value: item.code,
       } as LabelValue)
   );
-  const mappedBrands = [defaultBrand, ...initialMappedBrand];
+  const mappedBrands =
+    initialMappedBrand.length === 0 ? [defaultBrand] : initialMappedBrand;
 
   return {
     sidebar,

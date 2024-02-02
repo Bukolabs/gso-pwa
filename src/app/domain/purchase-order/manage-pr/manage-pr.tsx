@@ -24,7 +24,7 @@ import {
 import { SplitButton } from "primereact/splitbutton";
 import PrintInspection from "../edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
-import { shouldShowInspectionElements } from "@core/utility/stage-helper";
+import { showEditRequestItemElements } from "@core/utility/stage-helper";
 import { useNavigate } from "react-router-dom";
 import { useEditOrderContext } from "../edit-order/edit-order.context";
 
@@ -185,7 +185,7 @@ export function ManagePr({
             <p className="hint">Total Amount</p>
           </div>
         </section>
-        {shouldShowInspectionElements(status) ? (
+        {showEditRequestItemElements(status) ? (
           <section className="flex justify-center gap-3 border-b border-gray-200 w-full p-4">
             <div className="flex flex-col items-center justify-center">
               <p className="text-gray-800 font-bold">

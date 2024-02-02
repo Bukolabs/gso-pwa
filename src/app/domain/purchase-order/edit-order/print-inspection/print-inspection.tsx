@@ -7,6 +7,7 @@ import {
 } from "@core/utility/data-table-template";
 import { sumBy } from "lodash-es";
 import { dateFormat } from "@shared/formats/date-time-format";
+import { RequestStatus } from "@core/model/request-status.enum";
 
 export interface PrintInspectionProps {
   data: GetPurchaseRequestDto;
@@ -81,16 +82,16 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
               <td className="align-top border-r bg-gray-50">
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {order?.iar_no}
+                  {order?.iar_no || '-'}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {dateFormat(order?.iar_date)}
+                  {dateFormat(order?.iar_date)|| '-'}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {order?.invoice_no}
+                  {order?.invoice_no || '-'}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {dateFormat(order?.invoice_date)}
+                  {dateFormat(order?.invoice_date) || '-'}
                 </label>
               </td>
             </tr>
@@ -181,9 +182,17 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
               <td className="border px-2 pt-4 pb-1 bg-gray-50" colSpan={5}>
                 <span className="print-normal">Date Received:</span>
-                <span className="print-normal block mt-4">Complete</span>
+                <span className="print-normal block mt-4">
+                  Complete{" "}
+                  {data.status_name === RequestStatus.COMPLETED ? (
+                    <span className="inline-block ml-2"><i className="pi pi-check"></i></span>
+                  ) : null}
+                </span>
                 <span className="print-normal block mt-4">
                   Partial (Pls. specify quantity)
+                  {data.status_name === RequestStatus.PARTIAL ? (
+                    <span className="inline-block ml-2"><i className="pi pi-check"></i></span>
+                  ) : null}
                 </span>
                 <section className="grid grid-cols-1 gap-4 py-1 mt-10">
                   <div className="flex flex-col items-center justify-center">

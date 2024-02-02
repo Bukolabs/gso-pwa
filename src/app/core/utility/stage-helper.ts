@@ -19,10 +19,12 @@ export const shouldDisableBidder = (status?: string) => {
     stageName === StageName.STAGE_4
   );
 };
-export const shouldShowInspectionElements = (status?: string) => {
+export const showEditRequestItemElements = (status?: string) => {
   return (
-    status === RequestStatus.INSPECTION ||
-    status === RequestStatus.PARTIAL ||
-    status === RequestStatus.COMPLETED
+    status === RequestStatus.BIDDING ||
+    status === RequestStatus.AWARDED ||
+    status === RequestStatus.POREVIEW ||
+    status === RequestStatus.POAPPROVED ||
+    status === RequestStatus.PODECLINED
   );
 };

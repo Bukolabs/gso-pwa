@@ -116,6 +116,14 @@ export function ActionButton({
   };
   const approverOtherActions = (status: string) => {
     switch (status) {
+      case RequestStatus.AWARDED:
+        if (isGso && isRFQ) {
+          return [reviewAction, updateAction, print];
+        } else if (isGso && !isRFQ) {
+          return [updateAction];
+        }
+        return [history];
+
       case RequestStatus.POREVIEW:
         if (isGso && isRFQ) {
           return [declineAction, updateAction, history, print];
@@ -135,7 +143,11 @@ export function ActionButton({
         }
 
       case RequestStatus.INSPECTION:
-        return [];
+        if (isGso) {
+          return [updateAction];
+        } else {
+          return [];
+        }
 
       default:
         return [];

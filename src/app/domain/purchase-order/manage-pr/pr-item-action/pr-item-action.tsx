@@ -89,11 +89,11 @@ export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
 
       <section className="m-2 mb-4">
         <Accordion>
-          <AccordionTab header="Update Actions">
+          <AccordionTab header="Update Fields">
             <InputTextareaControl<ItemFormSchema>
               control={control}
               name="description"
-              label="Description (If you want to update)"
+              label="Description"
               containerClassName="mb-9"
               className="w-full md:w-3/4"
               placeholder="Enter the item description"
@@ -102,7 +102,7 @@ export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
             <InputDigitControl<ItemFormSchema>
               control={control}
               name="quantity"
-              label="Quantity (If you want to update)"
+              label="Quantity"
               containerClassName="mb-9"
               className="w-full md:w-3/4"
               placeholder="Enter the item quantity"
@@ -110,11 +110,11 @@ export function PrItemAction({ item, onUpdate }: PrItemActionProps) {
             />
             <InputDigitControl<ItemFormSchema>
               control={control}
-              name="deliveredQuantity"
-              label="Delivered Quantity (If you want to update)"
+              name="cost"
+              label="Cost"
               containerClassName="mb-9"
               className="w-full md:w-3/4"
-              placeholder="Enter the total delivered item quantity"
+              placeholder="Enter the item quantity"
               hint="e.g. 5"
             />
             <DropdownControl<ItemFormSchema>

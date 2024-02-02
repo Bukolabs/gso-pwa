@@ -76,6 +76,12 @@ export function ItemCard({
             <p className="hint">Category</p>
           </div>
         )}
+        {item.brandName && (
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-800 font-bold">{item.brandName}</p>
+            <p className="hint">Brand</p>
+          </div>
+        )}
       </section>
       {!!children ? children : null}
       {showActions && (

@@ -43,12 +43,19 @@ export function HomeCard({
   };
   const handleClickReviewer = (action: LabelValue<any>) => {
     let filter = `status_name=REVIEW&reviewer=${action.payload}`;
+    console.log({ requests, orders, prReviews, status, poReviews });
 
-    if (action.payload === "CGSO") {
+    if (poReviews && poReviews.length > 0) {
+      filter = `status_name=${status}&reviewer=${action.payload}`;
+    } else if (prReviews && prReviews.length > 0 && action.payload === "CGSO") {
       filter = `reviewer=${action.payload}`;
-    } else if (action.payload === "CGSO_2") {
+    } else if (
+      prReviews &&
+      prReviews.length > 0 &&
+      action.payload === "CGSO_2"
+    ) {
       filter = `status_name=REVIEW&reviewer=CGSO_FF`;
-    } else {
+    } else if (prReviews && prReviews.length > 0) {
       filter = `status_name=${status}&reviewer=${action.payload}`;
     }
 
