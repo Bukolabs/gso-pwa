@@ -26,7 +26,6 @@ import {
   AccountFormSchema,
   BidderFormSchema,
   DeliveryCollectionFormSchema,
-  DeliveryFormSchema,
   ItemFormSchema,
   LoginFormSchema,
   OrderFormSchema,

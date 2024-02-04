@@ -1678,6 +1678,49 @@ export interface DeleteItemDto {
 /**
  * 
  * @export
+ * @interface DeletePIDDto
+ */
+export interface DeletePIDDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePIDDto
+     */
+    'batch': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeletePIDDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeletePIDDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePIDDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeletePIDDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePIDDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface DeletePoPrDto
  */
 export interface DeletePoPrDto {
@@ -1715,49 +1758,6 @@ export interface DeletePoPrDto {
      * 
      * @type {string}
      * @memberof DeletePoPrDto
-     */
-    'deleted_by'?: string;
-}
-/**
- * 
- * @export
- * @interface DeletePrItemDeliveryDto
- */
-export interface DeletePrItemDeliveryDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof DeletePrItemDeliveryDto
-     */
-    'code': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DeletePrItemDeliveryDto
-     */
-    'is_active'?: boolean;
-    /**
-     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
-     * @type {string}
-     * @memberof DeletePrItemDeliveryDto
-     */
-    'updated_at'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DeletePrItemDeliveryDto
-     */
-    'updated_by'?: string;
-    /**
-     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
-     * @type {string}
-     * @memberof DeletePrItemDeliveryDto
-     */
-    'deleted_at'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DeletePrItemDeliveryDto
      */
     'deleted_by'?: string;
 }
@@ -3982,6 +3982,12 @@ export interface GetPersonDto {
      * @type {string}
      * @memberof GetPersonDto
      */
+    'person_username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPersonDto
+     */
     'person_first_name': string;
     /**
      * 
@@ -5062,6 +5068,12 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'department_description': string;
     /**
      * 
      * @type {string}
@@ -9910,13 +9922,13 @@ export const PurchaseRequestItemDeliveryApiAxiosParamCreator = function (configu
         },
         /**
          * 
-         * @param {DeletePrItemDeliveryDto} deletePrItemDeliveryDto 
+         * @param {DeletePIDDto} deletePIDDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        prItemDeliveryControllerDelete: async (deletePrItemDeliveryDto: DeletePrItemDeliveryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'deletePrItemDeliveryDto' is not null or undefined
-            assertParamExists('prItemDeliveryControllerDelete', 'deletePrItemDeliveryDto', deletePrItemDeliveryDto)
+        prItemDeliveryControllerDelete: async (deletePIDDto: DeletePIDDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deletePIDDto' is not null or undefined
+            assertParamExists('prItemDeliveryControllerDelete', 'deletePIDDto', deletePIDDto)
             const localVarPath = `/api/v1/pr-item-delivery/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9945,7 +9957,7 @@ export const PurchaseRequestItemDeliveryApiAxiosParamCreator = function (configu
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(deletePrItemDeliveryDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(deletePIDDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -10081,12 +10093,12 @@ export const PurchaseRequestItemDeliveryApiFp = function(configuration?: Configu
         },
         /**
          * 
-         * @param {DeletePrItemDeliveryDto} deletePrItemDeliveryDto 
+         * @param {DeletePIDDto} deletePIDDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async prItemDeliveryControllerDelete(deletePrItemDeliveryDto: DeletePrItemDeliveryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.prItemDeliveryControllerDelete(deletePrItemDeliveryDto, options);
+        async prItemDeliveryControllerDelete(deletePIDDto: DeletePIDDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.prItemDeliveryControllerDelete(deletePIDDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10134,12 +10146,12 @@ export const PurchaseRequestItemDeliveryApiFactory = function (configuration?: C
         },
         /**
          * 
-         * @param {DeletePrItemDeliveryDto} deletePrItemDeliveryDto 
+         * @param {DeletePIDDto} deletePIDDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        prItemDeliveryControllerDelete(deletePrItemDeliveryDto: DeletePrItemDeliveryDto, options?: any): AxiosPromise<MessageResponseDto> {
-            return localVarFp.prItemDeliveryControllerDelete(deletePrItemDeliveryDto, options).then((request) => request(axios, basePath));
+        prItemDeliveryControllerDelete(deletePIDDto: DeletePIDDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.prItemDeliveryControllerDelete(deletePIDDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10186,13 +10198,13 @@ export class PurchaseRequestItemDeliveryApi extends BaseAPI {
 
     /**
      * 
-     * @param {DeletePrItemDeliveryDto} deletePrItemDeliveryDto 
+     * @param {DeletePIDDto} deletePIDDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PurchaseRequestItemDeliveryApi
      */
-    public prItemDeliveryControllerDelete(deletePrItemDeliveryDto: DeletePrItemDeliveryDto, options?: AxiosRequestConfig) {
-        return PurchaseRequestItemDeliveryApiFp(this.configuration).prItemDeliveryControllerDelete(deletePrItemDeliveryDto, options).then((request) => request(this.axios, this.basePath));
+    public prItemDeliveryControllerDelete(deletePIDDto: DeletePIDDto, options?: AxiosRequestConfig) {
+        return PurchaseRequestItemDeliveryApiFp(this.configuration).prItemDeliveryControllerDelete(deletePIDDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -56,8 +56,8 @@ export function RequestPrint({ data }: RequestPrintProps) {
         <div>
           <span className="flex items-center gap-2">
             <label className="print-normal">Department: </label>
-            <h4 className="print-normal block relative font-bold border-b border-black top-[1px] mb-1 min-w-[100px] w-full">
-              {data?.department_name || "-"}
+            <h4 className="print-normal block relative font-bold border-b border-black top-[1px] mb-1 w-3/4 ">
+              {data?.department_description || "-"}
             </h4>
           </span>
           <span className="flex items-center gap-2">
@@ -107,7 +107,7 @@ export function RequestPrint({ data }: RequestPrintProps) {
       </section>
 
       <section>
-        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t border-b border-l-0 border-r-0">
+        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-800 border-t-2 border-b-2 border-l-2 border-r-2">
           <tbody className="border-t border-b border-l-0 border-r-0">
             <tr>
               <th className="print-normal px-2 py-1 border-l-0 border bg-gray-50 w-20">

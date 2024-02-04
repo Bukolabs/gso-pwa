@@ -1,6 +1,6 @@
 import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Button } from "primereact/button";
@@ -57,24 +57,27 @@ export function ActionButton({
         return setMainAction("History");
     }
   };
-  const approverMainActions = (status: string) => {
-    switch (status) {
-      case RequestStatus.POREVIEW:
-      case RequestStatus.PODECLINED:
-        return setMainAction("Approve");
+  const approverMainActions = useCallback(
+    (status: string) => {
+      switch (status) {
+        case RequestStatus.POREVIEW:
+        case RequestStatus.PODECLINED:
+          return setMainAction("Approve");
 
-      case RequestStatus.POAPPROVED:
-        if (isGso) {
-          setMainAction("Inspect");
-        } else {
-          setMainAction("History");
-        }
-        return;
+        case RequestStatus.POAPPROVED:
+          if (isGso) {
+            setMainAction("Inspect");
+          } else {
+            setMainAction("History");
+          }
+          return;
 
-      default:
-        return setMainAction("History");
-    }
-  };
+        default:
+          return setMainAction("History");
+      }
+    },
+    [isGso]
+  );
   const adminActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
@@ -132,6 +135,9 @@ export function ActionButton({
         }
         return [declineAction, history];
       case RequestStatus.PODECLINED:
+        if (isGso) {
+          return [updateAction, history];
+        }
         return [history];
       case RequestStatus.POAPPROVED:
         if (isGso && isRFQ) {
@@ -186,7 +192,7 @@ export function ActionButton({
     } else {
       setMainAction("History");
     }
-  }, [status, isBACApprover, isReviewer, isAdmin]);
+  }, [status, isBACApprover, isReviewer, isAdmin, approverMainActions]);
 
   const handleMainAction = () => [onAction(mainAction)];
   const getActions = () => {

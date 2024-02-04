@@ -250,7 +250,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
       </section>
 
       <section>
-        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t border-b border-l-0 border-r-0">
+        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-500 border-t-2 border-b-2 border-l-2 border-r-2">
           <tbody className="border-t border-b border-l-0 border-r-0">
             <tr>
               <th className="print-normal px-2 py-1 border bg-gray-50 w-20">

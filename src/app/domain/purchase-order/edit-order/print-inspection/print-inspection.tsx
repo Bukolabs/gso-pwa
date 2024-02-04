@@ -111,7 +111,7 @@ export function PrintInspection({
               </td>
             </tr>
             <tr>
-              <th className="print-normal px-2 py-1 border bg-gray-50 w-20">
+              <th className="print-normal px-2 py-1 border bg-gray-50">
                 Item No.
               </th>
               <th className="print-normal px-2 py-1 border bg-gray-50">
@@ -124,7 +124,7 @@ export function PrintInspection({
               <th className="print-normal px-2 py-1 border bg-gray-50">
                 Quantity
               </th>
-              <th className="print-normal px-2 py-1 border bg-gray-50">
+              <th className="print-normal px-2 py-1 border bg-gray-50 whitespace-nowrap">
                 Unit Price
               </th>
               <th className="print-normal px-2 py-1 border bg-gray-50">

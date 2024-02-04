@@ -33,7 +33,7 @@ export function FormRequest() {
       <InputControl<RequestFormSchema>
         control={control}
         name="section"
-        label="Section (Required)"
+        label="Section"
         className="w-full md:w-3/4"
         containerClassName="pb-2"
         placeholder="Enter Section"

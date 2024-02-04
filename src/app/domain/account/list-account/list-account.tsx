@@ -44,6 +44,7 @@ export function ListAccount() {
         onSelectionChange={(e) => editRecord(e.value)}
       >
         <Column header="Name" body={nameColumn}></Column>
+        <Column field="person_username" header="Username"></Column>
         <Column field="role_name" header="Role"></Column>
         <Column field="department_name" header="Department"></Column>
       </DataTable>

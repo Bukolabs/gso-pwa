@@ -25,4 +25,5 @@ export enum RequestStatusAction {
   COMPLETE = "COMPLETE",
   PARTIAL = "PARTIAL",
   PRINT = "PRINT",
+  DELETE = "DELETE",
 }

@@ -5,6 +5,7 @@ import {
   tagTemplate,
 } from "@core/utility/data-table-template";
 import {
+  DeletePIDDto,
   GetPIDDto,
   GetPurchaseOrderDto,
   GetPurchaseRequestDto,
@@ -17,7 +18,7 @@ import {
   showDeliveryElements as shouldShowDeliveryElements,
 } from "@core/utility/stage-helper";
 import { SplitButton } from "primereact/splitbutton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SyntheticEvent, useRef, useState } from "react";
 import { RequestStatusAction } from "@core/model/request-status.enum";
 import { Accordion, AccordionTab } from "primereact/accordion";
@@ -29,6 +30,10 @@ import {
 import PrintInspection from "@domain/purchase-order/edit-order/print-inspection/print-inspection";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "primereact/button";
+import { useQyDeleteDeliveryOrder } from "@core/query/order.query";
+import { useNotificationContext } from "@shared/ui/notification/notification.context";
+import { useQueryClient } from "react-query";
+import { QueryKey } from "@core/query/query-key.enum";
 
 export interface PrItemCardProps {
   purchaseRequest: GetPurchaseRequestDto;
@@ -42,8 +47,11 @@ export function PrItemCard({
   onAction,
 }: PrItemCardProps) {
   const navigate = useNavigate();
+  const { showSuccess } = useNotificationContext();
+  const { orderId } = useParams();
   const totalDeliveredQuantity = getTotalDeliveredQuantity(item);
   const totalDeliveredAmount = getTotalDeliveredAmount(item);
+  const queryClient = useQueryClient();
   const status = order.status_name;
   const [deliveredPR, setDeliveredPr] = useState<GetPIDDto | null>(null);
   const componentRef = useRef(null);
@@ -65,6 +73,21 @@ export function PrItemCard({
     },
   ];
 
+  // DELETE API
+  const handleDeleteSuccess = () => {
+    showSuccess("Delivery log removed");
+    queryClient.invalidateQueries([QueryKey.Order, orderId]);
+  };
+  const { mutate: deleteDeliver } =
+    useQyDeleteDeliveryOrder(handleDeleteSuccess);
+
+  const handleDeleteDelivery = (item: GetPIDDto) => {
+    console.log("delete", item);
+    const payload = {
+      batch: item.batch,
+    } as DeletePIDDto;
+    deleteDeliver(payload);
+  };
   const handleView = (e: SyntheticEvent, data: GetPurchaseRequestDto) => {
     e.preventDefault();
     navigate(`view/${data.code}`);
@@ -168,6 +191,7 @@ export function PrItemCard({
                     key={record.batch}
                     data={record}
                     onPrint={handlePrintDelivery}
+                    onDelete={handleDeleteDelivery}
                   />
                 ))}
               </AccordionTab>

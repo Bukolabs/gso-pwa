@@ -16,12 +16,14 @@ import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/bra
 import PrItemAction from "../pr-item-action/pr-item-action";
 import { showEditRequestItemElements } from "@core/utility/stage-helper";
 import { Sidebar } from "primereact/sidebar";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function PrItemInfo() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { orderId, requestId } = useParams();
   const { showSuccess } = useNotificationContext();
+  const { isBACApprover } = useUserIdentity();
 
   const { data: requestResponse } = useGetRequestByIdQy(requestId || "");
   const requestData = requestResponse?.data?.[0];
@@ -106,7 +108,7 @@ export function PrItemInfo() {
           {(formItems || []).map((item, id) => {
             return (
               <ItemCard key={id} itemNo={id} item={item}>
-                {showEditRequestItemElements(status) ? (
+                {!isBACApprover && showEditRequestItemElements(status) ? (
                   <div>
                     <FormBrandItemProvider>
                       <PrItemAction item={item} onUpdate={handleUpdatePRItem} />

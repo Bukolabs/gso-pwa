@@ -237,8 +237,8 @@ export function EditOrder() {
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
-          {(orderError || editError || dataEmpty) && !isLoading && displayError}
-          {!isLoading && !dataEmpty && !editError ? orderTab : <></>}
+          {(orderError || dataEmpty) && !isLoading && displayError}
+          {!isLoading && !dataEmpty ? orderTab : <></>}
         </FormProvider>
       </div>
       <Outlet />
