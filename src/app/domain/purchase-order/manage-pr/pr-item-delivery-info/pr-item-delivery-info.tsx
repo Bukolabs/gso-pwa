@@ -72,7 +72,7 @@ export function PrItemDeliveryInfo() {
       });
     });
   };
-  useGetOrderByIdQy(orderId || "", handleGetApiSuccess);
+  useGetOrderByIdQy(orderId || "", !!orderId, handleGetApiSuccess);
 
   const handleDeliveryApiSuccess = () => {
     showSuccess("New delivery added");

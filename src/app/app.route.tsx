@@ -77,6 +77,12 @@ const router = createBrowserRouter([
               {
                 path: "new",
                 element: <NewOrder />,
+                children: [
+                  {
+                    path: "view/:requestId",
+                    element: <PrItemInfo />,
+                  },
+                ],
               },
               {
                 path: ":orderId",

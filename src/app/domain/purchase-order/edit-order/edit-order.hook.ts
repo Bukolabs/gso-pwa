@@ -193,15 +193,16 @@ export function useEditOrder() {
     data: orders,
     isLoading,
     isError: orderError,
-  } = useGetOrderByIdQy(orderId || "", handleGetApiSuccess);
-  const status = orders?.data?.[0].status_name;
-  const procurement = orders?.data?.[0].mode_of_procurement;
+  } = useGetOrderByIdQy(orderId || "", !!orderId, handleGetApiSuccess);
+  const status = orders?.data?.[0]?.status_name;
+  const procurement = orders?.data?.[0]?.mode_of_procurement;
+  
   const shouldShowBidderDisplay = shouldShowBidder(status);
 
   const reviewers = getReviewers({
-    isGso: orders?.data?.[0].is_gso,
-    isTreasurer: orders?.data?.[0].is_treasurer,
-    isMayor: orders?.data?.[0].is_mayor,
+    isGso: orders?.data?.[0]?.is_gso,
+    isTreasurer: orders?.data?.[0]?.is_treasurer,
+    isMayor: orders?.data?.[0]?.is_mayor,
   } as ReviewerStatus);
 
   const formMethod = useForm<OrderFormSchema>({

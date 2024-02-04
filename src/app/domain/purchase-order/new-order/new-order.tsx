@@ -1,7 +1,7 @@
 import HeaderContent from "@shared/ui/header-content/header-content";
 import "./new-order.scss";
 import useScreenSize from "@core/utility/screen-size";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   OrderFormRule,
   OrderFormSchema,
@@ -104,7 +104,7 @@ export function NewOrder() {
                 onHide={() => setVisible(false)}
                 className="w-full md:w-2/5"
               >
-                PR Details
+                Request Details
               </Sidebar>
 
               <div className="mt-2 md:px-6">
@@ -119,6 +119,7 @@ export function NewOrder() {
             </TabPanel>
           </TabView>
         </FormProvider>
+        <Outlet />
       </div>
     </div>
   );

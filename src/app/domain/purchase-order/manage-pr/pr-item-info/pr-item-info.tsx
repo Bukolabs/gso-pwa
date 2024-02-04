@@ -4,7 +4,10 @@ import { QueryKey } from "@core/query/query-key.enum";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { useEditRequestQy } from "@core/query/request.query";
+import {
+  useEditRequestQy,
+  useGetRequestByIdQy,
+} from "@core/query/request.query";
 import { ItemFormSchema, PurchaseItemFormSchema } from "@core/model/form.rule";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { FormToApiService } from "@core/services/form-to-api.service";
@@ -13,19 +16,15 @@ import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/bra
 import PrItemAction from "../pr-item-action/pr-item-action";
 import { showEditRequestItemElements } from "@core/utility/stage-helper";
 import { Sidebar } from "primereact/sidebar";
-import { useEditOrderContext } from "@domain/purchase-order/edit-order/edit-order.context";
-import { getSelectedOrder } from "@core/utility/order-helper";
-
-
 
 export function PrItemInfo() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { orderId, requestId } = useParams();
-  const { orders } = useEditOrderContext();
   const { showSuccess } = useNotificationContext();
 
-  const requestData = getSelectedOrder(orders?.data || [], requestId || "");
+  const { data: requestResponse } = useGetRequestByIdQy(requestId || "");
+  const requestData = requestResponse?.data?.[0];
   const status = requestData?.status_name;
   const formItems = (requestData?.items || []).map(
     (item) =>

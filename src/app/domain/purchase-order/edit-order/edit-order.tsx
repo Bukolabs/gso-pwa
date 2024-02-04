@@ -221,7 +221,7 @@ export function EditOrder() {
       <HeaderContent title="Edit Purchase Order" onBack={() => navigate("../")}>
         <div className="flex gap-2">
           <ActionButton
-            status={orders?.data?.[0].status_name || ""}
+            status={orders?.data?.[0]?.status_name || ""}
             onAction={handleAction}
             disabled={
               isDeleting || isUpdatingRequest || isProcessing || isUpdating

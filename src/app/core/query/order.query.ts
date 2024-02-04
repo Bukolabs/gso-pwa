@@ -85,6 +85,7 @@ export function useGetOrderQy(
 
 export function useGetOrderByIdQy(
   id: string,
+  enabled: boolean = true,
   onSuccess?:
     | ((
         data: PurchaseOrderControllerGetDataAsList200Response
@@ -111,6 +112,7 @@ export function useGetOrderByIdQy(
 
   return useQuery({
     queryKey: [QueryKey.Order, id],
+    enabled: enabled,
     queryFn: () => apiFn(id),
     onSuccess: (response) => {
       hideProgress();
