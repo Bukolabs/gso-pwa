@@ -28,6 +28,7 @@ import { numberFormat } from "@shared/formats/number-format";
 import { shouldDisableBidder } from "@core/utility/stage-helper";
 import { useEditOrderContext } from "./edit-order.context";
 import { Outlet } from "react-router-dom";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function EditOrder() {
   const {
@@ -63,6 +64,7 @@ export function EditOrder() {
     setHistorySidebar,
   } = useEditOrderContext();
   const shouldDisableBidderForm = shouldDisableBidder(status);
+  const { isAdmin, isGso, isBACApprover } = useUserIdentity();
 
   const displayLoading = (
     <div className="card">
@@ -108,26 +110,28 @@ export function EditOrder() {
             </span>
           </div>
         </section>
-        <section className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
-          <div className="border border-gray-200 rounded p-5 text-center bg-white">
-            <p className="block font-bold">
-              {currencyFormat(totalAmount, "PHP")}
-            </p>
-            <label className="block hint">Total Amount</label>
-          </div>
-          <div className="border border-gray-200 rounded p-5 text-center bg-white">
-            <p className="block font-bold">
-              {currencyFormat(totalUnfulfilledAmount, "PHP")}
-            </p>
-            <label className="block hint">Undelivered Amount</label>
-          </div>
-          <div className="border border-gray-200 rounded p-5 text-center bg-white">
-            <p className="block font-bold">
-              {numberFormat(Math.round(completionPercentile))}%
-            </p>
-            <label className="block hint">Completion</label>
-          </div>
-        </section>
+        {isAdmin || isBACApprover || isGso ? (
+          <section className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
+            <div className="border border-gray-200 rounded p-5 text-center bg-white">
+              <p className="block font-bold">
+                {currencyFormat(totalAmount, "PHP")}
+              </p>
+              <label className="block hint">Total Amount</label>
+            </div>
+            <div className="border border-gray-200 rounded p-5 text-center bg-white">
+              <p className="block font-bold">
+                {currencyFormat(totalUnfulfilledAmount, "PHP")}
+              </p>
+              <label className="block hint">Undelivered Amount</label>
+            </div>
+            <div className="border border-gray-200 rounded p-5 text-center bg-white">
+              <p className="block font-bold">
+                {numberFormat(Math.round(completionPercentile))}%
+              </p>
+              <label className="block hint">Completion</label>
+            </div>
+          </section>
+        ) : null}
       </section>
     );
   };
@@ -186,27 +190,29 @@ export function EditOrder() {
       {printSection()}
       {historySection}
 
-      <TabView className="mb-10">
-        <TabPanel header="Information">
-          <FormOrder />
-        </TabPanel>
-        <TabPanel header="Purchase Requests">
-          <div className="mt-2 md:px-6">
-            <ManagePr
-              status={status || ""}
-              category={category}
-              selectedList={selectedRequests}
-              onSelect={handleSelectedRequests}
-              onAction={handlePrAction}
-            />
-          </div>
-        </TabPanel>
-        {shouldShowBidderDisplay && (
-          <TabPanel header="Supplier">
-            <FormBidder isDisabled={shouldDisableBidderForm} />
+      {isAdmin || isBACApprover || isGso ? (
+        <TabView className="mb-10">
+          <TabPanel header="Information">
+            <FormOrder />
           </TabPanel>
-        )}
-      </TabView>
+          <TabPanel header="Purchase Requests">
+            <div className="mt-2 md:px-6">
+              <ManagePr
+                status={status || ""}
+                category={category}
+                selectedList={selectedRequests}
+                onSelect={handleSelectedRequests}
+                onAction={handlePrAction}
+              />
+            </div>
+          </TabPanel>
+          {shouldShowBidderDisplay && (
+            <TabPanel header="Supplier">
+              <FormBidder isDisabled={shouldDisableBidderForm} />
+            </TabPanel>
+          )}
+        </TabView>
+      ) : null}
     </section>
   );
 
