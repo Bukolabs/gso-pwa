@@ -102,9 +102,6 @@ export function Login() {
             onKeyDown={handleKeyDown}
           />
           <div className="flex flex-col w-full mt-5">
-            <div className="flex justify-between mb-2 gap-2">
-              <a href={`/forgot-password`}>Forgot password</a>
-            </div>
             <Button
               label="Login"
               onClick={handleSubmit(handleValidate, handleValidateError)}
@@ -112,17 +109,17 @@ export function Login() {
           </div>
         </div>
         <div
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center fixed bottom-2 right-0 w-full md:w-[unset] md:right-60"
           onClick={handleBukoLogo}
         >
           <p className="m-0 font-bold">Powered by:</p>
           <img
             src={bukoLogo}
-            className="w-[150px] cursor-pointer"
+            className="w-[250px] cursor-pointer"
             alt="buko-labs"
           />
         </div>
-        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240402.6</span>
+        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240402.9</span>
       </LeftContentPage>
     </div>
   );

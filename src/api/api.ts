@@ -655,6 +655,12 @@ export interface CreatePrItemDeliveryDto {
      * @type {string}
      * @memberof CreatePrItemDeliveryDto
      */
+    'purchase_order'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePrItemDeliveryDto
+     */
     'purchase_request'?: string;
     /**
      * 
@@ -2736,6 +2742,12 @@ export interface EditPrItemDeliveryDto {
      * @type {string}
      * @memberof EditPrItemDeliveryDto
      */
+    'purchase_order': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPrItemDeliveryDto
+     */
     'purchase_request': string;
     /**
      * 
@@ -3564,6 +3576,12 @@ export interface GetBatchDeliveryDto {
      * @type {string}
      * @memberof GetBatchDeliveryDto
      */
+    'purchase_order': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
     'purchase_request': string;
     /**
      * 
@@ -3904,6 +3922,12 @@ export interface GetPIDDto {
      * @memberof GetPIDDto
      */
     'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPIDDto
+     */
+    'purchase_order'?: string;
     /**
      * 
      * @type {string}
@@ -4435,6 +4459,12 @@ export interface GetPrItemDeliveryDto {
      * @memberof GetPrItemDeliveryDto
      */
     'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPrItemDeliveryDto
+     */
+    'purchase_order': string;
     /**
      * 
      * @type {string}
@@ -5659,6 +5689,12 @@ export interface GetTransactionHistoryDto {
      * @memberof GetTransactionHistoryDto
      */
     'old_values'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTransactionHistoryDto
+     */
+    'description'?: string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}

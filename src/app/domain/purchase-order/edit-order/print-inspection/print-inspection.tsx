@@ -31,7 +31,7 @@ export function PrintInspection({
   const requestorOffice =
     `${order?.end_user_office}` || SETTINGS.endUserOffice1;
   const logo = "/tagbilaran-logo.png";
-  const totalAmount = sumBy(data.items, (x) => x.price * x.quantity);
+  const totalAmount = sumBy(deliveryItem.delivery, (x) => x.price * x.quantity);
   const itemDisplay = (title: string, description: string) => {
     return (
       <span>

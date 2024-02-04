@@ -14,6 +14,7 @@ import { PurchaseHistoryModel } from "./purchase-history";
 import { useGetHistoryQy } from "@core/query/history.query";
 import { useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
+import { LabelValue } from "@shared/models/label-value.interface";
 
 export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
@@ -84,45 +85,77 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   ) => {
     const responseHistory = data.data;
     const historicalData = responseHistory?.map((item) => {
-      const newValue = JSON.parse(item.new_values as string);
-      const status = statusRecord[newValue.status]?.name;
-      const stage = getStageNameByStatus(status);
-      const isStage3And4 =
-        stage === StageName.STAGE_3 || stage === StageName.STAGE_4;
+      const hasNewValue = !!item.new_values;
+      let historyModel = {
+        date: "",
+        actor: "-",
+        actorRole: "-",
+        actorDepartment: "-",
+        status: "-",
+        reviewer: [] as LabelValue[],
+        remarks: "-",
+        description: ''
+      } as PurchaseHistoryModel;
 
-      let stageReviewers = isStage3And4
-        ? getReviewers({
-            isGso: newValue?.po_is_gso,
-            isTreasurer: newValue?.po_is_treasurer,
-            isMayor: newValue?.po_is_mayor,
-          } as ReviewerStatus)
-        : getReviewers({
+      if (hasNewValue) {
+        const newValue = JSON.parse(item.new_values as string);
+        const status = statusRecord[newValue.status]?.name;
+        const stage = getStageNameByStatus(status);
+        const isStage3And4 =
+          stage === StageName.STAGE_3 || stage === StageName.STAGE_4;
+
+        let stageReviewers = isStage3And4
+          ? getReviewers({
+              isGso: newValue?.po_is_gso,
+              isTreasurer: newValue?.po_is_treasurer,
+              isMayor: newValue?.po_is_mayor,
+            } as ReviewerStatus)
+          : getReviewers({
+              isGso: newValue?.is_gso,
+              isGsoFF: newValue?.is_gso_ff,
+              isTreasurer: newValue?.is_treasurer,
+              isMayor: newValue?.is_mayor,
+              isBudget: newValue?.is_budget,
+            } as ReviewerStatus);
+
+        if (isOrder) {
+          stageReviewers = getReviewers({
             isGso: newValue?.is_gso,
-            isGsoFF: newValue?.is_gso_ff,
             isTreasurer: newValue?.is_treasurer,
             isMayor: newValue?.is_mayor,
-            isBudget: newValue?.is_budget,
           } as ReviewerStatus);
+        }
 
-      if (isOrder) {
-        stageReviewers = getReviewers({
-          isGso: newValue?.is_gso,
-          isTreasurer: newValue?.is_treasurer,
-          isMayor: newValue?.is_mayor,
-        } as ReviewerStatus);
+        historyModel = {
+          date: newValue?.updated_at
+            ? (format(
+                new Date(newValue?.updated_at),
+                SETTINGS.dateTimeFormat
+              ) as any)
+            : undefined,
+          actor: accountsRecord[newValue?.updated_by]?.person_email,
+          actorRole: accountsRecord[newValue?.updated_by]?.role_name,
+          actorDepartment:
+            accountsRecord[newValue?.updated_by]?.department_name,
+          status: renameStatus(status),
+          reviewer: stageReviewers,
+          remarks: getReviewerRemarks(newValue),
+          description: ''
+        } as PurchaseHistoryModel;
+      } else if (!item.new_values && !item.old_values) {
+        historyModel = {
+          date: item.updated_at
+            ? (format(new Date(item.updated_at), SETTINGS.dateTimeFormat) as any)
+            : undefined,
+          actor: "-",
+          actorRole: "-",
+          actorDepartment: "-",
+          status: item.action,
+          reviewer: [] as LabelValue[],
+          remarks: "-",
+          description: item.description
+        } as PurchaseHistoryModel;
       }
-
-      const historyModel = {
-        date: newValue?.updated_at
-          ? (format(new Date(newValue?.updated_at), SETTINGS.dateFormat) as any)
-          : undefined,
-        actor: accountsRecord[newValue?.updated_by]?.person_email,
-        actorRole: accountsRecord[newValue?.updated_by]?.role_name,
-        actorDepartment: accountsRecord[newValue?.updated_by]?.department_name,
-        status: renameStatus(status),
-        reviewer: stageReviewers,
-        remarks: getReviewerRemarks(newValue),
-      } as PurchaseHistoryModel;
 
       return historyModel;
     });

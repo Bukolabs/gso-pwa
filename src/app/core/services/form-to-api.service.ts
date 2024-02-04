@@ -348,11 +348,12 @@ export class FormToApiService {
     return payload;
   }
 
-  static AddDelivery(items: DeliveryCollectionFormSchema) {
+  static AddDelivery(items: DeliveryCollectionFormSchema, orderId: string) {
     const deliveryPayload = items.collection.map(
       (item) =>
         ({
           purchase_request: item.prCode,
+          purchase_order: orderId,
           item: item.prItemCode,
           quantity: item.deliveredQuantity,
           brand: item.brand,

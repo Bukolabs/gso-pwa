@@ -108,9 +108,12 @@ export function PrItemDeliveryInfo() {
     const filteredCollection = form.collection.filter(
       (x) => x.deliveredQuantity > 0
     );
-    const formData = FormToApiService.AddDelivery({
-      collection: filteredCollection,
-    });
+    const formData = FormToApiService.AddDelivery(
+      {
+        collection: filteredCollection,
+      },
+      orderId || ''
+    );
     deliver(formData);
   };
   const handleValidateError = (

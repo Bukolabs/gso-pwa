@@ -27,6 +27,8 @@ export const getStatusStyle = (status: string) => {
       return "bg-teal-200 text-teal-500";
     case RequestStatus.DECLINED:
       return "bg-red-200 text-red-500";
+      case 'DELETE':
+        return "bg-red-200 text-red-500";
 
     case RequestStatus.CATEGORIZED:
       return "bg-orange-200 text-orange-500";
