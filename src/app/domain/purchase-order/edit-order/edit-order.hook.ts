@@ -32,18 +32,19 @@ import { ApiToFormService } from "@core/services/api-to-form.service";
 import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 import { getOrderFormDefault } from "@core/model/get-form.default";
 import { shouldShowBidder } from "@core/utility/stage-helper";
+import { useQueryClient } from "react-query";
+import { QueryKey } from "@core/query/query-key.enum";
 
 export function useEditOrder() {
   const { historyData, getHistory } = usePurchaseHistory(true);
   const [historySidebar, setHistorySidebar] = useState(false);
-
+  const queryClient = useQueryClient();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const navigate = useNavigate();
   const { showSuccess, showError, hideProgress, showWarning } =
     useNotificationContext();
   const { orderId } = useParams();
   const [dataEmpty, setDataEmpty] = useState(false);
-
   const [remarksVisible, setRemarksVisible] = useState(false);
   const [reviewRemarks, setReviewRemarks] = useState("");
   const [remarksMode, setRemarksMode] = useState("");
@@ -85,7 +86,7 @@ export function useEditOrder() {
   // EDIT REQUEST API
   const handleRequestApiSuccess = () => {
     showSuccess("Request updated");
-    handleBack();
+    queryClient.invalidateQueries([QueryKey.Order, orderId]);
   };
   const { mutate: editRequest, isLoading: isUpdatingRequest } =
     useEditRequestQy(handleRequestApiSuccess);
@@ -101,7 +102,7 @@ export function useEditOrder() {
   // EDIT ORDER API
   const handleApiSuccess = () => {
     showSuccess("Request updated");
-    handleBack();
+    queryClient.invalidateQueries([QueryKey.Order, orderId]);
   };
   const {
     mutate: editOrder,
@@ -196,7 +197,7 @@ export function useEditOrder() {
   } = useGetOrderByIdQy(orderId || "", !!orderId, handleGetApiSuccess);
   const status = orders?.data?.[0]?.status_name;
   const procurement = orders?.data?.[0]?.mode_of_procurement;
-  
+
   const shouldShowBidderDisplay = shouldShowBidder(status);
 
   const reviewers = getReviewers({

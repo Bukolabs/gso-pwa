@@ -72,12 +72,14 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
         {stage1Model.map((item, id) => (
-          <HomeCard
-            key={id}
-            {...item}
-            onRequestAction={handleRequestAction}
-            onReviewerAction={handleReviewAction}
-          />
+          <div key={id} className="flex items-center gap-4">
+            <HomeCard
+              {...item}
+              onRequestAction={handleRequestAction}
+              onReviewerAction={handleReviewAction}
+            />
+            {id <= 1 ? <i className="pi pi-arrow-right"></i> : <span></span>}
+          </div>
         ))}
       </div>
 
@@ -87,7 +89,10 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage2Model.map((item, id) => (
-          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
+          <div key={id} className="flex items-center gap-4">
+            <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
+            {id <= 2 ? <i className="pi pi-arrow-right"></i> : <span></span>}
+          </div>
         ))}
       </div>
 
@@ -97,12 +102,15 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4 ">
         {stage3Model.map((item, id) => (
-          <HomeCard
-            key={id}
-            {...item}
-            onOrderAction={handleOrderAction}
-            onOrderReviewerAction={handleOrderReviewAction}
-          />
+          <div key={id} className="flex items-center gap-4">
+            <HomeCard
+              key={id}
+              {...item}
+              onOrderAction={handleOrderAction}
+              onOrderReviewerAction={handleOrderReviewAction}
+            />
+            {id <= 0 ? <i className="pi pi-arrow-right"></i> : <span></span>}
+          </div>
         ))}
       </div>
 
@@ -112,7 +120,10 @@ function Home() {
       </section>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 mb-4">
         {stage4Model.map((item, id) => (
-          <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
+          <div key={id} className="flex items-center gap-4">
+            <HomeCard key={id} {...item} onOrderAction={handleOrderAction} />
+            {id <= 1 ? <i className="pi pi-arrow-right"></i> : <span></span>}
+          </div>
         ))}
       </div>
     </section>

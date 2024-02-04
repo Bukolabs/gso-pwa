@@ -23,6 +23,12 @@ export function PrItemDeliveryLogCard({
     : "";
   const getSplitButtonItems = () => [
     {
+      label: 'View',
+      command: () => {
+        onDelete(data);
+      },
+    },
+    {
       label: 'Delete',
       command: () => {
         onDelete(data);

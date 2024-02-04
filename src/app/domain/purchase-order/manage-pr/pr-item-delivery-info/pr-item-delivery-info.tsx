@@ -26,13 +26,23 @@ import { FormToApiService } from "@core/services/form-to-api.service";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { InputText } from "primereact/inputtext";
 
 export function PrItemDeliveryInfo() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { orderId, requestId } = useParams();
-  const { mappedBrands, setFilter, handleFilterInput } =
-    useFormBrandItemContext();
+  const {
+    sidebar,
+    newBrand,
+    mappedBrands,
+    isCreating,
+    setSidebar,
+    setFilter,
+    setNewBrand,
+    handleFilterInput,
+    handleAdd,
+  } = useFormBrandItemContext();
   const { showError, showSuccess } = useNotificationContext();
 
   const handleGetApiSuccess = (
@@ -95,7 +105,12 @@ export function PrItemDeliveryInfo() {
   });
 
   const handleValidate = (form: DeliveryCollectionFormSchema) => {
-    const formData = FormToApiService.AddDelivery(form);
+    const filteredCollection = form.collection.filter(
+      (x) => x.deliveredQuantity > 0
+    );
+    const formData = FormToApiService.AddDelivery({
+      collection: filteredCollection,
+    });
     deliver(formData);
   };
   const handleValidateError = (
@@ -116,6 +131,39 @@ export function PrItemDeliveryInfo() {
       >
         <h2 className="mb-2">Log Delivered Items</h2>
         <div className="flex flex-wrap gap-2">
+          {newBrand && (
+            <Sidebar visible={sidebar} onHide={() => setSidebar(false)}>
+              <h2>Create new brand</h2>
+              <p>
+                You are creating a new brand. Please, fill the fields to create
+                a new brand and apply to current item creation.
+              </p>
+              <div className="flex flex-col gap-2 mt-4">
+                <InputText
+                  placeholder="Brand Name"
+                  value={newBrand.name}
+                  onChange={(e: any) =>
+                    setNewBrand({ ...newBrand, name: e.target.value })
+                  }
+                />
+                <InputText
+                  placeholder="Brand Description"
+                  value={newBrand.description}
+                  onChange={(e: any) =>
+                    setNewBrand({ ...newBrand, description: e.target.value })
+                  }
+                />
+
+                <Button
+                  label="Create"
+                  onClick={handleAdd}
+                  className="block"
+                  disabled={isCreating}
+                />
+              </div>
+            </Sidebar>
+          )}
+
           {fields.map((field, index) =>
             field.itemDetails ? (
               <ItemCard key={field.id} itemNo={index} item={field.itemDetails}>

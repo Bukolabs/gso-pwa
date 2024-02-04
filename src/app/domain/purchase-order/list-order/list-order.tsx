@@ -28,7 +28,7 @@ import { OrderFilterForm } from "./order-filter.form";
 export function ListOrder() {
   const { orderFilters } = useOrderFilterContext();
   const navigate = useNavigate();
-  const { isBACApprover } = useUserIdentity();
+  const { isBACApprover, isAdmin, isGso } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
   const [isTableView, setIsTableView] = useState(!isMobileMode);
   const { getReviewers } = useReviewHook();
@@ -152,15 +152,21 @@ export function ListOrder() {
         <Column field="po_no" header="PO#"></Column>
         <Column field="category_name" header="Category"></Column>
         <Column field="mode_of_procurement" header="Procurement"></Column>
-        <Column field="supplier" header="Supplier"></Column>
-        <Column
-          header="Total Quantity"
-          body={(item) => numberFormat(getOverallItems(item))}
-        ></Column>
-        <Column
-          header="Total Amount"
-          body={(item) => currencyFormat(getOverallAmount(item), "PHP")}
-        ></Column>
+        {(isAdmin || isGso || isBACApprover) && (
+          <Column field="supplier" header="Supplier"></Column>
+        )}
+        {(isAdmin || isGso || isBACApprover) && (
+          <Column
+            header="Total Quantity"
+            body={(item) => numberFormat(getOverallItems(item))}
+          ></Column>
+        )}
+        {(isAdmin || isGso || isBACApprover) && (
+          <Column
+            header="Total Amount"
+            body={(item) => currencyFormat(getOverallAmount(item), "PHP")}
+          ></Column>
+        )}
         <Column
           header="Due Date"
           body={(data: GetPurchaseOrderDto) => dateTemplate(data.po_date)}
