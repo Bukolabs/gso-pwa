@@ -15,7 +15,7 @@ export const ItemFormRule = z
     isActive: z.boolean().optional(),
     quantity: z.number().optional(),
     deliveredQuantity: z.number().optional(),
-    prCode: z.string().optional()
+    prCode: z.string().optional(),
   })
   .superRefine((val, ctx) => {
     if (val.cost <= 0) {
@@ -84,6 +84,12 @@ export const OrderFormRule = z
     iarDate: z.coerce.date().nullish().catch(null),
     invoice: z.string().optional(),
     invoiceDate: z.coerce.date().nullish().catch(null),
+    signatoryName1: z.string().optional(),
+    signatoryName2: z.string().optional(),
+    signatoryOffice1: z.string().optional(),
+    signatoryOffice2: z.string().optional(),
+    endUserName1: z.string().optional(),
+    endUserOffice1: z.string().optional(),
   })
   .superRefine((val, ctx) => {
     if (val.deliveryDate === null || val.deliveryDate === undefined) {

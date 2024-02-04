@@ -12,6 +12,7 @@ import {
 import { sumBy } from "lodash-es";
 import { dateFormat } from "@shared/formats/date-time-format";
 import { RequestStatus } from "@core/model/request-status.enum";
+import { SETTINGS } from "@core/utility/settings";
 
 export interface PrintInspectionProps {
   data: GetPurchaseRequestDto;
@@ -24,6 +25,11 @@ export function PrintInspection({
   deliveryItem,
   order,
 }: PrintInspectionProps) {
+  const requestorName =
+    `${order?.end_user_name}` ||
+    `${data.create_by_first_name} ${data.create_by_last_name}`;
+  const requestorOffice =
+    `${order?.end_user_office}` || SETTINGS.endUserOffice1;
   const logo = "/tagbilaran-logo.png";
   const totalAmount = sumBy(data.items, (x) => x.price * x.quantity);
   const itemDisplay = (title: string, description: string) => {
@@ -131,7 +137,10 @@ export function PrintInspection({
                   {twoDigit(id + 1)}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {itemDisplay(artifact.item_name, artifact.description || "")}
+                  {itemDisplay(
+                    artifact.item_name || "",
+                    artifact.description || ""
+                  )}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
                   {artifact.brand_name}
@@ -176,15 +185,19 @@ export function PrintInspection({
                 </span>
                 <section className="grid grid-cols-1 gap-4 py-1 mt-10">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="font-bold text-sm">JUNEL L. TRABAJO</div>
+                    <div className="font-bold text-sm">
+                      {order?.signatory_name_1 || SETTINGS.signatoryName1}
+                    </div>
                     <small className="print-normal block relative top-[1px] border-t border-black w-2/4 text-center">
-                      ADMIN AIDE I
+                      {order?.signatory_office_1 || SETTINGS.signatoryOffice1}
                     </small>
                   </div>
                   <div className="flex flex-col items-center justify-center">
-                    <div className="font-bold text-sm">RAUL RAFAEL SOLIS</div>
+                    <div className="font-bold text-sm">
+                      {order?.signatory_name_2 || SETTINGS.signatoryName2}
+                    </div>
                     <small className="print-normal block relative top-[1px] border-t border-black w-2/4 text-center">
-                      ADMIN AIDE IV
+                      {order?.signatory_office_2 || SETTINGS.signatoryOffice2}
                     </small>
                   </div>
                 </section>
@@ -209,12 +222,11 @@ export function PrintInspection({
                 </span>
                 <section className="grid grid-cols-1 gap-4 py-1 mt-10">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="font-bold text-sm">DR. JEIA N. PONDOC</div>
+                    <div className="font-bold text-sm">{requestorName}</div>
                     <small className="print-normal block relative top-[1px] border-t border-black w-2/4 text-center">
                       <span className="block whitespace-nowrap">
-                        TCPCF (CHO) - HEAD
+                        {requestorOffice}
                       </span>
-                      <span className="block">End - User</span>
                     </small>
                   </div>
                 </section>

@@ -174,6 +174,12 @@ export function useEditOrder() {
         orderId || ""
       );
       setValue("requests", requestInForm);
+      setValue("signatoryName1", responseData?.signatory_name_1 || "");
+      setValue("signatoryName2", responseData?.signatory_name_2 || "");
+      setValue("signatoryOffice1", responseData?.signatory_office_1 || "");
+      setValue("signatoryOffice2", responseData?.signatory_office_2 || "");
+      setValue("endUserName1", responseData?.end_user_name || "");
+      setValue("endUserOffice1", responseData?.end_user_office || "");
 
       setSelectedRequests(responseData?.purchase_requests || []);
       setOriginalRequests(responseData?.purchase_requests || []);

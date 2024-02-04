@@ -1,3 +1,4 @@
+import { SETTINGS } from "@core/utility/settings";
 import {
   AccountFormSchema,
   BidderFormSchema,
@@ -48,6 +49,12 @@ export const orderFormDefault = {
   iarDate: "" as any,
   invoice: "",
   invoiceDate: "" as any,
+  signatoryName1: SETTINGS.signatoryName1,
+  signatoryOffice1: SETTINGS.signatoryOffice1,
+  signatoryName2: SETTINGS.signatoryName2,
+  signatoryOffice2: SETTINGS.signatoryOffice2,
+  endUserName1: SETTINGS.endUserName1,
+  endUserOffice1: SETTINGS.endUserOffice1,
 } as OrderFormSchema;
 
 export const deliveryFormDefault = {
@@ -96,5 +103,5 @@ export const itemFormDefault = {
   unit: "",
   quantity: 0,
   deliveredQuantity: 0,
-  prCode: ''
+  prCode: "",
 } as ItemFormSchema;

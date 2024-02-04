@@ -147,6 +147,60 @@ export function FormOrder() {
         containerClassName="pb-2"
         hint="e.g. 30/12/2025"
       />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="signatoryName1"
+        label="Inspection Signatory Name 1"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection signatory name 1"
+        hint="Leave blank for default"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="signatoryOffice1"
+        label="Inspection Signatory Office 1"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection signatory office 1"
+        hint="Leave blank for default"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="signatoryName2"
+        label="Inspection Signatory Name 2"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection signatory name 2"
+        hint="Leave blank for default"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="signatoryOffice2"
+        label="Inspection Signatory Office 2"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection signatory office 2"
+        hint="Leave blank for default"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="endUserName1"
+        label="Inspection End User Name"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection end-user name 1"
+        hint="Leave blank for default"
+      />
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="endUserOffice1"
+        label="Inspection End User Office"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter inspection end-user office 1"
+        hint="Leave blank for default"
+      />
     </div>
   );
 }

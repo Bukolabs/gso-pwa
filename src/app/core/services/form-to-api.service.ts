@@ -261,6 +261,12 @@ export class FormToApiService {
       invoice_date: !!form.invoiceDate
         ? format(form.invoiceDate as Date, SETTINGS.dateFormat)
         : null,
+      signatory_name_1: form.signatoryName1 || SETTINGS.signatoryName1,
+      signatory_office_1: form.signatoryOffice1 || SETTINGS.signatoryOffice1,
+      signatory_name_2: form.signatoryName2 || SETTINGS.signatoryName2,
+      signatory_office_2: form.signatoryOffice2 || SETTINGS.signatoryOffice2,
+      end_user_name: form.endUserName1 || SETTINGS.endUserName1,
+      end_user_office: form.endUserOffice1 || SETTINGS.endUserOffice1,
     } as CreatePurchaseOrderDto;
 
     return payload;
@@ -298,6 +304,12 @@ export class FormToApiService {
       invoice_date: !!form.invoiceDate
         ? format(form.invoiceDate as Date, SETTINGS.dateFormat)
         : null,
+      signatory_name_1: form.signatoryName1 || SETTINGS.signatoryName1,
+      signatory_office_1: form.signatoryOffice1 || SETTINGS.signatoryOffice1,
+      signatory_name_2: form.signatoryName2 || SETTINGS.signatoryName2,
+      signatory_office_2: form.signatoryOffice2 || SETTINGS.signatoryOffice2,
+      end_user_name: form.endUserName1 || SETTINGS.endUserName1,
+      end_user_office: form.endUserOffice1 || SETTINGS.endUserOffice1,
     } as EditPurchaseOrderDto;
 
     return payload;
@@ -346,7 +358,7 @@ export class FormToApiService {
           quantity: item.deliveredQuantity,
           brand: item.brand,
           description: item.description,
-          is_active: true
+          is_active: true,
         } as CreatePrItemDeliveryDto)
     );
 

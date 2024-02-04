@@ -3,20 +3,19 @@ import {
   GetPurchaseOrderDto,
   GetPurchaseRequestDto,
 } from "@api/api";
-import { sumBy } from "lodash-es";
+import { flatten, sumBy } from "lodash-es";
 
 export const getOverallAmount = (data: GetPurchaseOrderDto) => {
   const prItems = (data.purchase_requests || []).map((x) => x.items || []);
   return getTotalAmountOfRequestItem(prItems);
 };
-export const getOverallAmountByStatus = (
-  data: GetPurchaseOrderDto,
-  status: string
-) => {
-  const prItems = (data.purchase_requests || [])
-    .filter((x) => x.status_name === status)
-    .map((x) => x.items || []);
-  return getTotalAmountOfRequestItem(prItems);
+export const getGrandTotalDeliveredAmount = (data: GetPurchaseOrderDto) => {
+  const deliveries = (data.purchase_requests || []).map(
+    (x) => x.delivery || []
+  );
+  const flattenedDeliveries = flatten(deliveries);
+  const grandTotal = sumBy(flattenedDeliveries, (x) => x.total_amount || 0);
+  return grandTotal;
 };
 
 export const getOverallItems = (data: GetPurchaseOrderDto) => {

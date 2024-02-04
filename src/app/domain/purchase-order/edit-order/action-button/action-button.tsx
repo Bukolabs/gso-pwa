@@ -143,6 +143,8 @@ export function ActionButton({
         }
 
       case RequestStatus.INSPECTION:
+      case RequestStatus.PARTIAL:
+      case RequestStatus.COMPLETED:
         if (isGso) {
           return [updateAction];
         } else {

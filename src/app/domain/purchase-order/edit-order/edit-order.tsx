@@ -19,8 +19,8 @@ import { Button } from "primereact/button";
 import ReviewSection from "@core/ui/review-section/review-section";
 import { RequestStatus } from "@core/model/request-status.enum";
 import {
+  getGrandTotalDeliveredAmount,
   getOverallAmount,
-  getOverallAmountByStatus,
 } from "@core/utility/order-helper";
 import { currencyFormat } from "@shared/formats/currency-format";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
@@ -83,9 +83,7 @@ export function EditOrder() {
     const dateUpdated = data?.updated_at;
     const totalAmount = data !== undefined ? getOverallAmount(data) : 0;
     const totalFulfilledAmount =
-      data !== undefined
-        ? getOverallAmountByStatus(data, RequestStatus.COMPLETED)
-        : 0;
+      data !== undefined ? getGrandTotalDeliveredAmount(data) : 0;
     const totalUnfulfilledAmount = totalAmount - totalFulfilledAmount;
     const totalRequests = (data?.purchase_requests || []).length;
     const totalCompletedRequests = (data?.purchase_requests || []).filter(
@@ -121,7 +119,7 @@ export function EditOrder() {
             <p className="block font-bold">
               {currencyFormat(totalUnfulfilledAmount, "PHP")}
             </p>
-            <label className="block hint">Unfulfilled Amount</label>
+            <label className="block hint">Undelivered Amount</label>
           </div>
           <div className="border border-gray-200 rounded p-5 text-center bg-white">
             <p className="block font-bold">

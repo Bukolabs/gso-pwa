@@ -2748,31 +2748,7 @@ export interface EditPrItemDeliveryDto {
      * @type {string}
      * @memberof EditPrItemDeliveryDto
      */
-    'item_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditPrItemDeliveryDto
-     */
     'brand'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditPrItemDeliveryDto
-     */
-    'brand_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditPrItemDeliveryDto
-     */
-    'unit_name'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EditPrItemDeliveryDto
-     */
-    'price'?: number;
     /**
      * 
      * @type {string}
@@ -3568,6 +3544,133 @@ export interface ForgotPasswordDto {
 /**
  * 
  * @export
+ * @interface GetBatchDeliveryDto
+ */
+export interface GetBatchDeliveryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'purchase_request': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'item': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'item_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'brand'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'brand_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'unit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'unit_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'unit_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBatchDeliveryDto
+     */
+    'price': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBatchDeliveryDto
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetBatchDeliveryDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBatchDeliveryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface GetBidderDto
  */
 export interface GetBidderDto {
@@ -3809,10 +3912,10 @@ export interface GetPIDDto {
     'purchase_request'?: string;
     /**
      * 
-     * @type {Array<EditPrItemDeliveryDto>}
+     * @type {Array<GetBatchDeliveryDto>}
      * @memberof GetPIDDto
      */
-    'delivery'?: Array<EditPrItemDeliveryDto>;
+    'delivery'?: Array<GetBatchDeliveryDto>;
     /**
      * 
      * @type {number}
@@ -4778,6 +4881,42 @@ export interface GetPurchaseOrderDto {
      * @memberof GetPurchaseOrderDto
      */
     'invoice_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'signatory_name_1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'signatory_office_1'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'signatory_name_2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'signatory_office_2'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'end_user_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'end_user_office'?: string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
