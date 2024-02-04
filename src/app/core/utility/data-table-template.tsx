@@ -35,14 +35,6 @@ export const getTotalItemsQuantity = (data: GetPurchaseRequestDto) => {
   const total = sumBy(data?.items || [], (x) => x.quantity || 0);
   return total;
 };
-export const getTotalDeliveredItemsQuantity = (data: GetPurchaseRequestDto) => {
-  const total = sumBy(data?.items || [], (x) => x.delivered_quantity || 0);
-  return total;
-};
-export const getTotalFulfilledAmount = (data: GetPurchaseRequestDto) => {
-  const total = sumBy(data?.items || [], (x) => x.delivered_quantity * x.price || 0);
-  return total;
-};
 export const totalAmountColumn = (data: GetPurchaseRequestDto) => {
   const total = getTotalAmount(data);
   return currencyTemplate(total);

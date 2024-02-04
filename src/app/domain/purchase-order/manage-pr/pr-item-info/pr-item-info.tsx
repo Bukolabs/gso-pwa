@@ -9,23 +9,14 @@ import { ItemFormSchema, PurchaseItemFormSchema } from "@core/model/form.rule";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import ItemCard from "@core/ui/item-card/item-card";
-import { currencyFormat } from "@shared/formats/currency-format";
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 import PrItemAction from "../pr-item-action/pr-item-action";
 import { showEditRequestItemElements } from "@core/utility/stage-helper";
 import { Sidebar } from "primereact/sidebar";
 import { useEditOrderContext } from "@domain/purchase-order/edit-order/edit-order.context";
-import { GetPurchaseOrderDto } from "@api/api";
+import { getSelectedOrder } from "@core/utility/order-helper";
 
-const getSelectedOrder = (data: GetPurchaseOrderDto[], requestId: string) => {
-  const requestsList = data[0]?.purchase_requests || [];
-  if (requestId && requestsList && (requestsList || []).length > 0) {
-    const requestedData = requestsList.filter(
-      (item) => item.code === requestId
-    );
-    return requestedData[0];
-  }
-};
+
 
 export function PrItemInfo() {
   const navigate = useNavigate();
@@ -67,9 +58,7 @@ export function PrItemInfo() {
   const handlePRView = (prId: string) => {
     navigate(`/request/${prId}`);
   };
-  const handleBack = () => {
-    navigate("../");
-  };
+  const handleBack = () => navigate("../");
   const handleUpdatePRItem = (form: ItemFormSchema) => {
     if (requestData) {
       const editSchema = ApiToFormService.MapPurchaseRequestToForm(requestData);
@@ -102,9 +91,7 @@ export function PrItemInfo() {
     <div className="pr-item-info">
       <Sidebar
         visible={true}
-        onHide={() => {
-          handleBack();
-        }}
+        onHide={() => handleBack()}
         className="w-full md:w-2/5"
       >
         <h2>Request Items</h2>

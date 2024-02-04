@@ -14,7 +14,8 @@ export const ItemFormRule = z
     cost: z.number(),
     isActive: z.boolean().optional(),
     quantity: z.number().optional(),
-    deliveredQuantity: z.number().optional()
+    deliveredQuantity: z.number().optional(),
+    prCode: z.string().optional()
   })
   .superRefine((val, ctx) => {
     if (val.cost <= 0) {
@@ -90,6 +91,20 @@ export const OrderFormRule = z
     }
   });
 
+export const DeliveryFormRule = z.object({
+  code: z.string().optional(),
+  prCode: z.string().optional(),
+  prItemCode: z.string().optional(),
+  brand: z.string().optional(),
+  brandName: z.string().optional(),
+  description: z.string().optional(),
+  deliveredQuantity: z.number(),
+  itemDetails: ItemFormRule.nullish(),
+});
+export const DeliveryCollectionFormRule = z.object({
+  collection: DeliveryFormRule.array(),
+});
+
 export const PersonalRule = z.object({
   name: z
     .string()
@@ -143,4 +158,8 @@ export type BidderFormSchema = z.infer<typeof BidderFormRule>;
 export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;
 export type PurchaseItemFormSchema = z.infer<typeof PurchaseItemFormRule>;
+export type DeliveryFormSchema = z.infer<typeof DeliveryFormRule>;
+export type DeliveryCollectionFormSchema = z.infer<
+  typeof DeliveryCollectionFormRule
+>;
 export type LoginFormSchema = z.infer<typeof LoginRule>;

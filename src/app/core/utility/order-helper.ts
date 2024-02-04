@@ -1,4 +1,8 @@
-import { GetPrItemDto, GetPurchaseOrderDto } from "@api/api";
+import {
+  GetPrItemDto,
+  GetPurchaseOrderDto,
+  GetPurchaseRequestDto,
+} from "@api/api";
 import { sumBy } from "lodash-es";
 
 export const getOverallAmount = (data: GetPurchaseOrderDto) => {
@@ -35,4 +39,27 @@ export const getTotalQuantityOfRequestItem = (data: GetPrItemDto[][]) => {
     return total;
   }, 0);
   return overallTotal || 0;
+};
+
+export const getSelectedOrder = (
+  data: GetPurchaseOrderDto[],
+  requestId: string
+) => {
+  const requestsList = data[0]?.purchase_requests || [];
+  if (requestId && requestsList && (requestsList || []).length > 0) {
+    const requestedData = requestsList.filter(
+      (item) => item.code === requestId
+    );
+    return requestedData[0];
+  }
+};
+
+export const getTotalDeliveredAmount = (data: GetPurchaseRequestDto) => {
+  const total = sumBy(data?.delivery || [], (x) => x.total_amount || 0);
+  return total;
+};
+
+export const getTotalDeliveredQuantity = (data: GetPurchaseRequestDto) => {
+  const total = sumBy(data?.delivery || [], (x) => x.total_quantity || 0);
+  return total;
 };

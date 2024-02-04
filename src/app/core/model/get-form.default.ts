@@ -2,17 +2,20 @@ import {
   GetBidderDto,
   GetItemDto,
   GetPersonDto,
+  GetPrItemDeliveryDto,
   GetPurchaseOrderDto,
   GetPurchaseRequestDto,
 } from "@api/api";
 import {
   accountFormDefault,
   bidderFormDefault,
+  deliveryFormDefault,
   requestFormDefault,
 } from "./form.default";
 import {
   AccountFormSchema,
   BidderFormSchema,
+  DeliveryFormSchema,
   ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
@@ -88,6 +91,7 @@ export const getItemFormDefault = (cachedValue: GetItemDto | undefined) => {
         cost: cachedValue.price || 0,
         unit: cachedValue.unit,
         deliveredQuantity: 0,
+        prCode: "",
       } as ItemFormSchema);
 };
 
@@ -145,6 +149,23 @@ export const getOrderFormDefault = (
             ) as any)
           : ("" as any),
       } as OrderFormSchema);
+};
+
+export const getDeliveryFormDefault = (
+  cachedValue: GetPrItemDeliveryDto | undefined
+) => {
+  return !cachedValue
+    ? deliveryFormDefault
+    : ({
+        code: cachedValue.code,
+        prCode: cachedValue.purchase_request,
+        prItemCode: cachedValue.item,
+        deliveredQuantity: cachedValue.quantity,
+        brand: cachedValue.brand,
+        brandName: cachedValue.brand_name,
+        description: cachedValue.description,
+        itemDetails: undefined,
+      } as DeliveryFormSchema);
 };
 
 export const getAccountFormDefault = (

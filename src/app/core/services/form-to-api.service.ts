@@ -2,8 +2,10 @@ import {
   AddPersonDto,
   CreateBidderDto,
   CreateItemDto,
+  CreatePIDDto,
   CreatePersonDto,
   CreatePoPrDto,
+  CreatePrItemDeliveryDto,
   CreatePrItemDto,
   CreatePurchaseOrderDto,
   CreatePurchaseRequestDto,
@@ -23,6 +25,8 @@ import {
 import {
   AccountFormSchema,
   BidderFormSchema,
+  DeliveryCollectionFormSchema,
+  DeliveryFormSchema,
   ItemFormSchema,
   LoginFormSchema,
   OrderFormSchema,
@@ -216,7 +220,7 @@ export class FormToApiService {
       price: form.cost,
       is_active: form.isActive,
       code: form.itemArrayCode,
-      delivered_quantity: form.deliveredQuantity
+      delivered_quantity: form.deliveredQuantity,
     } as CreatePrItemDto;
 
     return payload;
@@ -235,20 +239,28 @@ export class FormToApiService {
     const requests = form.requests.map((item) => this.AddRequestInOrder(item));
     const payload = {
       po_no: form.pono,
-      po_date: !!form.poDate ? format(form.poDate as Date, SETTINGS.dateFormat) : null,
+      po_date: !!form.poDate
+        ? format(form.poDate as Date, SETTINGS.dateFormat)
+        : null,
       resolution_no: form.resolutionNo,
       mode_of_procurement: form.procurementMode,
       delivery_location: form.deliveryAddress,
-      delivery_date: !!form.deliveryDate ? format(form.deliveryDate as Date, SETTINGS.dateFormat) : null,
+      delivery_date: !!form.deliveryDate
+        ? format(form.deliveryDate as Date, SETTINGS.dateFormat)
+        : null,
       delivery_term: form.deliveryTerm,
       payment_term: form.paymentTerm,
       is_active: true,
       purchase_requests: requests,
       category: form.category,
       iar_no: form.iar,
-      iar_date: !!form.iarDate ? format(form.iarDate as Date, SETTINGS.dateFormat) : null,
+      iar_date: !!form.iarDate
+        ? format(form.iarDate as Date, SETTINGS.dateFormat)
+        : null,
       invoice_no: form.invoice,
-      invoice_date: !!form.invoiceDate ? format(form.invoiceDate as Date, SETTINGS.dateFormat) : null,
+      invoice_date: !!form.invoiceDate
+        ? format(form.invoiceDate as Date, SETTINGS.dateFormat)
+        : null,
     } as CreatePurchaseOrderDto;
 
     return payload;
@@ -259,11 +271,15 @@ export class FormToApiService {
     const payload = {
       code: orderId,
       po_no: form.pono,
-      po_date: !!form.poDate ? format(form.poDate as Date, SETTINGS.dateFormat) : null,
+      po_date: !!form.poDate
+        ? format(form.poDate as Date, SETTINGS.dateFormat)
+        : null,
       resolution_no: form.resolutionNo,
       mode_of_procurement: form.procurementMode,
       delivery_location: form.deliveryAddress,
-      delivery_date:  !!form.deliveryDate ? format(form.deliveryDate as Date, SETTINGS.dateFormat) : null,
+      delivery_date: !!form.deliveryDate
+        ? format(form.deliveryDate as Date, SETTINGS.dateFormat)
+        : null,
       delivery_term: form.deliveryTerm,
       is_active: true,
       purchase_requests: requests,
@@ -275,9 +291,13 @@ export class FormToApiService {
       tin: form.tin,
       payment_term: form.paymentTerm,
       iar_no: form.iar,
-      iar_date: !!form.iarDate ? format(form.iarDate as Date, SETTINGS.dateFormat) : null,
+      iar_date: !!form.iarDate
+        ? format(form.iarDate as Date, SETTINGS.dateFormat)
+        : null,
       invoice_no: form.invoice,
-      invoice_date: !!form.invoiceDate ? format(form.invoiceDate as Date, SETTINGS.dateFormat) : null,
+      invoice_date: !!form.invoiceDate
+        ? format(form.invoiceDate as Date, SETTINGS.dateFormat)
+        : null,
     } as EditPurchaseOrderDto;
 
     return payload;
@@ -313,6 +333,26 @@ export class FormToApiService {
       code: item.po_pr_code,
       is_active: false,
     } as DeletePoPrDto;
+
+    return payload;
+  }
+
+  static AddDelivery(items: DeliveryCollectionFormSchema) {
+    const deliveryPayload = items.collection.map(
+      (item) =>
+        ({
+          purchase_request: item.prCode,
+          item: item.prItemCode,
+          quantity: item.deliveredQuantity,
+          brand: item.brand,
+          description: item.description,
+          is_active: true
+        } as CreatePrItemDeliveryDto)
+    );
+
+    const payload = {
+      delivery: deliveryPayload,
+    } as CreatePIDDto;
 
     return payload;
   }

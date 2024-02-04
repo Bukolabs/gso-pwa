@@ -1,6 +1,7 @@
 import {
   AccountFormSchema,
   BidderFormSchema,
+  DeliveryFormSchema,
   ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
@@ -49,6 +50,17 @@ export const orderFormDefault = {
   invoiceDate: "" as any,
 } as OrderFormSchema;
 
+export const deliveryFormDefault = {
+  code: "",
+  prCode: "",
+  prItemCode: "",
+  deliveredQuantity: 0,
+  brand: "",
+  brandName: "",
+  description: "",
+  itemDetails: undefined,
+} as DeliveryFormSchema;
+
 export const bidderFormDefault = {
   country: "Philippines",
   name: "",
@@ -84,4 +96,5 @@ export const itemFormDefault = {
   unit: "",
   quantity: 0,
   deliveredQuantity: 0,
+  prCode: ''
 } as ItemFormSchema;

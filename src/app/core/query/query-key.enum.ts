@@ -17,6 +17,7 @@ export enum QueryKey {
   Stage3Review = "stage-3-review",
   Status = 'status',
   Order = 'order',
+  Delivery = 'Delivery',
   RequestsInOrder = 'requests-in-orders',
   History = 'history',
 }

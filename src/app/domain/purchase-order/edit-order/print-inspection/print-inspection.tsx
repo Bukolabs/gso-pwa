@@ -1,4 +1,8 @@
-import { GetPurchaseOrderDto, GetPurchaseRequestDto } from "@api/api";
+import {
+  GetPIDDto,
+  GetPurchaseOrderDto,
+  GetPurchaseRequestDto,
+} from "@api/api";
 import "./print-inspection.scss";
 import { twoDigit } from "@core/utility/number-helper";
 import {
@@ -11,10 +15,15 @@ import { RequestStatus } from "@core/model/request-status.enum";
 
 export interface PrintInspectionProps {
   data: GetPurchaseRequestDto;
+  deliveryItem: GetPIDDto;
   order?: GetPurchaseOrderDto;
 }
 
-export function PrintInspection({ data, order }: PrintInspectionProps) {
+export function PrintInspection({
+  data,
+  deliveryItem,
+  order,
+}: PrintInspectionProps) {
   const logo = "/tagbilaran-logo.png";
   const totalAmount = sumBy(data.items, (x) => x.price * x.quantity);
   const itemDisplay = (title: string, description: string) => {
@@ -82,16 +91,16 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
               </td>
               <td className="align-top border-r bg-gray-50">
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {order?.iar_no || '-'}
+                  {order?.iar_no || "-"}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {dateFormat(order?.iar_date)|| '-'}
+                  {dateFormat(order?.iar_date) || "-"}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {order?.invoice_no || '-'}
+                  {order?.invoice_no || "-"}
                 </label>
                 <label className="print-normal block relative font-bold border-b border-black w-full top-[1px] mb-1">
-                  {dateFormat(order?.invoice_date) || '-'}
+                  {dateFormat(order?.invoice_date) || "-"}
                 </label>
               </td>
             </tr>
@@ -116,28 +125,28 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
                 Total
               </th>
             </tr>
-            {(data?.items || [])?.map((item, id) => (
+            {(deliveryItem.delivery || [])?.map((artifact, id) => (
               <tr key={id} className="border-t border-b border-l-0 border-r-0">
                 <td className="print-normal px-2 py-1 border bg-gray-50">
                   {twoDigit(id + 1)}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {itemDisplay(item.item_name, item.description || "")}
+                  {itemDisplay(artifact.item_name, artifact.description || "")}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {item.brand_name}
+                  {artifact.brand_name}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {item.unit_name}
+                  {artifact.unit_name}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {numberTemplate(item.quantity)}
+                  {numberTemplate(artifact.quantity)}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {currencyTemplate(item.price)}
+                  {currencyTemplate(artifact.price || 0)}
                 </td>
                 <td className="print-normal px-2 py-1 border bg-gray-50">
-                  {currencyTemplate(item.price * item.quantity)}
+                  {currencyTemplate((artifact.price || 0) * artifact.quantity)}
                 </td>
               </tr>
             ))}
@@ -185,13 +194,17 @@ export function PrintInspection({ data, order }: PrintInspectionProps) {
                 <span className="print-normal block mt-4">
                   Complete{" "}
                   {data.status_name === RequestStatus.COMPLETED ? (
-                    <span className="inline-block ml-2"><i className="pi pi-check"></i></span>
+                    <span className="inline-block ml-2">
+                      <i className="pi pi-check"></i>
+                    </span>
                   ) : null}
                 </span>
                 <span className="print-normal block mt-4">
                   Partial (Pls. specify quantity)
                   {data.status_name === RequestStatus.PARTIAL ? (
-                    <span className="inline-block ml-2"><i className="pi pi-check"></i></span>
+                    <span className="inline-block ml-2">
+                      <i className="pi pi-check"></i>
+                    </span>
                   ) : null}
                 </span>
                 <section className="grid grid-cols-1 gap-4 py-1 mt-10">

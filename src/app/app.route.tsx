@@ -30,6 +30,8 @@ import NewOrder from "@domain/purchase-order/new-order/new-order";
 import EditOrder from "@domain/purchase-order/edit-order/edit-order";
 import PrItemInfo from "@domain/purchase-order/manage-pr/pr-item-info/pr-item-info";
 import { EditOrderProvider } from "@domain/purchase-order/edit-order/edit-order.context";
+import PrItemDeliveryInfo from "@domain/purchase-order/manage-pr/pr-item-delivery-info/pr-item-delivery-info";
+import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 
 const router = createBrowserRouter([
   {
@@ -85,8 +87,16 @@ const router = createBrowserRouter([
                 ),
                 children: [
                   {
-                    path: ":requestId",
+                    path: "view/:requestId",
                     element: <PrItemInfo />,
+                  },
+                  {
+                    path: "delivery/:requestId",
+                    element: (
+                      <FormBrandItemProvider>
+                        <PrItemDeliveryInfo />
+                      </FormBrandItemProvider>
+                    ),
                   },
                 ],
               },

@@ -28,3 +28,27 @@ export const showEditRequestItemElements = (status?: string) => {
     status === RequestStatus.PODECLINED
   );
 };
+export const showDeliveryElements = (status?: string) => {
+  return (
+    status === RequestStatus.INSPECTION ||
+    status === RequestStatus.PARTIAL ||
+    status === RequestStatus.COMPLETED
+  );
+};
+
+export const isStage4 = (status: string) =>
+  status === RequestStatus.INSPECTION ||
+  status === RequestStatus.PARTIAL ||
+  status === RequestStatus.COMPLETED;
+export const shouldDisplayAwardedCards = (status: string) =>
+  status === RequestStatus.AWARDED ||
+  status === RequestStatus.POREVIEW ||
+  status === RequestStatus.POAPPROVED ||
+  status === RequestStatus.PODECLINED ||
+  status === RequestStatus.INSPECTION ||
+  status === RequestStatus.PARTIAL ||
+  status === RequestStatus.COMPLETED;
+export const shouldGetUnassigned = (status: string) =>
+  status === RequestStatus.CATEGORIZED ||
+  status === RequestStatus.POSTED ||
+  status === RequestStatus.BIDDING;

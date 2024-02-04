@@ -1,6 +1,5 @@
 import HeaderContent from "@shared/ui/header-content/header-content";
 import "./edit-order.scss";
-import { useEditOrder } from "./edit-order.hook";
 import { FormProvider } from "react-hook-form";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
