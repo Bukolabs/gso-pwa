@@ -7,6 +7,7 @@ import {
   PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
 import {
+  useDeleteRequestQy,
   useEditRequestQy,
   useGetRequestByIdQy,
   useProcessRequestQy,
@@ -24,16 +25,21 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
-import { useReviewHook } from "@core/services/review.hook";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useReactToPrint } from "react-to-print";
+import { StageName } from "@core/model/stage-name.enum";
+import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
-import { showReviewControl } from "@core/utility/approve-control";
-import { RequestStatus } from "@core/model/request-status.enum";
+import { useQueryClient } from "react-query";
+import { QueryKey } from "@core/query/query-key.enum";
 
 export function useEditRequest() {
-  const { isRequestor } = useUserIdentity();
+  const queryClient = useQueryClient();
+  const { historyData, getHistory } = usePurchaseHistory();
+  const { isRestrictedView } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
-  const { showSuccess, showError, hideProgress } = useNotificationContext();
+  const { showSuccess, showError, showWarning, hideProgress } =
+    useNotificationContext();
   const navigate = useNavigate();
   const [dataEmpty, setDataEmpty] = useState(false);
   const { requestId } = useParams();
@@ -41,79 +47,28 @@ export function useEditRequest() {
   const [defaultPrItem, setDefaultPrItem] = useState<
     ItemFormSchema | undefined
   >(undefined);
+  const [historySidebar, setHistorySidebar] = useState(false);
 
-  const componentRef = useRef(null);
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-  const getActions = () => {
-    const defaultActions = [
-      {
-        label: "History",
-        command: () => {},
-      },
-      {
-        label: "Print",
-        command: () => {
-          handlePrint();
-        },
-      },
-      {
-        label: "Delete",
-        command: () => {},
-      },
-    ];
-    const reviewerActions = [
-      {
-        label: "Approve",
-        command: () => {
-          const dataValue = requests?.data?.[0];
-
-          if (!dataValue) {
-            throw new Error("no data");
-          }
-
-          const reviewer = setReviewerEntityStatus(true);
-          const payload = {
-            code: dataValue.code,
-            ...reviewer,
-          } as ProcessPurchaseRequestDto;
-          processRequest(payload);
-        },
-      },
-      {
-        label: "Decline",
-        command: () => {
-          const dataValue = requests?.data?.[0];
-
-          if (!dataValue) {
-            throw new Error("no data");
-          }
-
-          const reviewer = setReviewerEntityStatus(false);
-          const payload = {
-            code: dataValue.code,
-            ...reviewer,
-          } as ProcessPurchaseRequestDto;
-          processRequest(payload);
-        },
-      },
-    ];
-
-    const currentStatus = requests?.data?.[0].status_name;
-    const hasReviewerActions =
-      !isRequestor && showReviewControl(currentStatus as RequestStatus);
-    const actions = hasReviewerActions
-      ? [...reviewerActions, ...defaultActions]
-      : defaultActions;
-    return actions;
-  };
+  const [remarksVisible, setRemarksVisible] = useState(false);
+  const [reviewRemarks, setReviewRemarks] = useState("");
+  const [remarksMode, setRemarksMode] = useState("");
 
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
-    showSuccess("Request is approved");
+    showSuccess("Request status is changed successfully");
+    handleBack();
   };
-  const { mutate: processRequest } = useProcessRequestQy(handleProcessSuccess);
+  const { mutate: processRequest, isLoading: isProcessing } =
+    useProcessRequestQy(handleProcessSuccess);
+
+  // PROCESS REQUEST API
+  const handleDeleteApiSuccess = () => {
+    showSuccess("Request is deleted successfully");
+    handleBack();
+  };
+  const { mutate: deleteRequest, isLoading: isDeleting } = useDeleteRequestQy(
+    handleDeleteApiSuccess
+  );
 
   // UNCACHED, GET API VALUES
   // GET REQUEST API
@@ -122,6 +77,7 @@ export function useEditRequest() {
   ) => {
     if (data && data.count && data.count > 0) {
       const responseData = data.data?.[0];
+      setValue("code", responseData?.code);
       setValue("prno", responseData?.pr_no);
       setValue(
         "dueDate",
@@ -157,11 +113,14 @@ export function useEditRequest() {
       setValue("purpose", responseData?.purpose || "");
 
       const items = responseData?.items
-        ? ApiToFormService.MapRequestPruchaseItems(responseData.items)
+        ? ApiToFormService.MapRequestPurchaseItems(responseData.items)
         : [];
       setValue("items", items);
       setValue("urgent", responseData?.is_urgent || false);
-      setValue("department", responseData?.department_name);
+      setValue("department", responseData?.department);
+      setValue("departmentLabel", responseData?.department_name);
+      setValue("isPPMP", Boolean(responseData?.has_ppmp));
+      setValue("isActivityDesign", Boolean(responseData?.has_activity_design));
 
       setDataEmpty(false);
       hideProgress();
@@ -175,22 +134,48 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
-  const reviewers = getReviewers(requests?.data?.[0]);
+
+  const getStageReviewers = () => {
+    const requestData = requests?.data?.[0];
+    const isStage3And4 =
+      requestData?.stage_name === StageName.STAGE_3 ||
+      requestData?.stage_name === StageName.STAGE_4;
+
+    const stageReviewers = isStage3And4
+      ? ({
+          isGso: requestData?.po_is_gso,
+          isTreasurer: requestData?.po_is_treasurer,
+          isMayor: requestData?.po_is_mayor,
+        } as ReviewerStatus)
+      : ({
+          isGso: requestData?.is_gso,
+          isGsoFF: requestData?.is_gso_ff,
+          isTreasurer: requestData?.is_treasurer,
+          isMayor: requestData?.is_mayor,
+          isBudget: requestData?.is_budget,
+        } as ReviewerStatus);
+
+    const reviewers = getReviewers(stageReviewers);
+    return reviewers;
+  };
 
   // EDIT REQUEST API
   const handleApiSuccess = () => {
     showSuccess("Request updated");
-    handleBack();
+    queryClient.invalidateQueries([QueryKey.Request, requestId]);
   };
-  const { mutate: editRequest, isError: editError } =
-    useEditRequestQy(handleApiSuccess);
+  const {
+    mutate: editRequest,
+    isError: editError,
+    isLoading: isUpdating,
+  } = useEditRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     // CACHED / DEFAULT VALUES
     defaultValues: getRequestFormDefault(requests?.data?.[0]),
     resolver: zodResolver(RequestFormRule),
   });
-  const { handleSubmit, setValue, watch } = formMethod;
+  const { handleSubmit, setValue, watch, getValues } = formMethod;
   const requestItems = watch("items");
   const displayRequestItems = requestItems.filter((item) => item.isActive);
 
@@ -198,11 +183,16 @@ export function useEditRequest() {
     navigate("../");
   };
   const handleValidate = (form: RequestFormSchema) => {
+    const activeItems = form.items.filter((x) => x.isActive);
+    if (activeItems.length === 0) {
+      showWarning("Kindly, add items for your requests.");
+      return;
+    }
+
     const formData = FormToApiService.EditPurchaseRequest(
       form,
       requestId || ""
     );
-    console.log("Edit request", { form, formData });
     editRequest(formData);
   };
   const handleValidateError = (err: FieldErrors<RequestFormSchema>) => {
@@ -229,8 +219,78 @@ export function useEditRequest() {
 
       return x;
     });
-    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
     setValue("items", updatedIsActiveItems);
+  };
+  const handleReviewAction = (action: "approve" | "decline") => {
+    const dataValue = requests?.data?.[0];
+
+    if (!dataValue) {
+      throw new Error("no data");
+    }
+
+    const isApprove = action === "approve";
+    const hasBudgetApproved = Boolean(dataValue.is_budget);
+    const reviewer = setReviewerEntityStatus(isApprove, hasBudgetApproved);
+    const payload = {
+      code: dataValue.code,
+      ...reviewer,
+      remarks: reviewRemarks,
+    } as ProcessPurchaseRequestDto;
+    processRequest(payload);
+    setRemarksVisible(false);
+  };
+
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const handleAction = (action: string) => {
+    switch (action) {
+      case "Update":
+        handleSubmit(handleValidate, handleValidateError)();
+        break;
+      case "Submit":
+        const formValues = getValues();
+        formValues.dueDate = new Date(formValues.dueDate);
+        const formData = FormToApiService.EditPurchaseRequest(
+          formValues,
+          requestId || ""
+        );
+        formData.status = "SUBMITTED";
+        editRequest(formData);
+        break;
+      case "History":
+        const dataValue = requests?.data?.[0];
+        if (!dataValue?.code) {
+          return;
+        }
+
+        getHistory(dataValue?.code);
+        setHistorySidebar(true);
+        break;
+      case "Print":
+        handlePrint();
+        break;
+      case "Delete":
+        const formValuesForDelete = getValues();
+        const formDataForDelete =
+          FormToApiService.DeletePurchaseRequest(formValuesForDelete);
+        deleteRequest(formDataForDelete);
+        break;
+      case "Approve":
+        setRemarksVisible(true);
+        setRemarksMode("approve");
+        break;
+      case "Decline":
+        setRemarksVisible(true);
+        setRemarksMode("decline");
+        break;
+    }
+  };
+  const handleAddItem = () => {
+    setVisible(false);
+    handleSubmit(handleValidate, handleValidateError)();
   };
 
   return {
@@ -243,8 +303,16 @@ export function useEditRequest() {
     requestError,
     editError,
     dataEmpty,
-    reviewers,
     componentRef,
+    remarksVisible,
+    reviewRemarks,
+    remarksMode,
+    historySidebar,
+    historyData,
+    isUpdating,
+    isProcessing,
+    isDeleting,
+    isRestrictedView,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,
@@ -254,6 +322,12 @@ export function useEditRequest() {
     handleSubmit,
     handleValidate,
     handleValidateError,
-    getActions,
+    setRemarksVisible,
+    setReviewRemarks,
+    handleReviewAction,
+    handleAction,
+    getStageReviewers,
+    setHistorySidebar,
+    handleAddItem,
   };
 }

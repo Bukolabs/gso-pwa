@@ -1,5 +1,5 @@
 import { CreateUtilsBrandDto } from "@api/api";
-import { useAddBrand, useGetBrand } from "@core/query/brand.query";
+import { useAddBrand, useGetBrandQy } from "@core/query/brand.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useState } from "react";
@@ -44,14 +44,17 @@ export const useFormBrandItem = () => {
     handleAddApiSuccess,
     handleAddApiError
   );
-  const { data: brands } = useGetBrand('', 99999, 0);
-  const mappedBrands = (brands?.data || []).map(
+  const { data: brands } = useGetBrandQy("", 99999, 0);
+  const defaultBrand = { label: "N/a", value: "" } as LabelValue;
+  const initialMappedBrand = (brands?.data || []).map(
     (item) =>
       ({
         label: item.name,
         value: item.code,
       } as LabelValue)
   );
+  const mappedBrands =
+    initialMappedBrand.length === 0 ? [defaultBrand] : initialMappedBrand;
 
   return {
     sidebar,

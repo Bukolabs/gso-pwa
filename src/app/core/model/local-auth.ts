@@ -11,6 +11,7 @@ export interface LocalAuth {
   person_last_name: string;
   role_code: string;
   role_name: string;
+  role_description: string;
   department_code: string;
   department_name: string;
 }

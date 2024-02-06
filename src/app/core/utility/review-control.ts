@@ -4,6 +4,7 @@ export const showReviewControl = (status: RequestStatus) => {
   const showApproveList = [
     RequestStatus.SUBMITTED,
     RequestStatus.REVIEW,
+    RequestStatus.AWARDED,
     RequestStatus.POREVIEW,
   ];
 

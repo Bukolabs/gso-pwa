@@ -14,6 +14,8 @@ export const ItemFormRule = z
     cost: z.number(),
     isActive: z.boolean().optional(),
     quantity: z.number().optional(),
+    deliveredQuantity: z.number().optional(),
+    prCode: z.string().optional(),
   })
   .superRefine((val, ctx) => {
     if (val.cost <= 0) {
@@ -27,7 +29,7 @@ export const ItemFormRule = z
 
 export const PurchaseItemFormRule = z
   .object({
-    itemCode: z.string().optional(),
+    itemArrayCode: z.string().optional(),
   })
   .and(ItemFormRule);
 
@@ -45,22 +47,70 @@ export const RequestFormRule = z.object({
   items: PurchaseItemFormRule.array(),
   urgent: z.boolean().optional(),
   active: z.boolean().optional(),
-  department: z.string().optional()
+  department: z.string().optional(),
+  departmentLabel: z.string().optional(),
+  isPPMP: z.boolean(),
+  isActivityDesign: z.boolean(),
 });
 
-export const OrderItemRule = z.object({
-  procurementMode: z.string(),
-  requestNumbers: z.string(),
-  supplier: z.string(),
-  address: z.string(),
-  email: z.string(),
-  phone: z.string(),
-  tin: z.string(),
-  deliveryAddress: z.string(),
-  deliveryDate: z.date(),
-  deliveryTerm: z.string(),
-  paymentTerm: z.string(),
-  items: ItemFormRule.array(),
+export const RequestInOrderFormRule = z.object({
+  code: z.string().optional(),
+  purchaseOrder: z.string().optional(),
+  purchaseRequest: z.string().optional(),
+  isActive: z.boolean().optional(),
+});
+
+export const OrderFormRule = z
+  .object({
+    code: z.string().optional(),
+    pono: z.string().optional(),
+    poDate: z.coerce.date().nullish().catch(null),
+    resolutionNo: z.string().optional(),
+    procurementMode: z.string().optional(),
+    category: z.string(),
+    categoryName: z.string(),
+    supplier: z.string(),
+    address: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    tin: z.string(),
+    deliveryAddress: z.string(),
+    deliveryDate: z.coerce.date().nullish().catch(null),
+    deliveryTerm: z.string(),
+    paymentTerm: z.string(),
+    isActive: z.boolean().optional(),
+    requests: RequestInOrderFormRule.array(),
+    iar: z.string().optional(),
+    iarDate: z.coerce.date().nullish().catch(null),
+    invoice: z.string().optional(),
+    invoiceDate: z.coerce.date().nullish().catch(null),
+    signatoryName1: z.string().optional(),
+    signatoryName2: z.string().optional(),
+    signatoryOffice1: z.string().optional(),
+    signatoryOffice2: z.string().optional(),
+    endUserName1: z.string().optional(),
+    endUserOffice1: z.string().optional(),
+    rfqNumber: z.string().optional(),
+    itbNumber: z.string().optional(),
+  })
+  .superRefine((val, ctx) => {
+    if (val.deliveryDate === null || val.deliveryDate === undefined) {
+      return true;
+    }
+  });
+
+export const DeliveryFormRule = z.object({
+  code: z.string().optional(),
+  prCode: z.string().optional(),
+  prItemCode: z.string().optional(),
+  brand: z.string().optional(),
+  brandName: z.string().optional(),
+  description: z.string().optional(),
+  deliveredQuantity: z.number(),
+  itemDetails: ItemFormRule.nullish(),
+});
+export const DeliveryCollectionFormRule = z.object({
+  collection: DeliveryFormRule.array(),
 });
 
 export const PersonalRule = z.object({
@@ -110,9 +160,14 @@ export const BidderFormRule = PersonalRule.and(AddressRule);
 export const AccountFormRule = PersonalRule.and(AccountRule);
 
 export type RequestFormSchema = z.infer<typeof RequestFormRule>;
-export type OrderFormSchema = z.infer<typeof OrderItemRule>;
+export type RequestInOrderFormSchema = z.infer<typeof RequestInOrderFormRule>;
+export type OrderFormSchema = z.infer<typeof OrderFormRule>;
 export type BidderFormSchema = z.infer<typeof BidderFormRule>;
 export type AccountFormSchema = z.infer<typeof AccountFormRule>;
 export type ItemFormSchema = z.infer<typeof ItemFormRule>;
 export type PurchaseItemFormSchema = z.infer<typeof PurchaseItemFormRule>;
+export type DeliveryFormSchema = z.infer<typeof DeliveryFormRule>;
+export type DeliveryCollectionFormSchema = z.infer<
+  typeof DeliveryCollectionFormRule
+>;
 export type LoginFormSchema = z.infer<typeof LoginRule>;

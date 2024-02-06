@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./mobile-menu";
-import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 import { NavigationProps } from "../navigation.interface";
 import { Sidebar } from "primereact/sidebar";

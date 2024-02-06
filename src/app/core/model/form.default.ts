@@ -1,6 +1,8 @@
+import { SETTINGS } from "@core/utility/settings";
 import {
   AccountFormSchema,
   BidderFormSchema,
+  DeliveryFormSchema,
   ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
@@ -20,22 +22,53 @@ export const requestFormDefault = {
   active: true,
   urgent: false,
   department: "",
+  departmentLabel: "",
+  isPPMP: false,
+  isActivityDesign: false,
 } as RequestFormSchema;
 
 export const orderFormDefault = {
+  pono: "",
+  poDate: "" as any,
+  resolutionNo: "",
   procurementMode: "",
-  requestNumbers: "",
   supplier: "",
   address: "",
   email: "",
   phone: "",
   tin: "",
   deliveryAddress: "",
-  deliveryDate: new Date(),
+  deliveryDate: "" as any,
   deliveryTerm: "",
   paymentTerm: "",
-  items: [],
+  isActive: true,
+  requests: [],
+  category: "",
+  categoryName: "",
+  iar: "",
+  iarDate: "" as any,
+  invoice: "",
+  invoiceDate: "" as any,
+  signatoryName1: SETTINGS.signatoryName1,
+  signatoryOffice1: SETTINGS.signatoryOffice1,
+  signatoryName2: SETTINGS.signatoryName2,
+  signatoryOffice2: SETTINGS.signatoryOffice2,
+  endUserName1: SETTINGS.endUserName1,
+  endUserOffice1: SETTINGS.endUserOffice1,
+  rfqNumber: "",
+  itbNumber: "",
 } as OrderFormSchema;
+
+export const deliveryFormDefault = {
+  code: "",
+  prCode: "",
+  prItemCode: "",
+  deliveredQuantity: 0,
+  brand: "",
+  brandName: "",
+  description: "",
+  itemDetails: undefined,
+} as DeliveryFormSchema;
 
 export const bidderFormDefault = {
   country: "Philippines",
@@ -71,4 +104,6 @@ export const itemFormDefault = {
   cost: 0,
   unit: "",
   quantity: 0,
+  deliveredQuantity: 0,
+  prCode: "",
 } as ItemFormSchema;

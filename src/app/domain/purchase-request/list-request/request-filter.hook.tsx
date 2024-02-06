@@ -1,22 +1,16 @@
 import { useGetCategory } from "@core/query/category.query";
 import { useGetDepartmentQy } from "@core/query/department.query";
-import { useGetStatus } from "@core/query/status.query";
-import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { useGetStatusQy } from "@core/query/status.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const defaultFilter = (
-  requestorDepartment: string | null,
   status = "",
   reviewer = ""
 ) => {
   const defaultFilter = {} as Record<string, string>;
-
-  if (requestorDepartment) {
-    defaultFilter.department = requestorDepartment;
-  }
 
   if (status) {
     defaultFilter.status_name = status;
@@ -33,15 +27,14 @@ export function useRequestFilter() {
   let [searchParams] = useSearchParams();
   const statusParam = searchParams.get("status_name");
   const reviewerParam = searchParams.get("reviewer");
-
-  const { requestorDepartment } = useUserIdentity();
+  
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(statusParam || "");
   const [selectedReviewer, setSelectedReviewer] = useState(reviewerParam || "");
 
   const [requestFilters, setRequestFilters] = useState<Record<string, string>>(
-    defaultFilter(requestorDepartment, statusParam || "", reviewerParam || "")
+    defaultFilter(statusParam || "", reviewerParam || "")
   );
 
   const { data: department } = useGetDepartmentQy("", 9999999, 0);
@@ -62,7 +55,7 @@ export function useRequestFilter() {
       } as LabelValue)
   );
 
-  const { data: status } = useGetStatus();
+  const { data: status } = useGetStatusQy();
   const mappedStatus = (status?.data || []).map(
     (item) =>
       ({

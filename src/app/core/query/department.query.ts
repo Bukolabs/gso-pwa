@@ -8,6 +8,7 @@ import { authHeaders } from "./auth-header";
 import { useQuery } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { SETTINGS } from "@core/utility/settings";
 
 export function useGetDepartmentQy(
   search: string,
@@ -63,5 +64,6 @@ export function useGetDepartmentQy(
         onError(err);
       }
     },
+    staleTime: SETTINGS.staleTime,
   });
 }

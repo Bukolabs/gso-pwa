@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./domain/home/home";
 import PurchaseOrder from "./domain/purchase-order/purchase-order";
 import PurchaseRequest from "./domain/purchase-request/purchase-request";
@@ -29,6 +25,13 @@ import MainShell from "@domain/shell/main-shell/main-shell";
 import AuthShell from "@domain/shell/auth-shell/auth-shell";
 import Login from "@domain/login/login";
 import { ProtectedRoute } from "@core/authentication/protected-route";
+import ListOrder from "@domain/purchase-order/list-order/list-order";
+import NewOrder from "@domain/purchase-order/new-order/new-order";
+import EditOrder from "@domain/purchase-order/edit-order/edit-order";
+import PrItemInfo from "@domain/purchase-order/manage-pr/pr-item-info/pr-item-info";
+import { EditOrderProvider } from "@domain/purchase-order/edit-order/edit-order.context";
+import PrItemDeliveryInfo from "@domain/purchase-order/manage-pr/pr-item-delivery-info/pr-item-delivery-info";
+import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +66,48 @@ const router = createBrowserRouter([
               },
             ],
           },
-          { path: "order", element: <PurchaseOrder /> },
+          {
+            path: "order",
+            element: <PurchaseOrder />,
+            children: [
+              {
+                path: "",
+                element: <ListOrder />,
+              },
+              {
+                path: "new",
+                element: <NewOrder />,
+                children: [
+                  {
+                    path: "view/:requestId",
+                    element: <PrItemInfo />,
+                  },
+                ],
+              },
+              {
+                path: ":orderId",
+                element: (
+                  <EditOrderProvider>
+                    <EditOrder />
+                  </EditOrderProvider>
+                ),
+                children: [
+                  {
+                    path: "view/:requestId",
+                    element: <PrItemInfo />,
+                  },
+                  {
+                    path: "delivery/:requestId",
+                    element: (
+                      <FormBrandItemProvider>
+                        <PrItemDeliveryInfo />
+                      </FormBrandItemProvider>
+                    ),
+                  },
+                ],
+              },
+            ],
+          },
           {
             path: "bidder",
             element: <Bidder />,
@@ -95,7 +139,7 @@ const router = createBrowserRouter([
                 element: <NewAccount />,
               },
               {
-                path: ":bidderId",
+                path: ":accountId",
                 element: <EditAccount />,
               },
             ],

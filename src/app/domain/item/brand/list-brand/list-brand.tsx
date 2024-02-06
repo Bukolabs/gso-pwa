@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./list-brand";
 import { useItemMenu } from "@domain/item/item-menu";
 import { useState } from "react";
-import { useGetBrand } from "@core/query/brand.query";
+import { useGetBrandQy } from "@core/query/brand.query";
 import { UtilsDataDto } from "@api/api";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import ErrorSection from "@shared/ui/error-section/error-section";
@@ -26,7 +26,7 @@ export function ListBrand() {
     isLoading,
     isError,
     error,
-  } = useGetBrand(searchTerm, limit, pageNumber);
+  } = useGetBrandQy(searchTerm, limit, pageNumber);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);

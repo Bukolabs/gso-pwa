@@ -1,27 +1,33 @@
-import classNames from "classnames";
-import "./purchase-card";
-import { Tag } from "primereact/tag";
 import { LabelValue } from "@shared/models/label-value.interface";
-import ReviewSection from "../review-section/review-section";
+import "./request-card.scss";
+import classNames from "classnames";
+import { Tag } from "primereact/tag";
 import { getStatusStyle } from "@core/utility/get-status-style";
+import ReviewSection from "../review-section/review-section";
 
-export interface PurchaseCardProps {
+export interface RequestCardProps {
   code: string;
   title: string;
   subTitle: string;
   status: string;
   reviewers: LabelValue[];
+  dueDate: string;
+  totalAmount: string;
+  totalItems: string;
   onClick: (code: string) => void;
 }
 
-export function PurchaseCard({
+export function RequestCard({
   code,
   title,
   subTitle,
   status,
   reviewers,
+  dueDate,
+  totalAmount,
+  totalItems,
   onClick,
-}: PurchaseCardProps) {
+}: RequestCardProps) {
   return (
     <div
       className={classNames("bg-white w-full shadow rounded-md flex flex-col")}
@@ -43,15 +49,15 @@ export function PurchaseCard({
       </section>
       <section className="flex justify-center gap-3 py-4 border-b border-gray-200">
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">22/05/2023</p>
+          <p className="text-gray-800 font-bold">{dueDate}</p>
           <p className="hint">Due Date</p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">$23500</p>
+          <p className="text-gray-800 font-bold">{totalAmount}</p>
           <p className="hint">Total Amount</p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-gray-800 font-bold">10</p>
+          <p className="text-gray-800 font-bold">{totalItems}</p>
           <p className="hint">Total Items</p>
         </div>
       </section>
@@ -62,4 +68,4 @@ export function PurchaseCard({
   );
 }
 
-export default PurchaseCard;
+export default RequestCard;

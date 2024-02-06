@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import "./list-request";
 import { useNavigate } from "react-router-dom";
-import PurchaseCard from "@core/ui/purchase-card/purchase-card";
 import useScreenSize from "@core/utility/screen-size";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { useState } from "react";
@@ -14,22 +13,28 @@ import { Sidebar } from "primereact/sidebar";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
-  currencyTemplate,
   dateTemplate,
-  numberTemplate,
+  getTotalAmount,
+  getTotalItemsQuantity,
   tagTemplate,
+  totalAmountColumn,
+  totalItemsColumn,
 } from "@core/utility/data-table-template";
-import { sumBy } from "lodash-es";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Avatar } from "primereact/avatar";
-import { useReviewHook } from "@core/services/review.hook";
+import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { useRequestFilterContext } from "./request-filter.context";
 import { RequestFilterForm } from "./request-filter.form";
+import { dateFormat } from "@shared/formats/date-time-format";
+import { currencyFormat } from "@shared/formats/currency-format";
+import { numberFormat } from "@shared/formats/number-format";
+import RequestCard from "@core/ui/request-card/request-card";
+import { StageName } from "@core/model/stage-name.enum";
+import { useUserIdentity } from "@core/utility/user-identity.hook";
 
 export function ListRequest() {
-  const {
-    requestFilters,
-  } = useRequestFilterContext();
+  const { isBACApprover, isReviewer, isRestrictedView } = useUserIdentity();
+  const { requestFilters } = useRequestFilterContext();
   const navigate = useNavigate();
   const { getReviewers } = useReviewHook();
   const { isMobileMode } = useScreenSize();
@@ -37,8 +42,8 @@ export function ListRequest() {
 
   const rowLimit = 20;
   const [pageNumber, setPageNumber] = useState(0);
-  const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [first, setFirst] = useState(0);
   const [filterPanel, setFilterPanel] = useState(false);
   const {
     data: purchaseRequests,
@@ -101,7 +106,7 @@ export function ListRequest() {
           outlined
           onClick={() => setFilterPanel(true)}
           badge={getFilterCount()}
-          badgeClassName="p-badge-danger" 
+          badgeClassName="p-badge-danger"
         />
       </div>
 
@@ -110,16 +115,25 @@ export function ListRequest() {
       </Sidebar>
     </div>
   );
-  const totalAmountColumn = (data: GetPurchaseRequestDto) => {
-    const total = sumBy(data?.items || [], (x) => x.price * (x.quantity || 0));
-    return currencyTemplate(total);
-  };
-  const totalItemsColumn = (data: GetPurchaseRequestDto) => {
-    const total = sumBy(data?.items || [], (x) => x.quantity || 0);
-    return numberTemplate(total);
-  };
   const reviewColumn = (data: GetPurchaseRequestDto) => {
-    const reviewers = getReviewers(data);
+    const isStage3And4 =
+      data.stage_name === StageName.STAGE_3 ||
+      data.stage_name === StageName.STAGE_4;
+    const stageReviewers = isStage3And4
+      ? ({
+          isGso: data.po_is_gso,
+          isTreasurer: data.po_is_treasurer,
+          isMayor: data.po_is_mayor,
+        } as ReviewerStatus)
+      : ({
+          isGso: data.is_gso,
+          isGsoFF: data.is_gso_ff,
+          isTreasurer: data.is_treasurer,
+          isMayor: data.is_mayor,
+          isBudget: data.is_budget,
+        } as ReviewerStatus);
+
+    const reviewers = getReviewers(stageReviewers);
 
     return (
       <div className="flex gap-2">
@@ -151,7 +165,8 @@ export function ListRequest() {
         />
       </span>
     </div>
-  );
+  );  
+  const totalDataContent = <span className="font-bold">Total: {purchaseRequests?.count} </span>;
   const grid = (
     <section>
       <DataTable
@@ -161,14 +176,23 @@ export function ListRequest() {
         onSelectionChange={(e) => editRecord(e.value)}
       >
         <Column field="pr_no" header="PR #"></Column>
-        <Column field="department_name" header="Department"></Column>
-        <Column field="category_name" header="Category"></Column>
-        <Column header="Total Quantity" body={totalItemsColumn}></Column>
-        <Column header="Total Amount" body={totalAmountColumn}></Column>
+        {!isRestrictedView && (
+          <Column field="department_name" header="Department"></Column>
+        )}
+        {!isRestrictedView && (
+          <Column field="category_name" header="Category"></Column>
+        )}
+        {!isRestrictedView && (
+          <Column header="Total Quantity" body={totalItemsColumn}></Column>
+        )}
+        {!isRestrictedView && (
+          <Column header="Total Amount" body={totalAmountColumn}></Column>
+        )}
         <Column
           header="Issued Date"
           body={(data: GetPurchaseRequestDto) => dateTemplate(data.pr_date)}
         ></Column>
+        <Column field="stage_description" header="Phase"></Column>
         <Column
           header="Status"
           body={(data: GetPurchaseRequestDto) => tagTemplate(data.status_name)}
@@ -182,6 +206,7 @@ export function ListRequest() {
         totalRecords={purchaseRequests?.count}
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -189,15 +214,25 @@ export function ListRequest() {
     <section>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         {(purchaseRequests?.data || []).map((item, id) => {
-          const reviewers = getReviewers(item);
+          const reviewers = getReviewers({
+            isGso: item.is_gso,
+            isGsoFF: item.is_gso_ff,
+            isTreasurer: item.is_treasurer,
+            isMayor: item.is_mayor,
+            isBudget: item.is_budget,
+          } as ReviewerStatus);
+
           return (
-            <PurchaseCard
+            <RequestCard
               key={id}
               code={item.code}
               title={`PR No. ${item.pr_no}` || "-"}
               subTitle={item.department_name}
               status={item.status_name}
               reviewers={reviewers}
+              dueDate={dateFormat(item.pr_date)}
+              totalAmount={currencyFormat(getTotalAmount(item), "PHP")}
+              totalItems={numberFormat(getTotalItemsQuantity(item))}
               onClick={(code) => navigate(code)}
             />
           );
@@ -211,6 +246,7 @@ export function ListRequest() {
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
         className="mb-20"
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -223,13 +259,15 @@ export function ListRequest() {
 
   return (
     <div className="list-request">
-      <HeaderContent title="Requests">
-        <Button
-          className="w-full block md:m-0"
-          label="New"
-          onClick={() => navigate("new")}
-          text={!isTableView}
-        ></Button>
+      <HeaderContent title="Purchase Requests">
+        {isBACApprover || isReviewer ? null : (
+          <Button
+            className="w-full block md:m-0"
+            label="New"
+            onClick={() => navigate("new")}
+            text={!isTableView}
+          ></Button>
+        )}
       </HeaderContent>
 
       <div className="p-7">

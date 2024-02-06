@@ -4,12 +4,14 @@ import {
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { authHeaders } from "./auth-header";
-import { useQuery } from "react-query";
+import { QueryCache, useQuery } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { SETTINGS } from "@core/utility/settings";
+import { useErrorAction } from "@core/utility/error-action.hook";
 
-export function useGetStatus(
+export function useGetStatusQy(
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -19,6 +21,8 @@ export function useGetStatus(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
   const apiFn = async () => {
     showProgress();
     const operation =
@@ -48,9 +52,34 @@ export function useGetStatus(
       hideProgress();
       const message = getApiErrorMessage(err);
       showError(message);
+      errorAction(err.response);
+      
       if (onError) {
         onError(err);
       }
     },
+    staleTime: SETTINGS.staleTime
   });
+}
+
+export function useFindStatusCacheQy(
+  onError?: (error: any) => void,
+  onSuccess?: (data: any) => void
+) {
+  const queryCache = new QueryCache({
+    onError: (error) => {
+      console.log(error);
+      if (onError) {
+        onError(error);
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      if (onSuccess) {
+        onSuccess(data);
+      }
+    },
+  });
+
+  return queryCache.findAll(QueryKey.Status);
 }

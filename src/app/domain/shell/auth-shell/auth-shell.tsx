@@ -2,9 +2,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 import "./auth-shell";
 import {
   accountNav,
-  bidderNav,
   homeNav,
   itemNav,
+  logoutNav,
   moreNav,
   orderNav,
   requestNav,
@@ -17,46 +17,72 @@ import MobileMenu from "@shared/ui/navigation/mobile-menu/mobile-menu";
 import StorageService from "@shared/services/storage.service";
 import { AUTH } from "@core/utility/settings";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { useGetStatusQy } from "@core/query/status.query";
+import { useGetAccountQy } from "@core/query/account.query";
 
 export function AuthShell() {
   const navigate = useNavigate();
-  const { isRequestor, currentUser } = useUserIdentity();
-  const desktopNavigation = isRequestor
-    ? [homeNav, requestNav]
-    : ([
-        homeNav,
-        requestNav,
-        orderNav,
-        itemNav,
-        accountNav,
-      ] as NavigationProps[]);
-  const mobileNavigation = isRequestor
-    ? [homeNav, requestNav, moreNav]
-    : ([homeNav, requestNav, orderNav, moreNav] as NavigationProps[]);
+  const { isRequestor, isAdmin, currentUser } = useUserIdentity();
 
-  const mobileAllItem = [
-    {
-      label: "Account",
-      command: () => {
-        navigate("/account");
-      },
-    },
-    {
-      label: "Item",
-      command: () => {
-        navigate("/item");
-      },
-    },
-  ];
-  const mobileLogoutItem = {
-    label: "Logout",
-    command: () => {
-      navigate("/login");
-    },
+  const getDesktopNavigation = () => {
+    if (isRequestor) {
+      return [requestNav];
+    } else if (isAdmin) {
+      return [homeNav, requestNav, orderNav, itemNav, accountNav];
+    } else {
+      return [homeNav, requestNav, orderNav, itemNav];
+    }
   };
-  const mobileMoreNavigation = isRequestor
-    ? [mobileLogoutItem]
-    : [...mobileAllItem, mobileLogoutItem];
+  const getMobileNavigation = () => {
+    if (isRequestor) {
+      return [requestNav, logoutNav];
+    } else {
+      return [homeNav, requestNav, orderNav, moreNav] as NavigationProps[];
+    }
+  };
+  const getMobileMoreNavigation = () => {
+    if (isAdmin) {
+      return [
+        {
+          label: "Item",
+          command: () => {
+            navigate("/item");
+          },
+        },
+        {
+          label: "Account",
+          command: () => {
+            navigate("/account");
+          },
+        },
+        {
+          label: "Logout",
+          command: () => {
+            navigate("/login");
+          },
+        },
+      ];
+    } else {
+      return [
+        {
+          label: "Account",
+          command: () => {
+            navigate("/account");
+          },
+        },
+        {
+          label: "Logout",
+          command: () => {
+            navigate("/login");
+          },
+        },
+      ];
+    }
+  };
+
+  useGetStatusQy();
+  useGetAccountQy("", 9999998, 0);
+
   const handleLogout = () => {
     StorageService.clear(AUTH);
     navigate("/login");
@@ -72,17 +98,18 @@ export function AuthShell() {
           username={
             currentUser.person_first_name + " " + currentUser.person_last_name
           }
-          email={currentUser.person_email}
+          userSubname={currentUser.role_description}
+          userInfo={currentUser.department_name}
           onLogout={handleLogout}
         >
-          {desktopNavigation.map((item, id) => (
+          {getDesktopNavigation().map((item, id) => (
             <SidebarItem key={id} {...item} />
           ))}
         </Sidebar>
         <MobileMenu
           className="flex md:hidden"
-          menus={mobileNavigation}
-          more={mobileMoreNavigation}
+          menus={getMobileNavigation()}
+          more={getMobileMoreNavigation()}
         />
         <div className="h-screen flex-1">
           <Outlet />

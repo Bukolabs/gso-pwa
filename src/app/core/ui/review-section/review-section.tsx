@@ -12,7 +12,7 @@ export function ReviewSection({ classname, reviewers }: ReviewSectionProps) {
   return (
     <div className={classNames("review-section", classname)}>
       <section className="bg-secondary py-4 text-white">
-        <p className="text-sm text-center mb-2 text-white">Review Per Office</p>
+        <p className="text-sm text-center mb-2 text-white">Flow of Reviewers</p>
         <section className="flex justify-center gap-2">
           {reviewers.map((item, id) => (
             <OfficeCircle

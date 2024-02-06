@@ -3,7 +3,6 @@ import "./form-item";
 import { useFormContext } from "react-hook-form";
 import InputControl from "@shared/ui/hook-form/input-control/input-control";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
-import FormBrandItem from "../form-brand-item/form-brand-item";
 import FormUnitItem from "../form-unit-item/form-unit-item";
 import FormCategoryItem from "../form-category-item/form-category-item";
 import InputDigitControl from "@shared/ui/hook-form/input-digit-control/input-digit-control";
@@ -97,7 +96,8 @@ export function FormItem({
           className="w-full md:w-3/4"
           placeholder="Enter the item cost"
           hint="e.g. 150"
-          prefix="₱"
+          mode="currency"
+          currency="PHP"
         />
 
         {onSearch && suggestions && (
@@ -108,7 +108,7 @@ export function FormItem({
             containerClassName="mb-9"
             className="w-full md:w-3/4"
             placeholder="Enter the item quantity"
-            hint="e.g. 300"
+            hint="e.g. 5"
           />
         )}
 

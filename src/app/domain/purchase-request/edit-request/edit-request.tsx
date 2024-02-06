@@ -10,12 +10,16 @@ import AddItem from "../add-item/add-item";
 import { TabPanel, TabView } from "primereact/tabview";
 import { Sidebar } from "primereact/sidebar";
 import { tagTemplate } from "@core/utility/data-table-template";
-import { SplitButton } from "primereact/splitbutton";
 import { useEditRequest } from "./edit-request.hook";
 import ReviewSection from "@core/ui/review-section/review-section";
 import RequestPrint from "./request-print/request-print";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
+import { InputTextarea } from "primereact/inputtextarea";
+import ActionButton from "./action-button/action-button";
+import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
+import { RequestStatus } from "@core/model/request-status.enum";
+import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 
 export function EditRequest() {
   const {
@@ -28,18 +32,31 @@ export function EditRequest() {
     requestError,
     editError,
     dataEmpty,
-    reviewers,
     componentRef,
+    remarksVisible,
+    reviewRemarks,
+    remarksMode,
+    historySidebar,
+    historyData,
+    isUpdating,
+    isProcessing,
+    isDeleting,
+    isRestrictedView,
     setVisible,
     handleAddAnItem,
     handleEdit,
     handleRemove,
     navigate,
-    handleSubmit,
-    handleValidate,
-    handleValidateError,
-    getActions,
+    setRemarksVisible,
+    setReviewRemarks,
+    handleReviewAction,
+    handleAction,
+    getStageReviewers,
+    setHistorySidebar,
+    handleAddItem,
   } = useEditRequest();
+
+  const isDraft = requests?.data?.[0].status_name === RequestStatus.DRAFT;
 
   const displayLoading = (
     <div className="card">
@@ -74,7 +91,7 @@ export function EditRequest() {
     );
   };
   const reviewSection = () => (
-    <ReviewSection classname="mb-3" reviewers={reviewers} />
+    <ReviewSection classname="mb-3" reviewers={getStageReviewers()} />
   );
   const printSection = () => (
     <div style={{ display: "none" }}>
@@ -83,53 +100,98 @@ export function EditRequest() {
       </div>
     </div>
   );
+  const remarksSidebar = (
+    <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
+      <label>Remarks</label>
+      <InputTextarea
+        value={reviewRemarks}
+        onChange={(e) => setReviewRemarks(e.target.value)}
+        rows={5}
+        cols={30}
+      />
+      <small className="text-gray-400 mb-1 block">
+        Enter reason why you are approving/disapproving the item
+      </small>
+
+      <div className="flex justify-end mt-5">
+        {remarksMode === "approve" ? (
+          <Button
+            label="Approve"
+            onClick={() => handleReviewAction("approve")}
+          />
+        ) : (
+          <Button
+            label="Decline"
+            onClick={() => handleReviewAction("decline")}
+          />
+        )}
+      </div>
+    </Sidebar>
+  );
+  const historySection = (
+    <Sidebar
+      visible={historySidebar}
+      position="right"
+      onHide={() => setHistorySidebar(false)}
+      className="w-full md:w-[500px]"
+    >
+      <PurchaseHistory data={historyData} />
+    </Sidebar>
+  );
+  const itemSection = (
+    <Sidebar
+      visible={visible}
+      onHide={() => setVisible(false)}
+      className="w-full md:w-2/5"
+    >
+      <h2>
+        {!!defaultPrItem ? "Edit" : "Add"} an item to current purchase request
+      </h2>
+      <AddItem defaultItem={defaultPrItem} onAddItem={() => handleAddItem()} />
+    </Sidebar>
+  );
   const formRequest = (
     <section>
       {subHeader()}
       {reviewSection()}
       {printSection()}
+      {historySection}
+      {itemSection}
 
-      <TabView className="mb-10">
-        <TabPanel header="Information">
-          <FormRequest />
-        </TabPanel>
-        <TabPanel header="Request Items">
-          <Sidebar
-            visible={visible}
-            onHide={() => setVisible(false)}
-            className="w-full md:w-2/5"
-          >
-            <h2>
-              {!!defaultPrItem ? "Edit" : "Add"} an item to current purchase
-              request
-            </h2>
-            <AddItem
-              defaultItem={defaultPrItem}
-              closeSidebar={() => setVisible(false)}
-            />
-          </Sidebar>
-          <Button
-            icon="pi pi-plus"
-            label="Add Item"
-            className="block mb-4"
-            onClick={handleAddAnItem}
-          />
+      {!isRestrictedView && (
+        <TabView className="mb-10">
+          <TabPanel header="Information">
+            <FormCategoryItemProvider>
+              <FormRequest />
+            </FormCategoryItemProvider>
+          </TabPanel>
+          <TabPanel header="Request Items">
+            {isDraft && (
+              <Button
+                icon="pi pi-plus"
+                label="Add Item"
+                className="block mb-4"
+                onClick={handleAddAnItem}
+              />
+            )}
 
-          <div className="mt-2 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-              {displayRequestItems.map((item, id) => (
-                <ItemCard
-                  key={id}
-                  itemNo={id}
-                  item={item}
-                  onEdit={handleEdit}
-                  onRemove={handleRemove}
-                />
-              ))}
+            <div className="mt-2 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
+                {displayRequestItems.map((item, id) => (
+                  <ItemCard
+                    key={id}
+                    itemNo={id}
+                    item={item}
+                    onEdit={handleEdit}
+                    onRemove={handleRemove}
+                    showActions={isDraft}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </TabPanel>
-      </TabView>
+          </TabPanel>
+        </TabView>
+      )}
     </section>
   );
 
@@ -137,13 +199,16 @@ export function EditRequest() {
     <div className="edit-request">
       <HeaderContent title="Edit Request" onBack={() => navigate("../")}>
         <div className="flex gap-2">
-          <SplitButton
-            label="Update"
-            onClick={handleSubmit(handleValidate, handleValidateError)}
-            model={getActions()}
+          <ActionButton
+            status={requests?.data?.[0].status_name || "DRAFT"}
+            onAction={handleAction}
+            disable={isUpdating || isProcessing || isDeleting}
           />
         </div>
       </HeaderContent>
+
+      {remarksSidebar}
+
       <div className="p-7">
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}

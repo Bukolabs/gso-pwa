@@ -23,6 +23,7 @@ import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { MessageResponseDto } from "@api/api";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 
 export function NewRequest() {
   const { currentUser } = useUserIdentity();
@@ -34,26 +35,26 @@ export function NewRequest() {
     undefined
   );
 
-  const handleBack = () => {
-    navigate("../");
-  };
   const handleApiSuccess = (response: MessageResponseDto) => {
     const data = response.data as any;
 
     showSuccess(`New purchase request created ${data.pr_no}`);
-    handleBack();
+    navigate(`../${data.code}`);
   };
-  const { mutate: addPurchaseRequest } = useAddRequestQy(handleApiSuccess);
+  const { mutate: addPurchaseRequest, isLoading: isCreating } =
+    useAddRequestQy(handleApiSuccess);
 
   const formMethod = useForm<RequestFormSchema>({
     defaultValues: {
       ...requestFormDefault,
-      department: currentUser?.department_name,
+      department: currentUser?.department_code,
+      departmentLabel: currentUser?.department_name,
     },
     resolver: zodResolver(RequestFormRule),
   });
   const { handleSubmit, setValue, watch } = formMethod;
   const requestItems = watch("items");
+  const displayRequestItems = requestItems.filter((item) => item.isActive);
 
   const handleValidate = (form: RequestFormSchema) => {
     const formData = FormToApiService.NewPurchaseRequest(form);
@@ -69,8 +70,21 @@ export function NewRequest() {
     setEditPrItem(item);
   };
   const handleRemove = (item: ItemFormSchema) => {
-    const unmatchedCode = requestItems.filter((x) => x.code !== item.code);
-    setValue("items", unmatchedCode);
+    const updatedIsActiveItems = requestItems.map((x) => {
+      if (x.code === item.code) {
+        return {
+          ...x,
+          isActive: false,
+        };
+      }
+
+      return x;
+    });
+    setValue("items", updatedIsActiveItems);
+  };
+  const handleAddItem = () => {
+    handleSubmit(handleValidate, handleValidateError)();
+    setVisible(false);
   };
 
   return (
@@ -79,6 +93,7 @@ export function NewRequest() {
         <Button
           className="w-full block"
           label="Save"
+          disabled={isCreating}
           text={isMobileMode}
           onClick={handleSubmit(handleValidate, handleValidateError)}
         ></Button>
@@ -88,7 +103,9 @@ export function NewRequest() {
         <FormProvider {...formMethod}>
           <TabView className="mb-10">
             <TabPanel header="Information">
-              <FormRequest />
+              <FormCategoryItemProvider>
+                <FormRequest />
+              </FormCategoryItemProvider>
             </TabPanel>
             <TabPanel header="Request Items">
               <Sidebar
@@ -100,7 +117,7 @@ export function NewRequest() {
                   <h2>Add an item to current purchase request</h2>
                   <AddItem
                     defaultItem={editPrItem}
-                    closeSidebar={() => setVisible(false)}
+                    onAddItem={() => handleAddItem()}
                   />
                 </div>
               </Sidebar>
@@ -116,7 +133,7 @@ export function NewRequest() {
 
               <div className="mt-2 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-                  {requestItems.map((item, id) => (
+                  {displayRequestItems.map((item, id) => (
                     <ItemCard
                       key={id}
                       itemNo={id}

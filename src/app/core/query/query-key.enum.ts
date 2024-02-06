@@ -10,6 +10,14 @@ export enum QueryKey {
   Department = "department",
   Authentication = "authentication",
   Stage1 = "stage1",
-  Stage1Review = "stage1review",
-  Status = 'status'
+  Stage2 = "stage2",
+  Stage3 = "stage3",
+  Stage4 = "stage4",
+  Stage1Review = "stage-1-review",
+  Stage3Review = "stage-3-review",
+  Status = 'status',
+  Order = 'order',
+  Delivery = 'Delivery',
+  RequestsInOrder = 'requests-in-orders',
+  History = 'history',
 }

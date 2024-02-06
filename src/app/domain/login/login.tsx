@@ -5,7 +5,7 @@ import InputControl, {
 } from "@shared/ui/hook-form/input-control/input-control";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { Button } from "primereact/button";
 import StorageService from "@shared/services/storage.service";
@@ -18,15 +18,19 @@ import { LocalAuth } from "@core/model/local-auth";
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { AUTH } from "@core/utility/settings";
 import { useNavigate } from "react-router-dom";
+import { requesterRoles } from "@core/utility/user-identity.hook";
 
 export function Login() {
   const { showError } = useNotificationContext();
   const navigate = useNavigate();
   const logo = "/icon-152x152.png";
-  const loginBg = "/login-bg.jpg";
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
+
+  useEffect(() => {
+    StorageService.clear(AUTH);
+  }, []);
 
   // FORM
   const formMethod = useForm<LoginFormSchema>({
@@ -47,7 +51,10 @@ export function Login() {
   const handleSuccess = (data: LoginResponseDto) => {
     const mappedData = ApiToFormService.MapLocalAuth(data);
     StorageService.save<LocalAuth>(AUTH, mappedData);
-    navigate("/");
+
+    if (requesterRoles.indexOf(mappedData.role_description) >= 0) {
+      navigate("/request");
+    } else navigate("/");
   };
   const { mutate: loginUser } = useLoginQy(handleSuccess);
 
@@ -95,26 +102,32 @@ export function Login() {
             onKeyDown={handleKeyDown}
           />
           <div className="flex flex-col w-full mt-5">
-            <div className="flex justify-between mb-2 gap-2">
-              <a href={`/forgot-password`}>Forgot password</a>
-            </div>
             <Button
               label="Login"
               onClick={handleSubmit(handleValidate, handleValidateError)}
             />
           </div>
         </div>
+        <div>
+          <span className="block w-[400px] font-italic mt-6 text-gray-400">
+            "Be Positive and Trust the timing of everything. Just because it’s
+            not happening right now doesn’t mean it never will. Stay Patient.""
+          </span>
+        </div>
         <div
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center fixed bottom-2 right-0 w-full md:w-[unset] md:right-60"
           onClick={handleBukoLogo}
         >
           <p className="m-0 font-bold">Powered by:</p>
           <img
             src={bukoLogo}
-            className="w-[150px] cursor-pointer"
+            className="w-[250px] cursor-pointer"
             alt="buko-labs"
           />
         </div>
+        <span className="text-center fixed bottom-0 right-0 text-gray-300">
+          v240402.9
+        </span>
       </LeftContentPage>
     </div>
   );
