@@ -30,10 +30,10 @@ import { UiMapService } from "@core/services/ui-map.service";
 
 export interface AddItemProps {
   defaultItem?: PurchaseItemFormSchema;
-  closeSidebar: () => void;
+  onAddItem: () => void;
 }
 
-export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
+export function AddItem({ defaultItem, onAddItem }: AddItemProps) {
   const { getValues: getItemsInForm, setValue } =
     useFormContext<RequestFormSchema>();
   const { showError, showSuccess, hideProgress } = useNotificationContext();
@@ -165,7 +165,7 @@ export function AddItem({ defaultItem, closeSidebar }: AddItemProps) {
       `${newPurchaseItemForm.name} is added to Purchase Request items`
     );
     reset(itemFormDefault);
-    closeSidebar();
+    onAddItem();
   };
 
   return (

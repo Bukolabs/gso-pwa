@@ -30,8 +30,11 @@ import { useReactToPrint } from "react-to-print";
 import { StageName } from "@core/model/stage-name.enum";
 import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.hook";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { useQueryClient } from "react-query";
+import { QueryKey } from "@core/query/query-key.enum";
 
 export function useEditRequest() {
+  const queryClient = useQueryClient();
   const { historyData, getHistory } = usePurchaseHistory();
   const { isRestrictedView } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
@@ -159,7 +162,7 @@ export function useEditRequest() {
   // EDIT REQUEST API
   const handleApiSuccess = () => {
     showSuccess("Request updated");
-    handleBack();
+    queryClient.invalidateQueries([QueryKey.Request, requestId]);
   };
   const {
     mutate: editRequest,
@@ -285,6 +288,10 @@ export function useEditRequest() {
         break;
     }
   };
+  const handleAddItem = () => {
+    setVisible(false);
+    handleSubmit(handleValidate, handleValidateError)();
+  };
 
   return {
     requests,
@@ -321,5 +328,6 @@ export function useEditRequest() {
     handleAction,
     getStageReviewers,
     setHistorySidebar,
+    handleAddItem,
   };
 }

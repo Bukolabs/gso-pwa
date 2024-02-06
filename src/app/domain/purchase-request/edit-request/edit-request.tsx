@@ -53,6 +53,7 @@ export function EditRequest() {
     handleAction,
     getStageReviewers,
     setHistorySidebar,
+    handleAddItem,
   } = useEditRequest();
 
   const isDraft = requests?.data?.[0].status_name === RequestStatus.DRAFT;
@@ -146,10 +147,7 @@ export function EditRequest() {
       <h2>
         {!!defaultPrItem ? "Edit" : "Add"} an item to current purchase request
       </h2>
-      <AddItem
-        defaultItem={defaultPrItem}
-        closeSidebar={() => setVisible(false)}
-      />
+      <AddItem defaultItem={defaultPrItem} onAddItem={() => handleAddItem()} />
     </Sidebar>
   );
   const formRequest = (

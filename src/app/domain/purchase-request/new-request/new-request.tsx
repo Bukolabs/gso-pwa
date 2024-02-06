@@ -82,6 +82,10 @@ export function NewRequest() {
     });
     setValue("items", updatedIsActiveItems);
   };
+  const handleAddItem = () => {
+    handleSubmit(handleValidate, handleValidateError)();
+    setVisible(false);
+  };
 
   return (
     <div className="new-request">
@@ -113,7 +117,7 @@ export function NewRequest() {
                   <h2>Add an item to current purchase request</h2>
                   <AddItem
                     defaultItem={editPrItem}
-                    closeSidebar={() => setVisible(false)}
+                    onAddItem={() => handleAddItem()}
                   />
                 </div>
               </Sidebar>
