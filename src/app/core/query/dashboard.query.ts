@@ -83,16 +83,20 @@ export function useGetStage1SummaryReviewQy(
     },
     select: (data) => {
       const sortedArray = [...(data.data || [])];
-      const swapItem = sortedArray[3];
-      sortedArray[3] = sortedArray[4];
-      sortedArray[4] = {
-        ...swapItem,
-        approver: "CGSO_2",
-      };
+      const labeledArray = sortedArray.map((item) => {
+        if (item.approver === "CGSO_FF") {
+          return {
+            ...item,
+            approver: "CGSO_2",
+          };
+        }
+
+        return item;
+      });
 
       return {
         count: data.count,
-        data: sortedArray,
+        data: labeledArray,
       };
     },
     onError: (err: AxiosError) => {

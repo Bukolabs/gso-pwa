@@ -68,6 +68,25 @@ export interface AddPersonDto {
 /**
  * 
  * @export
+ * @interface AdminChangePasswordDto
+ */
+export interface AdminChangePasswordDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminChangePasswordDto
+     */
+    'person_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminChangePasswordDto
+     */
+    'password': string;
+}
+/**
+ * 
+ * @export
  * @interface BidderControllerGetDataAsList200Response
  */
 export interface BidderControllerGetDataAsList200Response {
@@ -856,6 +875,18 @@ export interface CreatePurchaseOrderDto {
      * @memberof CreatePurchaseOrderDto
      */
     'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'rfq_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseOrderDto
+     */
+    'itb_no'?: string;
     /**
      * 
      * @type {string}
@@ -1721,6 +1752,49 @@ export interface DeletePIDDto {
      * 
      * @type {string}
      * @memberof DeletePIDDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DeletePersonDto
+ */
+export interface DeletePersonDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePersonDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeletePersonDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeletePersonDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePersonDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeletePersonDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeletePersonDto
      */
     'deleted_by'?: string;
 }
@@ -2967,6 +3041,18 @@ export interface EditPurchaseOrderDto {
      * @memberof EditPurchaseOrderDto
      */
     'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'rfq_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseOrderDto
+     */
+    'itb_no'?: string;
     /**
      * 
      * @type {string}
@@ -4695,6 +4781,18 @@ export interface GetPurchaseOrderDto {
      * @memberof GetPurchaseOrderDto
      */
     'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'rfq_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'itb_no'?: string;
     /**
      * 
      * @type {string}
@@ -6831,6 +6929,44 @@ export const DashboardApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        dashboardControllerGetRequestorJourneySummary: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/requestor-journey-summary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         dashboardControllerGetStage1ReviewSummary: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/dashboard/stage-1-review-summary`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -7069,6 +7205,15 @@ export const DashboardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async dashboardControllerGetRequestorJourneySummary(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerGetStage1Summary200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerGetRequestorJourneySummary(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async dashboardControllerGetStage1ReviewSummary(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerGetStage1ReviewSummary200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerGetStage1ReviewSummary(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -7133,6 +7278,14 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        dashboardControllerGetRequestorJourneySummary(options?: any): AxiosPromise<DashboardControllerGetStage1Summary200Response> {
+            return localVarFp.dashboardControllerGetRequestorJourneySummary(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         dashboardControllerGetStage1ReviewSummary(options?: any): AxiosPromise<DashboardControllerGetStage1ReviewSummary200Response> {
             return localVarFp.dashboardControllerGetStage1ReviewSummary(options).then((request) => request(axios, basePath));
         },
@@ -7186,6 +7339,16 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
  * @extends {BaseAPI}
  */
 export class DashboardApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public dashboardControllerGetRequestorJourneySummary(options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerGetRequestorJourneySummary(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -7924,6 +8087,94 @@ export const PersonApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {AdminChangePasswordDto} adminChangePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerChangePassword: async (adminChangePasswordDto: AdminChangePasswordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'adminChangePasswordDto' is not null or undefined
+            assertParamExists('personControllerChangePassword', 'adminChangePasswordDto', adminChangePasswordDto)
+            const localVarPath = `/api/v1/person/admin-change-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminChangePasswordDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerDelete: async (deletePersonDto: DeletePersonDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deletePersonDto' is not null or undefined
+            assertParamExists('personControllerDelete', 'deletePersonDto', deletePersonDto)
+            const localVarPath = `/api/v1/person/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deletePersonDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} [search] 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -8061,6 +8312,26 @@ export const PersonApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {AdminChangePasswordDto} adminChangePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async personControllerChangePassword(adminChangePasswordDto: AdminChangePasswordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerChangePassword(adminChangePasswordDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async personControllerDelete(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerDelete(deletePersonDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} [search] 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -8110,6 +8381,24 @@ export const PersonApiFactory = function (configuration?: Configuration, basePat
          */
         personControllerAddPerson(addPersonDto: AddPersonDto, options?: any): AxiosPromise<MessageResponseDto> {
             return localVarFp.personControllerAddPerson(addPersonDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AdminChangePasswordDto} adminChangePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerChangePassword(adminChangePasswordDto: AdminChangePasswordDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.personControllerChangePassword(adminChangePasswordDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerDelete(deletePersonDto: DeletePersonDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.personControllerDelete(deletePersonDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8163,6 +8452,28 @@ export class PersonApi extends BaseAPI {
      */
     public personControllerAddPerson(addPersonDto: AddPersonDto, options?: AxiosRequestConfig) {
         return PersonApiFp(this.configuration).personControllerAddPerson(addPersonDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AdminChangePasswordDto} adminChangePasswordDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public personControllerChangePassword(adminChangePasswordDto: AdminChangePasswordDto, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).personControllerChangePassword(adminChangePasswordDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeletePersonDto} deletePersonDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public personControllerDelete(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).personControllerDelete(deletePersonDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

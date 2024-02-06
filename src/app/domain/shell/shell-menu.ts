@@ -9,14 +9,14 @@ export const homeNav = {
   hoverClass,
 };
 export const requestNav = {
-  title: "Request",
+  title: "Purchase Request",
   icon: "pi pi-book",
   path: "request",
   activeClass,
   hoverClass,
 };
 export const orderNav = {
-  title: "Order",
+  title: "Purchase Order",
   icon: "pi pi-shopping-cart",
   path: "order",
   activeClass,

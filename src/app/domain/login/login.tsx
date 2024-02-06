@@ -108,6 +108,12 @@ export function Login() {
             />
           </div>
         </div>
+        <div>
+          <span className="block w-[400px] font-italic mt-6 text-gray-400">
+            "Be Positive and Trust the timing of everything. Just because it’s
+            not happening right now doesn’t mean it never will. Stay Patient.""
+          </span>
+        </div>
         <div
           className="flex flex-col items-center justify-center fixed bottom-2 right-0 w-full md:w-[unset] md:right-60"
           onClick={handleBukoLogo}
@@ -119,7 +125,9 @@ export function Login() {
             alt="buko-labs"
           />
         </div>
-        <span className="text-center fixed bottom-0 right-0 text-gray-300">v240402.9</span>
+        <span className="text-center fixed bottom-0 right-0 text-gray-300">
+          v240402.9
+        </span>
       </LeftContentPage>
     </div>
   );

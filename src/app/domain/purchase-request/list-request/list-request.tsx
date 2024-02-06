@@ -165,7 +165,8 @@ export function ListRequest() {
         />
       </span>
     </div>
-  );
+  );  
+  const totalDataContent = <span className="font-bold">Total: {purchaseRequests?.count} </span>;
   const grid = (
     <section>
       <DataTable
@@ -205,6 +206,7 @@ export function ListRequest() {
         totalRecords={purchaseRequests?.count}
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -244,6 +246,7 @@ export function ListRequest() {
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
         className="mb-20"
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -256,7 +259,7 @@ export function ListRequest() {
 
   return (
     <div className="list-request">
-      <HeaderContent title="Requests">
+      <HeaderContent title="Purchase Requests">
         {isBACApprover || isReviewer ? null : (
           <Button
             className="w-full block md:m-0"

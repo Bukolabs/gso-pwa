@@ -141,6 +141,7 @@ export function ListOrder() {
       </span>
     </div>
   );
+  const totalDataContent = <span className="font-bold">Total: {purchaseOrders?.count} </span>;
   const grid = (
     <section>
       <DataTable
@@ -184,6 +185,7 @@ export function ListOrder() {
         totalRecords={purchaseOrders?.count}
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -222,6 +224,7 @@ export function ListOrder() {
         rowsPerPageOptions={[10, 20, 30]}
         onPageChange={onPageChange}
         className="mb-20"
+        leftContent={totalDataContent}
       />
     </section>
   );
@@ -234,11 +237,11 @@ export function ListOrder() {
 
   return (
     <div className="list-order">
-      <HeaderContent title="Orders">
+      <HeaderContent title="Purchase Orders">
         {isBACApprover && (
           <Button
             className="w-full block md:m-0"
-            label="New"
+            label="New Categorization"
             onClick={() => navigate("new")}
             text={!isTableView}
           ></Button>
