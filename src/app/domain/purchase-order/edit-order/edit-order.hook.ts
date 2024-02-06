@@ -169,6 +169,8 @@ export function useEditOrder() {
             ) as any)
           : undefined
       );
+      setValue("rfqNumber", responseData?.rfq_no || "");
+      setValue("itbNumber", responseData?.itb_no || "");
 
       const requestInForm = ApiToFormService.MapOrderRequestsToForm(
         responseData?.purchase_requests || [],

@@ -90,6 +90,8 @@ export const OrderFormRule = z
     signatoryOffice2: z.string().optional(),
     endUserName1: z.string().optional(),
     endUserOffice1: z.string().optional(),
+    rfqNumber: z.string().optional(),
+    itbNumber: z.string().optional(),
   })
   .superRefine((val, ctx) => {
     if (val.deliveryDate === null || val.deliveryDate === undefined) {

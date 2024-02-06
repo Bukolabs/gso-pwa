@@ -55,6 +55,8 @@ export const orderFormDefault = {
   signatoryOffice2: SETTINGS.signatoryOffice2,
   endUserName1: SETTINGS.endUserName1,
   endUserOffice1: SETTINGS.endUserOffice1,
+  rfqNumber: "",
+  itbNumber: "",
 } as OrderFormSchema;
 
 export const deliveryFormDefault = {

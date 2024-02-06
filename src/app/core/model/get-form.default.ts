@@ -156,6 +156,8 @@ export const getOrderFormDefault = (
           cachedValue.signatory_office_2 || SETTINGS.signatoryOffice2,
         endUserName1: cachedValue.end_user_name || SETTINGS.endUserName1,
         endUserOffice1: cachedValue.end_user_office || SETTINGS.endUserOffice1,
+        rfqNumber: cachedValue.rfq_no,
+        itbNumber: cachedValue.itb_no,
       } as OrderFormSchema);
 };
 

@@ -9,7 +9,8 @@ import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/in
 import { useGetCategory } from "@core/query/category.query";
 
 export function FormOrder() {
-  const { control } = useFormContext<OrderFormSchema>();
+  const { control, watch } = useFormContext<OrderFormSchema>();
+  const selectedProcurementMode = watch("procurementMode");
   const procurementOptions = [
     {
       label: "RFQ",
@@ -20,6 +21,29 @@ export function FormOrder() {
       value: "ITB",
     },
   ] as LabelValue[];
+  const procurementNumber =
+    selectedProcurementMode === "RFQ" ? (
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="rfqNumber"
+        label="RFQ No."
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter RFQ number"
+        hint="e.g. 123456"
+      />
+    ) : selectedProcurementMode === "ITB" ? (
+      <InputControl<OrderFormSchema>
+        control={control}
+        name="itbNumber"
+        label="ITB No."
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter ITB number"
+        hint="e.g. 123456"
+      />
+    ) : null;
+
   const { data: categories } = useGetCategory();
   const mappedCategories = (categories?.data || []).map(
     (item) =>
@@ -78,6 +102,9 @@ export function FormOrder() {
         placeholder="Enter your procurement mode"
         hint="Select from the dropdown"
       />
+      
+      {procurementNumber}
+
       <InputTextareaControl<OrderFormSchema>
         control={control}
         name="deliveryAddress"
