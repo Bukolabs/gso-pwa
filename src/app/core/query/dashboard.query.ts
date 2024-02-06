@@ -272,3 +272,42 @@ export function useGetStage4SummaryQy(
     },
   });
 }
+
+export function useGetRequestorSummary(
+  onSuccess?:
+    | ((
+        data: DashboardControllerGetStage1Summary200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async () => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerGetRequestorJourneySummary(authHeaders());
+    const response = (await operation()).data;
+    return response["data"] as DashboardControllerGetStage1Summary200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Stage4],
+    queryFn: () => apiFn(),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
