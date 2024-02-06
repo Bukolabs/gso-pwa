@@ -1,1 +1,0 @@
-export const twoDigit = (digit: number) => ("0" + digit).slice(-2)
