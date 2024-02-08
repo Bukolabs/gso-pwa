@@ -32,6 +32,7 @@ import PrItemInfo from "@domain/purchase-order/manage-pr/pr-item-info/pr-item-in
 import { EditOrderProvider } from "@domain/purchase-order/edit-order/edit-order.context";
 import PrItemDeliveryInfo from "@domain/purchase-order/manage-pr/pr-item-delivery-info/pr-item-delivery-info";
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
+import RequestorHome from "@domain/home/requestor-home/requestor-home";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
         ),
         children: [
           { path: "", element: <Home /> },
+          { path: "rhome", element: <RequestorHome /> },
           {
             path: "request",
             element: <PurchaseRequest />,

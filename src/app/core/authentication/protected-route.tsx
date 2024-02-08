@@ -2,7 +2,7 @@ import { AUTH } from "@core/utility/settings";
 import StorageService from "@shared/services/storage.service";
 import { addMilliseconds, isAfter, parseISO } from "date-fns";
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { getTimezoneOffset } from "date-fns-tz";
 import { LocalAuth } from "@core/model/local-auth";
 
@@ -11,6 +11,7 @@ interface ProtectedRouteProps {
 }
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const user = StorageService.load(AUTH) as LocalAuth;
+  const location = useLocation();
 
   if (!user) {
     return <Navigate to="/login" />;
@@ -24,10 +25,20 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const currentDate = new Date();
   const isAuthValid = isAfter(localizedExpiryTime, currentDate);
 
-  console.log({ isAuthValid, localizedExpiryTime, currentDate, parsedExpiryDate });
+  console.log({
+    isAuthValid,
+    localizedExpiryTime,
+    currentDate,
+    parsedExpiryDate,
+  });
+
   // if (!user || !isAuthValid) {
   if (!user) {
     return <Navigate to="/login" />;
+  }
+
+  if (location.pathname === "/" && user.role_name === "REQ") {
+    return <Navigate to="/rhome" />;
   }
 
   return <div>{children}</div>;

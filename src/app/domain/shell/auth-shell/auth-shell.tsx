@@ -7,6 +7,7 @@ import {
   logoutNav,
   moreNav,
   orderNav,
+  requestHomeNav,
   requestNav,
 } from "../shell-menu";
 import { NavigationProps } from "@shared/ui/navigation/navigation.interface";
@@ -26,7 +27,7 @@ export function AuthShell() {
 
   const getDesktopNavigation = () => {
     if (isRequestor) {
-      return [requestNav];
+      return [requestHomeNav, requestNav];
     } else if (isAdmin) {
       return [homeNav, requestNav, orderNav, itemNav, accountNav];
     } else {
@@ -35,7 +36,7 @@ export function AuthShell() {
   };
   const getMobileNavigation = () => {
     if (isRequestor) {
-      return [requestNav, logoutNav];
+      return [requestHomeNav, requestNav, logoutNav];
     } else {
       return [homeNav, requestNav, orderNav, moreNav] as NavigationProps[];
     }

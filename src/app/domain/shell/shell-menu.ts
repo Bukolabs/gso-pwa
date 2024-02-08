@@ -8,6 +8,13 @@ export const homeNav = {
   activeClass,
   hoverClass,
 };
+export const requestHomeNav = {
+  title: "Home",
+  icon: "pi pi-home",
+  path: "rhome",
+  activeClass,
+  hoverClass,
+};
 export const requestNav = {
   title: "Purchase Request",
   icon: "pi pi-book",
