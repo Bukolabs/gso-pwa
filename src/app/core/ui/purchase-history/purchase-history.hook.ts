@@ -7,14 +7,13 @@ import { useGetAccountQy } from "@core/query/account.query";
 import { useGetStatusQy } from "@core/query/status.query";
 import { ReviewerStatus, useReviewHook } from "@core/services/review.hook";
 import { getStageNameByStatus } from "@core/utility/get-stage-name";
-import { SETTINGS } from "@core/utility/settings";
-import { format } from "date-fns";
 import { keyBy } from "lodash-es";
 import { PurchaseHistoryModel } from "./purchase-history";
 import { useGetHistoryQy } from "@core/query/history.query";
 import { useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { LabelValue } from "@shared/models/label-value.interface";
+import { getPhDateTime } from "@core/utility/datetime.helper";
 
 export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
@@ -94,7 +93,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         status: "-",
         reviewer: [] as LabelValue[],
         remarks: "-",
-        description: ''
+        description: "",
       } as PurchaseHistoryModel;
 
       if (hasNewValue) {
@@ -127,12 +126,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         }
 
         historyModel = {
-          date: newValue?.updated_at
-            ? (format(
-                new Date(newValue?.updated_at),
-                SETTINGS.dateTimeFormat
-              ) as any)
-            : undefined,
+          date: getPhDateTime(newValue.updated_at),
           actor: accountsRecord[newValue?.updated_by]?.person_email,
           actorRole: accountsRecord[newValue?.updated_by]?.role_name,
           actorDepartment:
@@ -140,20 +134,18 @@ export function usePurchaseHistory(isOrder: boolean = false) {
           status: renameStatus(status),
           reviewer: stageReviewers,
           remarks: getReviewerRemarks(newValue),
-          description: ''
+          description: "",
         } as PurchaseHistoryModel;
       } else if (!item.new_values && !item.old_values) {
         historyModel = {
-          date: item.updated_at
-            ? (format(new Date(item.updated_at), SETTINGS.dateTimeFormat) as any)
-            : undefined,
+          date: getPhDateTime(item.updated_at),
           actor: "-",
           actorRole: "-",
           actorDepartment: "-",
           status: item.action,
           reviewer: [] as LabelValue[],
           remarks: "-",
-          description: item.description
+          description: item.description,
         } as PurchaseHistoryModel;
       }
 

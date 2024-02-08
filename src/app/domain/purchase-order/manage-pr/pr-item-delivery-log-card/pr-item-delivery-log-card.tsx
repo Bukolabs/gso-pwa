@@ -1,10 +1,8 @@
-import { Button } from "primereact/button";
 import "./pr-item-delivery-log-card.scss";
 import { GetPIDDto } from "@api/api";
-import { SETTINGS } from "@core/utility/settings";
 import { sumBy } from "lodash-es";
-import { format } from "date-fns";
 import { SplitButton } from "primereact/splitbutton";
+import { getPhDateTime } from "@core/utility/datetime.helper";
 
 export interface PrItemDeliveryLogCardProps {
   data: GetPIDDto;
@@ -18,12 +16,10 @@ export function PrItemDeliveryLogCard({
   onDelete,
 }: PrItemDeliveryLogCardProps) {
   const totalQuantity = sumBy(data.delivery || [], (x) => x.quantity);
-  const date = data?.updated_at
-    ? (format(new Date(data?.updated_at), SETTINGS.dateTimeFormat) as any)
-    : "";
+  const date = getPhDateTime(data?.updated_at);
   const getSplitButtonItems = () => [
     {
-      label: 'Delete',
+      label: "Delete",
       command: () => {
         onDelete(data);
       },
