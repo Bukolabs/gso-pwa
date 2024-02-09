@@ -10,6 +10,7 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import {
   useEditPersonQy,
   useGetAccountByIdQy,
+  useQyDeleteAccount,
   useQyUpdatePassword,
 } from "@core/query/account.query";
 import { useState } from "react";
@@ -36,6 +37,17 @@ export function EditAccount() {
       label: "Change Password",
       command: () => {
         setVisible(true);
+      },
+    },
+    {
+      label: "Delete",
+      command: () => {
+        if (!accountId) {
+          showWarning("No account id found");
+          return;
+        }
+        const formData = FormToApiService.DeleteAccount(accountId);
+        deleteAccount(formData);
       },
     },
   ];
@@ -79,6 +91,15 @@ export function EditAccount() {
   };
   const { mutate: editPassword } = useQyUpdatePassword(
     handleChangePasswordApiSuccess
+  );
+
+  // DELETE ACCOUNT API
+  const handleDeleteAccountApiSuccess = () => {
+    showSuccess("Account successfully deleted");
+    handleBack();
+  };
+  const { mutate: deleteAccount } = useQyDeleteAccount(
+    handleDeleteAccountApiSuccess
   );
 
   const formMethod = useForm<AccountFormSchema>({

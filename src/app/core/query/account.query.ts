@@ -1,6 +1,7 @@
 import {
   AddPersonDto,
   AdminChangePasswordDto,
+  DeletePersonDto,
   MessageResponseDto,
   PersonApiFp,
   PersonControllerGetDataAsList200Response,
@@ -266,6 +267,45 @@ export function useQyUpdatePassword(
   const apiFn = async (payload: AdminChangePasswordDto) => {
     showProgress();
     const operation = await PersonApiFp().personControllerChangePassword(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Account);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
+
+export function useQyDeleteAccount(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+
+  const apiFn = async (payload: DeletePersonDto) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerDelete(
       payload,
       authHeaders()
     );

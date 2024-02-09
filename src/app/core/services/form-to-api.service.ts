@@ -10,6 +10,7 @@ import {
   CreatePrItemDto,
   CreatePurchaseOrderDto,
   CreatePurchaseRequestDto,
+  DeletePersonDto,
   DeletePoPrDto,
   DeletePurchaseOrderDto,
   DeletePurchaseRequestDto,
@@ -106,6 +107,15 @@ export class FormToApiService {
       person_code: code,
       password,
     } as AdminChangePasswordDto;
+
+    return payload;
+  }
+
+  static DeleteAccount(code: string) {
+    const payload = {
+      code,
+      is_active: false,
+    } as DeletePersonDto;
 
     return payload;
   }
