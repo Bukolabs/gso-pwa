@@ -72,6 +72,7 @@ export function Login() {
   const handleBukoLogo = () => {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
+  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION;
 
   return (
     <div className="login">
@@ -114,7 +115,10 @@ export function Login() {
             not happening right now doesn’t mean it never will. Stay Patient.""
           </span>
         </div>
-        <div className="flex flex-col w-[400px] items-center absolute bottom-4" onClick={handleBukoLogo}>
+        <div
+          className="flex flex-col w-[400px] items-center absolute bottom-4"
+          onClick={handleBukoLogo}
+        >
           <p className="m-0 font-bold">Powered by:</p>
           <img
             src={bukoLogo}
@@ -123,7 +127,7 @@ export function Login() {
           />
         </div>
         <span className="text-center fixed bottom-0 right-0 text-gray-300">
-          v240902.7
+          {semanticVersion}
         </span>
       </LeftContentPage>
     </div>
