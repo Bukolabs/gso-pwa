@@ -1,5 +1,6 @@
 import {
   AddPersonDto,
+  AdminChangePasswordDto,
   CreateBidderDto,
   CreateItemDto,
   CreatePIDDto,
@@ -96,6 +97,15 @@ export class FormToApiService {
     const payload = {
       person,
     } as UpdatePersonDto;
+
+    return payload;
+  }
+
+  static ChangePassword(password: string, code: string) {
+    const payload = {
+      person_code: code,
+      password,
+    } as AdminChangePasswordDto;
 
     return payload;
   }

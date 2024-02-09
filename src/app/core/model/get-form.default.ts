@@ -186,7 +186,7 @@ export const getAccountFormDefault = (
     ? accountFormDefault
     : ({
         country: "Philippines",
-        username: "",
+        username: cachedValue.person_username,
         name: cachedValue.person_first_name,
         lastName: cachedValue.person_last_name,
         email: cachedValue.person_email,
