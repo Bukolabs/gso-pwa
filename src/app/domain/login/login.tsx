@@ -123,7 +123,7 @@ export function Login() {
           />
         </div>
         <span className="text-center fixed bottom-0 right-0 text-gray-300">
-          v240902.6
+          v240902.7
         </span>
       </LeftContentPage>
     </div>
