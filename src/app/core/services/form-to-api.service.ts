@@ -178,6 +178,7 @@ export class FormToApiService {
       purpose: form.purpose,
       has_ppmp: form.isPPMP,
       has_activity_design: form.isActivityDesign,
+      signatory_name: form.signatoryName,
     } as CreatePurchaseRequestDto;
 
     return payload;
@@ -203,6 +204,7 @@ export class FormToApiService {
       purpose: form.purpose,
       has_ppmp: form.isPPMP,
       has_activity_design: form.isActivityDesign,
+      signatory_name: form.signatoryName,
     } as EditPurchaseRequestDto;
 
     return payload;
@@ -312,7 +314,7 @@ export class FormToApiService {
       end_user_name: form.endUserName1 || SETTINGS.endUserName1,
       end_user_office: form.endUserOffice1 || SETTINGS.endUserOffice1,
       rfq_no: form.rfqNumber,
-      itb_no: form.itbNumber
+      itb_no: form.itbNumber,
     } as EditPurchaseOrderDto;
 
     return payload;

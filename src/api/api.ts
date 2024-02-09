@@ -1147,6 +1147,12 @@ export interface CreatePurchaseRequestDto {
      */
     'is_active'?: boolean;
     /**
+     * 
+     * @type {string}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'signatory_name'?: string;
+    /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
      * @memberof CreatePurchaseRequestDto
@@ -3307,6 +3313,12 @@ export interface EditPurchaseRequestDto {
      */
     'is_active'?: boolean;
     /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'signatory_name'?: string;
+    /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
      * @memberof EditPurchaseRequestDto
@@ -4526,6 +4538,12 @@ export interface GetPoPrDto {
      * @memberof GetPoPrDto
      */
     'total_delivered_amount'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPoPrDto
+     */
+    'signatory_name'?: string;
 }
 /**
  * 
@@ -5694,6 +5712,12 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'po_mayor_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'signatory_name'?: string;
 }
 /**
  * 

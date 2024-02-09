@@ -62,6 +62,14 @@ export function FormRequest() {
         className="w-full md:w-3/4"
         containerClassName="pb-2"
       />
+      <InputControl<RequestFormSchema>
+        control={control}
+        name="signatoryName"
+        label="Head Department Name"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter name of department head"
+      />
     </div>
   );
 }

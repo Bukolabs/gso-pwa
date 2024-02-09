@@ -121,6 +121,7 @@ export function useEditRequest() {
       setValue("departmentLabel", responseData?.department_name);
       setValue("isPPMP", Boolean(responseData?.has_ppmp));
       setValue("isActivityDesign", Boolean(responseData?.has_activity_design));
+      setValue("signatoryName", responseData?.signatory_name || "");
 
       setDataEmpty(false);
       hideProgress();

@@ -63,6 +63,7 @@ export const getRequestFormDefault = (
         departmentLabel: cachedValue.department_name,
         isPPMP: Boolean(cachedValue.has_ppmp),
         isActivityDesign: Boolean(cachedValue.has_activity_design),
+        signatoryName: cachedValue.signatory_name,
       } as RequestFormSchema);
 };
 

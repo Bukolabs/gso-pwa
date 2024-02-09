@@ -25,6 +25,7 @@ export const requestFormDefault = {
   departmentLabel: "",
   isPPMP: false,
   isActivityDesign: false,
+  signatoryName: "",
 } as RequestFormSchema;
 
 export const orderFormDefault = {

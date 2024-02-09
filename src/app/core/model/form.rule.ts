@@ -51,6 +51,7 @@ export const RequestFormRule = z.object({
   departmentLabel: z.string().optional(),
   isPPMP: z.boolean(),
   isActivityDesign: z.boolean(),
+  signatoryName: z.string().optional(),
 });
 
 export const RequestInOrderFormRule = z.object({

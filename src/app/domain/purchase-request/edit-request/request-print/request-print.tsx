@@ -185,9 +185,7 @@ export function RequestPrint({ data }: RequestPrintProps) {
                 </small>
                 <div className="text-center">
                   <div className="font-bold text-sm print-normal">
-                    {currentUser.person_first_name +
-                      " " +
-                      currentUser.person_last_name}
+                    {data?.signatory_name || "-"}
                   </div>
                   <small className="print-normal">(DEPARTMENT HEAD)</small>
                 </div>

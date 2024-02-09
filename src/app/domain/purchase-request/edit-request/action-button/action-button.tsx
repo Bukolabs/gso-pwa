@@ -44,6 +44,12 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
       onAction("Decline");
     },
   };
+  const updateAction = {
+    label: "Update",
+    command: () => {
+      onAction("Update");
+    },
+  };
   const approverMainActions = (status: string) => {
     switch (status) {
       case RequestStatus.SUBMITTED:
@@ -105,7 +111,7 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
       case RequestStatus.DRAFT:
         return [submitAction, deleteAction];
       case RequestStatus.SUBMITTED:
-        return [history, deleteAction];
+        return [updateAction, deleteAction, history];
 
       default:
         return [];
