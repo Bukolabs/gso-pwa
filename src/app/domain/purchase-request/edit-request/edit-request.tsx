@@ -20,6 +20,8 @@ import ActionButton from "./action-button/action-button";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
+import { currencyFormat } from "@shared/formats/currency-format";
+import { numberFormat } from "@shared/formats/number-format";
 
 export function EditRequest() {
   const {
@@ -42,6 +44,9 @@ export function EditRequest() {
     isProcessing,
     isDeleting,
     isRestrictedView,
+    isAdmin,
+    isRequestor,
+    isGso,
     setVisible,
     handleAddAnItem,
     handleEdit,
@@ -75,18 +80,37 @@ export function EditRequest() {
     const data = requests?.data?.[0];
     const tag = tagTemplate(data?.status_name || "none");
     const dateUpdated = data?.updated_at;
+    const totalAmount = data?.total_amount || 0;
+    const totalQuantity = data?.total_quantity || 0;
+
     return (
-      <section className="mb-5">
-        <h2>PR#: {data?.pr_no}</h2>
-        <div>{tag}</div>
-        <span className="flex gap-1 mt-1">
-          <label className="hint">Date Updated:</label>
-          <p className="hint">
-            {dateUpdated
-              ? format(new Date(dateUpdated), SETTINGS.dateFormat)
-              : ""}
-          </p>
-        </span>
+      <section className="flex flex-col md:flex-row md:justify-between">
+        <section className="mb-5 flex justify-between flex-col">
+          <h2>PR#: {data?.pr_no}</h2>
+          <div>{tag}</div>
+          <span className="flex gap-1 mt-1">
+            <label className="hint">Date Updated:</label>
+            <p className="hint">
+              {dateUpdated
+                ? format(new Date(dateUpdated), SETTINGS.dateFormat)
+                : ""}
+            </p>
+          </span>
+        </section>
+        {isAdmin || isRequestor || isGso ? (
+          <section className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
+            <div className="border border-gray-200 rounded p-5 text-center bg-white">
+              <p className="block font-bold">
+                {currencyFormat(totalAmount, "PHP")}
+              </p>
+              <label className="block hint">Total Amount</label>
+            </div>
+            <div className="border border-gray-200 rounded p-5 text-center bg-white">
+              <p className="block font-bold">{numberFormat(totalQuantity)}</p>
+              <label className="block hint">Total Quantity</label>
+            </div>
+          </section>
+        ) : null}
       </section>
     );
   };

@@ -36,7 +36,7 @@ import { QueryKey } from "@core/query/query-key.enum";
 export function useEditRequest() {
   const queryClient = useQueryClient();
   const { historyData, getHistory } = usePurchaseHistory();
-  const { isRestrictedView } = useUserIdentity();
+  const { isRestrictedView, isAdmin, isRequestor, isGso } = useUserIdentity();
   const { setReviewerEntityStatus, getReviewers } = useReviewHook();
   const { showSuccess, showError, showWarning, hideProgress } =
     useNotificationContext();
@@ -313,6 +313,9 @@ export function useEditRequest() {
     isProcessing,
     isDeleting,
     isRestrictedView,
+    isAdmin,
+    isRequestor,
+    isGso,
     setVisible,
     setDefaultPrItem,
     handleAddAnItem,

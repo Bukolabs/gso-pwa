@@ -53,7 +53,7 @@ export function Login() {
     StorageService.save<LocalAuth>(AUTH, mappedData);
 
     if (requesterRoles.indexOf(mappedData.role_description) >= 0) {
-      navigate("/request");
+      navigate("/rhome");
     } else navigate("/");
   };
   const { mutate: loginUser } = useLoginQy(handleSuccess);
@@ -114,10 +114,7 @@ export function Login() {
             not happening right now doesn’t mean it never will. Stay Patient.""
           </span>
         </div>
-        <div
-          className="flex flex-col items-center justify-center fixed bottom-2 right-0 w-full md:w-[unset] md:right-60"
-          onClick={handleBukoLogo}
-        >
+        <div className="flex flex-col w-[400px] items-center absolute bottom-4" onClick={handleBukoLogo}>
           <p className="m-0 font-bold">Powered by:</p>
           <img
             src={bukoLogo}
@@ -126,7 +123,7 @@ export function Login() {
           />
         </div>
         <span className="text-center fixed bottom-0 right-0 text-gray-300">
-          v240902.1
+          v240902.2
         </span>
       </LeftContentPage>
     </div>

@@ -37,7 +37,6 @@ export function EditOrder() {
     isLoading,
     orderError,
     dataEmpty,
-    editError,
     category,
     selectedRequests,
     componentRef,
