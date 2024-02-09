@@ -18,14 +18,23 @@ jobs:
       - name: Install all dependencies
         run: npm ci
 
+      - name: Semantic-release
+        id: semantic_release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set semantic version output
+        id: set_version
+        run: echo ::set-output name=version::$(npx -c 'console.log(require("./package.json").version)')
+
+      - name: Store semantic version as an output
+        run: echo "SEMANTIC_VERSION=${{ steps.set_version.outputs.version }}" >> $GITHUB_ENV
+
       - name: Build
         run: npm run build
         env:
           CI: false
-
-      - run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy .htaccess files
         run: cp -r .htaccess build/
