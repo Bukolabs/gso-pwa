@@ -18,7 +18,7 @@ export function useReviewHook() {
   const setReviewerStatus = (
     roleName: string,
     status: boolean,
-    budgetStatus: boolean = false
+    mayorApproveStatus: boolean = false
   ) => {
     switch (roleName) {
       case "MO_APRV":
@@ -27,7 +27,7 @@ export function useReviewHook() {
         };
       case "GSO_ADMIN":
       case "GSO_APRV":
-        if (budgetStatus) {
+        if (mayorApproveStatus) {
           return {
             is_gso_ff: status,
           };
@@ -50,15 +50,15 @@ export function useReviewHook() {
           is_mayor: false,
           is_gso: false,
           is_treasurer: false,
-          is_budget: false,
           is_gso_ff: false,
+          is_budget: false,
         };
     }
   };
 
   const setReviewerEntityStatus = (
     status: boolean,
-    budgetStatus: boolean = false
+    mayorApproveStatus: boolean = false
   ) => {
     const currentUser = StorageService.load(AUTH) as LocalAuth;
     const currentRoleId = currentUser.role_code;
@@ -77,7 +77,7 @@ export function useReviewHook() {
     const reviewer = setReviewerStatus(
       currentRole?.name || "",
       status,
-      budgetStatus
+      mayorApproveStatus
     );
     return reviewer;
   };
@@ -147,7 +147,7 @@ export function useReviewHook() {
                 ? "pi pi-check"
                 : "pi pi-times",
           };
-    const reviewers = [gso, treasurer, mayor, budget, gsoff];
+    const reviewers = [gso, treasurer, mayor, gsoff, budget];
     const filteredReviewers = reviewers.filter((x) => !!x);
     return filteredReviewers as LabelValue[];
   };

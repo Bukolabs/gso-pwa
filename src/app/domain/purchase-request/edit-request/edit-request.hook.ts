@@ -229,8 +229,8 @@ export function useEditRequest() {
     }
 
     const isApprove = action === "approve";
-    const hasBudgetApproved = Boolean(dataValue.is_budget);
-    const reviewer = setReviewerEntityStatus(isApprove, hasBudgetApproved);
+    const mayorHasApproved = Boolean(dataValue.is_mayor);
+    const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
     const payload = {
       code: dataValue.code,
       ...reviewer,
