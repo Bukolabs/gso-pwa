@@ -1,6 +1,6 @@
 export const SETTINGS = {
   dateFormat: "yyyy-MM-dd",
-  dateTimeFormat: "yyyy-MM-dd H:m",
+  dateTimeFormat: "yyyy-MM-dd p",
   staleTime: 20000,
   signatoryName1: "JUNEL L. TRABAJO",
   signatoryOffice1: "ADMIN AIDE 1",

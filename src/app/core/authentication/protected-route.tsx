@@ -1,10 +1,10 @@
 import { AUTH } from "@core/utility/settings";
 import StorageService from "@shared/services/storage.service";
-import { addMilliseconds, isAfter, parseISO } from "date-fns";
+import { isAfter } from "date-fns";
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { getTimezoneOffset } from "date-fns-tz";
 import { LocalAuth } from "@core/model/local-auth";
+import { getLocalizedDateTime } from "@core/utility/datetime.helper";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -18,22 +18,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   const serverExpiry = user.oauth_expiry;
-  const parsedExpiryDate = parseISO(serverExpiry);
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const timeZoneOffset = getTimezoneOffset(timezone);
-  const localizedExpiryTime = addMilliseconds(parsedExpiryDate, timeZoneOffset);
+  const localizedExpiredTime = getLocalizedDateTime(serverExpiry) as Date;
   const currentDate = new Date();
-  const isAuthValid = isAfter(localizedExpiryTime, currentDate);
+  const isAuthValid = isAfter(localizedExpiredTime, currentDate);
 
-  console.log({
-    isAuthValid,
-    localizedExpiryTime,
-    currentDate,
-    parsedExpiryDate,
-  });
-
-  // if (!user || !isAuthValid) {
-  if (!user) {
+  if (!user || !isAuthValid) {
     return <Navigate to="/login" />;
   }
 

@@ -13,7 +13,7 @@ import { useGetHistoryQy } from "@core/query/history.query";
 import { useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { LabelValue } from "@shared/models/label-value.interface";
-import { getLocalizedDateTimeFormatted } from "@core/utility/datetime.helper";
+import { getFormattedLocalizedDateTime } from "@core/utility/datetime.helper";
 
 export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
@@ -126,7 +126,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         }
 
         historyModel = {
-          date: getLocalizedDateTimeFormatted(new Date(newValue.updated_at as string)),
+          date: getFormattedLocalizedDateTime(new Date(newValue.updated_at as string)),
           actor: accountsRecord[newValue?.updated_by]?.person_email,
           actorRole: accountsRecord[newValue?.updated_by]?.role_name,
           actorDepartment:
@@ -138,7 +138,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         } as PurchaseHistoryModel;
       } else if (!item.new_values && !item.old_values) {
         historyModel = {
-          date: getLocalizedDateTimeFormatted(new Date(item.updated_at as string)),
+          date: getFormattedLocalizedDateTime(new Date(item.updated_at as string)),
           actor: "-",
           actorRole: "-",
           actorDepartment: "-",
