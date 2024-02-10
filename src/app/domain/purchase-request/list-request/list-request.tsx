@@ -165,10 +165,16 @@ export function ListRequest() {
         />
       </span>
     </div>
-  );  
-  const totalDataContent = <span className="font-bold">Total: {purchaseRequests?.count} </span>;
+  );
+  const totalDataContent = (
+    <span className="font-bold">Total: {purchaseRequests?.count} </span>
+  );
   const grid = (
     <section>
+      <h5>
+        Total: <b>{purchaseRequests?.count}</b>
+      </h5>
+
       <DataTable
         value={purchaseRequests?.data}
         tableStyle={{ zIndex: 1 }}
@@ -212,6 +218,10 @@ export function ListRequest() {
   );
   const cards = (
     <section>
+      <h5>
+        Total: <b>{purchaseRequests?.count}</b>
+      </h5>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         {(purchaseRequests?.data || []).map((item, id) => {
           const reviewers = getReviewers({
