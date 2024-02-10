@@ -1,6 +1,5 @@
 import "./login";
 import { LoginFormSchema, LoginRule } from "@core/model/form.rule";
-import ReCAPTCHA from "react-google-recaptcha";
 import InputControl, {
   InputControlType,
 } from "@shared/ui/hook-form/input-control/input-control";
@@ -8,7 +7,6 @@ import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState } from "react";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { Button } from "primereact/button";
 import StorageService from "@shared/services/storage.service";
 import { LoginResponseDto } from "@api/api";
 import { useLoginQy } from "@core/query/authentication.query";
@@ -20,42 +18,20 @@ import { ApiToFormService } from "@core/services/api-to-form.service";
 import { AUTH } from "@core/utility/settings";
 import { useNavigate } from "react-router-dom";
 import { requesterRoles } from "@core/utility/user-identity.hook";
-
-import {
-  GoogleReCaptchaProvider,
-  GoogleReCaptcha,
-  useGoogleReCaptcha,
-} from "react-google-recaptcha-v3";
-
+import { Button } from "primereact/button";
+import { generateCaptcha } from "@core/utility/generate-captcha";
 export function Login() {
-  const { showError } = useNotificationContext();
+  const { showError, showWarning } = useNotificationContext();
   const navigate = useNavigate();
   const logo = "/icon-152x152.png";
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
-  const [token, setToken] = useState("");
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [captcha, setCaptcha] = useState<string>(generateCaptcha(6));
 
   useEffect(() => {
     StorageService.clear(AUTH);
   }, []);
-
-  // FORM
-  const formMethod = useForm<LoginFormSchema>({
-    defaultValues: { email: "", password: "" },
-    resolver: zodResolver(LoginRule),
-  });
-  const { control, handleSubmit } = formMethod;
-  const handleValidate = (form: LoginFormSchema) => {
-    const formData = FormToApiService.Login(form);
-    loginUser(formData);
-  };
-  const handleValidateError = (err: FieldErrors<LoginFormSchema>) => {
-    const formMessage = getFormErrorMessage(err);
-    showError(formMessage);
-  };
 
   // LOGIN API
   const handleSuccess = (data: LoginResponseDto) => {
@@ -68,7 +44,36 @@ export function Login() {
   };
   const { mutate: loginUser } = useLoginQy(handleSuccess);
 
+  // FORM
+  const formMethod = useForm<LoginFormSchema>({
+    defaultValues: { email: "", password: "", captcha: "" },
+    resolver: zodResolver(LoginRule),
+  });
+  const { control, reset, handleSubmit } = formMethod;
+  const handleValidate = useCallback(
+    (form: LoginFormSchema) => {
+      if (form.captcha !== captcha) {
+        showWarning("Invalid captcha. Please try again");
+        return;
+      }
+      const formData = FormToApiService.Login(form);
+      loginUser(formData);
+    },
+    [loginUser]
+  );
+  const handleValidateError = useCallback(
+    (err: FieldErrors<LoginFormSchema>) => {
+      const formMessage = getFormErrorMessage(err);
+      showError(formMessage);
+    },
+    [showError]
+  );
+
   // LOCAL FUNCTION
+  const regenerateCaptcha = () => {
+    setCaptcha(generateCaptcha(6));
+    reset();
+  };
   const handleRightIconAction = () => {
     const inputType = passwordType === "password" ? "text" : "password";
     setPasswordType(inputType);
@@ -84,32 +89,6 @@ export function Login() {
   };
   const semanticVersion =
     process.env.REACT_APP_SEMANTIC_VERSION || "build:v240210.1";
-  const handleVerify = (value: any) => {
-    console.log("captcha value:", { value });
-    setToken(value);
-  };
-  const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
-  window.recaptchaOptions = {
-    useRecaptchaNet: true,
-    enterprise: true,
-  };
-  console.log({ window });
-
-  // Create an event handler so you can call the verification on button click event or form submit
-  const handleReCaptchaVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      console.log("Execute recaptcha not yet available");
-      return;
-    }
-
-    const token = await executeRecaptcha("yourAction");
-    console.log({ token });
-    // Do whatever you want with the token
-  }, [executeRecaptcha]);
-
-  useEffect(() => {
-    handleReCaptchaVerify();
-  }, [handleReCaptchaVerify]);
 
   return (
     <div className="login">
@@ -128,6 +107,7 @@ export function Login() {
             name="email"
             label="Email / Organization ID"
             className="w-full"
+            onKeyDown={handleKeyDown}
           />
           <InputControl<LoginFormSchema>
             control={control}
@@ -139,18 +119,32 @@ export function Login() {
             iconRightAction={handleRightIconAction}
             onKeyDown={handleKeyDown}
           />
-          <ReCAPTCHA sitekey={key} onChange={handleVerify} />
-          {/* <GoogleReCaptcha onVerify={handleVerify} />  */}
-
-          {/* <GoogleReCaptchaProvider reCaptchaKey={key}>
-            <GoogleReCaptcha
-              onVerify={handleVerify}
-              refreshReCaptcha={refreshReCaptcha}
-            />
-          </GoogleReCaptchaProvider> */}
 
           <div className="flex flex-col w-full mt-5">
-            <button onClick={handleReCaptchaVerify}>Verify recaptcha</button>
+            <section>
+              <div className="relative flex justify-center flex-col">
+                <img
+                  src={`https://dummyimage.com/120x40/000/fff&text=${captcha}`}
+                  alt="Captcha"
+                  style={{ pointerEvents: "none" }}
+                />
+                <button
+                  onClick={regenerateCaptcha}
+                  style={{ position: "absolute", top: 0, right: 0 }}
+                  className="text-white text-xs"
+                >
+                  Refresh Captcha
+                </button>
+              </div>
+              <InputControl<LoginFormSchema>
+                control={control}
+                name="captcha"
+                className="w-full mb-6"
+                placeholder="Enter captcha code here"
+                onKeyDown={handleKeyDown}
+              />
+            </section>
+
             <Button
               label="Login"
               onClick={handleSubmit(handleValidate, handleValidateError)}

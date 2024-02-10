@@ -155,6 +155,7 @@ export const AccountRule = z.object({
 export const LoginRule = z.object({
   email: z.string().min(1, "Email/Username is required"),
   password: z.string().min(1, { message: "Password is required" }),
+  captcha: z.string().optional(),
 });
 
 export const BidderFormRule = PersonalRule.and(AddressRule);

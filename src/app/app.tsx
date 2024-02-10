@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 // Downside is the forms aren't styled to tailwind setup yet
 import { styleExtension } from "./style/tailwind-extension";
 import { NotificationProvider } from "@shared/ui/notification/notification.context";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 declare global {
   interface Window {
@@ -27,17 +26,11 @@ const queryClient = new QueryClient({
 
 function App() {
   const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
-  window.recaptchaOptions = {
-    useRecaptchaNet: true,
-    enterprise: true,
-  };
   return (
     <QueryClientProvider client={queryClient}>
       <PrimeReactProvider value={{ unstyled: false, pt: {} }}>
         <NotificationProvider>
-          <GoogleReCaptchaProvider reCaptchaKey={key}>
-            <AppRoute />
-          </GoogleReCaptchaProvider>
+          <AppRoute />
         </NotificationProvider>
       </PrimeReactProvider>
     </QueryClientProvider>
