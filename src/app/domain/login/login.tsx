@@ -1,5 +1,6 @@
 import "./login";
 import { LoginFormSchema, LoginRule } from "@core/model/form.rule";
+import ReCAPTCHA from "react-google-recaptcha";
 import InputControl, {
   InputControlType,
 } from "@shared/ui/hook-form/input-control/input-control";
@@ -19,6 +20,11 @@ import { ApiToFormService } from "@core/services/api-to-form.service";
 import { AUTH } from "@core/utility/settings";
 import { useNavigate } from "react-router-dom";
 import { requesterRoles } from "@core/utility/user-identity.hook";
+
+import {
+  GoogleReCaptchaProvider,
+  GoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 
 export function Login() {
   const { showError } = useNotificationContext();
@@ -72,7 +78,12 @@ export function Login() {
   const handleBukoLogo = () => {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
-  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION || 'build:v240210.1';
+  const semanticVersion =
+    process.env.REACT_APP_SEMANTIC_VERSION || "build:v240210.1";
+  const handleVerify = (value: any) => {
+    console.log("captcha value:", { value });
+  };
+  const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
 
   return (
     <div className="login">
@@ -102,6 +113,9 @@ export function Login() {
             iconRightAction={handleRightIconAction}
             onKeyDown={handleKeyDown}
           />
+          <ReCAPTCHA sitekey={key} onChange={handleVerify} />
+            <GoogleReCaptcha onVerify={handleVerify} />
+
           <div className="flex flex-col w-full mt-5">
             <Button
               label="Login"
