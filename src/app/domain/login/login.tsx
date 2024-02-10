@@ -72,7 +72,7 @@ export function Login() {
   const handleBukoLogo = () => {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
-  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION;
+  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION || 'build:v240210.1';
 
   return (
     <div className="login">
