@@ -6,7 +6,7 @@ import InputControl, {
 } from "@shared/ui/hook-form/input-control/input-control";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { Button } from "primereact/button";
 import StorageService from "@shared/services/storage.service";
@@ -24,6 +24,7 @@ import { requesterRoles } from "@core/utility/user-identity.hook";
 import {
   GoogleReCaptchaProvider,
   GoogleReCaptcha,
+  useGoogleReCaptcha,
 } from "react-google-recaptcha-v3";
 
 export function Login() {
@@ -33,6 +34,9 @@ export function Login() {
   const bukoLogo = "/buko-logo.png";
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
+  const [token, setToken] = useState("");
+  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   useEffect(() => {
     StorageService.clear(AUTH);
@@ -82,8 +86,30 @@ export function Login() {
     process.env.REACT_APP_SEMANTIC_VERSION || "build:v240210.1";
   const handleVerify = (value: any) => {
     console.log("captcha value:", { value });
+    setToken(value);
   };
   const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
+  window.recaptchaOptions = {
+    useRecaptchaNet: true,
+    enterprise: true,
+  };
+  console.log({ window });
+
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    const token = await executeRecaptcha("yourAction");
+    console.log({ token });
+    // Do whatever you want with the token
+  }, [executeRecaptcha]);
+
+  useEffect(() => {
+    handleReCaptchaVerify();
+  }, [handleReCaptchaVerify]);
 
   return (
     <div className="login">
@@ -114,9 +140,17 @@ export function Login() {
             onKeyDown={handleKeyDown}
           />
           <ReCAPTCHA sitekey={key} onChange={handleVerify} />
-            <GoogleReCaptcha onVerify={handleVerify} />
+          {/* <GoogleReCaptcha onVerify={handleVerify} />  */}
+
+          {/* <GoogleReCaptchaProvider reCaptchaKey={key}>
+            <GoogleReCaptcha
+              onVerify={handleVerify}
+              refreshReCaptcha={refreshReCaptcha}
+            />
+          </GoogleReCaptchaProvider> */}
 
           <div className="flex flex-col w-full mt-5">
+            <button onClick={handleReCaptchaVerify}>Verify recaptcha</button>
             <Button
               label="Login"
               onClick={handleSubmit(handleValidate, handleValidateError)}

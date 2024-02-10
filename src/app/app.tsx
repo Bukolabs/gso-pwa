@@ -27,10 +27,10 @@ const queryClient = new QueryClient({
 
 function App() {
   const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
-  // window.recaptchaOptions = {
-  //   useRecaptchaNet: true,
-  //   enterprise: true,
-  // };
+  window.recaptchaOptions = {
+    useRecaptchaNet: true,
+    enterprise: true,
+  };
   return (
     <QueryClientProvider client={queryClient}>
       <PrimeReactProvider value={{ unstyled: false, pt: {} }}>
