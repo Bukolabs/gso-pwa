@@ -126,7 +126,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         }
 
         historyModel = {
-          date: getLocalizedDateTimeFormatted(newValue.updated_at),
+          date: getLocalizedDateTimeFormatted(new Date(newValue.updated_at as string)),
           actor: accountsRecord[newValue?.updated_by]?.person_email,
           actorRole: accountsRecord[newValue?.updated_by]?.role_name,
           actorDepartment:
@@ -138,7 +138,7 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         } as PurchaseHistoryModel;
       } else if (!item.new_values && !item.old_values) {
         historyModel = {
-          date: getLocalizedDateTimeFormatted(item.updated_at as any),
+          date: getLocalizedDateTimeFormatted(new Date(item.updated_at as string)),
           actor: "-",
           actorRole: "-",
           actorDepartment: "-",
