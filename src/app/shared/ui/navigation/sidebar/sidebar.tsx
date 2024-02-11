@@ -1,6 +1,7 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useLayoutEffect, useState } from "react";
 import "./sidebar";
 import classNames from "classnames";
+import useScreenSize from "@core/utility/screen-size";
 
 export const SidebarContext = createContext({ expanded: false });
 
@@ -31,6 +32,13 @@ export function Sidebar({
   onLogout,
 }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
+  const { isBelowContentWidth } = useScreenSize();
+
+  useLayoutEffect(() => {
+    if (isBelowContentWidth) {
+      setExpanded(false);
+    }
+  }, [isBelowContentWidth]);
 
   return (
     <aside
@@ -76,7 +84,7 @@ export function Sidebar({
           <ul className="flex-1 px-5 mt-5">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3 items-center">
+        <div className="border-t flex p-3 items-center justify-center">
           <span
             className="p-3 cursor-pointer hover:bg-gray-200 rounded"
             onClick={() => {
@@ -87,23 +95,27 @@ export function Sidebar({
           >
             <i className="pi pi-power-off"></i>
           </span>
-          <div
-            className={`
+          {expanded && (
+            <div
+              className={`
               flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+              overflow-hidden transition-all w-52 ml-3
           `}
-          >
-            <div className="leading-4 text-left">
-              {username && <h4 className="font-semibold">{username}</h4>}
-              {userSubname && (
-                <span className="text-sm text-gray-800">{userSubname}</span>
-              )}
-              {userInfo && (
-                <span className="text-xs text-gray-400 block">{userInfo}</span>
-              )}
+            >
+              <div className="leading-4 text-left">
+                {username && <h4 className="font-semibold">{username}</h4>}
+                {userSubname && (
+                  <span className="text-sm text-gray-800">{userSubname}</span>
+                )}
+                {userInfo && (
+                  <span className="text-xs text-gray-400 block">
+                    {userInfo}
+                  </span>
+                )}
+              </div>
+              {/* <i className="pi pi-ellipsis-v"></i> */}
             </div>
-            {/* <i className="pi pi-ellipsis-v"></i> */}
-          </div>
+          )}
         </div>
       </nav>
     </aside>
