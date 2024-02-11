@@ -64,12 +64,12 @@ export const getRequestFormDefault = (
         isPPMP: Boolean(cachedValue.has_ppmp),
         isActivityDesign: Boolean(cachedValue.has_activity_design),
         signatoryName: cachedValue.signatory_name,
-        hasApp: cachedValue.has_app,
-        hasPow: cachedValue.has_pow,
-        hasBarchart: cachedValue.has_bar_chart,
-        hasTechSpec: cachedValue.has_tech_spec,
-        hasPlan: cachedValue.has_plan,
-        hasQuitClaim: cachedValue.has_quit_claim,
+        hasApp: Boolean(cachedValue.has_app),
+        hasPow: Boolean(cachedValue.has_pow),
+        hasBarchart: Boolean(cachedValue.has_bar_chart),
+        hasTechSpec: Boolean(cachedValue.has_tech_spec),
+        hasPlan: Boolean(cachedValue.has_plan),
+        hasQuitClaim: Boolean(cachedValue.has_quit_claim),
       } as RequestFormSchema);
 };
 

@@ -8,13 +8,14 @@ import { useState } from "react";
 import { Column } from "primereact/column";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { GetPersonDto } from "@api/api";
+import SearchInput from "@shared/ui/search-input/search-input";
 
 export function ListAccount() {
   const navigate = useNavigate();
 
   const rowLimit = 20;
   const [pageNumber, setPageNumber] = useState(0);
-  const [searchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
 
   const {
@@ -34,7 +35,20 @@ export function ListAccount() {
   const nameColumn = (data: GetPersonDto) => {
     return `${data.person_first_name} ${data.person_last_name}`;
   };
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+  };
 
+  const filterElement = (
+    <div className="flex gap-4">
+      <SearchInput
+        searchTerm={searchTerm}
+        onSearch={handleSearch}
+        placeholder="Search name or department"
+        className="w-full block"
+      />
+    </div>
+  );
   const grid = (
     <section>
       <DataTable
@@ -70,7 +84,10 @@ export function ListAccount() {
         />
       </HeaderContent>
 
-      <div className="p-7">{!isLoading && !isError && grid}</div>
+      <div className="p-7">
+        {filterElement}
+        {!isLoading && !isError && grid}
+      </div>
     </div>
   );
 }

@@ -149,6 +149,12 @@ export class ApiToFormService {
       departmentLabel: item.department_name,
       isPPMP: item.has_ppmp,
       isActivityDesign: item.has_activity_design,
+      hasApp: item.has_app,
+      hasPow: item.has_pow,
+      hasBarchart: item.has_bar_chart,
+      hasTechSpec: item.has_tech_spec,
+      hasPlan: item.has_plan,
+      hasQuitClaim: item.has_quit_claim,
     } as RequestFormSchema;
 
     return mappedItem;
