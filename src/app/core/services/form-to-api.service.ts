@@ -199,6 +199,12 @@ export class FormToApiService {
       has_ppmp: form.isPPMP,
       has_activity_design: form.isActivityDesign,
       signatory_name: form.signatoryName,
+      has_app: form.hasApp,
+      has_pow: form.hasPow,
+      has_bar_chart: form.hasBarchart,
+      has_tech_spec: form.hasTechSpec,
+      has_plan: form.hasTechSpec,
+      has_quit_claim: form.hasQuitClaim
     } as CreatePurchaseRequestDto;
 
     return payload;
@@ -225,6 +231,12 @@ export class FormToApiService {
       has_ppmp: form.isPPMP,
       has_activity_design: form.isActivityDesign,
       signatory_name: form.signatoryName,
+      has_app: form.hasApp,
+      has_pow: form.hasPow,
+      has_bar_chart: form.hasBarchart,
+      has_tech_spec: form.hasTechSpec,
+      has_plan: form.hasTechSpec,
+      has_quit_claim: form.hasQuitClaim
     } as EditPurchaseRequestDto;
 
     return payload;

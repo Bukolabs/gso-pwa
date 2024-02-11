@@ -52,6 +52,12 @@ export const RequestFormRule = z.object({
   isPPMP: z.boolean(),
   isActivityDesign: z.boolean(),
   signatoryName: z.string().optional(),
+  hasApp: z.boolean().optional(),
+  hasPow: z.boolean().optional(),
+  hasBarchart: z.boolean().optional(),
+  hasTechSpec: z.boolean().optional(),
+  hasPlan: z.boolean().optional(),
+  hasQuitClaim: z.boolean().optional(),
 });
 
 export const RequestInOrderFormRule = z.object({

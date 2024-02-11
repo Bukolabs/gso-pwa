@@ -26,6 +26,12 @@ export const requestFormDefault = {
   isPPMP: false,
   isActivityDesign: false,
   signatoryName: "",
+  hasApp: false,
+  hasPow: false,
+  hasBarchart: false,
+  hasTechSpec: false,
+  hasPlan: false,
+  hasQuitClaim: false,
 } as RequestFormSchema;
 
 export const orderFormDefault = {

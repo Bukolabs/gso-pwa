@@ -62,6 +62,49 @@ export function FormRequest() {
         className="w-full md:w-3/4"
         containerClassName="pb-2"
       />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasApp"
+        label="Contains Annual Procurement Plan"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasPow"
+        label="Contains Program of Work"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasBarchart"
+        label="Contains Bar Chart"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasTechSpec"
+        label="Contains Technical Specification"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasPlan"
+        label="Contains Plans"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+      <CheckboxControl<RequestFormSchema>
+        control={control}
+        name="hasQuitClaim"
+        label="Contains Quit Claims"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+      />
+
       <InputControl<RequestFormSchema>
         control={control}
         name="signatoryName"

@@ -122,6 +122,12 @@ export function useEditRequest() {
       setValue("isPPMP", Boolean(responseData?.has_ppmp));
       setValue("isActivityDesign", Boolean(responseData?.has_activity_design));
       setValue("signatoryName", responseData?.signatory_name || "");
+      setValue("hasApp", responseData?.has_app);
+      setValue("hasPow", responseData?.has_pow);
+      setValue("hasBarchart", responseData?.has_bar_chart);
+      setValue("hasTechSpec", responseData?.has_tech_spec);
+      setValue("hasPlan", responseData?.has_plan);
+      setValue("hasQuitClaim", responseData?.has_quit_claim);
 
       setDataEmpty(false);
       hideProgress();

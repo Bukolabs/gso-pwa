@@ -1145,6 +1145,42 @@ export interface CreatePurchaseRequestDto {
      * @type {boolean}
      * @memberof CreatePurchaseRequestDto
      */
+    'has_app': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'has_pow': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'has_bar_chart': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'has_tech_spec': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'has_plan': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
+    'has_quit_claim': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePurchaseRequestDto
+     */
     'is_active'?: boolean;
     /**
      * 
@@ -3311,6 +3347,42 @@ export interface EditPurchaseRequestDto {
      * @type {boolean}
      * @memberof EditPurchaseRequestDto
      */
+    'has_app': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'has_pow': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'has_bar_chart': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'has_tech_spec': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'has_plan': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'has_quit_claim': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
     'is_active'?: boolean;
     /**
      * 
@@ -4498,6 +4570,42 @@ export interface GetPoPrDto {
     'has_activity_design': boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_app': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_pow': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_bar_chart': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_tech_spec': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_plan': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPoPrDto
+     */
+    'has_quit_claim': boolean;
+    /**
+     * 
      * @type {Array<GetPrItemDto>}
      * @memberof GetPoPrDto
      */
@@ -5262,6 +5370,42 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'has_activity_design': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_app': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_pow': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_bar_chart': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_tech_spec': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_plan': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'has_quit_claim': boolean;
     /**
      * 
      * @type {boolean}

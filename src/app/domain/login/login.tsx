@@ -52,6 +52,7 @@ export function Login() {
   const { control, reset, handleSubmit } = formMethod;
   const handleValidate = useCallback(
     (form: LoginFormSchema) => {
+      console.log({ form, captcha });
       if (form.captcha !== captcha) {
         showWarning("Invalid captcha. Please try again");
         return;
@@ -59,7 +60,7 @@ export function Login() {
       const formData = FormToApiService.Login(form);
       loginUser(formData);
     },
-    [loginUser]
+    [loginUser, captcha, showWarning]
   );
   const handleValidateError = useCallback(
     (err: FieldErrors<LoginFormSchema>) => {
@@ -105,7 +106,7 @@ export function Login() {
           <InputControl<LoginFormSchema>
             control={control}
             name="email"
-            label="Email / Organization ID"
+            label="Username"
             className="w-full"
             onKeyDown={handleKeyDown}
           />
