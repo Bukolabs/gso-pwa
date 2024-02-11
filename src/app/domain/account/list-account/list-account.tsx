@@ -13,7 +13,7 @@ import SearchInput from "@shared/ui/search-input/search-input";
 export function ListAccount() {
   const navigate = useNavigate();
 
-  const rowLimit = 20;
+  const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
@@ -28,9 +28,10 @@ export function ListAccount() {
     navigate(`${item.person_code}`);
   };
   const onPageChange = (event: PaginatorPageChangeEvent) => {
-    setFirst(event.first);
     const offsetValue = event.page * rowLimit;
+    setFirst(event.first);
     setPageNumber(offsetValue);
+    setRowLimit(event.rows);
   };
   const nameColumn = (data: GetPersonDto) => {
     return `${data.person_first_name} ${data.person_last_name}`;

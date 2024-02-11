@@ -20,7 +20,7 @@ export function ListItem() {
   const navigate = useNavigate();
   const { menu } = useItemMenu();
 
-  const rowLimit = 20;
+  const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [first, setFirst] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,9 +40,10 @@ export function ListItem() {
     navigate(`${item.code}`);
   };
   const onPageChange = (event: PaginatorPageChangeEvent) => {
-    setFirst(event.first);
     const offsetValue = event.page * rowLimit;
+    setFirst(event.first);
     setPageNumber(offsetValue);
+    setRowLimit(event.rows);
   };
 
   const displayLoading = (

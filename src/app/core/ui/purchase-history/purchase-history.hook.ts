@@ -49,16 +49,16 @@ export function usePurchaseHistory(isOrder: boolean = false) {
       data.is_gso,
       data.is_treasurer,
       data.is_mayor,
-      data.is_budget,
       data.is_gso_ff,
+      data.is_budget,
     ];
     let remarksRecord = {
       0: "",
       1: data.gso_remarks,
       2: data.treasurer_remarks,
       3: data.mayor_remarks,
-      4: data.budget_remarks,
-      5: data.gso_ff_remarks,
+      4: data.gso_ff_remarks,
+      5: data.budget_remarks,
     };
 
     if (isOrder) {

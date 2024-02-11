@@ -40,7 +40,7 @@ export function ListRequest() {
   const { isMobileMode } = useScreenSize();
   const [isTableView, setIsTableView] = useState(!isMobileMode);
 
-  const rowLimit = 20;
+  const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
@@ -65,9 +65,10 @@ export function ListRequest() {
     navigate(`${item.code}`);
   };
   const onPageChange = (event: PaginatorPageChangeEvent) => {
-    setFirst(event.first);
     const offsetValue = event.page * rowLimit;
+    setFirst(event.first);
     setPageNumber(offsetValue);
+    setRowLimit(event.rows);
   };
   const handleTableViewMode = () => {
     setIsTableView(true);
