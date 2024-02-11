@@ -122,12 +122,12 @@ export function useEditRequest() {
       setValue("isPPMP", Boolean(responseData?.has_ppmp));
       setValue("isActivityDesign", Boolean(responseData?.has_activity_design));
       setValue("signatoryName", responseData?.signatory_name || "");
-      setValue("hasApp", responseData?.has_app);
-      setValue("hasPow", responseData?.has_pow);
-      setValue("hasBarchart", responseData?.has_bar_chart);
-      setValue("hasTechSpec", responseData?.has_tech_spec);
-      setValue("hasPlan", responseData?.has_plan);
-      setValue("hasQuitClaim", responseData?.has_quit_claim);
+      setValue("hasApp", Boolean(responseData?.has_app));
+      setValue("hasPow", Boolean(responseData?.has_pow));
+      setValue("hasBarchart", Boolean(responseData?.has_bar_chart));
+      setValue("hasTechSpec", Boolean(responseData?.has_tech_spec));
+      setValue("hasPlan", Boolean(responseData?.has_plan));
+      setValue("hasQuitClaim", Boolean(responseData?.has_quit_claim));
 
       setDataEmpty(false);
       hideProgress();
