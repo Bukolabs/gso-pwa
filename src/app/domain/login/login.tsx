@@ -138,9 +138,11 @@ export function Login() {
                 </button>
               </div>
               <InputControl<LoginFormSchema>
+                label="Captcha"
                 control={control}
                 name="captcha"
-                className="w-full mb-6"
+                className="w-full"
+                containerClassName="mb-6"
                 placeholder="Enter captcha code here"
                 onKeyDown={handleKeyDown}
               />
@@ -153,7 +155,7 @@ export function Login() {
           </div>
         </div>
         <div>
-          <span className="block w-[400px] font-italic mt-6 text-gray-400">
+          <span className="block w-[400px] font-italic mt-6 mb-20 text-gray-400">
             "Be Positive and Trust the timing of everything. Just because it’s
             not happening right now doesn’t mean it never will. Stay Patient.""
           </span>
