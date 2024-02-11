@@ -161,7 +161,7 @@ export function Login() {
           </span>
         </div>
         <div
-          className="flex flex-col w-[400px] items-center absolute bottom-4"
+          className="flex flex-col w-[400px] items-center"
           onClick={handleBukoLogo}
         >
           <p className="m-0 font-bold">Powered by:</p>

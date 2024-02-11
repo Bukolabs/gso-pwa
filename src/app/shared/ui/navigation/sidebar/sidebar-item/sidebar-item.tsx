@@ -21,25 +21,24 @@ export function SidebarItem({
       className={({ isActive }) => {
         const activeRouteClass = isActive
           ? activeClass ||
-            "bg-gradient-to-tr from-indigo-400 to-indigo-300 text-indigo-800 text-white"
+            "bg-gradient-to-tr from-indigo-400 to-indigo-300 text-white"
           : hoverClass || "hover:bg-indigo-100";
 
         return classNames(
-          `relative flex py-2 px-3 my-1
+          `relative flex 
           font-medium rounded-md cursor-pointer
           transition-colors group items-center`,
-          activeRouteClass
+          activeRouteClass,
+          expanded ? "py-2 px-3 my-1" : "py-4 px-3 my-2"
         );
       }}
     >
       <i className={icon}></i>
-      <span
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3 text-left" : "w-0"
-        }`}
-      >
-        {title}
-      </span>
+      {expanded && (
+        <span className={`overflow-hidden transition-all w-52 ml-3 text-left`}>
+          {title}
+        </span>
+      )}
       {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
@@ -47,14 +46,13 @@ export function SidebarItem({
           }`}
         />
       )}
-
       {!expanded && (
         <div
           className={`
           absolute left-full rounded-md px-2 py-1 ml-6
           bg-indigo-100 text-indigo-800 text-sm
           invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-[9999]
+          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-[999999]
       `}
         >
           {title}
