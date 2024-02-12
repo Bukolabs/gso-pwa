@@ -20,14 +20,19 @@ export function useGetHistoryQy(
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
 ) {
   const { showProgress, hideProgress, showError } = useNotificationContext();
-  const apiFn = async (id: string, search = "", limit = 9999, offset = 0) => {
+  const apiFn = async (
+    id: string,
+    search = "",
+    limit = 9999,
+    offset = 0
+  ) => {
     showProgress();
     const operation =
       await TransactionHistoryApiFp().transactionHistoryControllerGetDataAsList(
         search,
         limit,
         offset,
-        undefined,
+        JSON.stringify({ id: 'DESC' }) as any,
         JSON.stringify({ request_code: id }) as any,
         authHeaders()
       );

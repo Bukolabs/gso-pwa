@@ -34,5 +34,11 @@ export enum RequestStatusAction {
   Submit = "Submit",
   History = "History",
   Update = "Update",
+  Resubmit = "Resubmit",
+  Reapprove = "Reapprove",
   Inspect = "Inspect",
+  Review = "Review",
+  Bid = "Bid",
+  Award = "Award",
+  Post = "Post",
 }

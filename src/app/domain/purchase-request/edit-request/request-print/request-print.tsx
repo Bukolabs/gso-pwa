@@ -20,7 +20,9 @@ export function RequestPrint({ data }: RequestPrintProps) {
     return (
       <span>
         <label className="font-bold">{title}</label>
-        <small className="block">{description}</small>
+        <small className="block">
+          <pre>{description}</pre>
+        </small>
       </span>
     );
   };

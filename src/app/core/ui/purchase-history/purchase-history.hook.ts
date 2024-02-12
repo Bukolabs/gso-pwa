@@ -45,6 +45,13 @@ export function usePurchaseHistory(isOrder: boolean = false) {
   const getReviewerRemarks = (data: GetPurchaseRequestDto) => {
     const status = statusRecord[data.status]?.name;
     const currentStage = getStageNameByStatus(status);
+
+    if (status === RequestStatus.BACDECLINED) {
+      return data.decline_remarks;
+    } else if (status === RequestStatus.APPROVED) {
+      return data.approve_remarks;
+    }
+
     let reviewers = [
       data.is_gso,
       data.is_treasurer,
@@ -126,7 +133,9 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         }
 
         historyModel = {
-          date: getFormattedLocalizedDateTime(new Date(newValue.updated_at as string)),
+          date: getFormattedLocalizedDateTime(
+            new Date(newValue.updated_at as string)
+          ),
           actor: accountsRecord[newValue?.updated_by]?.person_email,
           actorRole: accountsRecord[newValue?.updated_by]?.role_name,
           actorDepartment:
@@ -138,7 +147,9 @@ export function usePurchaseHistory(isOrder: boolean = false) {
         } as PurchaseHistoryModel;
       } else if (!item.new_values && !item.old_values) {
         historyModel = {
-          date: getFormattedLocalizedDateTime(new Date(item.updated_at as string)),
+          date: getFormattedLocalizedDateTime(
+            new Date(item.updated_at as string)
+          ),
           actor: "-",
           actorRole: "-",
           actorDepartment: "-",

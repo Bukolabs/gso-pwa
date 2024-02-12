@@ -48,7 +48,13 @@ export function ActionButton({
         if (isGso) {
           return [RequestStatusAction.History, RequestStatusAction.Print];
         }
-        return [];
+        return [RequestStatusAction.History];
+
+      case RequestStatus.PENDING:
+        if (isGso) {
+          return [RequestStatusAction.Reapprove, RequestStatusAction.History];
+        }
+        return [RequestStatusAction.History];
 
       case RequestStatus.DECLINED:
         return [RequestStatusAction.Approve, RequestStatusAction.History];
@@ -60,7 +66,6 @@ export function ActionButton({
   const bacActions = (status: string) => {
     switch (status) {
       case RequestStatus.APPROVED:
-      case RequestStatus.CATEGORIZED:
         return [RequestStatusAction.Bacdecline];
       default:
         return [RequestStatusAction.History];
@@ -87,6 +92,9 @@ export function ActionButton({
           return [RequestStatusAction.Print, RequestStatusAction.History];
         }
         return [RequestStatusAction.History];
+
+      case RequestStatus.BACDECLINED:
+        return [RequestStatusAction.Update, RequestStatusAction.Resubmit];
 
       default:
         return [RequestStatusAction.History];

@@ -128,31 +128,6 @@ export function EditRequest() {
     </div>
   );
   const remarksSidebar = () => {
-    let actionButtons = (
-      <Button
-        label="Decline"
-        onClick={() => handleReviewAction(RequestStatusAction.Decline)}
-      />
-    );
-
-    switch (remarksMode) {
-      case RequestStatusAction.Approve:
-        actionButtons = (
-          <Button
-            label="Approve"
-            onClick={() => handleReviewAction(RequestStatusAction.Approve)}
-          />
-        );
-        break;
-      case RequestStatusAction.Bacdecline:
-        actionButtons = (
-          <Button
-            label="BAC decline"
-            onClick={() => handleReviewAction(RequestStatusAction.Bacdecline)}
-          />
-        );
-        break;
-    }
     return (
       <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
         <label>Remarks</label>
@@ -166,7 +141,12 @@ export function EditRequest() {
           Enter reason why you are approving/disapproving the item
         </small>
 
-        <div className="flex justify-end mt-5">{actionButtons}</div>
+        <div className="flex justify-end mt-5">
+          <Button
+            label={remarksMode}
+            onClick={() => handleReviewAction(remarksMode)}
+          />
+        </div>
       </Sidebar>
     );
   };
