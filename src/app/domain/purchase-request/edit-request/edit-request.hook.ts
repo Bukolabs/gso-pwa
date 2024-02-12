@@ -161,8 +161,9 @@ export function useEditRequest() {
           isMayor: requestData?.is_mayor,
           isBudget: requestData?.is_budget,
         } as ReviewerStatus);
+    const isSp = requestData?.department_name === "SP";
 
-    const reviewers = getReviewers(stageReviewers);
+    const reviewers = getReviewers(stageReviewers, isSp);
     return reviewers;
   };
 

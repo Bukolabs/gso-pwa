@@ -75,9 +75,6 @@ export function ActionButton({
       case RequestStatus.DRAFT:
         setMainAction("Update");
         break;
-      case RequestStatus.SUBMITTED:
-        setMainAction("Update");
-        break;
 
       default:
         setMainAction("History");
@@ -118,7 +115,7 @@ export function ActionButton({
       case RequestStatus.DRAFT:
         return [submitAction, deleteAction];
       case RequestStatus.SUBMITTED:
-        return [deleteAction, history];
+        return [deleteAction];
       case RequestStatus.REVIEW:
         if (data && data.is_gso) {
           return [print];

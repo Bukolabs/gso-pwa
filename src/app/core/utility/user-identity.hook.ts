@@ -8,6 +8,7 @@ export const reviewerRoles = [
   "GSO_APRV",
   "TO_APRV",
   "BO_APRV",
+  "VMO_APRV",
 ];
 export const requesterRoles = [
   "REQ",
@@ -31,7 +32,8 @@ export function useUserIdentity() {
   const isCmo = ["MO_APRV"].indexOf(currentUser.role_name) >= 0;
   const isCto = ["TO_APRV"].indexOf(currentUser.role_name) >= 0;
   const isCbo = ["BO_APRV"].indexOf(currentUser.role_name) >= 0;
-  const isRestrictedView = ["MO_APRV", "TO_APRV", "BO_APRV"].indexOf(currentUser.role_name) >= 0;
+  const isRestrictedView =
+    ["MO_APRV", "TO_APRV", "BO_APRV"].indexOf(currentUser.role_name) >= 0;
   const isRequestor = requesterRoles.indexOf(currentUser.role_name) >= 0;
   const isBACApprover = bacRoles.indexOf(currentUser.role_name) >= 0;
   const isReviewer = reviewerRoles.indexOf(currentUser.role_name) >= 0;
@@ -50,6 +52,6 @@ export function useUserIdentity() {
     isCmo,
     isCto,
     isCbo,
-    isRestrictedView
+    isRestrictedView,
   };
 }

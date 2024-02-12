@@ -21,6 +21,7 @@ export function useReviewHook() {
     mayorApproveStatus: boolean = false
   ) => {
     switch (roleName) {
+      case "VMO_APRV":
       case "MO_APRV":
         return {
           is_mayor: status,
@@ -82,7 +83,7 @@ export function useReviewHook() {
     return reviewer;
   };
 
-  const getReviewers = (data?: ReviewerStatus) => {
+  const getReviewers = (data?: ReviewerStatus, isSp: boolean = false) => {
     if (!data) {
       return [];
     }
@@ -115,7 +116,7 @@ export function useReviewHook() {
       data.isMayor === undefined
         ? null
         : {
-            label: "CMO",
+            label: isSp ? "CVMO" : "CMO",
             value:
               data.isMayor === null
                 ? ""
