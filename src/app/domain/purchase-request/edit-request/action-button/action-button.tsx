@@ -4,14 +4,21 @@ import { useEffect, useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Button } from "primereact/button";
+import { GetPurchaseRequestDto } from "@api/api";
 
 export interface ActionButtonProps {
   status: string;
   disable: boolean;
+  data?: GetPurchaseRequestDto;
   onAction: (action: string) => void;
 }
 
-export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
+export function ActionButton({
+  status,
+  disable,
+  data,
+  onAction,
+}: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
   const [mainAction, setMainAction] = useState("History");
   const submitAction = {
@@ -69,7 +76,7 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
         setMainAction("Update");
         break;
       case RequestStatus.SUBMITTED:
-        setMainAction("Print");
+        setMainAction("Update");
         break;
 
       default:
@@ -111,7 +118,12 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
       case RequestStatus.DRAFT:
         return [submitAction, deleteAction];
       case RequestStatus.SUBMITTED:
-        return [updateAction, deleteAction, history];
+        return [deleteAction, history];
+      case RequestStatus.REVIEW:
+        if (data && data.is_gso) {
+          return [print];
+        }
+        return [];
 
       default:
         return [];

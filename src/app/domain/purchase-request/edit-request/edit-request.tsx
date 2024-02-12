@@ -224,6 +224,7 @@ export function EditRequest() {
       <HeaderContent title="Edit Request" onBack={() => navigate("../")}>
         <div className="flex gap-2">
           <ActionButton
+            data={requests?.data?.[0]}
             status={requests?.data?.[0].status_name || "DRAFT"}
             onAction={handleAction}
             disable={isUpdating || isProcessing || isDeleting}

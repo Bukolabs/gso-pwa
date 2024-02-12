@@ -157,7 +157,7 @@ export function Login() {
         <div>
           <span className="block w-[400px] font-italic mt-6 mb-20 text-gray-400">
             "Be Positive and Trust the timing of everything. Just because it’s
-            not happening right now doesn’t mean it never will. Stay Patient.""
+            not happening right now doesn’t mean it never will. Stay Patient."
           </span>
         </div>
         <div
