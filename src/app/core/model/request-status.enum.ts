@@ -10,6 +10,8 @@ export enum RequestStatus {
   POSTED = "POSTED",
   BIDDING = "BIDDING",
   AWARDED = "AWARDED",
+  BACDECLINED = "BAC DECLINED",
+  PENDING = "PENDING",
 
   POREVIEW = "PO REVIEW",
   POREVIEWED = "PO REVIEWED",
@@ -26,4 +28,7 @@ export enum RequestStatusAction {
   PARTIAL = "PARTIAL",
   PRINT = "PRINT",
   DELETE = "DELETE",
+  BACDECLINE = "BAC DECLINED",
+  APPROVE = "APPROVE",
+  DECLINE = "DECLINE",
 }

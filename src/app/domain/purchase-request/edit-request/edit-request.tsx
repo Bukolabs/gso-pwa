@@ -18,7 +18,10 @@ import { SETTINGS } from "@core/utility/settings";
 import { InputTextarea } from "primereact/inputtextarea";
 import ActionButton from "./action-button/action-button";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
-import { RequestStatus } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
@@ -124,34 +127,49 @@ export function EditRequest() {
       </div>
     </div>
   );
-  const remarksSidebar = (
-    <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
-      <label>Remarks</label>
-      <InputTextarea
-        value={reviewRemarks}
-        onChange={(e) => setReviewRemarks(e.target.value)}
-        rows={5}
-        cols={30}
+  const remarksSidebar = () => {
+    let actionButtons = (
+      <Button
+        label="Decline"
+        onClick={() => handleReviewAction(RequestStatusAction.DECLINE)}
       />
-      <small className="text-gray-400 mb-1 block">
-        Enter reason why you are approving/disapproving the item
-      </small>
+    );
 
-      <div className="flex justify-end mt-5">
-        {remarksMode === "approve" ? (
+    switch (remarksMode) {
+      case RequestStatusAction.APPROVE:
+        actionButtons = (
           <Button
             label="Approve"
-            onClick={() => handleReviewAction("approve")}
+            onClick={() => handleReviewAction(RequestStatusAction.APPROVE)}
           />
-        ) : (
+        );
+        break;
+      case RequestStatusAction.BACDECLINE:
+        actionButtons = (
           <Button
-            label="Decline"
-            onClick={() => handleReviewAction("decline")}
+            label="BAC decline"
+            onClick={() => handleReviewAction(RequestStatusAction.BACDECLINE)}
           />
-        )}
-      </div>
-    </Sidebar>
-  );
+        );
+        break;
+    }
+    return (
+      <Sidebar visible={remarksVisible} onHide={() => setRemarksVisible(false)}>
+        <label>Remarks</label>
+        <InputTextarea
+          value={reviewRemarks}
+          onChange={(e) => setReviewRemarks(e.target.value)}
+          rows={5}
+          cols={30}
+        />
+        <small className="text-gray-400 mb-1 block">
+          Enter reason why you are approving/disapproving the item
+        </small>
+
+        <div className="flex justify-end mt-5">{actionButtons}</div>
+      </Sidebar>
+    );
+  };
   const historySection = (
     <Sidebar
       visible={historySidebar}
@@ -224,6 +242,7 @@ export function EditRequest() {
       <HeaderContent title="Edit Request" onBack={() => navigate("../")}>
         <div className="flex gap-2">
           <ActionButton
+            data={requests?.data?.[0]}
             status={requests?.data?.[0].status_name || "DRAFT"}
             onAction={handleAction}
             disable={isUpdating || isProcessing || isDeleting}
@@ -231,7 +250,7 @@ export function EditRequest() {
         </div>
       </HeaderContent>
 
-      {remarksSidebar}
+      {remarksSidebar()}
 
       <div className="p-7">
         <FormProvider {...formMethod}>

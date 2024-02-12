@@ -85,6 +85,10 @@ export function useRequestFilter() {
       label: "CGSO_2",
       value: "CGSO_FF",
     },
+    {
+      label: "CVMO",
+      value: "CVMO",
+    },
   ] as LabelValue[];
 
   const departmentSelectionElement = (

@@ -58,6 +58,8 @@ export const RequestFormRule = z.object({
   hasTechSpec: z.boolean().optional(),
   hasPlan: z.boolean().optional(),
   hasQuitClaim: z.boolean().optional(),
+  status: z.string().nullish(),
+  remarks: z.string().nullish(),
 });
 
 export const RequestInOrderFormRule = z.object({

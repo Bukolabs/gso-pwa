@@ -5,9 +5,6 @@ import {
   dateTemplate,
   numberTemplate,
 } from "@core/utility/data-table-template";
-import StorageService from "@shared/services/storage.service";
-import { AUTH } from "@core/utility/settings";
-import { LocalAuth } from "@core/model/local-auth";
 import { sumBy } from "lodash-es";
 import classNames from "classnames";
 import { twoDigit } from "@core/utility/number-helper";
@@ -17,7 +14,6 @@ export interface RequestPrintProps {
 }
 
 export function RequestPrint({ data }: RequestPrintProps) {
-  const currentUser = StorageService.load(AUTH) as LocalAuth;
   const logo = "/tagbilaran-logo.png";
   const prItems = data?.items;
   const itemDisplay = (title: string, description: string) => {
@@ -29,6 +25,12 @@ export function RequestPrint({ data }: RequestPrintProps) {
     );
   };
   const overallTotal = sumBy(prItems || [], (x) => x.price * (x.quantity || 0));
+  const mayorOffice =
+    data?.department_name === "SP" ? "Vice Mayor" : "City Mayor";
+  const mayorName =
+    data?.department_name === "SP"
+      ? "HON. ADAM RELSON L. JALA"
+      : "JANE CENSORIA C. YAP";
 
   return (
     <div className="request-print mt-10 mx-10 border">
@@ -211,9 +213,9 @@ export function RequestPrint({ data }: RequestPrintProps) {
                 <small className="print-normal block mb-14">Approved by:</small>
                 <div className="text-center">
                   <div className="print-normal font-bold text-sm">
-                    JANE CENSORIA C. YAP
+                    {mayorName}
                   </div>
-                  <small>CITY MAYOR</small>
+                  <small>{mayorOffice}</small>
                 </div>
               </td>
             </tr>

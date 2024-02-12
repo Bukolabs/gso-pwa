@@ -1,17 +1,27 @@
 import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
 import { useEffect, useState } from "react";
-import { RequestStatus } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Button } from "primereact/button";
+import { GetPurchaseRequestDto } from "@api/api";
 
 export interface ActionButtonProps {
   status: string;
   disable: boolean;
+  data?: GetPurchaseRequestDto;
   onAction: (action: string) => void;
 }
 
-export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
+export function ActionButton({
+  status,
+  disable,
+  data,
+  onAction,
+}: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
   const [mainAction, setMainAction] = useState("History");
   const submitAction = {
@@ -44,11 +54,24 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
       onAction("Decline");
     },
   };
+  const bacDeclineAction = {
+    label: "BAC Decline",
+    command: () => {
+      onAction(RequestStatusAction.BACDECLINE);
+    },
+  };
   const updateAction = {
     label: "Update",
     command: () => {
       onAction("Update");
     },
+  };
+  const bacApproverMainActions = (status: string) => {
+    switch (status) {
+      default:
+        setMainAction("History");
+        break;
+    }
   };
   const approverMainActions = (status: string) => {
     switch (status) {
@@ -68,9 +91,6 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
       case RequestStatus.DRAFT:
         setMainAction("Update");
         break;
-      case RequestStatus.SUBMITTED:
-        setMainAction("Print");
-        break;
 
       default:
         setMainAction("History");
@@ -87,9 +107,9 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
         return [declineAction, history];
       case RequestStatus.APPROVED:
         if (isGso) {
-          return [print, declineAction];
+          return [print];
         }
-        return [declineAction];
+        return [];
       case RequestStatus.DECLINED:
         return [history];
 
@@ -106,12 +126,27 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
         return [print];
     }
   };
+  const bacOtherActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.APPROVED:
+      case RequestStatus.CATEGORIZED:
+        return [bacDeclineAction];
+
+      default:
+        return [];
+    }
+  };
   const requesterOtherActions = (status: string) => {
     switch (status) {
       case RequestStatus.DRAFT:
         return [submitAction, deleteAction];
       case RequestStatus.SUBMITTED:
-        return [updateAction, deleteAction, history];
+        return [deleteAction];
+      case RequestStatus.REVIEW:
+        if (data && data.is_gso) {
+          return [print];
+        }
+        return [];
 
       default:
         return [];
@@ -120,7 +155,7 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
 
   useEffect(() => {
     if (isBACApprover) {
-      setMainAction("History");
+      bacApproverMainActions(status);
     } else if (isReviewer) {
       approverMainActions(status);
     } else {
@@ -133,7 +168,7 @@ export function ActionButton({ status, disable, onAction }: ActionButtonProps) {
     if (isReviewer) {
       return approverOtherActions(status);
     } else if (isBACApprover) {
-      return [];
+      return bacOtherActions(status);
     } else if (isAdmin) {
       return adminOtherActions(status);
     } else {

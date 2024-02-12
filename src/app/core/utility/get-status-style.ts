@@ -27,8 +27,8 @@ export const getStatusStyle = (status: string) => {
       return "bg-teal-200 text-teal-500";
     case RequestStatus.DECLINED:
       return "bg-red-200 text-red-500";
-      case 'DELETE':
-        return "bg-red-200 text-red-500";
+    case "DELETE":
+      return "bg-red-200 text-red-500";
 
     case RequestStatus.CATEGORIZED:
       return "bg-orange-200 text-orange-500";
@@ -38,6 +38,10 @@ export const getStatusStyle = (status: string) => {
       return "bg-cyan-200 text-cyan-500";
     case RequestStatus.AWARDED:
       return "bg-teal-300 text-teal-600";
+    case RequestStatus.BACDECLINED:
+      return "bg-red-200 text-red-500";
+    case RequestStatus.PENDING:
+      return "bg-blue-300 text-blue-600";
 
     case RequestStatus.POREVIEW:
     case RequestStatus.POREVIEWED:

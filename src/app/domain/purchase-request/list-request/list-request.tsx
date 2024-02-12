@@ -133,8 +133,9 @@ export function ListRequest() {
           isMayor: data.is_mayor,
           isBudget: data.is_budget,
         } as ReviewerStatus);
+    const isSp = data.department_name === "SP";
 
-    const reviewers = getReviewers(stageReviewers);
+    const reviewers = getReviewers(stageReviewers, isSp);
 
     return (
       <div className="flex gap-2">

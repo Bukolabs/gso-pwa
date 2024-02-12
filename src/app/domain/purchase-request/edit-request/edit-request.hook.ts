@@ -32,6 +32,7 @@ import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.h
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { RequestStatusAction } from "@core/model/request-status.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -128,6 +129,8 @@ export function useEditRequest() {
       setValue("hasTechSpec", Boolean(responseData?.has_tech_spec));
       setValue("hasPlan", Boolean(responseData?.has_plan));
       setValue("hasQuitClaim", Boolean(responseData?.has_quit_claim));
+      setValue("status", "");
+      setValue("remarks", "");
 
       setDataEmpty(false);
       hideProgress();
@@ -161,8 +164,9 @@ export function useEditRequest() {
           isMayor: requestData?.is_mayor,
           isBudget: requestData?.is_budget,
         } as ReviewerStatus);
+    const isSp = requestData?.department_name === "SP";
 
-    const reviewers = getReviewers(stageReviewers);
+    const reviewers = getReviewers(stageReviewers, isSp);
     return reviewers;
   };
 
@@ -228,22 +232,34 @@ export function useEditRequest() {
     });
     setValue("items", updatedIsActiveItems);
   };
-  const handleReviewAction = (action: "approve" | "decline") => {
+  const handleReviewAction = (
+    action:
+      | RequestStatusAction.APPROVE
+      | RequestStatusAction.DECLINE
+      | RequestStatusAction.BACDECLINE
+  ) => {
     const dataValue = requests?.data?.[0];
 
     if (!dataValue) {
       throw new Error("no data");
     }
 
-    const isApprove = action === "approve";
-    const mayorHasApproved = Boolean(dataValue.is_mayor);
-    const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
-    const payload = {
-      code: dataValue.code,
-      ...reviewer,
-      remarks: reviewRemarks,
-    } as ProcessPurchaseRequestDto;
-    processRequest(payload);
+    if (action === RequestStatusAction.BACDECLINE) {
+      setValue("status", RequestStatusAction.BACDECLINE);
+      setValue("remarks", reviewRemarks);
+      handleSubmit(handleValidate, handleValidateError)();
+    } else {
+      const isApprove = action === RequestStatusAction.APPROVE;
+      const mayorHasApproved = Boolean(dataValue.is_mayor);
+      const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
+      const payload = {
+        code: dataValue.code,
+        ...reviewer,
+        remarks: reviewRemarks,
+      } as ProcessPurchaseRequestDto;
+      processRequest(payload);
+    }
+
     setRemarksVisible(false);
   };
 
@@ -287,11 +303,15 @@ export function useEditRequest() {
         break;
       case "Approve":
         setRemarksVisible(true);
-        setRemarksMode("approve");
+        setRemarksMode(RequestStatusAction.APPROVE);
         break;
       case "Decline":
         setRemarksVisible(true);
-        setRemarksMode("decline");
+        setRemarksMode(RequestStatusAction.DECLINE);
+        break;
+      case RequestStatusAction.BACDECLINE:
+        setRemarksVisible(true);
+        setRemarksMode(RequestStatusAction.BACDECLINE);
         break;
     }
   };

@@ -14,10 +14,10 @@ export function RequestorHome() {
   const navigate = useNavigate();
 
   const stages = ApiToFormService.MapCountCardSummary(data?.data || [], []);
-  const stage1 = [stages[0], stages[1], stages[2], stages[3]];
-  const stage2 = [stages[4], stages[5], stages[6], stages[7]];
-  const stage3 = [stages[8], stages[9], stages[10]];
-  const stage4 = [stages[11], stages[12], stages[13]];
+  const stage1 = [stages[0], stages[1], stages[2], stages[3], stages[4], stages[5]];
+  const stage2 = [stages[6], stages[7], stages[8], stages[9]];
+  const stage3 = [stages[10], stages[11], stages[12]];
+  const stage4 = [stages[13], stages[14], stages[15]];
 
   const handleRequestAction = (filter: string) => {
     navigate(`../request?${filter}`);
