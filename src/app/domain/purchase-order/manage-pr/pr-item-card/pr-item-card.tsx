@@ -60,15 +60,15 @@ export function PrItemCard({
   });
   const getSplitButtonItems = (data: GetPurchaseRequestDto) => [
     {
-      label: RequestStatusAction.PARTIAL,
+      label: RequestStatusAction.Partial,
       command: () => {
-        onAction(RequestStatusAction.PARTIAL, data);
+        onAction(RequestStatusAction.Partial, data);
       },
     },
     {
-      label: RequestStatusAction.COMPLETE,
+      label: RequestStatusAction.Complete,
       command: () => {
-        onAction(RequestStatusAction.COMPLETE, data);
+        onAction(RequestStatusAction.Complete, data);
       },
     },
   ];

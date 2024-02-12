@@ -1,7 +1,10 @@
 import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
 import { useCallback, useEffect, useState } from "react";
-import { RequestStatus } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Button } from "primereact/button";
 
@@ -19,211 +22,221 @@ export function ActionButton({
   onAction,
 }: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
-
-  const [mainAction, setMainAction] = useState("Update");
-
-  const getAction = (action: string) => {
-    return {
-      label: action,
-      command: () => {
-        onAction(action);
-      },
-    };
-  };
-  const updateAction = getAction("Update");
-  const postAction = getAction("Post");
-  const print = getAction("Print");
-  const history = getAction("History");
-  const deleteAction = getAction("Delete");
-  const declineAction = getAction("Decline");
-  const reviewAction = getAction("Review");
   const isRFQ = procurement === "RFQ";
 
-  const bacMainActions = (status: string) => {
+  const handleMainAction = (action: string) => [onAction(action)];
+
+  const approverActions = (status: string) => {
     switch (status) {
-      case RequestStatus.CATEGORIZED:
-        return setMainAction("Update");
-
-      case RequestStatus.POSTED:
-        return setMainAction("Bid");
-
-      case RequestStatus.BIDDING:
-        return setMainAction("Award");
-
-      case RequestStatus.AWARDED:
-        return setMainAction("Review");
-
-      default:
-        return setMainAction("History");
-    }
-  };
-  const approverMainActions = useCallback(
-    (status: string) => {
-      switch (status) {
-        case RequestStatus.POREVIEW:
-        case RequestStatus.PODECLINED:
-          return setMainAction("Approve");
-
-        case RequestStatus.POAPPROVED:
-          if (isGso) {
-            setMainAction("Inspect");
-          } else {
-            setMainAction("History");
-          }
-          return;
-
-        default:
-          return setMainAction("History");
-      }
-    },
-    [isGso]
-  );
-  const adminActions = (status: string) => {
-    switch (status) {
-      case RequestStatus.CATEGORIZED:
-        return setMainAction("Post");
-
-      case RequestStatus.POSTED:
-        return setMainAction("Bid");
-
-      case RequestStatus.BIDDING:
-        return setMainAction("Award");
-
-      case RequestStatus.AWARDED:
-        return setMainAction("Print");
-
       case RequestStatus.POREVIEW:
-      case RequestStatus.PODECLINED:
-        return setMainAction("Approve");
-
-      case RequestStatus.POAPPROVED:
-        return setMainAction("Inspect");
-
-      default:
-        return setMainAction("History");
-    }
-  };
-  const bacOtherActions = (status: string) => {
-    switch (status) {
-      case RequestStatus.CATEGORIZED:
-        return [postAction, history, deleteAction];
-      case RequestStatus.POSTED:
-      case RequestStatus.BIDDING:
-        return [updateAction, history, deleteAction];
-      case RequestStatus.AWARDED:
-        return [history, print];
-
-      default:
-        return [];
-    }
-  };
-  const approverOtherActions = (status: string) => {
-    switch (status) {
-      case RequestStatus.AWARDED:
+        const common = [
+          RequestStatusAction.Approve,
+          RequestStatusAction.Decline,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+        ];
+        let poreviewActions = common;
         if (isGso && isRFQ) {
-          return [reviewAction, updateAction, print];
+          poreviewActions = [...common, RequestStatusAction.Print];
         } else if (isGso && !isRFQ) {
-          return [updateAction];
-        }
-        return [history];
-
-      case RequestStatus.POREVIEW:
-        if (isGso && isRFQ) {
-          return [declineAction, updateAction, history, print];
-        } else if (isGso && !isRFQ) {
-          return [declineAction, updateAction, history];
-        }
-        return [declineAction, history];
-      case RequestStatus.PODECLINED:
-        if (isGso) {
-          return [updateAction, history];
-        }
-        return [history];
-      case RequestStatus.POAPPROVED:
-        if (isGso && isRFQ) {
-          return [history, print];
-        } else if (isGso && !isRFQ) {
-          return [history];
+          poreviewActions = common;
         } else {
-          return [declineAction];
+          poreviewActions = [
+            RequestStatusAction.Approve,
+            RequestStatusAction.Decline,
+            RequestStatusAction.History,
+          ];
         }
+        return poreviewActions;
+
+      case RequestStatus.PODECLINED:
+        const otherAction = isGso
+          ? [RequestStatusAction.Update, RequestStatusAction.History]
+          : [RequestStatusAction.History];
+        const podeclineActions = [RequestStatusAction.Approve, ...otherAction];
+        return podeclineActions;
+
+      case RequestStatus.POAPPROVED:
+        let poapprovedActions = [];
+        if (isGso && isRFQ) {
+          poapprovedActions = [
+            RequestStatusAction.Inspect,
+            RequestStatusAction.History,
+            RequestStatusAction.Print,
+          ];
+        } else if (isGso && !isRFQ) {
+          poapprovedActions = [
+            RequestStatusAction.Inspect,
+            RequestStatusAction.History,
+          ];
+        } else {
+          poapprovedActions = [RequestStatusAction.History];
+        }
+        return poapprovedActions;
+
+      case RequestStatus.AWARDED:
+        if (isGso && isRFQ) {
+          return [
+            RequestStatusAction.Review,
+            RequestStatusAction.Update,
+            RequestStatusAction.Print,
+          ];
+        } else if (isGso && !isRFQ) {
+          return [RequestStatusAction.Update];
+        }
+        return [RequestStatusAction.History];
 
       case RequestStatus.INSPECTION:
       case RequestStatus.PARTIAL:
-      case RequestStatus.COMPLETED:
         if (isGso) {
-          return [updateAction];
+          return [RequestStatusAction.Update];
         } else {
-          return [];
+          return [RequestStatusAction.History];
         }
 
+      case RequestStatus.COMPLETED:
+        return [RequestStatusAction.History];
+
       default:
-        return [];
+        return [RequestStatusAction.History];
     }
   };
-  const adminOtherActions = (status: string) => {
+  const bacActions = (status: string) => {
     switch (status) {
       case RequestStatus.CATEGORIZED:
-        return [updateAction, history];
+        const categorizedActions = [
+          RequestStatusAction.Update,
+          RequestStatusAction.Post,
+          RequestStatusAction.History,
+          RequestStatusAction.Delete,
+        ];
+        return categorizedActions;
+
       case RequestStatus.POSTED:
+        const postedActions = [
+          RequestStatusAction.Bid,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+          RequestStatusAction.Delete,
+        ];
+        return postedActions;
+
       case RequestStatus.BIDDING:
-        return [updateAction, history];
+        const biddingActions = [
+          RequestStatusAction.Award,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+          RequestStatusAction.Delete,
+        ];
+        return biddingActions;
+
       case RequestStatus.AWARDED:
-        return [reviewAction, history];
-      case RequestStatus.POREVIEW:
-        return [declineAction, history];
-      case RequestStatus.PODECLINED:
-        return [history];
-      case RequestStatus.POAPPROVED:
-        return [declineAction, history];
+        const awardActions = [
+          RequestStatusAction.Review,
+          RequestStatusAction.History,
+          RequestStatusAction.Print,
+        ];
+        return awardActions;
 
       default:
-        return [];
+        return [RequestStatusAction.History];
     }
   };
+  const adminActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.CATEGORIZED:
+        return [
+          RequestStatusAction.Post,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+        ];
 
-  useEffect(() => {
-    if (isBACApprover) {
-      bacMainActions(status);
-    } else if (isReviewer) {
-      approverMainActions(status);
-    } else if (isAdmin) {
-      adminActions(status);
-    } else {
-      setMainAction("History");
+      case RequestStatus.POSTED:
+        return [
+          RequestStatusAction.Bid,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+        ];
+
+      case RequestStatus.BIDDING:
+        return [
+          RequestStatusAction.Award,
+          RequestStatusAction.Update,
+          RequestStatusAction.History,
+        ];
+
+      case RequestStatus.AWARDED:
+        return [
+          RequestStatusAction.Print,
+          RequestStatusAction.Review,
+          RequestStatusAction.History,
+        ];
+
+      case RequestStatus.POREVIEW:
+      case RequestStatus.PODECLINED:
+        return [RequestStatusAction.History];
+
+      case RequestStatus.POAPPROVED:
+        return [RequestStatusAction.Inspect, RequestStatusAction.History];
+
+      default:
+        return [RequestStatusAction.History, RequestStatusAction.Print];
     }
-  }, [status, isBACApprover, isReviewer, isAdmin, approverMainActions]);
-
-  const handleMainAction = () => [onAction(mainAction)];
-  const getActions = () => {
+  };
+  const getUserAction = () => {
+    let action = [] as RequestStatusAction[];
     if (isReviewer) {
-      return approverOtherActions(status);
+      action = approverActions(status);
     } else if (isBACApprover) {
-      return bacOtherActions(status);
+      action = bacActions(status);
     } else if (isAdmin) {
-      const adminActions = adminOtherActions(status);
-      return [...adminActions, print];
-    } else {
-      return [];
+      action = adminActions(status);
+    }
+
+    return action;
+  };
+  const getSeverity = (action: string) => {
+    switch (action) {
+      case RequestStatusAction.Delete:
+      case RequestStatusAction.Decline:
+      case RequestStatusAction.Bacdecline:
+        return "danger";
+
+      default:
+        return "secondary";
     }
   };
 
   return (
-    <div className="action-button">
-      {getActions().length === 0 ? (
-        <Button
-          label={mainAction}
-          onClick={handleMainAction}
-          disabled={disabled}
-        ></Button>
-      ) : (
-        <SplitButton
-          label={mainAction}
-          onClick={handleMainAction}
-          model={getActions()}
-          disabled={disabled}
-        />
-      )}
+    <div className="action-button flex gap-1">
+      {getUserAction().map((item, id) => {
+        let display = (
+          <Button
+            key={id}
+            label={item}
+            onClick={() => handleMainAction(item)}
+            disabled={disabled}
+          ></Button>
+        );
+
+        if (
+          (id === 0 && item === RequestStatusAction.Delete) ||
+          (id === 0 && item === RequestStatusAction.Bacdecline) ||
+          id !== 0
+        ) {
+          display = (
+            <Button
+              key={id}
+              label={item}
+              onClick={() => handleMainAction(item)}
+              disabled={disabled}
+              severity={getSeverity(item)}
+            ></Button>
+          );
+        }
+
+        return display;
+      })}
     </div>
   );
 }

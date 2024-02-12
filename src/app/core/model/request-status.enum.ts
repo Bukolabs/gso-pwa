@@ -24,11 +24,21 @@ export enum RequestStatus {
 }
 
 export enum RequestStatusAction {
-  COMPLETE = "COMPLETE",
-  PARTIAL = "PARTIAL",
-  PRINT = "PRINT",
-  DELETE = "DELETE",
-  BACDECLINE = "BAC DECLINED",
-  APPROVE = "APPROVE",
-  DECLINE = "DECLINE",
+  Complete = "Complete",
+  Partial = "Partial",
+  Print = "Print",
+  Delete = "Delete",
+  Bacdecline = "BAC Decline",
+  Approve = "Approve",
+  Decline = "Decline",
+  Submit = "Submit",
+  History = "History",
+  Update = "Update",
+  Resubmit = "Resubmit",
+  Reapprove = "Reapprove",
+  Inspect = "Inspect",
+  Review = "Review",
+  Bid = "Bid",
+  Award = "Award",
+  Post = "Post",
 }

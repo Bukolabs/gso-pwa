@@ -32,7 +32,10 @@ import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.h
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
-import { RequestStatusAction } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -52,7 +55,13 @@ export function useEditRequest() {
 
   const [remarksVisible, setRemarksVisible] = useState(false);
   const [reviewRemarks, setReviewRemarks] = useState("");
-  const [remarksMode, setRemarksMode] = useState("");
+  const [remarksMode, setRemarksMode] = useState<
+    | RequestStatusAction.Approve
+    | RequestStatusAction.Decline
+    | RequestStatusAction.Bacdecline
+    | RequestStatusAction.Reapprove
+    | ""
+  >("");
 
   // PROCESS REQUEST API
   const handleProcessSuccess = () => {
@@ -234,9 +243,11 @@ export function useEditRequest() {
   };
   const handleReviewAction = (
     action:
-      | RequestStatusAction.APPROVE
-      | RequestStatusAction.DECLINE
-      | RequestStatusAction.BACDECLINE
+      | RequestStatusAction.Approve
+      | RequestStatusAction.Decline
+      | RequestStatusAction.Bacdecline
+      | RequestStatusAction.Reapprove
+      | ""
   ) => {
     const dataValue = requests?.data?.[0];
 
@@ -244,12 +255,17 @@ export function useEditRequest() {
       throw new Error("no data");
     }
 
-    if (action === RequestStatusAction.BACDECLINE) {
-      setValue("status", RequestStatusAction.BACDECLINE);
+    if (action === RequestStatusAction.Bacdecline) {
+      setValue("status", RequestStatus.BACDECLINED);
       setValue("remarks", reviewRemarks);
       handleSubmit(handleValidate, handleValidateError)();
+    } else if (action === RequestStatusAction.Reapprove) {
+      setValue("status", RequestStatus.APPROVED);
+      setValue("remarks", reviewRemarks);
+      handleSubmit(handleValidate, handleValidateError)();
+    } else if (action === "") {
     } else {
-      const isApprove = action === RequestStatusAction.APPROVE;
+      const isApprove = action === RequestStatusAction.Approve;
       const mayorHasApproved = Boolean(dataValue.is_mayor);
       const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
       const payload = {
@@ -270,20 +286,32 @@ export function useEditRequest() {
 
   const handleAction = (action: string) => {
     switch (action) {
-      case "Update":
+      case RequestStatusAction.Update:
         handleSubmit(handleValidate, handleValidateError)();
         break;
-      case "Submit":
+      case RequestStatusAction.Submit:
         const formValues = getValues();
         formValues.dueDate = new Date(formValues.dueDate);
+        formValues.status = RequestStatus.SUBMITTED;
         const formData = FormToApiService.EditPurchaseRequest(
           formValues,
           requestId || ""
         );
-        formData.status = "SUBMITTED";
         editRequest(formData);
         break;
-      case "History":
+
+      case RequestStatusAction.Resubmit:
+        const resubmitFormValues = getValues();
+        resubmitFormValues.dueDate = new Date(resubmitFormValues.dueDate);
+        resubmitFormValues.status = RequestStatus.PENDING;
+        const resubmitFormData = FormToApiService.EditPurchaseRequest(
+          resubmitFormValues,
+          requestId || ""
+        );
+        editRequest(resubmitFormData);
+        break;
+
+      case RequestStatusAction.History:
         const dataValue = requests?.data?.[0];
         if (!dataValue?.code) {
           return;
@@ -292,26 +320,30 @@ export function useEditRequest() {
         getHistory(dataValue?.code);
         setHistorySidebar(true);
         break;
-      case "Print":
+      case RequestStatusAction.Print:
         handlePrint();
         break;
-      case "Delete":
+      case RequestStatusAction.Delete:
         const formValuesForDelete = getValues();
         const formDataForDelete =
           FormToApiService.DeletePurchaseRequest(formValuesForDelete);
         deleteRequest(formDataForDelete);
         break;
-      case "Approve":
+      case RequestStatusAction.Reapprove:
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.APPROVE);
+        setRemarksMode(RequestStatusAction.Reapprove);
         break;
-      case "Decline":
+      case RequestStatusAction.Approve:
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.DECLINE);
+        setRemarksMode(RequestStatusAction.Approve);
         break;
-      case RequestStatusAction.BACDECLINE:
+      case RequestStatusAction.Decline:
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.BACDECLINE);
+        setRemarksMode(RequestStatusAction.Decline);
+        break;
+      case RequestStatusAction.Bacdecline:
+        setRemarksVisible(true);
+        setRemarksMode(RequestStatusAction.Bacdecline);
         break;
     }
   };
