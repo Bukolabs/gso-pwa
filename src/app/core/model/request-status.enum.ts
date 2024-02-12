@@ -28,4 +28,7 @@ export enum RequestStatusAction {
   PARTIAL = "PARTIAL",
   PRINT = "PRINT",
   DELETE = "DELETE",
+  BACDECLINE = "BACDECLINE",
+  APPROVE = "APPROVE",
+  DECLINE = "DECLINE",
 }

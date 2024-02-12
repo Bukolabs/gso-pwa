@@ -236,7 +236,7 @@ export class FormToApiService {
       has_bar_chart: form.hasBarchart,
       has_tech_spec: form.hasTechSpec,
       has_plan: form.hasTechSpec,
-      has_quit_claim: form.hasQuitClaim
+      has_quit_claim: form.hasQuitClaim      
     } as EditPurchaseRequestDto;
 
     return payload;

@@ -32,6 +32,7 @@ import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.h
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { RequestStatusAction } from "@core/model/request-status.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -229,22 +230,32 @@ export function useEditRequest() {
     });
     setValue("items", updatedIsActiveItems);
   };
-  const handleReviewAction = (action: "approve" | "decline") => {
+  const handleReviewAction = (
+    action:
+      | RequestStatusAction.APPROVE
+      | RequestStatusAction.DECLINE
+      | RequestStatusAction.BACDECLINE
+  ) => {
     const dataValue = requests?.data?.[0];
 
     if (!dataValue) {
       throw new Error("no data");
     }
 
-    const isApprove = action === "approve";
-    const mayorHasApproved = Boolean(dataValue.is_mayor);
-    const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
-    const payload = {
-      code: dataValue.code,
-      ...reviewer,
-      remarks: reviewRemarks,
-    } as ProcessPurchaseRequestDto;
-    processRequest(payload);
+    if (action === RequestStatusAction.BACDECLINE) {
+      handleSubmit(handleValidate, handleValidateError)();
+    } else {
+      const isApprove = action === RequestStatusAction.APPROVE;
+      const mayorHasApproved = Boolean(dataValue.is_mayor);
+      const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
+      const payload = {
+        code: dataValue.code,
+        ...reviewer,
+        remarks: reviewRemarks,
+      } as ProcessPurchaseRequestDto;
+      processRequest(payload);
+    }
+
     setRemarksVisible(false);
   };
 
@@ -288,11 +299,15 @@ export function useEditRequest() {
         break;
       case "Approve":
         setRemarksVisible(true);
-        setRemarksMode("approve");
+        setRemarksMode(RequestStatusAction.APPROVE);
         break;
       case "Decline":
         setRemarksVisible(true);
-        setRemarksMode("decline");
+        setRemarksMode(RequestStatusAction.DECLINE);
+        break;
+      case RequestStatusAction.BACDECLINE:
+        setRemarksVisible(true);
+        setRemarksMode(RequestStatusAction.BACDECLINE);
         break;
     }
   };
