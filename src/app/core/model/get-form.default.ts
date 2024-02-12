@@ -70,6 +70,8 @@ export const getRequestFormDefault = (
         hasTechSpec: Boolean(cachedValue.has_tech_spec),
         hasPlan: Boolean(cachedValue.has_plan),
         hasQuitClaim: Boolean(cachedValue.has_quit_claim),
+        status: "",
+        remarks: "",
       } as RequestFormSchema);
 };
 

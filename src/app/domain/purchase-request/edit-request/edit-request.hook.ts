@@ -129,6 +129,8 @@ export function useEditRequest() {
       setValue("hasTechSpec", Boolean(responseData?.has_tech_spec));
       setValue("hasPlan", Boolean(responseData?.has_plan));
       setValue("hasQuitClaim", Boolean(responseData?.has_quit_claim));
+      setValue("status", "");
+      setValue("remarks", "");
 
       setDataEmpty(false);
       hideProgress();
@@ -243,6 +245,8 @@ export function useEditRequest() {
     }
 
     if (action === RequestStatusAction.BACDECLINE) {
+      setValue("status", RequestStatusAction.BACDECLINE);
+      setValue("remarks", reviewRemarks);
       handleSubmit(handleValidate, handleValidateError)();
     } else {
       const isApprove = action === RequestStatusAction.APPROVE;

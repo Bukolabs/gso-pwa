@@ -32,6 +32,8 @@ export const requestFormDefault = {
   hasTechSpec: false,
   hasPlan: false,
   hasQuitClaim: false,
+  status: '',
+  remarks: ''
 } as RequestFormSchema;
 
 export const orderFormDefault = {
