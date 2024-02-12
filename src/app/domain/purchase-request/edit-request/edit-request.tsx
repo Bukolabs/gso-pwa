@@ -131,24 +131,24 @@ export function EditRequest() {
     let actionButtons = (
       <Button
         label="Decline"
-        onClick={() => handleReviewAction(RequestStatusAction.DECLINE)}
+        onClick={() => handleReviewAction(RequestStatusAction.Decline)}
       />
     );
 
     switch (remarksMode) {
-      case RequestStatusAction.APPROVE:
+      case RequestStatusAction.Approve:
         actionButtons = (
           <Button
             label="Approve"
-            onClick={() => handleReviewAction(RequestStatusAction.APPROVE)}
+            onClick={() => handleReviewAction(RequestStatusAction.Approve)}
           />
         );
         break;
-      case RequestStatusAction.BACDECLINE:
+      case RequestStatusAction.Bacdecline:
         actionButtons = (
           <Button
             label="BAC decline"
-            onClick={() => handleReviewAction(RequestStatusAction.BACDECLINE)}
+            onClick={() => handleReviewAction(RequestStatusAction.Bacdecline)}
           />
         );
         break;
@@ -243,7 +243,7 @@ export function EditRequest() {
         <div className="flex gap-2">
           <ActionButton
             data={requests?.data?.[0]}
-            status={requests?.data?.[0].status_name || "DRAFT"}
+            status={requests?.data?.[0].status_name || ""}
             onAction={handleAction}
             disable={isUpdating || isProcessing || isDeleting}
           />

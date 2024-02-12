@@ -232,9 +232,9 @@ export function useEditRequest() {
   };
   const handleReviewAction = (
     action:
-      | RequestStatusAction.APPROVE
-      | RequestStatusAction.DECLINE
-      | RequestStatusAction.BACDECLINE
+      | RequestStatusAction.Approve
+      | RequestStatusAction.Decline
+      | RequestStatusAction.Bacdecline
   ) => {
     const dataValue = requests?.data?.[0];
 
@@ -242,10 +242,10 @@ export function useEditRequest() {
       throw new Error("no data");
     }
 
-    if (action === RequestStatusAction.BACDECLINE) {
+    if (action === RequestStatusAction.Bacdecline) {
       handleSubmit(handleValidate, handleValidateError)();
     } else {
-      const isApprove = action === RequestStatusAction.APPROVE;
+      const isApprove = action === RequestStatusAction.Approve;
       const mayorHasApproved = Boolean(dataValue.is_mayor);
       const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
       const payload = {
@@ -299,15 +299,15 @@ export function useEditRequest() {
         break;
       case "Approve":
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.APPROVE);
+        setRemarksMode(RequestStatusAction.Approve);
         break;
       case "Decline":
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.DECLINE);
+        setRemarksMode(RequestStatusAction.Decline);
         break;
-      case RequestStatusAction.BACDECLINE:
+      case RequestStatusAction.Bacdecline:
         setRemarksVisible(true);
-        setRemarksMode(RequestStatusAction.BACDECLINE);
+        setRemarksMode(RequestStatusAction.Bacdecline);
         break;
     }
   };

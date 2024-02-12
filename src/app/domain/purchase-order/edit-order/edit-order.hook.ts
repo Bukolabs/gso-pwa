@@ -357,7 +357,7 @@ export function useEditOrder() {
   const handlePrAction = (action: string, item: GetPurchaseRequestDto) => {
     let newStatus = RequestStatus.PARTIAL;
     switch (action) {
-      case RequestStatusAction.COMPLETE:
+      case RequestStatusAction.Complete:
         newStatus = RequestStatus.COMPLETED;
         break;
     }

@@ -1,7 +1,10 @@
 import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
 import { useCallback, useEffect, useState } from "react";
-import { RequestStatus } from "@core/model/request-status.enum";
+import {
+  RequestStatus,
+  RequestStatusAction,
+} from "@core/model/request-status.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Button } from "primereact/button";
 
@@ -206,6 +209,38 @@ export function ActionButton({
     } else {
       return [];
     }
+  };
+
+  const approverActions = (status: string) => {
+    switch (status) {
+      case RequestStatus.POREVIEW:
+      case RequestStatus.PODECLINED:
+        return [RequestStatusAction.Approve];
+
+      case RequestStatus.POAPPROVED:
+        let _actions = [RequestStatusAction.History];
+        const actions = isGso
+          ? [RequestStatusAction.Inspect, ..._actions]
+          : _actions;
+        return actions;
+
+      default:
+        return [RequestStatusAction.History];
+    }
+  };
+  const getUserAction = () => {
+    let action = [] as string[];
+    if (isReviewer) {
+      action = approverActions(status);
+    } else if (isBACApprover) {
+      // action = bacActions(status);
+    } else if (isAdmin) {
+      // action = adminActions(status);
+    } else {
+      // action = requestorActions(status);
+    }
+
+    return action;
   };
 
   return (
