@@ -3408,6 +3408,12 @@ export interface EditPurchaseRequestDto {
      * @memberof EditPurchaseRequestDto
      */
     'items'?: Array<EditPrItemDto>;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'remarks'?: string;
 }
 /**
  * 
@@ -5862,6 +5868,18 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'signatory_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'decline_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'approve_remarks'?: string;
 }
 /**
  * 

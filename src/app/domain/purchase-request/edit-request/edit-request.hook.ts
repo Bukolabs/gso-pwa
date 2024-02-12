@@ -32,7 +32,7 @@ import { usePurchaseHistory } from "@core/ui/purchase-history/purchase-history.h
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
-import { RequestStatusAction } from "@core/model/request-status.enum";
+import { RequestStatus, RequestStatusAction } from "@core/model/request-status.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -129,6 +129,8 @@ export function useEditRequest() {
       setValue("hasTechSpec", Boolean(responseData?.has_tech_spec));
       setValue("hasPlan", Boolean(responseData?.has_plan));
       setValue("hasQuitClaim", Boolean(responseData?.has_quit_claim));
+      setValue("status", "");
+      setValue("remarks", "");
 
       setDataEmpty(false);
       hideProgress();
@@ -243,6 +245,8 @@ export function useEditRequest() {
     }
 
     if (action === RequestStatusAction.Bacdecline) {
+      setValue("status", RequestStatus.BACDECLINED);
+      setValue("remarks", reviewRemarks);
       handleSubmit(handleValidate, handleValidateError)();
     } else {
       const isApprove = action === RequestStatusAction.Approve;
