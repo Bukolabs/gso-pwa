@@ -170,9 +170,9 @@ export function RequestPrint({ data }: RequestPrintProps) {
                 Purpose:
               </td>
               <td
-                className="border border-r-0 py-4 bg-gray-50"
+                className="border border-r-0 py-4 bg-gray-50 px-2"
                 colSpan={5}
-              ></td>
+              >{data?.purpose}</td>
             </tr>
             <tr>
               <td className="border border-l-0 bg-gray-50 align-top">
