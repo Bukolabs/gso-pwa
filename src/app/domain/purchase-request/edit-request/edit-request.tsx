@@ -64,7 +64,10 @@ export function EditRequest() {
     handleAddItem,
   } = useEditRequest();
 
-  const isDraft = requests?.data?.[0].status_name === RequestStatus.DRAFT;
+  const statusName = requests?.data?.[0].status_name;
+  const allEditPRItems =
+    statusName === RequestStatus.DRAFT ||
+    statusName === RequestStatus.BACDECLINED;
 
   const displayLoading = (
     <div className="card">
@@ -188,7 +191,7 @@ export function EditRequest() {
             </FormCategoryItemProvider>
           </TabPanel>
           <TabPanel header="Request Items">
-            {isDraft && (
+            {allEditPRItems && (
               <Button
                 icon="pi pi-plus"
                 label="Add Item"
@@ -206,7 +209,7 @@ export function EditRequest() {
                     item={item}
                     onEdit={handleEdit}
                     onRemove={handleRemove}
-                    showActions={isDraft}
+                    showActions={allEditPRItems}
                   />
                 ))}
               </div>

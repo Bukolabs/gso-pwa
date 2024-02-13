@@ -52,7 +52,6 @@ export function Login() {
   const { control, reset, handleSubmit } = formMethod;
   const handleValidate = useCallback(
     (form: LoginFormSchema) => {
-      console.log({ form, captcha });
       if (form.captcha !== captcha) {
         showWarning("Invalid captcha. Please try again");
         return;
@@ -89,7 +88,7 @@ export function Login() {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
   const semanticVersion =
-    process.env.REACT_APP_SEMANTIC_VERSION || "build:v240210.1";
+    process.env.REACT_APP_SEMANTIC_VERSION || "build:#240213.1-v1.3.0";
 
   return (
     <div className="login">
