@@ -18,12 +18,12 @@ export function RequestPrint({ data }: RequestPrintProps) {
   const prItems = data?.items;
   const itemDisplay = (title: string, description: string) => {
     return (
-      <span>
+      <div>
         <label className="font-bold">{title}</label>
-        <small className="block">
-          <pre>{description}</pre>
-        </small>
-      </span>
+        <div>
+          <pre className="w-full whitespace-pre-wrap">{description}</pre>
+        </div>
+      </div>
     );
   };
   const overallTotal = sumBy(prItems || [], (x) => x.price * (x.quantity || 0));
@@ -111,7 +111,7 @@ export function RequestPrint({ data }: RequestPrintProps) {
       </section>
 
       <section>
-        <table className="print-table w-full text-sm text-left rtl:text-right text-gray-800 border-t-2 border-b-2 border-l-2 border-r-2">
+        <table className="print-table table-auto w-full text-sm text-left rtl:text-right text-gray-800 border-t-2 border-b-2 border-l-2 border-r-2">
           <tbody className="border-t border-b border-l-0 border-r-0">
             <tr>
               <th className="print-normal px-2 py-1 border-l-0 border bg-gray-50 w-20">

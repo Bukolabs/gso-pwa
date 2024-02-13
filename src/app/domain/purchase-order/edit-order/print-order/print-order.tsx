@@ -23,8 +23,10 @@ export function PrintOrder({ data }: PrintOrderProps) {
   const itemDisplay = (title: string, description: string) => {
     return (
       <span>
-        <label className="font-bold">{title}</label>
-        <small className="block"><pre>{description}</pre></small>
+        <label className="font-bold">{title}</label>{" "}
+        <div>
+          <pre className="w-full whitespace-pre-wrap">{description}</pre>
+        </div>
       </span>
     );
   };
