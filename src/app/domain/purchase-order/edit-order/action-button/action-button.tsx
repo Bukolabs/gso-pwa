@@ -82,7 +82,7 @@ export function ActionButton({
             RequestStatusAction.Print,
           ];
         } else if (isGso && !isRFQ) {
-          return [RequestStatusAction.Update];
+          return [RequestStatusAction.Review, RequestStatusAction.Update];
         }
         return [RequestStatusAction.History];
 
