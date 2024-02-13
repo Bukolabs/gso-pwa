@@ -18,10 +18,7 @@ import { SETTINGS } from "@core/utility/settings";
 import { InputTextarea } from "primereact/inputtextarea";
 import ActionButton from "./action-button/action-button";
 import PurchaseHistory from "@core/ui/purchase-history/purchase-history";
-import {
-  RequestStatus,
-  RequestStatusAction,
-} from "@core/model/request-status.enum";
+import { RequestStatus } from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";

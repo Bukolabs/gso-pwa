@@ -19,6 +19,7 @@ export const getStatusStyleByStage = (stage: string) => {
 export const getStatusStyle = (status: string) => {
   switch (status) {
     case RequestStatus.SUBMITTED:
+    case RequestStatus.FORPRINTING:
       return "bg-blue-200 text-blue-500";
     case RequestStatus.REVIEW:
     case RequestStatus.REVIEWED:
