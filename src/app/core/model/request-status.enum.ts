@@ -42,4 +42,5 @@ export enum RequestStatusAction {
   Bid = "Bid",
   Award = "Award",
   Post = "Post",
+  ForPrint = "For Print",
 }
