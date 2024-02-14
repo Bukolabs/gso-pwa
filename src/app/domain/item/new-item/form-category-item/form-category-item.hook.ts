@@ -1,5 +1,5 @@
 import { CreateUtilsCategoryDto } from "@api/api";
-import { useAddCategory, useGetCategory } from "@core/query/category.query";
+import { useAddCategory, useQyGetCategory } from "@core/query/category.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useState } from "react";
@@ -46,7 +46,7 @@ export const useFormCategoryItem = () => {
     handleAddApiSuccess,
     handleAddApiError
   );
-  const { data: categories } = useGetCategory();
+  const { data: categories } = useQyGetCategory();
   const mappedCategories = (categories?.data || []).map(
     (item) =>
       ({

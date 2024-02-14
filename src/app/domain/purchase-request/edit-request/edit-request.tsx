@@ -22,6 +22,7 @@ import { RequestStatus } from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import ItemBulkUploader from "../item-bulk-uploader/item-bulk-uploader";
 
 export function EditRequest() {
   const {
@@ -189,12 +190,15 @@ export function EditRequest() {
           </TabPanel>
           <TabPanel header="Request Items">
             {allEditPRItems && (
-              <Button
-                icon="pi pi-plus"
-                label="Add Item"
-                className="block mb-4"
-                onClick={handleAddAnItem}
-              />
+              <section className="flex gap-2">
+                <Button
+                  icon="pi pi-plus"
+                  label="Add Item"
+                  className="block mb-4"
+                  onClick={handleAddAnItem}
+                />
+                <ItemBulkUploader />
+              </section>
             )}
 
             <div className="mt-2 md:px-6">
