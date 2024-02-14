@@ -88,7 +88,7 @@ export function Login() {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
   const semanticVersion =
-    process.env.REACT_APP_SEMANTIC_VERSION || "build:#240213.1-v1.3.0";
+    process.env.REACT_APP_SEMANTIC_VERSION || "build:#240214.1-v2.1.0";
 
   return (
     <div className="login">
