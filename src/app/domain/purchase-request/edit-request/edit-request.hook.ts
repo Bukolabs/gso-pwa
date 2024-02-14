@@ -36,6 +36,7 @@ import {
   RequestStatus,
   RequestStatusAction,
 } from "@core/model/request-status.enum";
+import { confirmDialog } from "primereact/confirmdialog";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -323,6 +324,18 @@ export function useEditRequest() {
       case RequestStatusAction.ForPrint:
         setValue("status", RequestStatus.FORPRINTING);
         handleSubmit(handleValidate, handleValidateError)();
+        break;
+      case RequestStatusAction.ContinuePr:
+        confirmDialog({
+          message:
+            "Doing this will resume the purchase request to the most recent office. Are you sure you want to proceed?",
+          header: "Confirmation",
+          icon: "pi pi-exclamation-triangle",
+          accept: () => {
+            setValue("status", RequestStatus.REVIEW);
+            handleSubmit(handleValidate, handleValidateError)();
+          },
+        });
         break;
       case RequestStatusAction.Print:
         handlePrint();
