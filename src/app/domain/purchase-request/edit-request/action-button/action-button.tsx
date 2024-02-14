@@ -25,12 +25,19 @@ export function ActionButton({
   const approverActions = (status: string) => {
     switch (status) {
       case RequestStatus.SUBMITTED:
+        if (isGso) {
+          return [RequestStatusAction.ForPrint];
+        }
+
+        return [RequestStatusAction.History];
+
+      case RequestStatus.FORPRINTING:
       case RequestStatus.REVIEW:
         if (isGso) {
           return [
             RequestStatusAction.Approve,
-            RequestStatusAction.Print,
             RequestStatusAction.Decline,
+            RequestStatusAction.Print,
             RequestStatusAction.History,
           ];
         }
@@ -87,12 +94,14 @@ export function ActionButton({
         ];
       case RequestStatus.SUBMITTED:
         return [RequestStatusAction.Delete];
+      case RequestStatus.FORPRINTING:
+        return [RequestStatusAction.Print, RequestStatusAction.Update];
       case RequestStatus.REVIEW:
-        if (data && data.reviewer === "CTO") {
-          return [RequestStatusAction.Print, RequestStatusAction.History];
-        }
-        return [RequestStatusAction.History];
+        return [RequestStatusAction.Update, RequestStatusAction.History];
 
+      case RequestStatus.DECLINED:
+        return [RequestStatusAction.Update, RequestStatusAction.Submit];
+        
       case RequestStatus.BACDECLINED:
         return [RequestStatusAction.Update, RequestStatusAction.Resubmit];
 

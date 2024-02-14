@@ -320,6 +320,10 @@ export function useEditRequest() {
         getHistory(dataValue?.code);
         setHistorySidebar(true);
         break;
+      case RequestStatusAction.ForPrint:
+        setValue("status", RequestStatus.FORPRINTING);
+        handleSubmit(handleValidate, handleValidateError)();
+        break;
       case RequestStatusAction.Print:
         handlePrint();
         break;
