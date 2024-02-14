@@ -26,7 +26,11 @@ export function ActionButton({
     switch (status) {
       case RequestStatus.SUBMITTED:
         if (isGso) {
-          return [RequestStatusAction.ForPrint];
+          return [
+            RequestStatusAction.ForPrint,
+            RequestStatusAction.ContinuePr,
+            RequestStatusAction.Decline,
+          ];
         }
 
         return [RequestStatusAction.History];
@@ -95,13 +99,13 @@ export function ActionButton({
       case RequestStatus.SUBMITTED:
         return [RequestStatusAction.Delete];
       case RequestStatus.FORPRINTING:
-        return [RequestStatusAction.Print, RequestStatusAction.Update];
+        return [RequestStatusAction.Print];
       case RequestStatus.REVIEW:
-        return [RequestStatusAction.Update, RequestStatusAction.History];
+        return [RequestStatusAction.History];
 
       case RequestStatus.DECLINED:
         return [RequestStatusAction.Update, RequestStatusAction.Submit];
-        
+
       case RequestStatus.BACDECLINED:
         return [RequestStatusAction.Update, RequestStatusAction.Resubmit];
 

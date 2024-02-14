@@ -22,6 +22,7 @@ import { RequestStatus } from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 export function EditRequest() {
   const {
@@ -62,9 +63,10 @@ export function EditRequest() {
   } = useEditRequest();
 
   const statusName = requests?.data?.[0].status_name;
-  const allEditPRItems =
+  const allowEditPRItems =
     statusName === RequestStatus.DRAFT ||
-    statusName === RequestStatus.BACDECLINED;
+    statusName === RequestStatus.BACDECLINED ||
+    statusName === RequestStatus.DECLINED;
 
   const displayLoading = (
     <div className="card">
@@ -188,7 +190,7 @@ export function EditRequest() {
             </FormCategoryItemProvider>
           </TabPanel>
           <TabPanel header="Request Items">
-            {allEditPRItems && (
+            {allowEditPRItems && (
               <Button
                 icon="pi pi-plus"
                 label="Add Item"
@@ -206,7 +208,7 @@ export function EditRequest() {
                     item={item}
                     onEdit={handleEdit}
                     onRemove={handleRemove}
-                    showActions={allEditPRItems}
+                    showActions={allowEditPRItems}
                   />
                 ))}
               </div>
@@ -233,6 +235,7 @@ export function EditRequest() {
       {remarksSidebar()}
 
       <div className="p-7">
+        <ConfirmDialog />
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
           {(requestError || editError || dataEmpty) &&
