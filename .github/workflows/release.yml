@@ -24,12 +24,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set semantic version output
-        id: set_version
-        run: echo ::set-output name=version::$(npx -c 'console.log(require("./package.json").version)')
-
-      - name: Store semantic version as an output
-        run: echo "SEMANTIC_VERSION=${{ steps.set_version.outputs.version }}" >> $GITHUB_ENV
+      - name: Update .env with new version and values
+        run: |
+          newVersion=$(grep -oP '^v\K.*' RELEASE_VERSION)
+          currentDate=$(date +'%Y%m%d')
+          echo "REACT_APP_SEMANTIC_VERSION=${newVersion}" >> .env
+          echo "REACT_APP_BUILD_VERSION=${currentDate}.1" >> .env
+          echo "REACT_APP_API_URL=gso-api" >> .env
 
       - name: Build
         run: npm run build
