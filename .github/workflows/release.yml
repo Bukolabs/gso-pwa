@@ -27,8 +27,9 @@ jobs:
       - name: Update .env with new version and values
         run: |
           echo ${{ steps.semantic_release.outputs.new_release_version }}
+          newVersion=$(echo "${{ steps.semantic_release.outputs.new_release_version }}" | sed 's/v//')
           currentDate=$(date +'%Y%m%d')
-          echo "REACT_APP_SEMANTIC_VERSION=${steps.semantic_release.outputs.new_release_version}" >> .env
+          echo "REACT_APP_SEMANTIC_VERSION=${newVersion}" >> .env
           echo "REACT_APP_BUILD_VERSION=${currentDate}.1" >> .env
           echo "REACT_APP_API_URL=gso-api" >> .env
 
