@@ -16,6 +16,24 @@ jobs:
       - name: Install all dependencies
         run: npm ci
 
+      - name: Update REACT_APP_BUILD_VERSION
+        run: |
+          currentDate=$(date +'%Y%m%d')
+          currentVersion=$(grep -oP '^REACT_APP_BUILD_VERSION=\K.*' .env)
+          if [ -z "$currentVersion" ]; then
+            newVersion="${currentDate}.1"
+          else
+            currentYearMonthDay="${currentVersion:0:8}"
+            currentIncrement="${currentVersion:9}"
+            if [ "$currentYearMonthDay" -eq "$currentDate" ]; then
+              newIncrement=$((currentIncrement + 1))
+            else
+              newIncrement=1
+            fi
+            newVersion="${currentDate}.${newIncrement}"
+          fi
+          sed -i "s/^REACT_APP_BUILD_VERSION=.*$/REACT_APP_BUILD_VERSION=${newVersion}/" .env
+
       - name: Build
         run: npm run build # The build command of your project
         env:

@@ -28,6 +28,10 @@ export function Login() {
   const [passwordType, setPasswordType] =
     useState<InputControlType>("password");
   const [captcha, setCaptcha] = useState<string>(generateCaptcha(6));
+  const buildVersion = process.env.REACT_APP_BUILD_VERSION || "b000000.0";
+  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION || "v-";
+  const version = `${buildVersion}-${semanticVersion}`;
+  const isDev = process.env.REACT_APP_API_URL === "dev-gso";
 
   useEffect(() => {
     StorageService.clear(AUTH);
@@ -49,7 +53,7 @@ export function Login() {
     defaultValues: { email: "", password: "", captcha: "" },
     resolver: zodResolver(LoginRule),
   });
-  const { control, reset, handleSubmit } = formMethod;
+  const { control, reset, handleSubmit, setValue } = formMethod;
   const handleValidate = useCallback(
     (form: LoginFormSchema) => {
       if (form.captcha !== captcha) {
@@ -72,7 +76,9 @@ export function Login() {
   // LOCAL FUNCTION
   const regenerateCaptcha = () => {
     setCaptcha(generateCaptcha(6));
-    reset();
+    reset({
+      captcha: "",
+    });
   };
   const handleRightIconAction = () => {
     const inputType = passwordType === "password" ? "text" : "password";
@@ -87,8 +93,24 @@ export function Login() {
   const handleBukoLogo = () => {
     window.open("https://bukolabs.io/", "_blank", "noreferrer");
   };
-  const semanticVersion =
-    process.env.REACT_APP_SEMANTIC_VERSION || "build:#240214.1-v2.1.0";
+  const handleCaptchaShortcut = useCallback(
+    (event: any) => {
+      if (event.ctrlKey && event.shiftKey && event.key === "L" && isDev) {
+        setValue("captcha", captcha);
+      }
+    },
+    [captcha, isDev, setValue]
+  );
+
+  useEffect(() => {
+    // Add event listener when the component mounts
+    document.addEventListener("keydown", handleCaptchaShortcut);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleCaptchaShortcut);
+    };
+  }, [handleCaptchaShortcut]);
 
   return (
     <div className="login">
@@ -171,7 +193,7 @@ export function Login() {
           />
         </div>
         <span className="text-center fixed bottom-0 right-0 text-gray-300">
-          {semanticVersion}
+          {version}
         </span>
       </LeftContentPage>
     </div>
