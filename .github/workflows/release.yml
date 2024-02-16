@@ -24,10 +24,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Determine new version
+        id: version
+        run: |
+          if [ -n "${{ steps.semantic_release.outputs.new_release_version }}" ]; then
+            echo "::set-output name=NEW_VERSION::${{ steps.semantic_release.outputs.new_release_version }}"
+          else
+            echo "::set-output name=NEW_VERSION::${{ steps.semantic_release.outputs.last_release_version }}"
+          fi
+
       - name: Update .env with new version and values
         run: |
-          echo ${{ steps.semantic_release.outputs.new_release_version }}
-          newVersion=$(echo "${{ steps.semantic_release.outputs.new_release_version }}" | sed 's/v//')
+          newVersion=$(echo "${{ steps.version.outputs.NEW_VERSION }}" | sed 's/v//')
           currentDate=$(date +'%Y%m%d')
           echo "REACT_APP_SEMANTIC_VERSION=${newVersion}" >> .env
           echo "REACT_APP_BUILD_VERSION=${currentDate}.1" >> .env
