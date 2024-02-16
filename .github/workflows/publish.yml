@@ -36,7 +36,7 @@ jobs:
 
       - name: Update .env with new version and REACT_APP_API_URL
         run: |
-          sed -i 's/^REACT_APP_API_URL=.*/REACT_APP_API_URL=dev-gso/' .env
+          sed -i 's/^REACT_APP_API_URL=.*/REACT_APP_API_URL=dev-gso1/' .env
 
       - name: Build
         run: npm run build # The build command of your project
