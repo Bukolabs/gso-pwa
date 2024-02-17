@@ -6,19 +6,24 @@ import { useQyGetCategory } from "@core/query/category.query";
 import { useGetUnit } from "@core/query/unit.query";
 import { PurchaseItemFormSchema } from "@core/model/form.rule";
 import { useGetItem } from "@core/query/item.query";
+import { useState } from "react";
+import ItemBulkPreview from "../item-bulk-preview/item-bulk-preview";
+import { Sidebar } from "primereact/sidebar";
 
 /* eslint-disable-next-line */
 export interface ItemBulkUploaderProps {}
 
 export function ItemBulkUploader() {
   const { showInfo, showWarning } = useNotificationContext();
+  const [preBulkItems, setPreBulkItems] = useState<PurchaseItemFormSchema[]>(
+    []
+  );
+  const [visible, setVisible] = useState(false);
 
-  // API GET CATEGORY
+  // API GET CATEGORY / UNITS / ITEMS
   const { data: categories } = useQyGetCategory();
   const { data: units } = useGetUnit("", 999999, 0);
-  const { data: items } = useGetItem('', 99999999999, 0)
-
-  // API GET UNIT
+  const { data: items } = useGetItem("", 99999999999, 0);
 
   const onSelect = (e: any) => {
     const file = e.files[0];
@@ -80,7 +85,7 @@ export function ItemBulkUploader() {
     const itemFormContents = content.map((row) => {
       const filteredCategory = categoriesData.filter((x) => x.name === row[0]);
       const filteredUnit = unitsData.filter((x) => x.name === row[1]);
-      const filteredItem = itemsData.filter(x => x.name === row[2])
+      const filteredItem = itemsData.filter((x) => x.name === row[2]);
 
       const categoryCode =
         filteredCategory.length > 0 ? filteredCategory[0].code : "";
@@ -89,7 +94,8 @@ export function ItemBulkUploader() {
       const unitCode = filteredUnit.length > 0 ? filteredUnit[0].code : "";
       const unitName = row[1];
 
-      const nameCode = filteredItem.length > 0 ? filteredItem[0].code : undefined;      
+      const nameCode =
+        filteredItem.length > 0 ? filteredItem[0].code : undefined;
       const name = row[2];
 
       const cost = parseInt(row[3], 10);
@@ -124,10 +130,16 @@ export function ItemBulkUploader() {
       content,
       itemFormContents,
     });
+    setVisible(true);
+    setPreBulkItems(itemFormContents);
   };
 
   return (
     <div className="item-bulk-uploader">
+      <Sidebar visible={visible} onHide={() => setVisible(false)} fullScreen>
+        <ItemBulkPreview bulkItems={preBulkItems} />
+      </Sidebar>
+
       <FileUpload
         mode="basic"
         name="demo[]"
