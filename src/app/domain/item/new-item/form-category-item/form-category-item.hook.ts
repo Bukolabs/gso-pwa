@@ -61,6 +61,7 @@ export const useFormCategoryItem = () => {
     newCategory,
     mappedCategories,
     isCreating,
+    categories,
     setSidebar,
     setFilter,
     setNewCategory,

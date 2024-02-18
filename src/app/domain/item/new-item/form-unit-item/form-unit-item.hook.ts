@@ -60,6 +60,7 @@ export const useFormUnitItem = () => {
     newUnit,
     mappedUnits,
     isCreating,
+    units,
     setSidebar,
     setFilter,
     setNewUnit,
