@@ -32,6 +32,7 @@ export enum RequestStatusAction {
   Bacdecline = "BAC Decline",
   Approve = "Approve",
   Decline = "Decline",
+  ContinuePr = "Continue PR",
   Submit = "Submit",
   History = "History",
   Update = "Update",
@@ -42,4 +43,5 @@ export enum RequestStatusAction {
   Bid = "Bid",
   Award = "Award",
   Post = "Post",
+  ForPrint = "Approve For Print",
 }

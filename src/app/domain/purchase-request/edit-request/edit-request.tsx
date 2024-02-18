@@ -25,6 +25,7 @@ import { numberFormat } from "@shared/formats/number-format";
 import ItemBulkUploader from "../item-bulk-uploader/item-bulk-uploader";
 import RequestItemList from "../request-item-list/request-item-list";
 import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 export function EditRequest() {
   const {
@@ -65,9 +66,10 @@ export function EditRequest() {
   } = useEditRequest();
 
   const statusName = requests?.data?.[0].status_name;
-  const allEditPRItems =
+  const allowEditPRItems =
     statusName === RequestStatus.DRAFT ||
-    statusName === RequestStatus.BACDECLINED;
+    statusName === RequestStatus.BACDECLINED ||
+    statusName === RequestStatus.DECLINED;
 
   const displayLoading = (
     <div className="card">
@@ -191,7 +193,7 @@ export function EditRequest() {
                 <FormRequest />
               </TabPanel>
               <TabPanel header="Request Items">
-                {allEditPRItems && (
+                {allowEditPRItems && (
                   <section className="flex gap-2">
                     <Button
                       icon="pi pi-plus"
@@ -207,7 +209,7 @@ export function EditRequest() {
                   requestItems={displayRequestItems}
                   onEdit={handleEdit}
                   onRemove={handleRemove}
-                  showActions={allEditPRItems}
+                  showActions={allowEditPRItems}
                 />
               </TabPanel>
             </TabView>
@@ -233,6 +235,7 @@ export function EditRequest() {
       {remarksSidebar()}
 
       <div className="p-7">
+        <ConfirmDialog />
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
           {(requestError || editError || dataEmpty) &&

@@ -2,7 +2,7 @@
   "name": "gso-pwa",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://bukolabs.online/dev-gso",
+  "proxy": "https://bukolabs.online/gso-api",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@hookform/resolvers": "^3.3.2",

@@ -29,7 +29,7 @@ export function Login() {
     useState<InputControlType>("password");
   const [captcha, setCaptcha] = useState<string>(generateCaptcha(6));
   const buildVersion = process.env.REACT_APP_BUILD_VERSION || "b000000.0";
-  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION || "v-";
+  const semanticVersion = process.env.REACT_APP_SEMANTIC_VERSION || "v0";
   const version = `${buildVersion}-${semanticVersion}`;
   const isDev = process.env.REACT_APP_API_URL === "dev-gso";
 
