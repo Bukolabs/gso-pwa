@@ -36,6 +36,7 @@ import {
   RequestStatus,
   RequestStatusAction,
 } from "@core/model/request-status.enum";
+import { isEmpty } from "lodash-es";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
@@ -216,6 +217,14 @@ export function useEditRequest() {
     editRequest(formData);
   };
   const handleValidateError = (err: FieldErrors<RequestFormSchema>) => {
+    const bulkErrorItem = err.items;
+    if (bulkErrorItem && !!bulkErrorItem?.length && bulkErrorItem.length > 0) {
+      showWarning(
+        `There are some items that does not have required information`
+      );
+      return;
+    }
+
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };

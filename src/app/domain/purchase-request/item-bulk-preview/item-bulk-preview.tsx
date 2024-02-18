@@ -16,9 +16,10 @@ import { addNewItemToExistingRequestItems } from "@core/utility/pri-item.helper"
 
 export interface ItemBulkPreviewProps {
   bulkItems: PurchaseItemFormSchema[];
+  onBulk: () => void
 }
 
-export function ItemBulkPreview({ bulkItems }: ItemBulkPreviewProps) {
+export function ItemBulkPreview({ bulkItems, onBulk }: ItemBulkPreviewProps) {
   const { getValues: getItemsInForm, setValue } =
     useFormContext<RequestFormSchema>();
   const { showSuccess, showWarning } = useNotificationContext();
@@ -27,7 +28,6 @@ export function ItemBulkPreview({ bulkItems }: ItemBulkPreviewProps) {
 
   // ADD NEW ITEM
   const handleAddApiSuccess = (response: MessageResponseDto) => {
-    console.log({ response });
     const field = response.data as any;
 
     const updatedBulkItems = prebulkItems.map((item) => {
@@ -70,6 +70,7 @@ export function ItemBulkPreview({ bulkItems }: ItemBulkPreviewProps) {
     });
 
     setValue("items", updatedItemsForm);
+    onBulk()
   };
 
   const actionTemplate = (data: PurchaseItemFormSchema) => {
@@ -103,6 +104,7 @@ export function ItemBulkPreview({ bulkItems }: ItemBulkPreviewProps) {
         label="Add to Request"
         onClick={() => handleUpload()}
         disabled={isAddingItem}
+        className="block mt-4"
       />
     </div>
   );
