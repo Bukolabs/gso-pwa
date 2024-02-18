@@ -2,7 +2,6 @@ import { FileUpload } from "primereact/fileupload";
 import "./item-bulk-uploader.scss";
 import Papa from "papaparse";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { useGetUnit } from "@core/query/unit.query";
 import { PurchaseItemFormSchema } from "@core/model/form.rule";
 import { useGetItem } from "@core/query/item.query";
 import { useState } from "react";
@@ -39,6 +38,14 @@ export function ItemBulkUploader() {
       .map((item) => `${item.value},${item.label}`)
       .join("\n");
     downloadCsv(stringed, "request-item-units");
+  };
+  const downloadTemplate = () => {
+    const template = [
+      "category,unit,name,cost,quantity,description",
+      "Drinks,pcs,Health Food,400,1000,Very health food",
+    ];
+    const stringed = template.join("\n");
+    downloadCsv(stringed, "request-item-template");
   };
   const onSelect = (e: any) => {
     const file = e.files[0];
@@ -161,6 +168,12 @@ export function ItemBulkUploader() {
           chooseLabel="Bulk add item"
         />
         <span className="p-buttonset">
+          <Button
+            label="Download Template"
+            severity="secondary"
+            outlined
+            onClick={() => downloadTemplate()}
+          />
           <Button
             label="Download Category"
             severity="secondary"
