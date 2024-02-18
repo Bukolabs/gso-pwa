@@ -6,7 +6,7 @@ import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { LabelValue } from "@shared/models/label-value.interface";
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
-import { useGetCategory } from "@core/query/category.query";
+import { useQyGetCategory } from "@core/query/category.query";
 
 export function FormOrder() {
   const { control, watch } = useFormContext<OrderFormSchema>();
@@ -44,7 +44,7 @@ export function FormOrder() {
       />
     ) : null;
 
-  const { data: categories } = useGetCategory();
+  const { data: categories } = useQyGetCategory();
   const mappedCategories = (categories?.data || []).map(
     (item) =>
       ({

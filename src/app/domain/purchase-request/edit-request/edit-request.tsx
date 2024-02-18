@@ -22,6 +22,9 @@ import { RequestStatus } from "@core/model/request-status.enum";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import ItemBulkUploader from "../item-bulk-uploader/item-bulk-uploader";
+import RequestItemList from "../request-item-list/request-item-list";
+import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
 import { ConfirmDialog } from "primereact/confirmdialog";
 
 export function EditRequest() {
@@ -183,38 +186,35 @@ export function EditRequest() {
       {itemSection}
 
       {!isRestrictedView && (
-        <TabView className="mb-10">
-          <TabPanel header="Information">
-            <FormCategoryItemProvider>
-              <FormRequest />
-            </FormCategoryItemProvider>
-          </TabPanel>
-          <TabPanel header="Request Items">
-            {allowEditPRItems && (
-              <Button
-                icon="pi pi-plus"
-                label="Add Item"
-                className="block mb-4"
-                onClick={handleAddAnItem}
-              />
-            )}
+        <FormCategoryItemProvider>
+          <FormUnitItemProvider>
+            <TabView className="mb-10">
+              <TabPanel header="Information">
+                <FormRequest />
+              </TabPanel>
+              <TabPanel header="Request Items">
+                {allowEditPRItems && (
+                  <section className="flex gap-2">
+                    <Button
+                      icon="pi pi-plus"
+                      label="Add Item"
+                      className="block mb-4"
+                      onClick={handleAddAnItem}
+                    />
+                    <ItemBulkUploader />
+                  </section>
+                )}
 
-            <div className="mt-2 md:px-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-                {displayRequestItems.map((item, id) => (
-                  <ItemCard
-                    key={id}
-                    itemNo={id}
-                    item={item}
-                    onEdit={handleEdit}
-                    onRemove={handleRemove}
-                    showActions={allowEditPRItems}
-                  />
-                ))}
-              </div>
-            </div>
-          </TabPanel>
-        </TabView>
+                <RequestItemList
+                  requestItems={displayRequestItems}
+                  onEdit={handleEdit}
+                  onRemove={handleRemove}
+                  showActions={allowEditPRItems}
+                />
+              </TabPanel>
+            </TabView>
+          </FormUnitItemProvider>
+        </FormCategoryItemProvider>
       )}
     </section>
   );

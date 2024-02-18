@@ -10,8 +10,9 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { QueryKey } from "./query-key.enum";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
+import { SETTINGS } from "@core/utility/settings";
 
-export function useGetCategory(
+export function useQyGetCategory(
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -54,6 +55,7 @@ export function useGetCategory(
         onError(err);
       }
     },
+    staleTime: SETTINGS.staleTime,
   });
 }
 

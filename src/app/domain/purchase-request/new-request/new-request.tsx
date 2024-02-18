@@ -17,19 +17,21 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import { useAddRequestQy } from "@core/query/request.query";
 import { getFormErrorMessage } from "@core/utility/get-error-message";
 import AddItem from "../add-item/add-item";
-import ItemCard from "@core/ui/item-card/item-card";
 import { TabPanel, TabView } from "primereact/tabview";
 import { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { MessageResponseDto } from "@api/api";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
+import RequestItemList from "../request-item-list/request-item-list";
+import ItemBulkUploader from "../item-bulk-uploader/item-bulk-uploader";
+import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
 
 export function NewRequest() {
   const { currentUser } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
   const navigate = useNavigate();
-  const { showError, showSuccess } = useNotificationContext();
+  const { showError, showSuccess, showWarning } = useNotificationContext();
   const [visible, setVisible] = useState(false);
   const [editPrItem, setEditPrItem] = useState<ItemFormSchema | undefined>(
     undefined
@@ -61,6 +63,14 @@ export function NewRequest() {
     addPurchaseRequest(formData);
   };
   const handleValidateError = (err: FieldErrors<RequestFormSchema>) => {
+    const bulkErrorItem = err.items;
+    if (bulkErrorItem && !!bulkErrorItem?.length && bulkErrorItem.length > 0) {
+      showWarning(
+        `There are some items that does not have required information`
+      );
+      return;
+    }
+
     const formMessage = getFormErrorMessage(err);
     showError(formMessage);
   };
@@ -101,51 +111,50 @@ export function NewRequest() {
 
       <div className="p-7">
         <FormProvider {...formMethod}>
-          <TabView className="mb-10">
-            <TabPanel header="Information">
-              <FormCategoryItemProvider>
-                <FormRequest />
-              </FormCategoryItemProvider>
-            </TabPanel>
-            <TabPanel header="Request Items">
-              <Sidebar
-                visible={visible}
-                onHide={() => setVisible(false)}
-                className="w-full md:w-2/5"
-              >
-                <div className="px-7">
-                  <h2>Add an item to current purchase request</h2>
-                  <AddItem
-                    defaultItem={editPrItem}
-                    onAddItem={() => handleAddItem()}
-                  />
-                </div>
-              </Sidebar>
-              <Button
-                icon="pi pi-plus"
-                label="Add Item"
-                className="block mb-4"
-                onClick={() => {
-                  setVisible(true);
-                  setEditPrItem(undefined);
-                }}
-              />
+          <FormCategoryItemProvider>
+            <FormUnitItemProvider>
+              <TabView className="mb-10">
+                <TabPanel header="Information">
+                  <FormRequest />
+                </TabPanel>
+                <TabPanel header="Request Items">
+                  <Sidebar
+                    visible={visible}
+                    onHide={() => setVisible(false)}
+                    className="w-full md:w-2/5"
+                  >
+                    <div className="px-7">
+                      <h2>Add an item to current purchase request</h2>
+                      <AddItem
+                        defaultItem={editPrItem}
+                        onAddItem={() => handleAddItem()}
+                      />
+                    </div>
+                  </Sidebar>
 
-              <div className="mt-2 md:px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mb-4">
-                  {displayRequestItems.map((item, id) => (
-                    <ItemCard
-                      key={id}
-                      itemNo={id}
-                      item={item}
-                      onEdit={handleEdit}
-                      onRemove={handleRemove}
+                  <section className="flex gap-2">
+                    <Button
+                      icon="pi pi-plus"
+                      label="Add Item"
+                      className="block mb-4"
+                      onClick={() => {
+                        setVisible(true);
+                        setEditPrItem(undefined);
+                      }}
                     />
-                  ))}
-                </div>
-              </div>
-            </TabPanel>
-          </TabView>
+                    <ItemBulkUploader />
+                  </section>
+
+                  <RequestItemList
+                    requestItems={displayRequestItems}
+                    onEdit={handleEdit}
+                    onRemove={handleRemove}
+                    showActions={true}
+                  />
+                </TabPanel>
+              </TabView>
+            </FormUnitItemProvider>
+          </FormCategoryItemProvider>
         </FormProvider>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useGetCategory } from "@core/query/category.query";
+import { useQyGetCategory } from "@core/query/category.query";
 import { useGetStatusQy } from "@core/query/status.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Dropdown } from "primereact/dropdown";
@@ -32,7 +32,7 @@ export function useOrderFilter() {
     defaultFilter(statusParam || "", reviewerParam || "")
   );
 
-  const { data: categories } = useGetCategory();
+  const { data: categories } = useQyGetCategory();
   const mappedCategories = (categories?.data || []).map(
     (item) =>
       ({

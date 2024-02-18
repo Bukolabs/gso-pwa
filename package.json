@@ -75,8 +75,10 @@
     "@openapitools/openapi-generator-cli": "^2.7.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^9.2.6",
+    "@types/papaparse": "^5.3.14",
     "cross-env": "^7.0.3",
     "openapi-typescript-codegen": "^0.25.0",
+    "papaparse": "^5.4.1",
     "plop": "^4.0.0",
     "semantic-release": "^23.0.2",
     "tailwindcss": "^3.3.5"
