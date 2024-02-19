@@ -1,6 +1,4 @@
-import { SplitButton } from "primereact/splitbutton";
 import "./action-button.scss";
-import { useCallback, useEffect, useState } from "react";
 import {
   RequestStatus,
   RequestStatusAction,
