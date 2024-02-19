@@ -11,9 +11,10 @@ import { twoDigit } from "@core/utility/number-helper";
 
 export interface RequestPrintProps {
   data: GetPurchaseRequestDto | undefined;
+  spacing: number;
 }
 
-export function RequestPrint({ data }: RequestPrintProps) {
+export function RequestPrint({ data, spacing }: RequestPrintProps) {
   const logo = "/tagbilaran-logo.png";
   const prItems = data?.items;
   const itemDisplay = (title: string, description: string) => {
@@ -166,13 +167,21 @@ export function RequestPrint({ data }: RequestPrintProps) {
               </td>
             </tr>
             <tr>
-              <td className="print-normal border-l-0 border py-4 bg-gray-50">
+              <td
+                className={classNames(
+                  `print-normal border-l-0 border bg-gray-50 pb-4`
+                )}
+                style={{ paddingTop: `${spacing}px` }}
+              >
                 Purpose:
               </td>
               <td
-                className="border border-r-0 py-4 bg-gray-50 px-2"
+                className={classNames("border border-r-0 bg-gray-50 px-2 pb-4")}
+                style={{ paddingTop: `${spacing}px` }}
                 colSpan={5}
-              >{data?.purpose}</td>
+              >
+                {data?.purpose}
+              </td>
             </tr>
             <tr>
               <td className="border border-l-0 bg-gray-50 align-top">

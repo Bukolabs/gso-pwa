@@ -93,7 +93,6 @@ export function AddItem({ defaultItem, onAddItem }: AddItemProps) {
     const categoryName = field.category_name;
     const unitName = field.unit_name;
     addToRequestPurchaseItem("", "", categoryName, unitName);
-    showSuccess("Item updated");
   };
   const { mutate: editItem } = useEditItem(handleEditApiSuccess);
 
@@ -145,13 +144,17 @@ export function AddItem({ defaultItem, onAddItem }: AddItemProps) {
       newItemCode
     );
 
-    const allItems = addNewItemToExistingRequestItems(itemsInForm, newPurchaseItemForm);
+    const allItems = addNewItemToExistingRequestItems(
+      itemsInForm,
+      newPurchaseItemForm
+    );
+    const responseMessage = isEditing
+      ? `${newPurchaseItemForm.name} is now updated`
+      : `${newPurchaseItemForm.name} is added to Purchase Request items`;
 
     hideProgress();
     setValue("items", allItems);
-    showSuccess(
-      `${newPurchaseItemForm.name} is added to Purchase Request items`
-    );
+    showSuccess(responseMessage);
     reset(itemFormDefault);
     onAddItem();
   };

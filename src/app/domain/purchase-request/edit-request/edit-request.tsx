@@ -5,7 +5,6 @@ import ErrorSection from "@shared/ui/error-section/error-section";
 import FormRequest from "../form-request/form-request";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
-import ItemCard from "@core/ui/item-card/item-card";
 import AddItem from "../add-item/add-item";
 import { TabPanel, TabView } from "primereact/tabview";
 import { Sidebar } from "primereact/sidebar";
@@ -26,6 +25,8 @@ import ItemBulkUploader from "../item-bulk-uploader/item-bulk-uploader";
 import RequestItemList from "../request-item-list/request-item-list";
 import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
 import { ConfirmDialog } from "primereact/confirmdialog";
+import { useState } from "react";
+import { InputNumber } from "primereact/inputnumber";
 
 export function EditRequest() {
   const {
@@ -64,6 +65,7 @@ export function EditRequest() {
     setHistorySidebar,
     handleAddItem,
   } = useEditRequest();
+  const [printSpacing, setPrintSpacing] = useState(20);
 
   const statusName = requests?.data?.[0].status_name;
   const allowEditPRItems =
@@ -128,7 +130,7 @@ export function EditRequest() {
   const printSection = () => (
     <div style={{ display: "none" }}>
       <div ref={componentRef}>
-        <RequestPrint data={requests?.data?.[0]} />
+        <RequestPrint data={requests?.data?.[0]} spacing={printSpacing} />
       </div>
     </div>
   );
@@ -191,6 +193,21 @@ export function EditRequest() {
             <TabView className="mb-10">
               <TabPanel header="Information">
                 <FormRequest />
+
+                <div className="flex flex-col w-2/4 ml-6 mb-6">
+                  <small className="font-bold block mb-2 hint ">
+                    Print Spacing
+                  </small>
+                  <InputNumber
+                    inputId="integeronly"
+                    className="block w-1/4"
+                    value={printSpacing}
+                    onValueChange={(e) => setPrintSpacing(e.value || 20)}
+                  />
+                  <small className="text-gray-400 mb-1">
+                    Set the value to adjust the purpose and signatory spacing
+                  </small>
+                </div>
               </TabPanel>
               <TabPanel header="Request Items">
                 {allowEditPRItems && (
@@ -209,7 +226,7 @@ export function EditRequest() {
                   requestItems={displayRequestItems}
                   onEdit={handleEdit}
                   onRemove={handleRemove}
-                  showActions={allowEditPRItems}
+                  showActions={true}
                 />
               </TabPanel>
             </TabView>

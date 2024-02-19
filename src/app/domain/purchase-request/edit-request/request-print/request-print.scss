@@ -13,3 +13,7 @@ tr {
   page-break-inside: avoid;
   page-break-after: auto;
 }
+
+@page {
+  size: A4;
+}
