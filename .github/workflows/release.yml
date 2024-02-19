@@ -23,38 +23,11 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Get Semantic Release version
-        run: |
-          echo "VERSION=$(cat ./.version)" >> $GITHUB_ENV
-          
-      - name: Do something when a new release published
-        run: |
-          echo ${{ steps.semantic_release.outputs.new_release_version }}
-          echo ${{ steps.semantic_release.outputs.last_release_version }}
-          echo ${{ steps.semantic_release.outputs.new_release_major_version }}
-          echo ${{ steps.semantic_release.outputs.new_release_minor_version }}
-          echo ${{ steps.semantic_release.outputs.new_release_patch_version }}
-          echo ${{ steps.semantic_release.outputs }}
-          echo ${{ steps.semantic_release.outputs }}
-          echo ${{ steps.semantic_release.outputs }}
-          echo ${{ steps.semantic_release.outputs }}
-          echo ${{ steps.semantic_release.outputs }}
-
-      - name: Determine new version
-        id: version
-        run: |
-          if [ -n "${{ steps.semantic_release.outputs.new_release_version }}" ]; then
-            echo "::set-output name=NEW_VERSION::${{ steps.semantic_release.outputs.new_release_version }}"
-          else
-            echo "::set-output name=NEW_VERSION::${{ steps.semantic_release.outputs.last_release_version }}"
-          fi
 
       - name: Update .env with new version and values
         run: |
-          newVersion=$(echo "${{ steps.version.outputs.NEW_VERSION }}" | sed 's/v//')
           currentDate=$(date +'%Y%m%d')
-          echo "REACT_APP_SEMANTIC_VERSION=${newVersion}" >> .env
+          echo "REACT_APP_SEMANTIC_VERSION=v2.1.0" >> .env
           echo "REACT_APP_BUILD_VERSION=${currentDate}.1" >> .env
           echo "REACT_APP_API_URL=gso-api" >> .env
 
