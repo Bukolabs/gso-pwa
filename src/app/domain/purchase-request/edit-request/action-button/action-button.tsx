@@ -104,10 +104,10 @@ export function ActionButton({
         return [RequestStatusAction.History];
 
       case RequestStatus.DECLINED:
-        return [RequestStatusAction.Update, RequestStatusAction.Submit];
+        return [RequestStatusAction.Update, RequestStatusAction.Submit, RequestStatusAction.History];
 
       case RequestStatus.BACDECLINED:
-        return [RequestStatusAction.Update, RequestStatusAction.Resubmit];
+        return [RequestStatusAction.Update, RequestStatusAction.Resubmit, RequestStatusAction.History];
 
       default:
         return [RequestStatusAction.History];
