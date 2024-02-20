@@ -21,6 +21,8 @@ export function ItemBulkUploader() {
     []
   );
   const [visible, setVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
+  const [viewableInfo, setViewableInfo] = useState<string[]>([]);
 
   // API GET CATEGORY / UNITS / ITEMS
   const { categories, mappedCategories } = useFormCategoryItemContext();
@@ -28,16 +30,14 @@ export function ItemBulkUploader() {
   const { data: items } = useGetItem("", 99999999999, 0);
 
   const downloadCategories = () => {
-    const stringed = mappedCategories
-      .map((item) => `${item.value},${item.label}`)
-      .join("\n");
-    downloadCsv(stringed, "request-item-categories");
+    const categoryList = mappedCategories.map((item) => item.label);
+    setViewableInfo(categoryList);
+    setInfoVisible(true);
   };
   const downloadUnits = () => {
-    const stringed = mappedUnits
-      .map((item) => `${item.value},${item.label}`)
-      .join("\n");
-    downloadCsv(stringed, "request-item-units");
+    const categoryList = mappedUnits.map((item) => item.label);
+    setViewableInfo(categoryList);
+    setInfoVisible(true);
   };
   const downloadTemplate = () => {
     const template = [
@@ -111,10 +111,10 @@ export function ItemBulkUploader() {
 
       const categoryCode =
         filteredCategory.length > 0 ? filteredCategory[0].code : "";
-      const categoryName = !categoryCode ? undefined : row[0];
+      const categoryName = !categoryCode ? "Category does not exist" : row[0];
 
       const unitCode = filteredUnit.length > 0 ? filteredUnit[0].code : "";
-      const unitName = !unitCode ? undefined : row[1];
+      const unitName = !unitCode ? "Unit does not exist" : row[1];
 
       const nameCode =
         filteredItem.length > 0 ? filteredItem[0].code : undefined;
@@ -143,9 +143,10 @@ export function ItemBulkUploader() {
 
       return itemForm;
     });
+    const filteredItems = itemFormContents.filter((x) => !!x.name);
 
     setVisible(true);
-    setPreBulkItems(itemFormContents);
+    setPreBulkItems(filteredItems);
   };
 
   return (
@@ -155,6 +156,14 @@ export function ItemBulkUploader() {
           bulkItems={preBulkItems}
           onBulk={() => setVisible(false)}
         />
+      </Sidebar>
+      <Sidebar visible={infoVisible} onHide={() => setInfoVisible(false)}>
+        <h2>List</h2>
+        <ul>
+          {viewableInfo.map((item, id) => (
+            <li key={id}>{item}</li>
+          ))}
+        </ul>
       </Sidebar>
       <section className="flex gap-2">
         <FileUpload
@@ -175,13 +184,13 @@ export function ItemBulkUploader() {
             onClick={() => downloadTemplate()}
           />
           <Button
-            label="Download Category"
+            label="View Category"
             severity="secondary"
             outlined
             onClick={() => downloadCategories()}
           />
           <Button
-            label="Download Units"
+            label="View Units"
             severity="secondary"
             outlined
             onClick={() => downloadUnits()}
