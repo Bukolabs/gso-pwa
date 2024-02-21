@@ -36,7 +36,7 @@ export function QrScanner() {
   return (
     <div className="qr-scanner">
       {scanResult ? (
-        <div>Success: Value is {scanResult}</div>
+        <div>Success: The Value is {scanResult}</div>
       ) : (
         <div id="reader"></div>
       )}
