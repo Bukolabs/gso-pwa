@@ -193,7 +193,7 @@ export function Login() {
           />
         </div>
         <span className="text-center fixed bottom-0 right-0 text-gray-300">
-          {version}
+          test-{version}
         </span>
       </LeftContentPage>
     </div>
