@@ -1757,6 +1757,49 @@ export interface DeleteItemDto {
 /**
  * 
  * @export
+ * @interface DeleteNotificationDto
+ */
+export interface DeleteNotificationDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteNotificationDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteNotificationDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteNotificationDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteNotificationDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteNotificationDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteNotificationDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface DeletePIDDto
  */
 export interface DeletePIDDto {
@@ -3414,6 +3457,126 @@ export interface EditPurchaseRequestDto {
      * @memberof EditPurchaseRequestDto
      */
     'remarks'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'is_gso'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_at': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'is_treasurer'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'treasurer_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'treasurer_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'treasurer_at': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'is_mayor'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'mayor_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'mayor_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'mayor_at': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'is_gso_ff'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_ff_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_ff_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'gso_ff_at': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPurchaseRequestDto
+     */
+    'is_budget'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'budget_remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'budget_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditPurchaseRequestDto
+     */
+    'budget_at': string;
 }
 /**
  * 
@@ -4083,6 +4246,67 @@ export interface GetItemDto {
      * 
      * @type {string}
      * @memberof GetItemDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetNotificationDto
+ */
+export interface GetNotificationDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'request_source': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'action'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'message'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
      */
     'updated_by'?: string;
 }
@@ -5249,6 +5473,96 @@ export interface GetPurchaseOrderDto {
      * @memberof GetPurchaseOrderDto
      */
     'purchase_requests'?: Array<GetPurchaseRequestDto>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_is_gso_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_gso_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_gso_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_gso_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_gso_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_is_treasurer_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_treasurer_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_treasurer_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_treasurer_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_treasurer_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_is_mayor_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_mayor_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_mayor_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_mayor_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseOrderDto
+     */
+    'po_mayor_received_at'?: string;
 }
 /**
  * 
@@ -5880,6 +6194,246 @@ export interface GetPurchaseRequestDto {
      * @memberof GetPurchaseRequestDto
      */
     'approve_remarks'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'is_gso_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'is_treasurer_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'treasurer_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'treasurer_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'treasurer_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'treasurer_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'is_mayor_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'mayor_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'mayor_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'mayor_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'mayor_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'is_gso_ff_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_ff_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_ff_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_ff_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'gso_ff_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'is_budget_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'budget_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'budget_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'budget_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'budget_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_is_gso_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_gso_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_gso_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_gso_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_gso_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_is_treasurer_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_treasurer_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_treasurer_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_treasurer_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_treasurer_received_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_is_mayor_received'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_mayor_received_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_mayor_received_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_mayor_received_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetPurchaseRequestDto
+     */
+    'po_mayor_received_at'?: string;
 }
 /**
  * 
@@ -6325,6 +6879,38 @@ export interface MessageResponseDto {
 /**
  * 
  * @export
+ * @interface NotificationControllerGetDataAsList200Response
+ */
+export interface NotificationControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof NotificationControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetNotificationDto>}
+     * @memberof NotificationControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetNotificationDto>;
+}
+/**
+ * 
+ * @export
+ * @interface NotificationControllerGetDataAsList200ResponseAllOf
+ */
+export interface NotificationControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetNotificationDto>}
+     * @memberof NotificationControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetNotificationDto>;
+}
+/**
+ * 
+ * @export
  * @interface PersonControllerGetDataAsList200Response
  */
 export interface PersonControllerGetDataAsList200Response {
@@ -6599,6 +7185,80 @@ export interface PurchaseRequestControllerGetDataAsList200ResponseAllOf {
      * @memberof PurchaseRequestControllerGetDataAsList200ResponseAllOf
      */
     'data'?: Array<GetPurchaseRequestDto>;
+}
+/**
+ * 
+ * @export
+ * @interface ReceivePurchaseOrderDto
+ */
+export interface ReceivePurchaseOrderDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReceivePurchaseOrderDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseOrderDto
+     */
+    'is_gso_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseOrderDto
+     */
+    'is_treasurer_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseOrderDto
+     */
+    'is_mayor_received'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ReceivePurchaseRequestDto
+ */
+export interface ReceivePurchaseRequestDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'is_gso_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'is_treasurer_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'is_mayor_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'is_gso_ff_received'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReceivePurchaseRequestDto
+     */
+    'is_budget_received'?: boolean;
 }
 /**
  * 
@@ -7963,6 +8623,223 @@ export class ItemApi extends BaseAPI {
 
 
 /**
+ * NotificationApi - axios parameter creator
+ * @export
+ */
+export const NotificationApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {DeleteNotificationDto} deleteNotificationDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationControllerDelete: async (deleteNotificationDto: DeleteNotificationDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteNotificationDto' is not null or undefined
+            assertParamExists('notificationControllerDelete', 'deleteNotificationDto', deleteNotificationDto)
+            const localVarPath = `/api/v1/notification/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteNotificationDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/notification/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * NotificationApi - functional programming interface
+ * @export
+ */
+export const NotificationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = NotificationApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {DeleteNotificationDto} deleteNotificationDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async notificationControllerDelete(deleteNotificationDto: DeleteNotificationDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.notificationControllerDelete(deleteNotificationDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async notificationControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NotificationControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.notificationControllerGetDataAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * NotificationApi - factory interface
+ * @export
+ */
+export const NotificationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = NotificationApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {DeleteNotificationDto} deleteNotificationDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationControllerDelete(deleteNotificationDto: DeleteNotificationDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.notificationControllerDelete(deleteNotificationDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        notificationControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<NotificationControllerGetDataAsList200Response> {
+            return localVarFp.notificationControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * NotificationApi - object-oriented interface
+ * @export
+ * @class NotificationApi
+ * @extends {BaseAPI}
+ */
+export class NotificationApi extends BaseAPI {
+    /**
+     * 
+     * @param {DeleteNotificationDto} deleteNotificationDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationApi
+     */
+    public notificationControllerDelete(deleteNotificationDto: DeleteNotificationDto, options?: AxiosRequestConfig) {
+        return NotificationApiFp(this.configuration).notificationControllerDelete(deleteNotificationDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationApi
+     */
+    public notificationControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
+        return NotificationApiFp(this.configuration).notificationControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * OauthApi - axios parameter creator
  * @export
  */
@@ -8935,6 +9812,50 @@ export const PurchaseOrderApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {ReceivePurchaseOrderDto} receivePurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseOrderControllerReceive: async (receivePurchaseOrderDto: ReceivePurchaseOrderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'receivePurchaseOrderDto' is not null or undefined
+            assertParamExists('purchaseOrderControllerReceive', 'receivePurchaseOrderDto', receivePurchaseOrderDto)
+            const localVarPath = `/api/v1/purchase-order/receive`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(receivePurchaseOrderDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -8999,6 +9920,16 @@ export const PurchaseOrderApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerProcess(processPurchaseOrderDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {ReceivePurchaseOrderDto} receivePurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async purchaseOrderControllerReceive(receivePurchaseOrderDto: ReceivePurchaseOrderDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerReceive(receivePurchaseOrderDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -9057,6 +9988,15 @@ export const PurchaseOrderApiFactory = function (configuration?: Configuration, 
          */
         purchaseOrderControllerProcess(processPurchaseOrderDto: ProcessPurchaseOrderDto, options?: any): AxiosPromise<MessageResponseDto> {
             return localVarFp.purchaseOrderControllerProcess(processPurchaseOrderDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ReceivePurchaseOrderDto} receivePurchaseOrderDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseOrderControllerReceive(receivePurchaseOrderDto: ReceivePurchaseOrderDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.purchaseOrderControllerReceive(receivePurchaseOrderDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9125,6 +10065,17 @@ export class PurchaseOrderApi extends BaseAPI {
      */
     public purchaseOrderControllerProcess(processPurchaseOrderDto: ProcessPurchaseOrderDto, options?: AxiosRequestConfig) {
         return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerProcess(processPurchaseOrderDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ReceivePurchaseOrderDto} receivePurchaseOrderDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PurchaseOrderApi
+     */
+    public purchaseOrderControllerReceive(receivePurchaseOrderDto: ReceivePurchaseOrderDto, options?: AxiosRequestConfig) {
+        return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerReceive(receivePurchaseOrderDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9802,6 +10753,50 @@ export const PurchaseRequestApiAxiosParamCreator = function (configuration?: Con
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {ReceivePurchaseRequestDto} receivePurchaseRequestDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseRequestControllerReceive: async (receivePurchaseRequestDto: ReceivePurchaseRequestDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'receivePurchaseRequestDto' is not null or undefined
+            assertParamExists('purchaseRequestControllerReceive', 'receivePurchaseRequestDto', receivePurchaseRequestDto)
+            const localVarPath = `/api/v1/purchase-request/receive`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(receivePurchaseRequestDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -9880,6 +10875,16 @@ export const PurchaseRequestApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseRequestControllerProcess(processPurchaseRequestDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {ReceivePurchaseRequestDto} receivePurchaseRequestDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async purchaseRequestControllerReceive(receivePurchaseRequestDto: ReceivePurchaseRequestDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseRequestControllerReceive(receivePurchaseRequestDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -9951,6 +10956,15 @@ export const PurchaseRequestApiFactory = function (configuration?: Configuration
          */
         purchaseRequestControllerProcess(processPurchaseRequestDto: ProcessPurchaseRequestDto, options?: any): AxiosPromise<MessageResponseDto> {
             return localVarFp.purchaseRequestControllerProcess(processPurchaseRequestDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ReceivePurchaseRequestDto} receivePurchaseRequestDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        purchaseRequestControllerReceive(receivePurchaseRequestDto: ReceivePurchaseRequestDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.purchaseRequestControllerReceive(receivePurchaseRequestDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -10034,6 +11048,17 @@ export class PurchaseRequestApi extends BaseAPI {
      */
     public purchaseRequestControllerProcess(processPurchaseRequestDto: ProcessPurchaseRequestDto, options?: AxiosRequestConfig) {
         return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerProcess(processPurchaseRequestDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ReceivePurchaseRequestDto} receivePurchaseRequestDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PurchaseRequestApi
+     */
+    public purchaseRequestControllerReceive(receivePurchaseRequestDto: ReceivePurchaseRequestDto, options?: AxiosRequestConfig) {
+        return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerReceive(receivePurchaseRequestDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -10764,6 +11789,156 @@ export class PurchaseRequestItemDeliveryApi extends BaseAPI {
      */
     public prItemDeliveryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PurchaseRequestItemDeliveryApiFp(this.configuration).prItemDeliveryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * TaskApi - axios parameter creator
+ * @export
+ */
+export const TaskApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        taskControllerQueueEmail: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/task/queue-email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        taskControllerTestEmail: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/task/test-email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TaskApi - functional programming interface
+ * @export
+ */
+export const TaskApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TaskApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async taskControllerQueueEmail(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.taskControllerQueueEmail(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async taskControllerTestEmail(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.taskControllerTestEmail(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * TaskApi - factory interface
+ * @export
+ */
+export const TaskApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TaskApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        taskControllerQueueEmail(options?: any): AxiosPromise<void> {
+            return localVarFp.taskControllerQueueEmail(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        taskControllerTestEmail(options?: any): AxiosPromise<void> {
+            return localVarFp.taskControllerTestEmail(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TaskApi - object-oriented interface
+ * @export
+ * @class TaskApi
+ * @extends {BaseAPI}
+ */
+export class TaskApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskApi
+     */
+    public taskControllerQueueEmail(options?: AxiosRequestConfig) {
+        return TaskApiFp(this.configuration).taskControllerQueueEmail(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskApi
+     */
+    public taskControllerTestEmail(options?: AxiosRequestConfig) {
+        return TaskApiFp(this.configuration).taskControllerTestEmail(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
