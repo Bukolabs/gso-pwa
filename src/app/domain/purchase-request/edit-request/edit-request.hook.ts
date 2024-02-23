@@ -14,6 +14,7 @@ import {
 } from "@core/query/request.query";
 import {
   ItemFormSchema,
+  PurchaseItemFormSchema,
   RequestFormRule,
   RequestFormSchema,
 } from "@core/model/form.rule";
@@ -237,9 +238,9 @@ export function useEditRequest() {
     setVisible(true);
     setDefaultPrItem(item);
   };
-  const handleRemove = (item: ItemFormSchema) => {
+  const handleRemove = (item: PurchaseItemFormSchema) => {
     const updatedIsActiveItems = requestItems.map((x) => {
-      if (x.code === item.code) {
+      if (x.itemArrayCode === item.itemArrayCode) {
         return {
           ...x,
           isActive: false,
