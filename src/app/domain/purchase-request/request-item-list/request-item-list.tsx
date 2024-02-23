@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { twoDigit } from "@core/utility/number-helper";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { numberFormat } from "@shared/formats/number-format";
+import { trimUUID } from "@core/utility/string.helper";
 
 export interface RequestItemListProps {
   requestItems: PurchaseItemFormSchema[];
@@ -32,6 +33,9 @@ export function RequestItemList({
     return (
       <div className="flex justify-between">
         <div>
+          <span className="text-gray-500 block text-xs">
+            {trimUUID(data.itemArrayCode || "")}
+          </span>
           <small className="text-gray-500 block">
             Item No: {twoDigit(index + 1)}
           </small>
