@@ -12,11 +12,10 @@ import { useState } from "react";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useFormContext } from "react-hook-form";
-import { addNewItemToExistingRequestItems } from "@core/utility/pri-item.helper";
 
 export interface ItemBulkPreviewProps {
   bulkItems: PurchaseItemFormSchema[];
-  onBulk: () => void
+  onBulk: () => void;
 }
 
 export function ItemBulkPreview({ bulkItems, onBulk }: ItemBulkPreviewProps) {
@@ -62,15 +61,37 @@ export function ItemBulkPreview({ bulkItems, onBulk }: ItemBulkPreviewProps) {
     const itemsInForm = getItemsInForm("items");
     let updatedItemsForm = itemsInForm as PurchaseItemFormSchema[];
     prebulkItems.forEach((item) => {
-      const accumulatedItemForm = addNewItemToExistingRequestItems(
-        updatedItemsForm,
-        item
-      ) as PurchaseItemFormSchema[];
+      let accumulatedItemForm;
+      if (item.unit === "-") {
+        accumulatedItemForm = [
+          ...updatedItemsForm,
+          {
+            ...item,
+            unit: "",
+            unitName: "",
+          },
+        ] as PurchaseItemFormSchema[];
+      } else if (item.code === "-") {
+        accumulatedItemForm = [
+          ...updatedItemsForm,
+          {
+            ...item,
+            category: "",
+            categoryName: "",
+          },
+        ] as PurchaseItemFormSchema[];
+      } else {
+        accumulatedItemForm = [
+          ...updatedItemsForm,
+          item,
+        ] as PurchaseItemFormSchema[];
+      }
+
       updatedItemsForm = accumulatedItemForm;
     });
 
     setValue("items", updatedItemsForm);
-    onBulk()
+    onBulk();
   };
 
   const actionTemplate = (data: PurchaseItemFormSchema) => {
