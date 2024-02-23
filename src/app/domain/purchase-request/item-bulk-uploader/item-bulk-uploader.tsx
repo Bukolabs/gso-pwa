@@ -110,10 +110,10 @@ export function ItemBulkUploader() {
       const filteredItem = itemsData.filter((x) => x.name === row[2]);
 
       const categoryCode =
-        filteredCategory.length > 0 ? filteredCategory[0].code : "";
+        filteredCategory.length > 0 ? filteredCategory[0].code : "-";
       const categoryName = !categoryCode ? "Category does not exist" : row[0];
 
-      const unitCode = filteredUnit.length > 0 ? filteredUnit[0].code : "";
+      const unitCode = filteredUnit.length > 0 ? filteredUnit[0].code : "-";
       const unitName = !unitCode ? "Unit does not exist" : row[1];
 
       const nameCode =

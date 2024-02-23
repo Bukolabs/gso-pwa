@@ -27,7 +27,6 @@ import { LabelValue } from "@shared/models/label-value.interface";
 import { FormToApiService } from "@core/services/form-to-api.service";
 import { GetPrItemDto, MessageResponseDto } from "@api/api";
 import { UiMapService } from "@core/services/ui-map.service";
-import { addNewItemToExistingRequestItems } from "@core/utility/pri-item.helper";
 
 export interface AddItemProps {
   defaultItem?: PurchaseItemFormSchema;
@@ -144,15 +143,13 @@ export function AddItem({ defaultItem, onAddItem }: AddItemProps) {
       newItemCode
     );
 
-    const allItems = addNewItemToExistingRequestItems(
-      itemsInForm,
-      newPurchaseItemForm
-    );
+    const allItems = [...itemsInForm, newPurchaseItemForm];
     const responseMessage = isEditing
       ? `${newPurchaseItemForm.name} is now updated`
       : `${newPurchaseItemForm.name} is added to Purchase Request items`;
 
     hideProgress();
+    console.log({ allItems });
     setValue("items", allItems);
     showSuccess(responseMessage);
     reset(itemFormDefault);

@@ -205,12 +205,6 @@ export function useEditRequest() {
     navigate("../");
   };
   const handleValidate = (form: RequestFormSchema) => {
-    const activeItems = form.items.filter((x) => x.isActive);
-    if (activeItems.length === 0) {
-      showWarning("Kindly, add items for your requests.");
-      return;
-    }
-
     const formData = FormToApiService.EditPurchaseRequest(
       form,
       requestId || ""
@@ -301,6 +295,13 @@ export function useEditRequest() {
         break;
       case RequestStatusAction.Submit:
         const formValues = getValues();
+
+        const activeItems = formValues.items.filter((x) => x.isActive);
+        if (activeItems.length === 0) {
+          showWarning("Kindly, add items for your requests.");
+          return;
+        }
+
         formValues.dueDate = new Date(formValues.dueDate);
         formValues.status = RequestStatus.SUBMITTED;
         const formData = FormToApiService.EditPurchaseRequest(
@@ -312,6 +313,13 @@ export function useEditRequest() {
 
       case RequestStatusAction.Resubmit:
         const resubmitFormValues = getValues();
+
+        const resubmitActiveItems = resubmitFormValues.items.filter((x) => x.isActive);
+        if (resubmitActiveItems.length === 0) {
+          showWarning("Kindly, add items for your requests.");
+          return;
+        }
+
         resubmitFormValues.dueDate = new Date(resubmitFormValues.dueDate);
         resubmitFormValues.status = RequestStatus.PENDING;
         const resubmitFormData = FormToApiService.EditPurchaseRequest(
