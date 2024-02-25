@@ -71,7 +71,7 @@ export function ItemBulkPreview({ bulkItems, onBulk }: ItemBulkPreviewProps) {
             unitName: "",
           },
         ] as PurchaseItemFormSchema[];
-      } else if (item.code === "-") {
+      } else if (item.category === "-") {
         accumulatedItemForm = [
           ...updatedItemsForm,
           {

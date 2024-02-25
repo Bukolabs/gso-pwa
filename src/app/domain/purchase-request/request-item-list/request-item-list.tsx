@@ -33,9 +33,6 @@ export function RequestItemList({
     return (
       <div className="flex justify-between">
         <div>
-          <span className="text-gray-500 block text-xs">
-            {trimUUID(data.itemArrayCode || "")}
-          </span>
           <small className="text-gray-500 block">
             Item No: {twoDigit(index + 1)}
           </small>
