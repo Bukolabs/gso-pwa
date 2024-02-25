@@ -3,7 +3,6 @@ import "./qr-scanner.scss";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useNavigate } from "react-router";
 import { removePrefix } from "@core/utility/string.helper";
-import { RequestStatusAction } from "@core/model/request-status.enum";
 
 /* eslint-disable-next-line */
 export interface QrScannerProps {}
@@ -22,13 +21,20 @@ export function QrScanner() {
     const onScanSuccess = (decodedText: string, decodedResult: any) => {
       console.log(`Code matched = ${decodedText}`, decodedResult);
       setScanResult(decodedText);
+      const prCodeMatch = "PRCODE-";
+      const poCodeMatch = "POCODE-";
+
       html5QrcodeScanner.clear().then((x) => {
         console.log("CLEAR", { x });
       });
 
-      if (decodedText.indexOf("PRCODE") >= 0) {
-        const code = removePrefix("PRCODE-", decodedText);
-        navigate(`request/${code}/scan?action=${RequestStatusAction.Received}`);
+      console.log("SUCCESS SCAN");
+      if (decodedText.indexOf(prCodeMatch) >= 0) {
+        const code = removePrefix(prCodeMatch, decodedText);
+        navigate(`request/${code}/scan`);
+      } else if (decodedText.indexOf(poCodeMatch) >= 0) {
+        const code = removePrefix(poCodeMatch, decodedText);
+        navigate(`order/${code}/scan`);
       }
     };
 

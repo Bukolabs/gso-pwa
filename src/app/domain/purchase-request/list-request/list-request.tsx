@@ -31,12 +31,17 @@ import { numberFormat } from "@shared/formats/number-format";
 import RequestCard from "@core/ui/request-card/request-card";
 import { StageName } from "@core/model/stage-name.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function ListRequest() {
   const { isBACApprover, isReviewer, isRestrictedView } = useUserIdentity();
   const { requestFilters } = useRequestFilterContext();
   const navigate = useNavigate();
-  const { getReviewers } = useReviewHook();
+  const {
+    getReviewers,
+    getRequestPhaseReviewerStateSymbol,
+    getRequestPhaseForOrderReviewerStateSymbol,
+  } = useReviewHook();
   const { isMobileMode } = useScreenSize();
   const [isTableView, setIsTableView] = useState(!isMobileMode);
 
@@ -116,26 +121,29 @@ export function ListRequest() {
       </Sidebar>
     </div>
   );
-  const reviewColumn = (data: GetPurchaseRequestDto) => {
+  const getDisplayReviewer = (data: GetPurchaseRequestDto) => {
     const isStage3And4 =
       data.stage_name === StageName.STAGE_3 ||
       data.stage_name === StageName.STAGE_4;
     const stageReviewers = isStage3And4
       ? ({
-          isGso: data.po_is_gso,
-          isTreasurer: data.po_is_treasurer,
-          isMayor: data.po_is_mayor,
+          isGso: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CGSO, data),
+          isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CTO, data),
+          isMayor: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CMO, data),
         } as ReviewerStatus)
       : ({
-          isGso: data.is_gso,
-          isGsoFF: data.is_gso_ff,
-          isTreasurer: data.is_treasurer,
-          isMayor: data.is_mayor,
-          isBudget: data.is_budget,
+          isGso: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO, data),
+          isGsoFF: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO_FF, data),
+          isTreasurer: getRequestPhaseReviewerStateSymbol(Reviewer.CTO, data),
+          isMayor: getRequestPhaseReviewerStateSymbol(Reviewer.CMO, data),
+          isBudget: getRequestPhaseReviewerStateSymbol(Reviewer.CBO, data),
         } as ReviewerStatus);
     const isSp = data.department_name === "SP";
-
     const reviewers = getReviewers(stageReviewers, isSp);
+    return reviewers;
+  };
+  const reviewColumn = (data: GetPurchaseRequestDto) => {
+    const reviewers = getDisplayReviewer(data);
 
     return (
       <div className="flex gap-2">
@@ -226,13 +234,7 @@ export function ListRequest() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         {(purchaseRequests?.data || []).map((item, id) => {
-          const reviewers = getReviewers({
-            isGso: item.is_gso,
-            isGsoFF: item.is_gso_ff,
-            isTreasurer: item.is_treasurer,
-            isMayor: item.is_mayor,
-            isBudget: item.is_budget,
-          } as ReviewerStatus);
+          const reviewers = getDisplayReviewer(item);
 
           return (
             <RequestCard

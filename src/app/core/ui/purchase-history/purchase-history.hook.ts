@@ -14,6 +14,7 @@ import { useState } from "react";
 import { RequestStatus } from "@core/model/request-status.enum";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { getFormattedLocalizedDateTime } from "@core/utility/datetime.helper";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function usePurchaseHistory(isOrder: boolean = false) {
   const [historyId, setHistoryId] = useState("");
@@ -26,7 +27,11 @@ export function usePurchaseHistory(isOrder: boolean = false) {
     undefined,
     undefined
   );
-  const { getReviewers } = useReviewHook();
+  const {
+    getReviewers,
+    getRequestPhaseReviewerStateSymbol,
+    getRequestPhaseForOrderReviewerStateSymbol,
+  } = useReviewHook();
   const statusRecord = keyBy(statusQy?.data || [], "code");
   const accountsRecord = keyBy(accountsQy?.data || [], "person_code");
 
@@ -112,16 +117,22 @@ export function usePurchaseHistory(isOrder: boolean = false) {
 
         let stageReviewers = isStage3And4
           ? getReviewers({
-              isGso: newValue?.po_is_gso,
-              isTreasurer: newValue?.po_is_treasurer,
-              isMayor: newValue?.po_is_mayor,
+              isGso: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CGSO, newValue),
+              isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CTO, newValue),
+              isMayor: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CMO, newValue),
             } as ReviewerStatus)
           : getReviewers({
-              isGso: newValue?.is_gso,
-              isGsoFF: newValue?.is_gso_ff,
-              isTreasurer: newValue?.is_treasurer,
-              isMayor: newValue?.is_mayor,
-              isBudget: newValue?.is_budget,
+              isGso: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO, newValue),
+              isGsoFF: getRequestPhaseReviewerStateSymbol(
+                Reviewer.CGSO_FF,
+                newValue
+              ),
+              isTreasurer: getRequestPhaseReviewerStateSymbol(
+                Reviewer.CTO,
+                newValue
+              ),
+              isMayor: getRequestPhaseReviewerStateSymbol(Reviewer.CMO, newValue),
+              isBudget: getRequestPhaseReviewerStateSymbol(Reviewer.CBO, newValue),
             } as ReviewerStatus);
 
         if (isOrder) {

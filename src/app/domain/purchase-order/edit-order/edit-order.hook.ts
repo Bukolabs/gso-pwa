@@ -2,7 +2,6 @@ import {
   GetPurchaseRequestDto,
   ProcessPurchaseOrderDto,
   PurchaseOrderControllerGetDataAsList200Response,
-  ReceivePurchaseOrderDto,
 } from "@api/api";
 import { OrderFormRule, OrderFormSchema } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
@@ -12,7 +11,6 @@ import {
   useEditOrderQy,
   useGetOrderByIdQy,
   useProcessOrderQy,
-  useReceiveOrderQy,
 } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useRef, useState } from "react";
@@ -36,12 +34,17 @@ import { getOrderFormDefault } from "@core/model/get-form.default";
 import { shouldShowBidder } from "@core/utility/stage-helper";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function useEditOrder() {
   const { historyData, getHistory } = usePurchaseHistory(true);
   const [historySidebar, setHistorySidebar] = useState(false);
   const queryClient = useQueryClient();
-  const { setReviewerEntityStatus, getReviewers } = useReviewHook();
+  const {
+    setReviewerEntityStatus,
+    getReviewers,
+    getOrderPhaseReviewerStateSymbol,
+  } = useReviewHook();
   const navigate = useNavigate();
   const { showSuccess, showError, hideProgress, showWarning } =
     useNotificationContext();
@@ -100,13 +103,6 @@ export function useEditOrder() {
   };
   const { mutate: processOrder, isLoading: isProcessing } =
     useProcessOrderQy(handleProcessSuccess);
-
-  // PROCESS ORDER API
-  const handleReceiveSuccess = () => {
-    showSuccess("Order is successfully received");
-    handleBack();
-  };
-  const { mutate: receiveOrder } = useReceiveOrderQy(handleReceiveSuccess);
 
   // EDIT ORDER API
   const handleApiSuccess = () => {
@@ -206,16 +202,25 @@ export function useEditOrder() {
     isLoading,
     isError: orderError,
   } = useGetOrderByIdQy(orderId || "", !!orderId, handleGetApiSuccess);
+  const orderData = orders?.data?.[0];
   const status = orders?.data?.[0]?.status_name;
   const procurement = orders?.data?.[0]?.mode_of_procurement;
 
   const shouldShowBidderDisplay = shouldShowBidder(status);
 
-  const reviewers = getReviewers({
-    isGso: orders?.data?.[0]?.is_gso,
-    isTreasurer: orders?.data?.[0]?.is_treasurer,
-    isMayor: orders?.data?.[0]?.is_mayor,
-  } as ReviewerStatus);
+  const getStageReviewers = () => {
+    if (!orderData) {
+      return [];
+    }
+
+    const reviewers = getReviewers({
+      isGso: getOrderPhaseReviewerStateSymbol(Reviewer.CGSO, orderData),
+      isTreasurer: getOrderPhaseReviewerStateSymbol(Reviewer.CTO, orderData),
+      isMayor: getOrderPhaseReviewerStateSymbol(Reviewer.CMO, orderData),
+    } as ReviewerStatus);
+
+    return reviewers;
+  };
 
   const formMethod = useForm<OrderFormSchema>({
     // CACHED / DEFAULT VALUES
@@ -290,7 +295,6 @@ export function useEditOrder() {
   };
 
   const handleAction = (action: string) => {
-    const orderData = orders?.data?.[0];
     switch (action) {
       case "Update":
         handleSubmit(handleValidate, handleValidateError)();
@@ -328,27 +332,6 @@ export function useEditOrder() {
           },
           reject: () => {},
         });
-        break;
-      case RequestStatusAction.Received:
-        let receiver = {};
-        switch (orderData?.reviewer) {
-          case "CGSO":
-            receiver = { is_gso_received: true };
-            break;
-          case "CTO":
-            receiver = { is_treasurer_received: true };
-            break;
-          case "CMO":
-            receiver = { is_mayor_received: true };
-            break;
-        }
-
-        const received = {
-          code: orderData?.code || "",
-          ...receiver,
-        } as ReceivePurchaseOrderDto;
-
-        receiveOrder(received);
         break;
 
       case "Review":
@@ -433,7 +416,6 @@ export function useEditOrder() {
     remarksVisible,
     remarksMode,
     reviewRemarks,
-    reviewers,
     historyData,
     historySidebar,
     isDeleting,
@@ -443,6 +425,7 @@ export function useEditOrder() {
     status,
     procurement,
     shouldShowBidderDisplay,
+    getStageReviewers,
     navigate,
     handleSelectedRequests,
     handleAction,

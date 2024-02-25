@@ -44,8 +44,9 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
         <label className="text-gray-500 mt-2">
           Scan to receive purchase request:
         </label>
-        <label className="text-gray-500 mt-2 font-bold"> PR#: {data?.pr_no} </label>
-        <label className="text-gray-500 mt-2 font-bold"> {qrCode} </label>
+        <label className="text-gray-500 mt-2 font-bold">
+          PR#: {data?.pr_no}
+        </label>
       </section>
 
       <section className="my-10 mx-10 border">

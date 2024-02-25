@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRef, useState } from "react";
 import {
   ProcessPurchaseRequestDto,
-  PurchaseRequestControllerGetDataAsList200Response
+  PurchaseRequestControllerGetDataAsList200Response,
 } from "@api/api";
 import {
   useDeleteRequestQy,
@@ -38,12 +38,18 @@ import {
   RequestStatusAction,
 } from "@core/model/request-status.enum";
 import { confirmDialog } from "primereact/confirmdialog";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
   const { historyData, getHistory } = usePurchaseHistory();
   const { isRestrictedView, isAdmin, isRequestor, isGso } = useUserIdentity();
-  const { setReviewerEntityStatus, getReviewers } = useReviewHook();
+  const {
+    setReviewerEntityStatus,
+    getReviewers,
+    getRequestPhaseReviewerStateSymbol,
+    getRequestPhaseForOrderReviewerStateSymbol,
+  } = useReviewHook();
   const { showSuccess, showError, showWarning, hideProgress } =
     useNotificationContext();
   const navigate = useNavigate();
@@ -157,22 +163,26 @@ export function useEditRequest() {
   const requestData = requests?.data?.[0];
 
   const getStageReviewers = () => {
+    if (!requestData) {
+      return [];
+    }
+
     const isStage3And4 =
       requestData?.stage_name === StageName.STAGE_3 ||
       requestData?.stage_name === StageName.STAGE_4;
 
     const stageReviewers = isStage3And4
       ? ({
-          isGso: requestData?.po_is_gso,
-          isTreasurer: requestData?.po_is_treasurer,
-          isMayor: requestData?.po_is_mayor,
+          isGso: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CGSO, requestData),
+          isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CTO, requestData),
+          isMayor: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CMO, requestData),
         } as ReviewerStatus)
       : ({
-          isGso: requestData?.is_gso,
-          isGsoFF: requestData?.is_gso_ff,
-          isTreasurer: requestData?.is_treasurer,
-          isMayor: requestData?.is_mayor,
-          isBudget: requestData?.is_budget,
+          isGso: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO, requestData),
+          isGsoFF: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO_FF, requestData),
+          isTreasurer: getRequestPhaseReviewerStateSymbol(Reviewer.CTO, requestData),
+          isMayor: getRequestPhaseReviewerStateSymbol(Reviewer.CMO, requestData),
+          isBudget: getRequestPhaseReviewerStateSymbol(Reviewer.CBO, requestData),
         } as ReviewerStatus);
     const isSp = requestData?.department_name === "SP";
 
