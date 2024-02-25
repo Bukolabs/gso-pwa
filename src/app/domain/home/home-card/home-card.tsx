@@ -43,7 +43,6 @@ export function HomeCard({
   };
   const handleClickReviewer = (action: LabelValue<any>) => {
     let filter = `status_name=REVIEW&reviewer=${action.payload}`;
-    console.log({ requests, orders, prReviews, status, poReviews });
 
     if (poReviews && poReviews.length > 0) {
       filter = `status_name=${status}&reviewer=${action.payload}`;

@@ -149,7 +149,6 @@ export function AddItem({ defaultItem, onAddItem }: AddItemProps) {
       : `${newPurchaseItemForm.name} is added to Purchase Request items`;
 
     hideProgress();
-    console.log({ allItems });
     setValue("items", allItems);
     showSuccess(responseMessage);
     reset(itemFormDefault);
