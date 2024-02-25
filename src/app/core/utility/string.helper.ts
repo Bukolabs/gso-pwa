@@ -5,3 +5,11 @@ export const trimUUID = (uuid: string) => {
   }
   return uuid;
 };
+
+export const removePrefix = (prefix: string, input: string) => {
+  if (input.startsWith(prefix)) {
+    return input.slice(prefix.length);
+  } else {
+    return input;
+  }
+};
