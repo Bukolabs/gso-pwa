@@ -35,6 +35,7 @@ export enum RequestStatusAction {
   ContinuePr = "Continue PR",
   Submit = "Submit",
   History = "History",
+  Received = "Received",
   Update = "Update",
   Resubmit = "Resubmit",
   Reapprove = "Reapprove",

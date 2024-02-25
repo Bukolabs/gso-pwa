@@ -12,6 +12,7 @@ import {
   PurchaseOrderPurchaseRequestApiFp,
   PurchaseRequestItemDeliveryApiFp,
   DeletePIDDto,
+  ReceivePurchaseOrderDto,
 } from "@api/api";
 import { AxiosError } from "axios";
 import { authHeaders } from "./auth-header";
@@ -286,6 +287,51 @@ export function useProcessOrderQy(
   const apiFn = async (payload: ProcessPurchaseOrderDto) => {
     showProgress();
     const operation = await PurchaseOrderApiFp().purchaseOrderControllerProcess(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Order);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useReceiveOrderQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: ReceivePurchaseOrderDto) => {
+    showProgress();
+    const operation = await PurchaseOrderApiFp().purchaseOrderControllerReceive(
       payload,
       authHeaders()
     );

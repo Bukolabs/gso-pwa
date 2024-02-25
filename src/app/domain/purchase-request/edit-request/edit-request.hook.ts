@@ -5,11 +5,13 @@ import { useRef, useState } from "react";
 import {
   ProcessPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
+  ReceivePurchaseRequestDto,
 } from "@api/api";
 import {
   useDeleteRequestQy,
   useEditRequestQy,
   useGetRequestByIdQy,
+  useProcessReceivedRequestQy,
   useProcessRequestQy,
 } from "@core/query/request.query";
 import {
@@ -73,7 +75,14 @@ export function useEditRequest() {
   const { mutate: processRequest, isLoading: isProcessing } =
     useProcessRequestQy(handleProcessSuccess);
 
-  // PROCESS REQUEST API
+  const handleReceiveSuccess = () => {
+    showSuccess("Request is successfully received");
+    handleBack();
+  };
+  const { mutate: recieveRequest } =
+    useProcessReceivedRequestQy(handleReceiveSuccess);
+
+  // DELETE REQUEST API
   const handleDeleteApiSuccess = () => {
     showSuccess("Request is deleted successfully");
     handleBack();
@@ -289,10 +298,40 @@ export function useEditRequest() {
   });
 
   const handleAction = (action: string) => {
+    const requestData = requests?.data?.[0];
     switch (action) {
       case RequestStatusAction.Update:
         handleSubmit(handleValidate, handleValidateError)();
         break;
+
+      case RequestStatusAction.Received:
+        let receiver = {};
+        switch (requestData?.reviewer) {
+          case "CGSO":
+            receiver = { is_gso_received: true };
+            break;
+          case "CTO":
+            receiver = { is_treasurer_received: true };
+            break;
+          case "CMO":
+            receiver = { is_mayor_received: true };
+            break;
+          case "CGSO_FF":
+            receiver = { is_gso_ff_received: true };
+            break;
+          case "CBO":
+            receiver = { is_budget_received: true };
+            break;
+        }
+
+        const received = {
+          code: requestData?.code || "",
+          ...receiver,
+        } as ReceivePurchaseRequestDto;
+
+        recieveRequest(received);
+        break;
+
       case RequestStatusAction.Submit:
         const formValues = getValues();
 
@@ -314,7 +353,9 @@ export function useEditRequest() {
       case RequestStatusAction.Resubmit:
         const resubmitFormValues = getValues();
 
-        const resubmitActiveItems = resubmitFormValues.items.filter((x) => x.isActive);
+        const resubmitActiveItems = resubmitFormValues.items.filter(
+          (x) => x.isActive
+        );
         if (resubmitActiveItems.length === 0) {
           showWarning("Kindly, add items for your requests.");
           return;
@@ -330,12 +371,11 @@ export function useEditRequest() {
         break;
 
       case RequestStatusAction.History:
-        const dataValue = requests?.data?.[0];
-        if (!dataValue?.code) {
+        if (!requestData?.code) {
           return;
         }
 
-        getHistory(dataValue?.code);
+        getHistory(requestData?.code);
         setHistorySidebar(true);
         break;
       case RequestStatusAction.ForPrint:

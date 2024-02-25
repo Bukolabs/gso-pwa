@@ -9,6 +9,7 @@ import {
   PurchaseRequestApiFp,
   PurchaseRequestControllerGetDataAsList200Response,
   PurchaseRequestItemApiFp,
+  ReceivePurchaseRequestDto,
 } from "@api/api";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { authHeaders } from "./auth-header";
@@ -360,6 +361,52 @@ export function useProcessRequestQy(
     showProgress();
     const operation =
       await PurchaseRequestApiFp().purchaseRequestControllerProcess(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Request);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useProcessReceivedRequestQy(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: ReceivePurchaseRequestDto) => {
+    showProgress();
+    const operation =
+      await PurchaseRequestApiFp().purchaseRequestControllerReceive(
         payload,
         authHeaders()
       );
