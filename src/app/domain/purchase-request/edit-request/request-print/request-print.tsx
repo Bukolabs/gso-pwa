@@ -37,6 +37,8 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
 
   return (
     <div className="request-print mt-10 mx-10 border">
+      <section className="print-separate-page"></section>
+
       <header className="flex w-full my-4">
         <div className="relative top-0 mx-4">
           <img
