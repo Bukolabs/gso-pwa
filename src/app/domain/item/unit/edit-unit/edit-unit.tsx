@@ -14,14 +14,14 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 
 export function EditUnit() {
-  const { showSuccess, showError } = useNotificationContext();
+  const { showSuccess } = useNotificationContext();
   const [newUnit, setNewUnit] = useState<EditUtilsUnitDto>({
     name: "",
     description: "",
     code: "",
   });
   const navigate = useNavigate();
-  const [dataEmpty, setDataEmpty] = useState(false);
+  const [,setDataEmpty] = useState(false);
   const { unitId } = useParams();
 
   const handleBack = () => {

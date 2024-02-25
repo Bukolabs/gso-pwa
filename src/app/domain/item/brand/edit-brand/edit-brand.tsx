@@ -14,14 +14,14 @@ import HeaderContent from "@shared/ui/header-content/header-content";
 import { Button } from "primereact/button";
 
 export function EditBrand() {
-  const { showSuccess, showError } = useNotificationContext();
+  const { showSuccess } = useNotificationContext();
   const [newBrand, setNewBrand] = useState<EditUtilsBrandDto>({
     name: "",
     description: "",
     code: "",
   });
   const navigate = useNavigate();
-  const [dataEmpty, setDataEmpty] = useState(false);
+  const [,setDataEmpty] = useState(false);
   const { brandId } = useParams();
 
   const handleBack = () => {
