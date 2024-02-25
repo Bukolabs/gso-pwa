@@ -43,12 +43,14 @@ export function ActionButton({
             RequestStatusAction.Decline,
             RequestStatusAction.Print,
             RequestStatusAction.History,
+            RequestStatusAction.Received,
           ];
         }
         const _actions = [
           RequestStatusAction.Approve,
           RequestStatusAction.Decline,
           RequestStatusAction.History,
+          RequestStatusAction.Received,
         ];
         const reviewActions = isGso
           ? [..._actions, RequestStatusAction.Print]
