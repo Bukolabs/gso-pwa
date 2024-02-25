@@ -24,6 +24,7 @@ import { useOrderFilterContext } from "./order.filter.context";
 import SearchInput from "@shared/ui/search-input/search-input";
 import { Sidebar } from "primereact/sidebar";
 import { OrderFilterForm } from "./order-filter.form";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function ListOrder() {
   const { orderFilters } = useOrderFilterContext();
@@ -31,7 +32,7 @@ export function ListOrder() {
   const { isBACApprover, isAdmin, isGso } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
   const [isTableView, setIsTableView] = useState(!isMobileMode);
-  const { getReviewers } = useReviewHook();
+  const { getReviewers, getOrderPhaseReviewerStateSymbol } = useReviewHook();
 
   const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
@@ -64,13 +65,16 @@ export function ListOrder() {
   const handleCardViewMode = () => {
     setIsTableView(false);
   };
-  const reviewColumn = (data: GetPurchaseOrderDto) => {
+  const getDisplayReviewer = (data: GetPurchaseOrderDto) => {
     const reviewers = getReviewers({
-      isGso: data.is_gso,
-      isTreasurer: data.is_treasurer,
-      isMayor: data.is_mayor,
+      isGso: getOrderPhaseReviewerStateSymbol(Reviewer.CGSO, data),
+      isTreasurer: getOrderPhaseReviewerStateSymbol(Reviewer.CTO, data),
+      isMayor: getOrderPhaseReviewerStateSymbol(Reviewer.CMO, data),
     } as ReviewerStatus);
-
+    return reviewers;
+  };
+  const reviewColumn = (data: GetPurchaseOrderDto) => {
+    const reviewers = getDisplayReviewer(data);
     return (
       <div className="flex gap-2">
         {reviewers.map((item, id) => (
@@ -204,11 +208,7 @@ export function ListOrder() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 p-7 items-baseline">
         {(purchaseOrders?.data || []).map((item, id) => {
-          const reviewers = getReviewers({
-            isGso: item.is_gso,
-            isTreasurer: item.is_treasurer,
-            isMayor: item.is_mayor,
-          } as ReviewerStatus);
+          const reviewers = getDisplayReviewer(item);
 
           return (
             <OrderCard

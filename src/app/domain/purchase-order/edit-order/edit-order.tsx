@@ -43,7 +43,6 @@ export function EditOrder() {
     remarksVisible,
     remarksMode,
     reviewRemarks,
-    reviewers,
     historyData,
     historySidebar,
     isDeleting,
@@ -53,6 +52,7 @@ export function EditOrder() {
     status,
     procurement,
     shouldShowBidderDisplay,
+    getStageReviewers,
     navigate,
     handleSelectedRequests,
     handleAction,
@@ -163,7 +163,7 @@ export function EditOrder() {
     </Sidebar>
   );
   const reviewSection = () => (
-    <ReviewSection classname="mb-3" reviewers={reviewers} />
+    <ReviewSection classname="mb-3" reviewers={getStageReviewers()} />
   );
   const printSection = () => (
     <div style={{ display: "none" }}>

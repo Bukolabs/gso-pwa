@@ -53,7 +53,14 @@ small {
 .print-normal {
   @apply text-gray-800 text-sm;
 }
+.print-separate-page {
+  page-break-before: always;
+  page-break-after: always;
+}
 
+#reader__dashboard_section_csr button {
+  @apply bg-caribbean-green-700 text-white p-4 rounded;
+}
 
 .page {
   @apply pb-36 md:pb-20;

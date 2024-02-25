@@ -1,15 +1,17 @@
+import { GetPurchaseOrderDto, GetPurchaseRequestDto } from "@api/api";
 import { LocalAuth } from "@core/model/local-auth";
+import { Reviewer } from "@core/model/reviewer.enum";
 import { useGetRoleQy } from "@core/query/account.query";
 import { AUTH } from "@core/utility/settings";
 import { LabelValue } from "@shared/models/label-value.interface";
 import StorageService from "@shared/services/storage.service";
 
 export interface ReviewerStatus {
-  isGso?: boolean;
-  isGsoFF?: boolean;
-  isTreasurer?: boolean;
-  isMayor?: boolean;
-  isBudget?: boolean;
+  isGso?: string;
+  isGsoFF?: string;
+  isTreasurer?: string;
+  isMayor?: string;
+  isBudget?: string;
 }
 
 export function useReviewHook() {
@@ -83,78 +85,209 @@ export function useReviewHook() {
     return reviewer;
   };
 
-  const getReviewers = (data?: ReviewerStatus, isSp: boolean = false) => {
-    if (!data) {
-      return [];
+  const getOrderPhaseReviewerStateSymbol = (
+    reviewer: Reviewer,
+    data: GetPurchaseOrderDto
+  ) => {
+    switch (reviewer) {
+      case Reviewer.CGSO:
+        const isGsoReceived = !!data.po_is_gso_received;
+        const isGsoApproved = !!data.is_gso;
+        const isGsoPending = data.is_gso === null;
+        return validateReviewerState(
+          isGsoReceived,
+          isGsoApproved,
+          isGsoPending
+        );
+
+      case Reviewer.CTO:
+        const isCtoReceived = !!data.po_is_treasurer_received;
+        const isCtoApproved = !!data.is_treasurer;
+        const isCtoPending = data.is_treasurer === null;
+        return validateReviewerState(
+          isCtoReceived,
+          isCtoApproved,
+          isCtoPending
+        );
+
+      case Reviewer.CMO:
+        const isCmoReceived = !!data.po_is_mayor_received;
+        const isCmoApproved = !!data.is_mayor;
+        const isCmoPending = data.is_mayor === null;
+        return validateReviewerState(
+          isCmoReceived,
+          isCmoApproved,
+          isCmoPending
+        );
+
+      default:
+        return "";
+    }
+  };
+
+  const getRequestPhaseForOrderReviewerStateSymbol = (
+    reviewer: Reviewer,
+    data: GetPurchaseRequestDto
+  ) => {
+    switch (reviewer) {
+      case Reviewer.CGSO:
+        const isGsoReceived = !!data.po_is_gso_received;
+        const isGsoApproved = !!data.po_is_gso;
+        const isGsoPending = data.po_is_gso === null;
+        return validateReviewerState(
+          isGsoReceived,
+          isGsoApproved,
+          isGsoPending
+        );
+
+      case Reviewer.CTO:
+        const isCtoReceived = !!data.po_is_treasurer_received;
+        const isCtoApproved = !!data.po_is_treasurer;
+        const isCtoPending = data.po_is_treasurer === null;
+        return validateReviewerState(
+          isCtoReceived,
+          isCtoApproved,
+          isCtoPending
+        );
+
+      case Reviewer.CMO:
+        const isCmoReceived = !!data.po_is_mayor_received;
+        const isCmoApproved = !!data.po_is_mayor;
+        const isCmoPending = data.po_is_mayor === null;
+        return validateReviewerState(
+          isCmoReceived,
+          isCmoApproved,
+          isCmoPending
+        );
+
+      default:
+        return "";
+    }
+  };
+
+  const getRequestPhaseReviewerStateSymbol = (
+    reviewer: Reviewer,
+    data: GetPurchaseRequestDto
+  ) => {
+    switch (reviewer) {
+      case Reviewer.CGSO:
+        const isGsoReceived = !!data.is_gso_received;
+        const isGsoApproved = !!data.is_gso;
+        const isGsoPending = data.is_gso === null;
+        return validateReviewerState(
+          isGsoReceived,
+          isGsoApproved,
+          isGsoPending
+        );
+
+      case Reviewer.CTO:
+        const isCtoReceived = !!data.is_treasurer_received;
+        const isCtoApproved = !!data.is_treasurer;
+        const isCtoPending = data.is_treasurer === null;
+        return validateReviewerState(
+          isCtoReceived,
+          isCtoApproved,
+          isCtoPending
+        );
+
+      case Reviewer.CMO:
+        const isCmoReceived = !!data.is_mayor_received;
+        const isCmoApproved = !!data.is_mayor;
+        const isCmoPending = data.is_mayor === null;
+        return validateReviewerState(
+          isCmoReceived,
+          isCmoApproved,
+          isCmoPending
+        );
+
+      case Reviewer.CGSO_FF:
+        const isGsoFFReceived = !!data.is_gso_ff_received;
+        const isGsoFFApproved = !!data.is_gso_ff;
+        const isGsoFFPending = data.is_gso_ff === null;
+        return validateReviewerState(
+          isGsoFFReceived,
+          isGsoFFApproved,
+          isGsoFFPending
+        );
+
+      case Reviewer.CBO:
+        const isCboReceived = !!data.is_budget_received;
+        const isCboApproved = !!data.is_budget;
+        const isCboPending = data.is_budget === null;
+        return validateReviewerState(
+          isCboReceived,
+          isCboApproved,
+          isCboPending
+        );
+
+      default:
+        return "";
+    }
+  };
+
+  const validateReviewerState = (
+    isReceived: boolean,
+    isApproved: boolean,
+    isPending: boolean
+  ) => {
+    if (isReceived && isApproved && !isPending) {
+      return "pi pi-check";
+    } else if (isReceived && !isApproved && isPending) {
+      return "pi pi-qrcode";
+    } else if (isReceived && !isApproved && !isPending) {
+      return "pi pi-times";
     }
 
+    return "";
+  };
+
+  const getReviewers = (data: ReviewerStatus, isSp: boolean = false) => {
     const gso =
       data.isGso === undefined
         ? null
         : {
-            label: "CGSO",
-            value:
-              data.isGso === null
-                ? ""
-                : Boolean(data.isGso)
-                ? "pi pi-check"
-                : "pi pi-times",
+            label: Reviewer.CGSO,
+            value: data.isGso,
           };
     const treasurer =
       data.isTreasurer === undefined
         ? null
         : {
-            label: "CTO",
-            value:
-              data.isTreasurer === null
-                ? ""
-                : Boolean(data.isTreasurer)
-                ? "pi pi-check"
-                : "pi pi-times",
+            label: Reviewer.CTO,
+            value: data.isTreasurer,
           };
     const mayor =
       data.isMayor === undefined
         ? null
         : {
-            label: isSp ? "CVMO" : "CMO",
-            value:
-              data.isMayor === null
-                ? ""
-                : Boolean(data.isMayor)
-                ? "pi pi-check"
-                : "pi pi-times",
+            label: isSp ? Reviewer.CVMO : Reviewer.CMO,
+            value: data.isMayor,
           };
     const budget =
       data.isBudget === undefined
         ? null
         : {
-            label: "CBO",
-            value:
-              data.isBudget === null
-                ? ""
-                : Boolean(data.isBudget)
-                ? "pi pi-check"
-                : "pi pi-times",
+            label: Reviewer.CBO,
+            value: data.isBudget,
           };
     const gsoff =
       data.isGsoFF === undefined
         ? null
         : {
-            label: "CGSO",
-            value:
-              data.isGsoFF === null
-                ? ""
-                : Boolean(data.isGsoFF)
-                ? "pi pi-check"
-                : "pi pi-times",
+            label: Reviewer.CGSO,
+            value: data.isGsoFF,
           };
     const reviewers = [gso, treasurer, mayor, gsoff, budget];
     const filteredReviewers = reviewers.filter((x) => !!x);
+
     return filteredReviewers as LabelValue[];
   };
 
   return {
     setReviewerEntityStatus,
     getReviewers,
+    getRequestPhaseReviewerStateSymbol,
+    getRequestPhaseForOrderReviewerStateSymbol,
+    getOrderPhaseReviewerStateSymbol,
   };
 }

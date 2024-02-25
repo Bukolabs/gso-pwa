@@ -5,13 +5,11 @@ import { useRef, useState } from "react";
 import {
   ProcessPurchaseRequestDto,
   PurchaseRequestControllerGetDataAsList200Response,
-  ReceivePurchaseRequestDto,
 } from "@api/api";
 import {
   useDeleteRequestQy,
   useEditRequestQy,
   useGetRequestByIdQy,
-  useProcessReceivedRequestQy,
   useProcessRequestQy,
 } from "@core/query/request.query";
 import {
@@ -40,12 +38,18 @@ import {
   RequestStatusAction,
 } from "@core/model/request-status.enum";
 import { confirmDialog } from "primereact/confirmdialog";
+import { Reviewer } from "@core/model/reviewer.enum";
 
 export function useEditRequest() {
   const queryClient = useQueryClient();
   const { historyData, getHistory } = usePurchaseHistory();
   const { isRestrictedView, isAdmin, isRequestor, isGso } = useUserIdentity();
-  const { setReviewerEntityStatus, getReviewers } = useReviewHook();
+  const {
+    setReviewerEntityStatus,
+    getReviewers,
+    getRequestPhaseReviewerStateSymbol,
+    getRequestPhaseForOrderReviewerStateSymbol,
+  } = useReviewHook();
   const { showSuccess, showError, showWarning, hideProgress } =
     useNotificationContext();
   const navigate = useNavigate();
@@ -56,7 +60,6 @@ export function useEditRequest() {
     ItemFormSchema | undefined
   >(undefined);
   const [historySidebar, setHistorySidebar] = useState(false);
-
   const [remarksVisible, setRemarksVisible] = useState(false);
   const [reviewRemarks, setReviewRemarks] = useState("");
   const [remarksMode, setRemarksMode] = useState<
@@ -74,13 +77,6 @@ export function useEditRequest() {
   };
   const { mutate: processRequest, isLoading: isProcessing } =
     useProcessRequestQy(handleProcessSuccess);
-
-  const handleReceiveSuccess = () => {
-    showSuccess("Request is successfully received");
-    handleBack();
-  };
-  const { mutate: recieveRequest } =
-    useProcessReceivedRequestQy(handleReceiveSuccess);
 
   // DELETE REQUEST API
   const handleDeleteApiSuccess = () => {
@@ -164,25 +160,29 @@ export function useEditRequest() {
     isLoading,
     isError: requestError,
   } = useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
+  const requestData = requests?.data?.[0];
 
   const getStageReviewers = () => {
-    const requestData = requests?.data?.[0];
+    if (!requestData) {
+      return [];
+    }
+
     const isStage3And4 =
       requestData?.stage_name === StageName.STAGE_3 ||
       requestData?.stage_name === StageName.STAGE_4;
 
     const stageReviewers = isStage3And4
       ? ({
-          isGso: requestData?.po_is_gso,
-          isTreasurer: requestData?.po_is_treasurer,
-          isMayor: requestData?.po_is_mayor,
+          isGso: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CGSO, requestData),
+          isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CTO, requestData),
+          isMayor: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CMO, requestData),
         } as ReviewerStatus)
       : ({
-          isGso: requestData?.is_gso,
-          isGsoFF: requestData?.is_gso_ff,
-          isTreasurer: requestData?.is_treasurer,
-          isMayor: requestData?.is_mayor,
-          isBudget: requestData?.is_budget,
+          isGso: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO, requestData),
+          isGsoFF: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO_FF, requestData),
+          isTreasurer: getRequestPhaseReviewerStateSymbol(Reviewer.CTO, requestData),
+          isMayor: getRequestPhaseReviewerStateSymbol(Reviewer.CMO, requestData),
+          isBudget: getRequestPhaseReviewerStateSymbol(Reviewer.CBO, requestData),
         } as ReviewerStatus);
     const isSp = requestData?.department_name === "SP";
 
@@ -203,7 +203,7 @@ export function useEditRequest() {
 
   const formMethod = useForm<RequestFormSchema>({
     // CACHED / DEFAULT VALUES
-    defaultValues: getRequestFormDefault(requests?.data?.[0]),
+    defaultValues: getRequestFormDefault(requestData),
     resolver: zodResolver(RequestFormRule),
   });
   const { handleSubmit, setValue, watch, getValues } = formMethod;
@@ -262,9 +262,7 @@ export function useEditRequest() {
       | RequestStatusAction.Reapprove
       | ""
   ) => {
-    const dataValue = requests?.data?.[0];
-
-    if (!dataValue) {
+    if (!requestData) {
       throw new Error("no data");
     }
 
@@ -279,10 +277,10 @@ export function useEditRequest() {
     } else if (action === "") {
     } else {
       const isApprove = action === RequestStatusAction.Approve;
-      const mayorHasApproved = Boolean(dataValue.is_mayor);
+      const mayorHasApproved = Boolean(requestData.is_mayor);
       const reviewer = setReviewerEntityStatus(isApprove, mayorHasApproved);
       const payload = {
-        code: dataValue.code,
+        code: requestData.code,
         ...reviewer,
         remarks: reviewRemarks,
       } as ProcessPurchaseRequestDto;
@@ -298,38 +296,9 @@ export function useEditRequest() {
   });
 
   const handleAction = (action: string) => {
-    const requestData = requests?.data?.[0];
     switch (action) {
       case RequestStatusAction.Update:
         handleSubmit(handleValidate, handleValidateError)();
-        break;
-
-      case RequestStatusAction.Received:
-        let receiver = {};
-        switch (requestData?.reviewer) {
-          case "CGSO":
-            receiver = { is_gso_received: true };
-            break;
-          case "CTO":
-            receiver = { is_treasurer_received: true };
-            break;
-          case "CMO":
-            receiver = { is_mayor_received: true };
-            break;
-          case "CGSO_FF":
-            receiver = { is_gso_ff_received: true };
-            break;
-          case "CBO":
-            receiver = { is_budget_received: true };
-            break;
-        }
-
-        const received = {
-          code: requestData?.code || "",
-          ...receiver,
-        } as ReceivePurchaseRequestDto;
-
-        recieveRequest(received);
         break;
 
       case RequestStatusAction.Submit:

@@ -33,6 +33,8 @@ import { EditOrderProvider } from "@domain/purchase-order/edit-order/edit-order.
 import PrItemDeliveryInfo from "@domain/purchase-order/manage-pr/pr-item-delivery-info/pr-item-delivery-info";
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 import RequestorHome from "@domain/home/requestor-home/requestor-home";
+import ReceivedInfo from "@domain/purchase-request/received-info/received-info";
+import ReceivedPoInfo from "@domain/purchase-order/received-po-info/received-po-info";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,10 @@ const router = createBrowserRouter([
                 element: <NewRequest />,
               },
               {
+                path: ":requestId/scan",
+                element: <ReceivedInfo />,
+              },
+              {
                 path: ":requestId",
                 element: <EditRequest />,
               },
@@ -85,6 +91,10 @@ const router = createBrowserRouter([
                     element: <PrItemInfo />,
                   },
                 ],
+              },
+              {
+                path: ":orderId/scan",
+                element: <ReceivedPoInfo />,
               },
               {
                 path: ":orderId",
