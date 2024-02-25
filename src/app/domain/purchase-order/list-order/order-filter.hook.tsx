@@ -76,7 +76,6 @@ export function useOrderFilter() {
             ...orderFilters,
             category: e.value,
           } as Record<string, string>;
-          console.log({ filterVal });
           setOrderFilters(filterVal);
         }}
         options={mappedCategories}

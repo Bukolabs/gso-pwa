@@ -82,7 +82,6 @@ export function PrItemCard({
     useQyDeleteDeliveryOrder(handleDeleteSuccess);
 
   const handleDeleteDelivery = (item: GetPIDDto) => {
-    console.log("delete", item);
     const payload = {
       batch: item.batch,
     } as DeletePIDDto;

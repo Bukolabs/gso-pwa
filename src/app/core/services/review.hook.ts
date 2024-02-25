@@ -74,7 +74,6 @@ export function useReviewHook() {
     );
     const currentRole = filteredRole?.length > 0 ? filteredRole[0] : undefined;
 
-    console.log("getReviewerEntity", { currentRole });
     const reviewer = setReviewerStatus(
       currentRole?.name || "",
       status,

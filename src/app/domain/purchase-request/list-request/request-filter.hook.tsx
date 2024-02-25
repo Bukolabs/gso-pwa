@@ -124,7 +124,6 @@ export function useRequestFilter() {
             ...requestFilters,
             category: e.value,
           } as Record<string, string>;
-          console.log({ filterVal });
           setRequestFilters(filterVal);
         }}
         options={mappedCategories}
