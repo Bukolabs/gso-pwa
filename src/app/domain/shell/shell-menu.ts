@@ -50,6 +50,13 @@ export const accountNav = {
   activeClass,
   hoverClass,
 };
+export const reportNav = {
+  title: "Report",
+  icon: "pi pi-book",
+  path: "report",
+  activeClass,
+  hoverClass,
+};
 export const moreNav = {
   title: "More",
   icon: "pi pi-bars",

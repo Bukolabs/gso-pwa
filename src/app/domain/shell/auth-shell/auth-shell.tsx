@@ -7,6 +7,7 @@ import {
   logoutNav,
   moreNav,
   orderNav,
+  reportNav,
   requestHomeNav,
   requestNav,
 } from "../shell-menu";
@@ -29,9 +30,9 @@ export function AuthShell() {
     if (isRequestor) {
       return [requestHomeNav, requestNav];
     } else if (isAdmin) {
-      return [homeNav, requestNav, orderNav, itemNav, accountNav];
+      return [homeNav, requestNav, orderNav, itemNav, reportNav, accountNav];
     } else {
-      return [homeNav, requestNav, orderNav, itemNav];
+      return [homeNav, requestNav, orderNav, itemNav, reportNav];
     }
   };
   const getMobileNavigation = () => {
@@ -57,6 +58,12 @@ export function AuthShell() {
           },
         },
         {
+          label: "Report",
+          command: () => {
+            navigate("/report");
+          },
+        },
+        {
           label: "Logout",
           command: () => {
             navigate("/login");
@@ -66,9 +73,9 @@ export function AuthShell() {
     } else {
       return [
         {
-          label: "Account",
+          label: "Report",
           command: () => {
-            navigate("/account");
+            navigate("/report");
           },
         },
         {
