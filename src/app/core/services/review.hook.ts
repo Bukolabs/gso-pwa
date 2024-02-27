@@ -229,11 +229,17 @@ export function useReviewHook() {
     isApproved: boolean,
     isPending: boolean
   ) => {
-    if (isReceived && isApproved && !isPending) {
+    if (
+      (isReceived && isApproved && !isPending) ||
+      (!isReceived && isApproved && !isPending)
+    ) {
       return "pi pi-check";
     } else if (isReceived && !isApproved && isPending) {
       return "pi pi-qrcode";
-    } else if (isReceived && !isApproved && !isPending) {
+    } else if (
+      (isReceived && !isApproved && !isPending) ||
+      (!isReceived && !isApproved && !isPending)
+    ) {
       return "pi pi-times";
     }
 
