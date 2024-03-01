@@ -28,6 +28,9 @@ export function useGetOrderQy(
   offset = 0,
   order?: object,
   filter?: Record<string, string>,
+  dateName?: string,
+  startDate?: string,
+  endDate?: string,
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -43,7 +46,10 @@ export function useGetOrderQy(
     limit: number | undefined = undefined,
     offset: number | undefined = undefined,
     order: object | undefined = undefined,
-    filter: Record<string, string> | undefined = undefined
+    filter: Record<string, string> | undefined = undefined,
+    dateName: string | undefined = undefined,
+    startDate: string | undefined = undefined,
+    endDate: string | undefined = undefined
   ) => {
     showProgress();
     const operation =
@@ -53,9 +59,9 @@ export function useGetOrderQy(
         offset,
         order,
         JSON.stringify(filter) as any,
-        undefined,
-        undefined,
-        undefined,
+        dateName,
+        startDate,
+        endDate,
         authHeaders()
       );
     const response = (await operation()).data;
@@ -64,8 +70,19 @@ export function useGetOrderQy(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Order, search, limit, offset, order, filter],
-    queryFn: () => apiFn(search, limit, offset, order, filter),
+    queryKey: [
+      QueryKey.Order,
+      search,
+      limit,
+      offset,
+      order,
+      filter,
+      dateName,
+      startDate,
+      endDate,
+    ],
+    queryFn: () =>
+      apiFn(search, limit, offset, order, filter, dateName, startDate, endDate),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {

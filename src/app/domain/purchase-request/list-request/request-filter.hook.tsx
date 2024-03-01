@@ -1,11 +1,11 @@
 import { useQyGetCategory } from "@core/query/category.query";
 import { useGetDepartmentQy } from "@core/query/department.query";
 import { useGetStatusQy } from "@core/query/status.query";
-import { reportFilterMap, reportLabels } from "@core/utility/label.helper";
+import { reportFilterMap, reportLabels } from "@core/utility/reports.helper";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const defaultFilter = (status = "", reviewer = "", reports = "") => {
@@ -39,9 +39,16 @@ export function useRequestFilter() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(statusParam || "");
   const [selectedReviewer, setSelectedReviewer] = useState(reviewerParam || "");
+  const [reportsParamValue, setReportsParamValue] = useState(
+    reportsParam || ""
+  );
 
   const [requestFilters, setRequestFilters] = useState<Record<string, string>>(
-    defaultFilter(statusParam || "", reviewerParam || "", reportsParam || "")
+    defaultFilter(
+      statusParam || "",
+      reviewerParam || "",
+      reportsParamValue || ""
+    )
   );
 
   const { data: department } = useGetDepartmentQy("", 9999999, 0);
@@ -77,11 +84,20 @@ export function useRequestFilter() {
       [field]: value,
     } as Record<string, string>;
 
-    // if CGSO and  review, no selected status as it can be either submitted or for printing
+    // So no selected status specified as GSO can can be either submitted or for printing
     if (value === "CGSO" && field === "reviewer") {
       setSelectedStatus("");
     }
     setRequestFilters(filterVal);
+  };
+  const removeFilters = () => {
+    const filterVal = {} as Record<string, string>;
+    setRequestFilters(filterVal);
+  };
+  const handleRemove = (e: SyntheticEvent) => {
+    e.preventDefault();
+    removeFilters();
+    setReportsParamValue("");
   };
 
   const mappedReviewer = [
@@ -178,7 +194,7 @@ export function useRequestFilter() {
       />
     </div>
   );
-  const reportFilterElements = (
+  const reportFilterElements = !!reportsParamValue && (
     <div>
       <h5>Report filters:</h5>
       <Tag severity="info">
@@ -186,7 +202,10 @@ export function useRequestFilter() {
           <span className="text-base">
             {reportLabels[reportsParam as keyof typeof reportLabels]}
           </span>
-          <i className="pi pi-times text-xs cursor-pointer"></i>
+          <i
+            className="pi pi-times text-xs cursor-pointer"
+            onClick={handleRemove}
+          ></i>
         </div>
       </Tag>
     </div>

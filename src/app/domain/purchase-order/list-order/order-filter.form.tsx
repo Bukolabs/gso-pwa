@@ -5,6 +5,7 @@ export function OrderFilterForm() {
     categorySelectionElement,
     statusSelectionElement,
     reviewerSelectionElement,
+    reportFilterElements,
   } = useOrderFilterContext();
 
   return (
@@ -20,6 +21,8 @@ export function OrderFilterForm() {
       <p className="hint relative top-[-8px]">
         When selecting reviewer, it might ignore other filters.
       </p>
+      
+      {reportFilterElements}
     </div>
   );
 }

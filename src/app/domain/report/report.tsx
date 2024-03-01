@@ -12,7 +12,7 @@ import classNames from "classnames";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { reportLabels } from "@core/utility/label.helper";
+import { reportLabels } from "@core/utility/reports.helper";
 
 export function Report() {
   const [dateName, setDateName] = useState("MONTH");
@@ -30,7 +30,7 @@ export function Report() {
     setStartDate("");
     setEndDate("");
   };
-  const handleNavigatePr = (label: string) => {
+  const getExtraFilters = () => {
     let extraFilters = [] as string[];
     if (dateName) {
       extraFilters = [...extraFilters, `dateName=${dateName}`];
@@ -45,11 +45,17 @@ export function Report() {
     const stringedExtraFilters = extraFilters.filter((x) => !!x).join("&");
     const concatFilters =
       stringedExtraFilters !== "" ? `&${stringedExtraFilters}` : "";
+
+    return concatFilters;
+  };
+  const handleNavigatePr = (label: string) => {
+    const concatFilters = getExtraFilters();
     let url = `../request?reports=${label}${concatFilters}`;
     navigate(url);
   };
   const handleNavigatePo = (label: string) => {
-    let url = `../orders?reports=${label}`;
+    const concatFilters = getExtraFilters();
+    let url = `../order?reports=${label}${concatFilters}`;
     navigate(url);
   };
 
@@ -71,9 +77,9 @@ export function Report() {
       value: "MONTH",
     },
   ] as LabelValue[];
-  const dateFilterElement = (
+  const dateNameElement = (
     <div>
-      <label>Date</label>
+      <label>Date Name</label>
       <Dropdown
         value={dateName}
         onChange={(e) => {
@@ -172,7 +178,7 @@ export function Report() {
       <div className="p-7">
         <h4>Report Filters</h4>
         <section className="flex gap-2 items-end">
-          {dateFilterElement}
+          {dateNameElement}
           {endDateElement}
           {startDateElement}
           <Button

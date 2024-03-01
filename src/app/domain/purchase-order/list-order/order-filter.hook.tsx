@@ -1,12 +1,14 @@
 import { useQyGetCategory } from "@core/query/category.query";
 import { useGetStatusQy } from "@core/query/status.query";
+import { reportFilterMap, reportLabels } from "@core/utility/reports.helper";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
+import { Tag } from "primereact/tag";
+import { SyntheticEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const defaultFilter = (status = "", reviewer = "") => {
-  const defaultFilter = {} as Record<string, string>;
+const defaultFilter = (status = "", reviewer = "", reports = "") => {
+  let defaultFilter = {} as Record<string, any>;
 
   if (status) {
     defaultFilter.status_name = status;
@@ -16,6 +18,13 @@ const defaultFilter = (status = "", reviewer = "") => {
     defaultFilter.reviewer = reviewer;
   }
 
+  const reportMap = reportFilterMap(reports);
+  if (reports && reportMap !== null) {
+    defaultFilter = {
+      ...reportMap,
+    };
+  }
+
   return defaultFilter;
 };
 
@@ -23,13 +32,16 @@ export function useOrderFilter() {
   let [searchParams] = useSearchParams();
   const statusParam = searchParams.get("status_name");
   const reviewerParam = searchParams.get("reviewer");
+  const reportsParam = searchParams.get("reports");
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(statusParam || "");
   const [selectedReviewer, setSelectedReviewer] = useState(reviewerParam || "");
-
   const [orderFilters, setOrderFilters] = useState<Record<string, string>>(
-    defaultFilter(statusParam || "", reviewerParam || "")
+    defaultFilter(statusParam || "", reviewerParam || "", reportsParam || "")
+  );
+  const [reportsParamValue, setReportsParamValue] = useState(
+    reportsParam || ""
   );
 
   const { data: categories } = useQyGetCategory();
@@ -40,7 +52,6 @@ export function useOrderFilter() {
         value: item.code,
       } as LabelValue)
   );
-
   const { data: status } = useGetStatusQy();
   const mappedStatus = (status?.data || []).map(
     (item) =>
@@ -49,7 +60,6 @@ export function useOrderFilter() {
         value: item.name,
       } as LabelValue)
   );
-
   const mappedReviewer = [
     {
       label: "CGSO",
@@ -65,6 +75,28 @@ export function useOrderFilter() {
     },
   ] as LabelValue[];
 
+  const applyFilter = (field: string, value: string) => {
+    const filterVal = {
+      ...orderFilters,
+      [field]: value,
+    } as Record<string, string>;
+
+    // So no selected status specified as GSO can can be either submitted or for printing
+    if (value === "CGSO" && field === "reviewer") {
+      setSelectedStatus("");
+    }
+    setOrderFilters(filterVal);
+  };
+  const removeFilters = () => {
+    const filterVal = {} as Record<string, string>;
+    setOrderFilters(filterVal);
+  };
+  const handleRemove = (e: SyntheticEvent) => {
+    e.preventDefault();
+    removeFilters();
+    setReportsParamValue("");
+  };
+
   const categorySelectionElement = (
     <div>
       <label>Category</label>
@@ -72,11 +104,7 @@ export function useOrderFilter() {
         value={selectedCategory}
         onChange={(e) => {
           setSelectedCategory(e.value);
-          const filterVal = {
-            ...orderFilters,
-            category: e.value,
-          } as Record<string, string>;
-          setOrderFilters(filterVal);
+          applyFilter("category", e.value);
         }}
         options={mappedCategories}
         filter
@@ -86,7 +114,6 @@ export function useOrderFilter() {
       />
     </div>
   );
-
   const statusSelectionElement = (
     <div>
       <label>Status</label>
@@ -94,11 +121,7 @@ export function useOrderFilter() {
         value={selectedStatus}
         onChange={(e) => {
           setSelectedStatus(e.value);
-          const filterVal = {
-            ...orderFilters,
-            status_name: e.value,
-          } as Record<string, string>;
-          setOrderFilters(filterVal);
+          applyFilter("status_name", e.value);
         }}
         options={mappedStatus}
         filter
@@ -108,7 +131,6 @@ export function useOrderFilter() {
       />
     </div>
   );
-
   const reviewerSelectionElement = (
     <div>
       <label>Reviewer</label>
@@ -116,20 +138,7 @@ export function useOrderFilter() {
         value={selectedReviewer}
         onChange={(e) => {
           setSelectedReviewer(e.value);
-
-          let filterVal = {
-            ...orderFilters,
-            reviewer: e.value,
-          } as Record<string, string>;
-
-          if (e.value === "CGSO") {
-            filterVal = {
-              reviewer: e.value,
-            };
-            setSelectedStatus("");
-          }
-
-          setOrderFilters(filterVal);
+          applyFilter("reviewer", e.value);
         }}
         options={mappedReviewer}
         filter
@@ -137,6 +146,22 @@ export function useOrderFilter() {
         className="w-full"
         showClear
       />
+    </div>
+  );
+  const reportFilterElements = !!reportsParamValue && (
+    <div>
+      <h5>Report filters:</h5>
+      <Tag severity="info">
+        <div className="flex align-items-center gap-2">
+          <span className="text-base">
+            {reportLabels[reportsParam as keyof typeof reportLabels]}
+          </span>
+          <i
+            className="pi pi-times text-xs cursor-pointer"
+            onClick={handleRemove}
+          ></i>
+        </div>
+      </Tag>
     </div>
   );
 
@@ -148,5 +173,6 @@ export function useOrderFilter() {
     categorySelectionElement,
     statusSelectionElement,
     reviewerSelectionElement,
+    reportFilterElements,
   };
 }

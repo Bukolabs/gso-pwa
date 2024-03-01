@@ -1,7 +1,7 @@
 import HeaderContent from "@shared/ui/header-content/header-content";
 import "./list-order";
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import useScreenSize from "@core/utility/screen-size";
 import { useGetOrderQy } from "@core/query/order.query";
@@ -39,13 +39,22 @@ export function ListOrder() {
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
   const [filterPanel, setFilterPanel] = useState(false);
+  const [searchParams] = useSearchParams();
+  const dateNameParam = searchParams.get("dateName") || undefined;
 
   const {
     data: purchaseOrders,
     isLoading,
     isError,
     error,
-  } = useGetOrderQy(searchTerm, rowLimit, pageNumber, undefined, orderFilters);
+  } = useGetOrderQy(
+    searchTerm,
+    rowLimit,
+    pageNumber,
+    undefined,
+    orderFilters,
+    dateNameParam
+  );
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -115,7 +124,6 @@ export function ListOrder() {
       </Sidebar>
     </div>
   );
-
   const displayLoading = (
     <div className="card">
       <SkeletonList count={4} />

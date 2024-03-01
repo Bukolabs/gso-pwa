@@ -35,6 +35,55 @@ export const reportFilterMap = (reportType: string) => {
         status_name: [RequestStatus.DECLINED, RequestStatus.BACDECLINED],
       };
 
+    case "in_progress_po":
+      return {
+        status_name: [
+          RequestStatus.CATEGORIZED,
+          RequestStatus.POSTED,
+          RequestStatus.BIDDING,
+          RequestStatus.AWARDED,
+          RequestStatus.PENDING,
+          RequestStatus.POREVIEW,
+        ],
+      };
+
+    case "all_approved_po":
+      return {
+        status_name: [RequestStatus.POAPPROVED],
+      };
+
+    case "all_declined_po":
+      return {
+        status_name: [RequestStatus.PODECLINED],
+      };
+
+    case "all_approved_itb":
+      return {
+        status_name: [RequestStatus.POAPPROVED],
+        mode_of_procurement: ["ITB"],
+      };
+
+    case "all_approved_rfq":
+      return {
+        status_name: [RequestStatus.POAPPROVED],
+        mode_of_procurement: ["RFQ"],
+      };
+
+    case "inspected_po":
+      return {
+        status_name: [RequestStatus.INSPECTION],
+      };
+
+    case "partial_po":
+      return {
+        status_name: [RequestStatus.PARTIAL],
+      };
+
+    case "completed_po":
+      return {
+        status_name: [RequestStatus.COMPLETED],
+      };
+
     default:
       return null;
   }

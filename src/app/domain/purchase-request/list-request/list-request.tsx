@@ -50,7 +50,7 @@ export function ListRequest() {
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
   const [filterPanel, setFilterPanel] = useState(false);
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const dateNameParam = searchParams.get("dateName") || undefined;
 
   const {
