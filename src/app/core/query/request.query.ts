@@ -26,6 +26,9 @@ export function useGetRequestQy(
   offset = 0,
   order?: object,
   filter?: Record<string, string>,
+  dateName?: string,
+  startDate?: string,
+  endDate?: string,
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -43,7 +46,10 @@ export function useGetRequestQy(
     limit: number | undefined = undefined,
     offset: number | undefined = undefined,
     order: object | undefined = undefined,
-    filter: Record<string, string> | undefined = undefined
+    filter: Record<string, string> | undefined = undefined,
+    dateName: string | undefined = undefined,
+    startDate: string | undefined = undefined,
+    endDate: string | undefined = undefined
   ) => {
     showProgress();
     const operation =
@@ -53,6 +59,9 @@ export function useGetRequestQy(
         offset,
         order,
         JSON.stringify(filter) as any,
+        dateName,
+        startDate,
+        endDate,
         authHeaders()
       );
     const response = (await operation()).data;
@@ -67,8 +76,28 @@ export function useGetRequestQy(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Request, search, limit, offset, order, queryFilter],
-    queryFn: () => apiFn(search, limit, offset, order, queryFilter),
+    queryKey: [
+      QueryKey.Request,
+      search,
+      limit,
+      offset,
+      order,
+      queryFilter,
+      dateName,
+      startDate,
+      endDate,
+    ],
+    queryFn: () =>
+      apiFn(
+        search,
+        limit,
+        offset,
+        order,
+        queryFilter,
+        dateName,
+        startDate,
+        endDate
+      ),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {
@@ -111,6 +140,9 @@ export function useGetRequestByIdQy(
         offset,
         undefined,
         JSON.stringify({ code: id }) as any,
+        undefined,
+        undefined,
+        undefined,
         authHeaders()
       );
     const response = (await operation()).data;
@@ -313,11 +345,10 @@ export function useEditRequestItemQy(
 
   const apiFn = async (payload: EditPrItemDto) => {
     showProgress();
-    const operation =
-      await PurchaseRequestItemApiFp().prItemControllerEdit(
-        payload,
-        authHeaders()
-      );
+    const operation = await PurchaseRequestItemApiFp().prItemControllerEdit(
+      payload,
+      authHeaders()
+    );
     const response = (await operation()).data;
     return response as MessageResponseDto;
   };
@@ -497,11 +528,10 @@ export function useQyAddItemToRequest(
 
   const apiFn = async (payload: CreatePrItemDto) => {
     showProgress();
-    const operation =
-      await PurchaseRequestItemApiFp().prItemControllerCreate(
-        payload,
-        authHeaders()
-      );
+    const operation = await PurchaseRequestItemApiFp().prItemControllerCreate(
+      payload,
+      authHeaders()
+    );
     const response = (await operation()).data;
     return response as MessageResponseDto;
   };

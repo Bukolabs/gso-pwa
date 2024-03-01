@@ -53,6 +53,9 @@ export function useGetOrderQy(
         offset,
         order,
         JSON.stringify(filter) as any,
+        undefined,
+        undefined,
+        undefined,
         authHeaders()
       );
     const response = (await operation()).data;
@@ -106,6 +109,9 @@ export function useGetOrderByIdQy(
         offset,
         undefined,
         JSON.stringify({ code: id }) as any,
+        undefined,
+        undefined,
+        undefined,
         authHeaders()
       );
     const response = (await operation()).data;

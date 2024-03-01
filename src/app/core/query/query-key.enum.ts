@@ -20,4 +20,7 @@ export enum QueryKey {
   Delivery = 'Delivery',
   RequestsInOrder = 'requests-in-orders',
   History = 'history',
+  PRReport = 'PRReport',
+  POReport = 'POReport',
+  Notification = 'Notification',
 }

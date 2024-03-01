@@ -8,6 +8,7 @@ export function RequestFilterForm() {
     categorySelectionElement,
     statusSelectionElement,
     reviewerSelectionElement,
+    reportFilterElements,
   } = useRequestFilterContext();
 
   return (
@@ -28,6 +29,8 @@ export function RequestFilterForm() {
       <p className="hint relative top-[-8px]">
         When selecting reviewer, it might ignore other filters.
       </p>
+
+      {reportFilterElements}
     </div>
   );
 }

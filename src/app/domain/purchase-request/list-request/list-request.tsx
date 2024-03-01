@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import "./list-request";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useScreenSize from "@core/utility/screen-size";
 import HeaderContent from "@shared/ui/header-content/header-content";
 import { useState } from "react";
@@ -50,6 +50,9 @@ export function ListRequest() {
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
   const [filterPanel, setFilterPanel] = useState(false);
+  let [searchParams] = useSearchParams();
+  const dateNameParam = searchParams.get("dateName") || undefined;
+
   const {
     data: purchaseRequests,
     isLoading,
@@ -60,7 +63,8 @@ export function ListRequest() {
     rowLimit,
     pageNumber,
     undefined,
-    requestFilters
+    requestFilters,
+    dateNameParam
   );
 
   const handleSearch = (searchTerm: string) => {

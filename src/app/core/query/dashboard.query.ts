@@ -2,6 +2,7 @@ import {
   DashboardApiFp,
   DashboardControllerGetStage1ReviewSummary200Response,
   DashboardControllerGetStage1Summary200Response,
+  DashboardControllerPrDashboardReport200Response,
 } from "@api/api";
 import { authHeaders } from "./auth-header";
 import { useQuery } from "react-query";
@@ -286,13 +287,168 @@ export function useGetRequestorSummary(
   const apiFn = async () => {
     showProgress();
     const operation =
-      await DashboardApiFp().dashboardControllerGetRequestorJourneySummary(authHeaders());
+      await DashboardApiFp().dashboardControllerGetRequestorJourneySummary(
+        authHeaders()
+      );
     const response = (await operation()).data;
     return response["data"] as DashboardControllerGetStage1Summary200Response;
   };
 
   return useQuery({
     queryKey: [QueryKey.Stage4],
+    queryFn: () => apiFn(),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
+
+export function useGetQyRequestReport(
+  filter?: object,
+  dateFilter?: string,
+  startDate?: string,
+  endDate?: string,
+  onSuccess?:
+    | ((
+        data: DashboardControllerPrDashboardReport200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (
+    filter?: object,
+    dateFilter?: string,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerPrDashboardReport(
+        filter,
+        dateFilter,
+        startDate,
+        endDate,
+        authHeaders()
+      );
+    const response = (await operation()).data.data;
+    return response as DashboardControllerPrDashboardReport200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.PRReport, filter, dateFilter, startDate, endDate],
+    queryFn: () => apiFn(filter, dateFilter, startDate, endDate),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
+
+export function useGetQyOrderReport(
+  filter?: object,
+  dateFilter?: string,
+  startDate?: string,
+  endDate?: string,
+  onSuccess?:
+    | ((
+        data: DashboardControllerPrDashboardReport200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (
+    filter?: object,
+    dateFilter?: string,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerPoDashboardReport(
+        filter,
+        dateFilter,
+        startDate,
+        endDate,
+        authHeaders()
+      );
+    const response = (await operation()).data.data;
+    return response as DashboardControllerPrDashboardReport200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.POReport, filter, dateFilter, startDate, endDate],
+    queryFn: () => apiFn(filter, dateFilter, startDate, endDate),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
+
+export function useGetQyNotificaiton(
+  onSuccess?:
+    | ((
+        data: DashboardControllerGetStage1Summary200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async () => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerPrDashboardReport(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["data"] as DashboardControllerGetStage1Summary200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Notification],
     queryFn: () => apiFn(),
     onSuccess: (response) => {
       hideProgress();

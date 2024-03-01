@@ -296,6 +296,61 @@ export interface CreateBidderDto {
 /**
  * 
  * @export
+ * @interface CreateInventoryStatusDto
+ */
+export interface CreateInventoryStatusDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateInventoryStatusDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryStatusDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateItemDto
  */
 export interface CreateItemDto {
@@ -1671,6 +1726,38 @@ export interface DashboardControllerGetStage1Summary200ResponseAllOf {
 /**
  * 
  * @export
+ * @interface DashboardControllerPrDashboardReport200Response
+ */
+export interface DashboardControllerPrDashboardReport200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardControllerPrDashboardReport200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<ListDataDto>}
+     * @memberof DashboardControllerPrDashboardReport200Response
+     */
+    'data'?: Array<ListDataDto>;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardControllerPrDashboardReport200ResponseAllOf
+ */
+export interface DashboardControllerPrDashboardReport200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<ListDataDto>}
+     * @memberof DashboardControllerPrDashboardReport200ResponseAllOf
+     */
+    'data'?: Array<ListDataDto>;
+}
+/**
+ * 
+ * @export
  * @interface DeleteBidderDto
  */
 export interface DeleteBidderDto {
@@ -1708,6 +1795,49 @@ export interface DeleteBidderDto {
      * 
      * @type {string}
      * @memberof DeleteBidderDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteInventoryStatusDto
+ */
+export interface DeleteInventoryStatusDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryStatusDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteInventoryStatusDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteInventoryStatusDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryStatusDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteInventoryStatusDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryStatusDto
      */
     'deleted_by'?: string;
 }
@@ -2523,6 +2653,49 @@ export interface EditBidderDto {
      * 
      * @type {string}
      * @memberof EditBidderDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditInventoryStatusDto
+ */
+export interface EditInventoryStatusDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryStatusDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryStatusDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryStatusDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditInventoryStatusDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditInventoryStatusDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryStatusDto
      */
     'updated_by'?: string;
 }
@@ -4261,6 +4434,12 @@ export interface GetNotificationDto {
      * @memberof GetNotificationDto
      */
     'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNotificationDto
+     */
+    'request_code'?: string;
     /**
      * 
      * @type {string}
@@ -8036,6 +8215,122 @@ export const DashboardApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerPoDashboardReport: async (filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/purchase-order-dashboard-report`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerPrDashboardReport: async (filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/purchase-request-dashboard-report`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -8109,6 +8404,32 @@ export const DashboardApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerGetStage4Summary(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dashboardControllerPoDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerPrDashboardReport200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerPoDashboardReport(filter, dateFilter, startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dashboardControllerPrDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerPrDashboardReport200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerPrDashboardReport(filter, dateFilter, startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -8174,6 +8495,30 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
          */
         dashboardControllerGetStage4Summary(options?: any): AxiosPromise<DashboardControllerGetStage1Summary200Response> {
             return localVarFp.dashboardControllerGetStage4Summary(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerPoDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<DashboardControllerPrDashboardReport200Response> {
+            return localVarFp.dashboardControllerPoDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerPrDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<DashboardControllerPrDashboardReport200Response> {
+            return localVarFp.dashboardControllerPrDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -8253,6 +8598,399 @@ export class DashboardApi extends BaseAPI {
      */
     public dashboardControllerGetStage4Summary(options?: AxiosRequestConfig) {
         return DashboardApiFp(this.configuration).dashboardControllerGetStage4Summary(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public dashboardControllerPoDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerPoDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public dashboardControllerPrDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerPrDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * InventoryStatusApi - axios parameter creator
+ * @export
+ */
+export const InventoryStatusApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateInventoryStatusDto} createInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerCreate: async (createInventoryStatusDto: CreateInventoryStatusDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createInventoryStatusDto' is not null or undefined
+            assertParamExists('inventoryStatusControllerCreate', 'createInventoryStatusDto', createInventoryStatusDto)
+            const localVarPath = `/api/v1/inventory-status/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createInventoryStatusDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeleteInventoryStatusDto} deleteInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerDelete: async (deleteInventoryStatusDto: DeleteInventoryStatusDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteInventoryStatusDto' is not null or undefined
+            assertParamExists('inventoryStatusControllerDelete', 'deleteInventoryStatusDto', deleteInventoryStatusDto)
+            const localVarPath = `/api/v1/inventory-status/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteInventoryStatusDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditInventoryStatusDto} editInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerEdit: async (editInventoryStatusDto: EditInventoryStatusDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'editInventoryStatusDto' is not null or undefined
+            assertParamExists('inventoryStatusControllerEdit', 'editInventoryStatusDto', editInventoryStatusDto)
+            const localVarPath = `/api/v1/inventory-status/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editInventoryStatusDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/inventory-status/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InventoryStatusApi - functional programming interface
+ * @export
+ */
+export const InventoryStatusApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InventoryStatusApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateInventoryStatusDto} createInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryStatusControllerCreate(createInventoryStatusDto: CreateInventoryStatusDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryStatusControllerCreate(createInventoryStatusDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeleteInventoryStatusDto} deleteInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryStatusControllerDelete(deleteInventoryStatusDto: DeleteInventoryStatusDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryStatusControllerDelete(deleteInventoryStatusDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {EditInventoryStatusDto} editInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryStatusControllerEdit(editInventoryStatusDto: EditInventoryStatusDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryStatusControllerEdit(editInventoryStatusDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryStatusControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UtilsBrandControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryStatusControllerGetDataAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * InventoryStatusApi - factory interface
+ * @export
+ */
+export const InventoryStatusApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InventoryStatusApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateInventoryStatusDto} createInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerCreate(createInventoryStatusDto: CreateInventoryStatusDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryStatusControllerCreate(createInventoryStatusDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeleteInventoryStatusDto} deleteInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerDelete(deleteInventoryStatusDto: DeleteInventoryStatusDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryStatusControllerDelete(deleteInventoryStatusDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditInventoryStatusDto} editInventoryStatusDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerEdit(editInventoryStatusDto: EditInventoryStatusDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryStatusControllerEdit(editInventoryStatusDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryStatusControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<UtilsBrandControllerGetDataAsList200Response> {
+            return localVarFp.inventoryStatusControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InventoryStatusApi - object-oriented interface
+ * @export
+ * @class InventoryStatusApi
+ * @extends {BaseAPI}
+ */
+export class InventoryStatusApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateInventoryStatusDto} createInventoryStatusDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryStatusApi
+     */
+    public inventoryStatusControllerCreate(createInventoryStatusDto: CreateInventoryStatusDto, options?: AxiosRequestConfig) {
+        return InventoryStatusApiFp(this.configuration).inventoryStatusControllerCreate(createInventoryStatusDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeleteInventoryStatusDto} deleteInventoryStatusDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryStatusApi
+     */
+    public inventoryStatusControllerDelete(deleteInventoryStatusDto: DeleteInventoryStatusDto, options?: AxiosRequestConfig) {
+        return InventoryStatusApiFp(this.configuration).inventoryStatusControllerDelete(deleteInventoryStatusDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditInventoryStatusDto} editInventoryStatusDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryStatusApi
+     */
+    public inventoryStatusControllerEdit(editInventoryStatusDto: EditInventoryStatusDto, options?: AxiosRequestConfig) {
+        return InventoryStatusApiFp(this.configuration).inventoryStatusControllerEdit(editInventoryStatusDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryStatusApi
+     */
+    public inventoryStatusControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
+        return InventoryStatusApiFp(this.configuration).inventoryStatusControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9712,10 +10450,13 @@ export const PurchaseOrderApiAxiosParamCreator = function (configuration?: Confi
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseOrderControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        purchaseOrderControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/purchase-order/get`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9755,6 +10496,18 @@ export const PurchaseOrderApiAxiosParamCreator = function (configuration?: Confi
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
             }
 
 
@@ -9903,11 +10656,14 @@ export const PurchaseOrderApiFp = function(configuration?: Configuration) {
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseOrderControllerGetDataAsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options);
+        async purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseOrderControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9974,11 +10730,14 @@ export const PurchaseOrderApiFactory = function (configuration?: Configuration, 
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PurchaseOrderControllerGetDataAsList200Response> {
-            return localVarFp.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<PurchaseOrderControllerGetDataAsList200Response> {
+            return localVarFp.purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10048,12 +10807,15 @@ export class PurchaseOrderApi extends BaseAPI {
      * @param {number} [offset] 
      * @param {object} [order] 
      * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PurchaseOrderApi
      */
-    public purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
-        return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    public purchaseOrderControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return PurchaseOrderApiFp(this.configuration).purchaseOrderControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10590,10 +11352,13 @@ export const PurchaseRequestApiAxiosParamCreator = function (configuration?: Con
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseRequestControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        purchaseRequestControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/purchase-request/get`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10633,6 +11398,18 @@ export const PurchaseRequestApiAxiosParamCreator = function (configuration?: Con
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
             }
 
 
@@ -10844,11 +11621,14 @@ export const PurchaseRequestApiFp = function(configuration?: Configuration) {
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseRequestControllerGetDataAsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, options);
+        async purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseRequestControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10929,11 +11709,14 @@ export const PurchaseRequestApiFactory = function (configuration?: Configuration
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PurchaseRequestControllerGetDataAsList200Response> {
-            return localVarFp.purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<PurchaseRequestControllerGetDataAsList200Response> {
+            return localVarFp.purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11016,12 +11799,15 @@ export class PurchaseRequestApi extends BaseAPI {
      * @param {number} [offset] 
      * @param {object} [order] 
      * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PurchaseRequestApi
      */
-    public purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
-        return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    public purchaseRequestControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return PurchaseRequestApiFp(this.configuration).purchaseRequestControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
