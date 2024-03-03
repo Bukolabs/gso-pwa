@@ -50,6 +50,14 @@ export const accountNav = {
   activeClass,
   hoverClass,
 };
+export const notificationNav = {
+  title: "Notification",
+  icon: "pi pi-bell",
+  path: "",
+  activeClass,
+  hoverClass,
+  isAction: true
+};
 export const reportNav = {
   title: "Report",
   icon: "pi pi-book",

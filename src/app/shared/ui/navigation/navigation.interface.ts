@@ -7,4 +7,6 @@ export interface NavigationProps {
   hoverClass?: string;
   alert?: boolean;
   isMore?: boolean;
+  isAction?: boolean;
+  onAction?: (navigation: NavigationProps) => void
 }
