@@ -35,7 +35,7 @@ import { Reviewer } from "@core/model/reviewer.enum";
 
 export function ListRequest() {
   const { isBACApprover, isReviewer, isRestrictedView } = useUserIdentity();
-  const { requestFilters } = useRequestFilterContext();
+  const { requestFilters, getFilterCount } = useRequestFilterContext();
   const navigate = useNavigate();
   const {
     getReviewers,
@@ -52,6 +52,8 @@ export function ListRequest() {
   const [filterPanel, setFilterPanel] = useState(false);
   const [searchParams] = useSearchParams();
   const dateNameParam = searchParams.get("dateName") || undefined;
+  const startDateParam = searchParams.get("startDate") || undefined;
+  const endDateParam = searchParams.get("endDate") || undefined;
 
   const {
     data: purchaseRequests,
@@ -64,7 +66,9 @@ export function ListRequest() {
     pageNumber,
     undefined,
     requestFilters,
-    dateNameParam
+    dateNameParam,
+    startDateParam,
+    endDateParam
   );
 
   const handleSearch = (searchTerm: string) => {
@@ -96,11 +100,6 @@ export function ListRequest() {
       <ErrorSection title="Error Occured" message={(error as any)?.message} />
     </div>
   );
-  const getFilterCount = () => {
-    const values = Object.values(requestFilters).filter((x) => !!x);
-    const count = values.length || 0;
-    return count.toString();
-  };
   const filterElement = (
     <div className="flex gap-4">
       <SearchInput
@@ -115,7 +114,7 @@ export function ListRequest() {
           severity="secondary"
           outlined
           onClick={() => setFilterPanel(true)}
-          badge={getFilterCount()}
+          badge={getFilterCount().toString()}
           badgeClassName="p-badge-danger"
         />
       </div>
@@ -131,9 +130,18 @@ export function ListRequest() {
       data.stage_name === StageName.STAGE_4;
     const stageReviewers = isStage3And4
       ? ({
-          isGso: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CGSO, data),
-          isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CTO, data),
-          isMayor: getRequestPhaseForOrderReviewerStateSymbol(Reviewer.CMO, data),
+          isGso: getRequestPhaseForOrderReviewerStateSymbol(
+            Reviewer.CGSO,
+            data
+          ),
+          isTreasurer: getRequestPhaseForOrderReviewerStateSymbol(
+            Reviewer.CTO,
+            data
+          ),
+          isMayor: getRequestPhaseForOrderReviewerStateSymbol(
+            Reviewer.CMO,
+            data
+          ),
         } as ReviewerStatus)
       : ({
           isGso: getRequestPhaseReviewerStateSymbol(Reviewer.CGSO, data),

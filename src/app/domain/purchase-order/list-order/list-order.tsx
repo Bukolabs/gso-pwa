@@ -27,7 +27,7 @@ import { OrderFilterForm } from "./order-filter.form";
 import { Reviewer } from "@core/model/reviewer.enum";
 
 export function ListOrder() {
-  const { orderFilters } = useOrderFilterContext();
+  const { orderFilters, getFilterCount } = useOrderFilterContext();
   const navigate = useNavigate();
   const { isBACApprover, isAdmin, isGso } = useUserIdentity();
   const { isMobileMode } = useScreenSize();
@@ -41,6 +41,8 @@ export function ListOrder() {
   const [filterPanel, setFilterPanel] = useState(false);
   const [searchParams] = useSearchParams();
   const dateNameParam = searchParams.get("dateName") || undefined;
+  const startDateParam = searchParams.get("startDate") || undefined;
+  const endDateParam = searchParams.get("endDate") || undefined;
 
   const {
     data: purchaseOrders,
@@ -53,7 +55,9 @@ export function ListOrder() {
     pageNumber,
     undefined,
     orderFilters,
-    dateNameParam
+    dateNameParam,
+    startDateParam,
+    endDateParam
   );
 
   const handleSearch = (searchTerm: string) => {
@@ -95,11 +99,6 @@ export function ListOrder() {
       </div>
     );
   };
-  const getFilterCount = () => {
-    const values = Object.values(orderFilters).filter((x) => !!x);
-    const count = values.length || 0;
-    return count.toString();
-  };
   const filterElement = (
     <div className="flex gap-4">
       <SearchInput
@@ -114,7 +113,7 @@ export function ListOrder() {
           severity="secondary"
           outlined
           onClick={() => setFilterPanel(true)}
-          badge={getFilterCount()}
+          badge={getFilterCount().toString()}
           badgeClassName="p-badge-danger"
         />
       </div>

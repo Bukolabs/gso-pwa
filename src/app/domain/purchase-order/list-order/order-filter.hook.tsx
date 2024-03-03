@@ -2,6 +2,7 @@ import { useQyGetCategory } from "@core/query/category.query";
 import { useGetStatusQy } from "@core/query/status.query";
 import { reportFilterMap, reportLabels } from "@core/utility/reports.helper";
 import { LabelValue } from "@shared/models/label-value.interface";
+import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import { SyntheticEvent, useState } from "react";
@@ -43,6 +44,9 @@ export function useOrderFilter() {
   const [reportsParamValue, setReportsParamValue] = useState(
     reportsParam || ""
   );
+  const dateNameParam = searchParams.get("dateName") || undefined;
+  const startDateParam = searchParams.get("startDate") || undefined;
+  const endDateParam = searchParams.get("endDate") || undefined;
 
   const { data: categories } = useQyGetCategory();
   const mappedCategories = (categories?.data || []).map(
@@ -95,6 +99,21 @@ export function useOrderFilter() {
     e.preventDefault();
     removeFilters();
     setReportsParamValue("");
+  };
+  const getFilterCount = () => {
+    const values = Object.values(orderFilters).filter((x) => !!x);
+    let filterEntityCount = values.length || 0;
+    if (!!dateNameParam) {
+      filterEntityCount++;
+    }
+    if (!!startDateParam) {
+      filterEntityCount++;
+    }
+    if (!!endDateParam) {
+      filterEntityCount++;
+    }
+
+    return filterEntityCount;
   };
 
   const categorySelectionElement = (
@@ -156,12 +175,36 @@ export function useOrderFilter() {
           <span className="text-base">
             {reportLabels[reportsParam as keyof typeof reportLabels]}
           </span>
-          <i
-            className="pi pi-times text-xs cursor-pointer"
-            onClick={handleRemove}
-          ></i>
         </div>
       </Tag>
+      {!!dateNameParam ? (
+        <Tag severity="info">
+          <div className="flex align-items-center gap-2">
+            <span className="text-base">Date Name: {dateNameParam}</span>
+          </div>
+        </Tag>
+      ) : null}
+      {!!startDateParam ? (
+        <Tag severity="info">
+          <div className="flex align-items-center gap-2">
+            <span className="text-base">Start Date: {startDateParam}</span>
+          </div>
+        </Tag>
+      ) : null}
+      {!!endDateParam ? (
+        <Tag severity="info">
+          <div className="flex align-items-center gap-2">
+            <span className="text-base">End Date: {endDateParam}</span>
+          </div>
+        </Tag>
+      ) : null}
+      <Button
+        label="Clear Filters"
+        severity="secondary"
+        className="block mt-4"
+        outlined
+        onClick={handleRemove}
+      />
     </div>
   );
 
@@ -174,5 +217,6 @@ export function useOrderFilter() {
     statusSelectionElement,
     reviewerSelectionElement,
     reportFilterElements,
+    getFilterCount,
   };
 }
