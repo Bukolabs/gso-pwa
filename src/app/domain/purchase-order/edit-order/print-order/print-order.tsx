@@ -35,7 +35,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
 
   return (
     <div className="print-order mx-8">
-      <section className="h-screen flex flex-col justify-center items-center">
+      {/* <section className="h-screen flex flex-col justify-center items-center">
         <QRCode value={qrCode} />
         <label className="text-gray-500 mt-2">
           Scan to receive purchase order:
@@ -43,7 +43,7 @@ export function PrintOrder({ data }: PrintOrderProps) {
         <label className="text-gray-500 mt-2 font-bold">
           PO#: {data?.po_no}
         </label>
-      </section>
+      </section> */}
 
       <section className="mx-8">
         <header className="flex w-full my-4 justify-between">
@@ -84,7 +84,9 @@ export function PrintOrder({ data }: PrintOrderProps) {
               Agency / Procuring Entity
             </small>
           </div>
-          <div className="mx-4"></div>
+          <div className="mx-4">
+            <QRCode value={qrCode} size={80} />
+          </div>
         </header>
 
         <section className="grid grid-cols-2 grid-rows-1 gap-4 mb-4">

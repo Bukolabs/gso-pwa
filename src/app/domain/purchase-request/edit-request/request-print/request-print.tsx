@@ -39,7 +39,7 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
 
   return (
     <div className="request-print">
-      <section className="h-screen flex flex-col justify-center items-center">
+      {/* <section className="h-screen flex flex-col justify-center items-center">
         <QRCode value={qrCode} />
         <label className="text-gray-500 mt-2">
           Scan to receive purchase request:
@@ -47,7 +47,7 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
         <label className="text-gray-500 mt-2 font-bold">
           PR#: {data?.pr_no}
         </label>
-      </section>
+      </section> */}
 
       <section className="my-10 mx-10 border">
         <header className="flex w-full my-4">
@@ -67,6 +67,7 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
           </div>
           <div className="mx-4">
             <p className="whitespace-nowrap print-normal">Annex 30</p>
+            <QRCode value={qrCode} size={80}/>
           </div>
         </header>
 
