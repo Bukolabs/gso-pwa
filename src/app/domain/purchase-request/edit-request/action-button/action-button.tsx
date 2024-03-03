@@ -42,8 +42,7 @@ export function ActionButton({
             RequestStatusAction.Approve,
             RequestStatusAction.Decline,
             RequestStatusAction.Print,
-            RequestStatusAction.History,
-            RequestStatusAction.Received,
+            RequestStatusAction.History
           ];
         }
         const _actions = [

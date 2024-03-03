@@ -32,7 +32,6 @@ export function ActionButton({
           RequestStatusAction.Decline,
           RequestStatusAction.Update,
           RequestStatusAction.History,
-          RequestStatusAction.Received,
         ];
         let poreviewActions = common;
         if (isGso && isRFQ) {
@@ -44,7 +43,6 @@ export function ActionButton({
             RequestStatusAction.Approve,
             RequestStatusAction.Decline,
             RequestStatusAction.History,
-            RequestStatusAction.Received,
           ];
         }
         return poreviewActions;
