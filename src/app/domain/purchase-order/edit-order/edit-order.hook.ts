@@ -2,6 +2,7 @@ import {
   GetPurchaseRequestDto,
   ProcessPurchaseOrderDto,
   PurchaseOrderControllerGetDataAsList200Response,
+  ReceivePurchaseOrderDto,
 } from "@api/api";
 import { OrderFormRule, OrderFormSchema } from "@core/model/form.rule";
 import { confirmDialog } from "primereact/confirmdialog";
@@ -11,6 +12,7 @@ import {
   useEditOrderQy,
   useGetOrderByIdQy,
   useProcessOrderQy,
+  useReceiveOrderQy,
 } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useRef, useState } from "react";
@@ -103,6 +105,13 @@ export function useEditOrder() {
   };
   const { mutate: processOrder, isLoading: isProcessing } =
     useProcessOrderQy(handleProcessSuccess);
+
+  // PROCESS RECEIVE ORDER API
+  const handleReceiveSuccess = () => {
+    showSuccess("Order is successfully received");
+    handleBack();
+  };
+  const { mutate: receiveOrder } = useReceiveOrderQy(handleReceiveSuccess);
 
   // EDIT ORDER API
   const handleApiSuccess = () => {
@@ -332,6 +341,28 @@ export function useEditOrder() {
           },
           reject: () => {},
         });
+        break;
+
+      case RequestStatusAction.Received:
+        let receiver = {};
+        switch (orderData?.reviewer) {
+          case "CGSO":
+            receiver = { is_gso_received: true };
+            break;
+          case "CTO":
+            receiver = { is_treasurer_received: true };
+            break;
+          case "CMO":
+            receiver = { is_mayor_received: true };
+            break;
+        }
+
+        const received = {
+          code: orderData?.code || "",
+          ...receiver,
+        } as ReceivePurchaseOrderDto;
+
+        receiveOrder(received);
         break;
 
       case "Review":
