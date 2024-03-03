@@ -25,6 +25,7 @@ import SearchInput from "@shared/ui/search-input/search-input";
 import { Sidebar } from "primereact/sidebar";
 import { OrderFilterForm } from "./order-filter.form";
 import { Reviewer } from "@core/model/reviewer.enum";
+import QrScanner from "@core/ui/qr-scanner/qr-scanner";
 
 export function ListOrder() {
   const { orderFilters, getFilterCount } = useOrderFilterContext();
@@ -43,6 +44,7 @@ export function ListOrder() {
   const dateNameParam = searchParams.get("dateName") || undefined;
   const startDateParam = searchParams.get("startDate") || undefined;
   const endDateParam = searchParams.get("endDate") || undefined;
+  const [qrVisible, setQrVisible] = useState(false);
 
   const {
     data: purchaseOrders,
@@ -272,6 +274,20 @@ export function ListOrder() {
         {isError && !isLoading && displayError}
         {!isLoading && !isError && list}
       </div>
+
+      <Sidebar
+        visible={qrVisible}
+        onHide={() => setQrVisible(false)}
+        fullScreen
+      >
+        <QrScanner />
+      </Sidebar>
+      <Button
+        label="Scan Qr"
+        icon="pi pi-camera"
+        className="fixed right-2 bottom-28 md:bottom-2 cursor-pointer z-[999]"
+        onClick={() => setQrVisible(true)}
+      />
     </div>
   );
 }

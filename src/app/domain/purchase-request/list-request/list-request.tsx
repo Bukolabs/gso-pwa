@@ -32,6 +32,7 @@ import RequestCard from "@core/ui/request-card/request-card";
 import { StageName } from "@core/model/stage-name.enum";
 import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { Reviewer } from "@core/model/reviewer.enum";
+import QrScanner from "@core/ui/qr-scanner/qr-scanner";
 
 export function ListRequest() {
   const { isBACApprover, isReviewer, isRestrictedView } = useUserIdentity();
@@ -54,6 +55,7 @@ export function ListRequest() {
   const dateNameParam = searchParams.get("dateName") || undefined;
   const startDateParam = searchParams.get("startDate") || undefined;
   const endDateParam = searchParams.get("endDate") || undefined;
+  const [qrVisible, setQrVisible] = useState(false);
 
   const {
     data: purchaseRequests,
@@ -302,6 +304,20 @@ export function ListRequest() {
         {isError && !isLoading && displayError}
         {!isLoading && !isError && list}
       </div>
+      
+      <Sidebar
+        visible={qrVisible}
+        onHide={() => setQrVisible(false)}
+        fullScreen
+      >
+        <QrScanner />
+      </Sidebar>
+      <Button
+        label="Scan Qr"
+        icon="pi pi-camera"
+        className="fixed right-2 bottom-28 md:bottom-2 cursor-pointer z-[999]"
+        onClick={() => setQrVisible(true)}
+      />
     </div>
   );
 }

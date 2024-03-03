@@ -12,13 +12,13 @@ import {
 import { ApiToFormService } from "@core/services/api-to-form.service";
 import { useNavigate } from "react-router-dom";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
-import { Avatar } from "primereact/avatar";
 import { Sidebar } from "primereact/sidebar";
 import { useState } from "react";
 import QrScanner from "@core/ui/qr-scanner/qr-scanner";
+import { Button } from "primereact/button";
 
 function Home() {
-  const [visible, setVisible] = useState(false);
+  const [qrVisible, setQrVisible] = useState(false);
 
   const { data: stage1, isLoading: s1Loading } = useGetStage1SummaryQy();
   const { data: stage1Review } = useGetStage1SummaryReviewQy();
@@ -146,16 +146,15 @@ function Home() {
           ? dashboard
           : displayLoading}
       </div>
-      
-      <Sidebar visible={visible} onHide={() => setVisible(false)} fullScreen>
+
+      <Sidebar visible={qrVisible} onHide={() => setQrVisible(false)} fullScreen>
         <QrScanner />
       </Sidebar>
-      <Avatar
+      <Button
+        label="Scan Qr"
         icon="pi pi-camera"
-        size="xlarge"
-        shape="circle"
-        className="fixed right-2 bottom-20 md:bottom-2 cursor-pointer z-[999] bg-green-500 text-white"
-        onClick={() => setVisible(true)}
+        className="fixed right-2 bottom-28 md:bottom-2 cursor-pointer z-[999]"
+        onClick={() => setQrVisible(true)}
       />
     </div>
   );
