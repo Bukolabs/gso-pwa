@@ -38,6 +38,7 @@ import ReceivedPoInfo from "@domain/purchase-order/received-po-info/received-po-
 import Report from "@domain/report/report";
 import Monitor from "@domain/monitor/monitor";
 import ListMonitor from "@domain/monitor/list-monitor/list-monitor";
+import EditMonitor from "@domain/monitor/edit-monitor/edit-monitor";
 
 const router = createBrowserRouter([
   {
@@ -204,6 +205,10 @@ const router = createBrowserRouter([
               {
                 path: "",
                 element: <ListMonitor />,
+              },
+              {
+                path: ":monitorId",
+                element: <EditMonitor />,
               },
             ],
           },

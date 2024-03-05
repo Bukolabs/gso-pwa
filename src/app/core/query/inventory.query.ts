@@ -68,6 +68,9 @@ export function useQyGetInventory(
   offset = 0,
   order?: object,
   filter?: Record<string, string>,
+  dateName?: string,
+  startDate?: string,
+  endDate?: string,
   enabled?: boolean,
   onSuccess?:
     | ((
@@ -83,7 +86,10 @@ export function useQyGetInventory(
     limit: number | undefined = undefined,
     offset: number | undefined = undefined,
     order: object | undefined = undefined,
-    filter: Record<string, string> | undefined = undefined
+    filter: Record<string, string> | undefined = undefined,
+    dateName: string | undefined = undefined,
+    startDate: string | undefined = undefined,
+    endDate: string | undefined = undefined
   ) => {
     showProgress();
     const operation = await InventoryApiFp().inventoryControllerGetDataAsList(
@@ -92,6 +98,9 @@ export function useQyGetInventory(
       offset,
       order,
       JSON.stringify(filter) as any,
+      dateName,
+      startDate,
+      endDate,
       authHeaders()
     );
     const response = (await operation()).data;
@@ -100,8 +109,73 @@ export function useQyGetInventory(
 
   return useQuery({
     enabled,
-    queryKey: [QueryKey.Inventory, search, limit, offset, order, filter],
-    queryFn: () => apiFn(search, limit, offset, order, filter),
+    queryKey: [
+      QueryKey.Inventory,
+      search,
+      limit,
+      offset,
+      order,
+      filter,
+      dateName,
+      startDate,
+      endDate,
+    ],
+    queryFn: () =>
+      apiFn(search, limit, offset, order, filter, dateName, startDate, endDate),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useQyGetInventoryById(
+  id: string,
+  onSuccess?:
+    | ((
+        data: InventoryControllerGetDataAsList200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
+    showProgress();
+    const operation =
+      await InventoryApiFp().inventoryControllerGetDataAsList(
+        search,
+        limit,
+        offset,
+        undefined,
+        JSON.stringify({ code: id }) as any,
+        undefined,
+        undefined,
+        undefined,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["data"] as InventoryControllerGetDataAsList200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.Inventory, id],
+    queryFn: () => apiFn(id),
     onSuccess: (response) => {
       hideProgress();
       if (onSuccess) {

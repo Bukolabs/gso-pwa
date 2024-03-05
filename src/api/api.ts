@@ -4672,6 +4672,12 @@ export interface GetBidderDto {
 export interface GetInventoryDto {
     /**
      * 
+     * @type {number}
+     * @memberof GetInventoryDto
+     */
+    'id': number;
+    /**
+     * 
      * @type {string}
      * @memberof GetInventoryDto
      */
@@ -4699,13 +4705,193 @@ export interface GetInventoryDto {
      * @type {string}
      * @memberof GetInventoryDto
      */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
     'purchase_request': string;
     /**
      * 
      * @type {string}
      * @memberof GetInventoryDto
      */
+    'pr_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
     'pr_item_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'item_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'item_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetInventoryDto
+     */
+    'item_price': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'delivery_brand': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'brand_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'brand_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'delivery_description'?: string;
     /**
      * 
      * @type {string}
@@ -4729,6 +4915,18 @@ export interface GetInventoryDto {
      * @type {string}
      * @memberof GetInventoryDto
      */
+    'assignee_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'assignee_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
     'date_assigned'?: string;
     /**
      * 
@@ -4741,25 +4939,37 @@ export interface GetInventoryDto {
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'lot'?: string;
+    'department_name': string;
     /**
      * 
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'office'?: string;
+    'department_description': string;
     /**
      * 
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'building'?: string;
+    'lot': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'office': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'building': string;
     /**
      * 
      * @type {number}
      * @memberof GetInventoryDto
      */
-    'end_of_life'?: number;
+    'end_of_life': number;
     /**
      * 
      * @type {string}
@@ -4780,10 +4990,10 @@ export interface GetInventoryDto {
     'status': string;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof GetInventoryDto
      */
-    'is_active': boolean;
+    'status_name': string;
     /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
@@ -4797,6 +5007,18 @@ export interface GetInventoryDto {
      */
     'created_by'?: string;
     /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'create_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'create_by_last_name'?: string;
+    /**
      * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
      * @type {string}
      * @memberof GetInventoryDto
@@ -4808,6 +5030,30 @@ export interface GetInventoryDto {
      * @memberof GetInventoryDto
      */
     'updated_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'update_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'update_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'deleted_by'?: string;
 }
 /**
  * 
@@ -9316,10 +9562,13 @@ export const InventoryApiAxiosParamCreator = function (configuration?: Configura
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        inventoryControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        inventoryControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/inventory/get`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9359,6 +9608,18 @@ export const InventoryApiAxiosParamCreator = function (configuration?: Configura
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
             }
 
 
@@ -9419,11 +9680,14 @@ export const InventoryApiFp = function(configuration?: Configuration) {
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryControllerGetDataAsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerGetDataAsList(search, limit, offset, order, filter, options);
+        async inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -9470,11 +9734,14 @@ export const InventoryApiFactory = function (configuration?: Configuration, base
          * @param {number} [offset] 
          * @param {object} [order] 
          * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<InventoryControllerGetDataAsList200Response> {
-            return localVarFp.inventoryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<InventoryControllerGetDataAsList200Response> {
+            return localVarFp.inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9526,12 +9793,15 @@ export class InventoryApi extends BaseAPI {
      * @param {number} [offset] 
      * @param {object} [order] 
      * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InventoryApi
      */
-    public inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
-        return InventoryApiFp(this.configuration).inventoryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    public inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return InventoryApiFp(this.configuration).inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

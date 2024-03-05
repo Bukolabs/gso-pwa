@@ -1,7 +1,4 @@
-import {
-  useQyGetInventory,
-  useQyGetInventoryStatus,
-} from "@core/query/inventory.query";
+import { useQyGetInventory } from "@core/query/inventory.query";
 import "./list-monitor.scss";
 import { useState } from "react";
 import HeaderContent from "@shared/ui/header-content/header-content";
@@ -12,9 +9,14 @@ import { GetInventoryDto } from "@api/api";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { currencyTemplate, dateTemplate } from "@core/utility/data-table-template";
+import {
+  currencyTemplate,
+  dateTemplate,
+} from "@core/utility/data-table-template";
+import { useNavigate } from "react-router-dom";
 
 export function ListMonitor() {
+  const navigate = useNavigate();
   const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,12 +29,12 @@ export function ListMonitor() {
     error,
   } = useQyGetInventory(searchTerm, rowLimit, pageNumber, undefined, undefined);
 
-  console.log({ inventoryResponse });
-
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
   };
-  const editRecord = (item: GetInventoryDto) => {};
+  const editRecord = (item: GetInventoryDto) => {
+    navigate(`${item.code}`);
+  };
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     const offsetValue = event.page * rowLimit;
     setFirst(event.first);
@@ -55,7 +57,7 @@ export function ListMonitor() {
       <SearchInput
         searchTerm={searchTerm}
         onSearch={handleSearch}
-        placeholder="Search request"
+        placeholder="Search items"
         className="w-full block"
       />
     </div>
