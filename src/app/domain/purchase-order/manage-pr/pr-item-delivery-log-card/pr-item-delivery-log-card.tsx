@@ -2,20 +2,20 @@ import "./pr-item-delivery-log-card.scss";
 import { GetPIDDto } from "@api/api";
 import { sumBy } from "lodash-es";
 import { SplitButton } from "primereact/splitbutton";
-import {
-  getFormattedLocalizedDateTime,
-} from "@core/utility/datetime.helper";
+import { getFormattedLocalizedDateTime } from "@core/utility/datetime.helper";
 
 export interface PrItemDeliveryLogCardProps {
   data: GetPIDDto;
   onPrint: (batch: GetPIDDto) => void;
   onDelete: (batch: GetPIDDto) => void;
+  onMonitor: (batch: GetPIDDto) => void;
 }
 
 export function PrItemDeliveryLogCard({
   data,
   onPrint,
   onDelete,
+  onMonitor,
 }: PrItemDeliveryLogCardProps) {
   const totalQuantity = sumBy(data.delivery || [], (x) => x.quantity);
   const date = data?.updated_at
@@ -26,6 +26,12 @@ export function PrItemDeliveryLogCard({
       label: "Delete",
       command: () => {
         onDelete(data);
+      },
+    },
+    {
+      label: "Monitor",
+      command: () => {
+        onMonitor(data);
       },
     },
   ];

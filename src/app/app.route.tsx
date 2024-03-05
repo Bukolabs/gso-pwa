@@ -36,6 +36,8 @@ import RequestorHome from "@domain/home/requestor-home/requestor-home";
 import ReceivedInfo from "@domain/purchase-request/received-info/received-info";
 import ReceivedPoInfo from "@domain/purchase-order/received-po-info/received-po-info";
 import Report from "@domain/report/report";
+import Monitor from "@domain/monitor/monitor";
+import ListMonitor from "@domain/monitor/list-monitor/list-monitor";
 
 const router = createBrowserRouter([
   {
@@ -194,6 +196,16 @@ const router = createBrowserRouter([
           {
             path: "report",
             element: <Report />,
+          },
+          {
+            path: "monitor",
+            element: <Monitor />,
+            children: [
+              {
+                path: "",
+                element: <ListMonitor />,
+              },
+            ],
           },
         ],
       },

@@ -44,6 +44,7 @@ export function ActionButton({
             RequestStatusAction.Approve,
             RequestStatusAction.Decline,
             RequestStatusAction.History,
+            RequestStatusAction.Received,
           ];
         }
         return poreviewActions;

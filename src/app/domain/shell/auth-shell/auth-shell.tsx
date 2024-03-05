@@ -5,6 +5,7 @@ import {
   homeNav,
   itemNav,
   logoutNav,
+  monitorNav,
   moreNav,
   notificationNav,
   orderNav,
@@ -24,7 +25,6 @@ import { useUserIdentity } from "@core/utility/user-identity.hook";
 import { useGetStatusQy } from "@core/query/status.query";
 import { useGetAccountQy } from "@core/query/account.query";
 import { useState } from "react";
-import { useQyGetNotification } from "@core/query/notification.query";
 import NotificationPage from "@domain/notification-page/notification-page";
 
 export function AuthShell() {
@@ -43,6 +43,7 @@ export function AuthShell() {
         itemNav,
         reportNav,
         accountNav,
+        monitorNav,
         notificationNav,
       ];
     } else {
@@ -52,6 +53,7 @@ export function AuthShell() {
         orderNav,
         itemNav,
         reportNav,
+        monitorNav,
         notificationNav,
       ];
     }
