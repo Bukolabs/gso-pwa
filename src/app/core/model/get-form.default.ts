@@ -1,5 +1,6 @@
 import {
   GetBidderDto,
+  GetInventoryDto,
   GetItemDto,
   GetPersonDto,
   GetPrItemDeliveryDto,
@@ -10,12 +11,14 @@ import {
   accountFormDefault,
   bidderFormDefault,
   deliveryFormDefault,
+  inventoryFormDefault,
   requestFormDefault,
 } from "./form.default";
 import {
   AccountFormSchema,
   BidderFormSchema,
   DeliveryFormSchema,
+  InventoryFormSchema,
   ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
@@ -206,4 +209,33 @@ export const getAccountFormDefault = (
         department: cachedValue.department_code,
         password: "",
       } as AccountFormSchema);
+};
+
+export const getInventoryFormDefault = (
+  cachedValue: GetInventoryDto | undefined
+) => {
+  return !cachedValue
+    ? inventoryFormDefault
+    : ({
+        code: cachedValue.code,
+        batch: cachedValue.batch,
+        inventoryNo: cachedValue.inventory_no,
+        lot: cachedValue.lot,
+        office: cachedValue.office,
+        building: cachedValue.building,
+        endOfLife: cachedValue.end_of_life,
+        assigneeCode: cachedValue.assignee,
+        assigneeFirstName: cachedValue.assignee_first_name,
+        assigneeLastName: cachedValue.assignee_last_name,
+        dateAssigned: cachedValue?.date_assigned
+          ? (format(
+              new Date(cachedValue?.date_assigned),
+              SETTINGS.dateFormat
+            ) as any)
+          : ("" as any),
+        propertyType: cachedValue.property_type,
+        remarks: cachedValue.remarks,
+        status: cachedValue.status,
+        status_name: cachedValue.status_name,
+      } as InventoryFormSchema);
 };

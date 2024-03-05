@@ -166,7 +166,7 @@ export const LoginRule = z.object({
   captcha: z.string().optional(),
 });
 
-export const InventoryRule = z.object({
+export const InventoryFormRule = z.object({
   code: z.string().optional(),
   batch: z.string().optional(),
   inventoryNo: z.string().optional(),
@@ -174,9 +174,7 @@ export const InventoryRule = z.object({
   office: z.string().optional(),
   building: z.string().optional(),
   endOfLife: z.number(),
-  assigneeCode: z.string().optional(),
-  assigneeFirstName: z.string().optional(),
-  assigneeLastName: z.string().optional(),
+  assignee: z.string().optional(),
   dateAssigned: z.string().optional(),
   propertyType: z.string().optional(),
   remarks: z.string().optional(),
@@ -199,4 +197,4 @@ export type DeliveryCollectionFormSchema = z.infer<
   typeof DeliveryCollectionFormRule
 >;
 export type LoginFormSchema = z.infer<typeof LoginRule>;
-export type InventoryFormSchema = z.infer<typeof InventoryRule>;
+export type InventoryFormSchema = z.infer<typeof InventoryFormRule>;

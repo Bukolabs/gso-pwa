@@ -207,7 +207,7 @@ export function useQyGetInventoryStatus(
   enabled?: boolean,
   onSuccess?:
     | ((
-        data: UtilsBrandControllerGetDataAsList200Response
+        data: InventoryControllerGetDataAsList200Response
       ) => void | Promise<unknown>)
     | undefined,
   onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
@@ -232,7 +232,7 @@ export function useQyGetInventoryStatus(
         authHeaders()
       );
     const response = (await operation()).data;
-    return response["data"] as UtilsBrandControllerGetDataAsList200Response;
+    return response["data"] as InventoryControllerGetDataAsList200Response;
   };
 
   return useQuery({
