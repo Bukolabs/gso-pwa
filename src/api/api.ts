@@ -7818,7 +7818,7 @@ export interface MessageResponseDto {
  */
 export interface MonitorPIDDto {
     /**
-     * 
+     * PR Item Delivery Batch Code
      * @type {string}
      * @memberof MonitorPIDDto
      */

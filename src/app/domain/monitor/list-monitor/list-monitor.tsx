@@ -79,7 +79,7 @@ export function ListMonitor() {
         <Column field="unit_name" header="Unit"></Column>
         <Column
           header="Price"
-          body={(cell) => currencyTemplate(cell.price)}
+          body={(cell) => currencyTemplate(cell.item_price)}
         ></Column>
         <Column
           field="department_description"

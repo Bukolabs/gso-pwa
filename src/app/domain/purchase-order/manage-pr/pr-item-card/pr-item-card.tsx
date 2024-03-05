@@ -83,7 +83,12 @@ export function PrItemCard({
     useQyDeleteDeliveryOrder(handleDeleteSuccess);
 
   // MONITOR API
-  const { mutate: monitor } = useQyMonitorForInventory();
+  const handleMonitorSuccess = () => {
+    showSuccess(
+      "Delivered items successfully tagged and monitored for inventory"
+    );
+  };
+  const { mutate: monitor } = useQyMonitorForInventory(handleMonitorSuccess);
 
   const handleDeleteDelivery = (item: GetPIDDto) => {
     const payload = {
@@ -108,18 +113,8 @@ export function PrItemCard({
       handlePrint();
     }, 100);
   };
-  const handleMonitorDelivery = ({ delivery }: GetPIDDto) => {
-    delivery?.forEach((item) => {
-      monitor(
-        { code: item.code || "", is_tracked: true },
-        {
-          onSuccess: (data, variables, context) => {
-            console.log({ data, variables, context });
-            showSuccess(`Items added successfully to monitoring`);
-          },
-        }
-      );
-    });
+  const handleMonitorDelivery = (deliveryItem: GetPIDDto) => {
+    monitor({ code: deliveryItem.batch || "", is_tracked: true });
   };
 
   const viewButton = (item: GetPurchaseRequestDto) => (
