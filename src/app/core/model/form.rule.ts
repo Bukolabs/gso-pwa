@@ -175,7 +175,7 @@ export const InventoryFormRule = z.object({
   building: z.string().optional(),
   endOfLife: z.number(),
   assignee: z.string().optional(),
-  dateAssigned: z.string().optional(),
+  dateAssigned: z.coerce.date().optional().nullable(),
   propertyType: z.string().optional(),
   remarks: z.string().optional(),
   status: z.string().optional(),

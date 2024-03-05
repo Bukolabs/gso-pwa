@@ -12,6 +12,8 @@ import { tagTemplate } from "@core/utility/data-table-template";
 import { currencyFormat } from "@shared/formats/currency-format";
 import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
+import { SplitButton } from "primereact/splitbutton";
+import { Button } from "primereact/button";
 
 export function EditMonitor() {
   const navigate = useNavigate();
@@ -20,10 +22,10 @@ export function EditMonitor() {
     isLoading,
     inventoryError,
     formMethod,
-    handleSubmit,
-    setValue,
-    watch,
-    getValues,
+    actionItems,
+    isEditLoading,
+    updateAction,
+    assignAction,
   } = useEditMonitor();
 
   const handleBack = () => {
@@ -88,6 +90,12 @@ export function EditMonitor() {
               <TextBlock
                 label="Department"
                 value={inventoryData?.department_name || "-"}
+                mode="vertical"
+                className="mb-4"
+              />
+              <TextBlock
+                label="Department Full Name"
+                value={inventoryData?.department_description || "-"}
                 mode="vertical"
                 className="mb-4"
               />
@@ -194,7 +202,22 @@ export function EditMonitor() {
 
   return (
     <div className="edit-monitor">
-      <HeaderContent title="Edit Monitor" onBack={handleBack}></HeaderContent>
+      <HeaderContent title="Edit Monitor" onBack={handleBack}>
+        <section className="flex gap-2">
+          <Button
+            label="Update"
+            onClick={updateAction}
+            disabled={isEditLoading}
+          ></Button>
+          <SplitButton
+            label="Assign"
+            onClick={assignAction}
+            model={actionItems}
+            disabled={isEditLoading}
+            outlined
+          />
+        </section>
+      </HeaderContent>
 
       <div className="p-7">
         <FormProvider {...formMethod}>

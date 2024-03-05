@@ -1,3 +1,4 @@
+import { InventoryStatus } from "@core/model/inventory-status.enum";
 import { RequestStatus } from "@core/model/request-status.enum";
 
 export const getStatusStyleByStage = (stage: string) => {
@@ -58,6 +59,23 @@ export const getStatusStyle = (status: string) => {
       return "bg-pink-200 text-pink-500";
     case RequestStatus.COMPLETED:
       return "bg-emerald-200 text-emerald-700";
+
+    case InventoryStatus.ASSIGNED:
+      return "bg-blue-200 text-blue-500";
+    case InventoryStatus.REG:
+      return "bg-emerald-200 text-emerald-700";
+    case InventoryStatus.DMG:
+      return "bg-red-200 text-red-500";
+    case InventoryStatus.REPAIR:
+      return "bg-amber-200 text-amber-500";
+    case InventoryStatus.LOST:
+      return "bg-red-200 text-red-500";
+    case InventoryStatus.STOLEN:
+      return "bg-violet-200 text-violet-500";
+    case InventoryStatus.DISPOSED:
+      return "bg-orange-200 text-orange-500";
+    case InventoryStatus.RETURNED:
+      return "bg-blue-200 text-blue-500";
 
     default:
       return "bg-gray-200 text-gray-500";

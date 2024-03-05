@@ -15,11 +15,13 @@ import {
   DeletePurchaseOrderDto,
   DeletePurchaseRequestDto,
   EditBidderDto,
+  EditInventoryDto,
   EditItemDto,
   EditPersonDto,
   EditPrItemDto,
   EditPurchaseOrderDto,
   EditPurchaseRequestDto,
+  GetInventoryDto,
   GetPurchaseRequestDto,
   LoginPersonDto,
   UpdatePersonDto,
@@ -28,6 +30,7 @@ import {
   AccountFormSchema,
   BidderFormSchema,
   DeliveryCollectionFormSchema,
+  InventoryFormSchema,
   ItemFormSchema,
   LoginFormSchema,
   OrderFormSchema,
@@ -405,6 +408,33 @@ export class FormToApiService {
     const payload = {
       delivery: deliveryPayload,
     } as CreatePIDDto;
+
+    return payload;
+  }
+
+  static EditInventory(
+    form: InventoryFormSchema,
+    defaultInventory: GetInventoryDto
+  ) {
+    const payload = {
+      code: form.code,
+      inventory_no: form.inventoryNo,
+      property_type: form.propertyType,
+      iar_no: defaultInventory.iar_no,
+      assignee: form.assignee,
+      date_assigned: !!form.dateAssigned
+        ? format(form.dateAssigned as Date, SETTINGS.dateFormat)
+        : null,
+      department: defaultInventory.department,
+      lot: form.lot,
+      office: form.office,
+      building: form.building,
+      end_of_life: form.endOfLife,
+      description: "",
+      remarks: form.remarks,
+      status: form.status,
+      is_active: true,
+    } as EditInventoryDto;
 
     return payload;
   }

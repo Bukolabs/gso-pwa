@@ -12,6 +12,7 @@ import { Column } from "primereact/column";
 import {
   currencyTemplate,
   dateTemplate,
+  tagTemplate,
 } from "@core/utility/data-table-template";
 import { useNavigate } from "react-router-dom";
 
@@ -81,17 +82,17 @@ export function ListMonitor() {
           header="Price"
           body={(cell) => currencyTemplate(cell.item_price)}
         ></Column>
-        <Column
-          field="department_description"
-          header="Requesting Dept."
-        ></Column>
+        <Column field="department_name" header="Requesting Dept."></Column>
         <Column field="pr_no" header="PR#"></Column>
         <Column field="po_no" header="PO#"></Column>
         <Column
           header="Date"
           body={(cell) => dateTemplate(cell.updated_at)}
         ></Column>
-        <Column field="supplier" header="Supplier"></Column>
+        <Column
+          header="Status"
+          body={(cell) => tagTemplate(cell.status_name)}
+        ></Column>
       </DataTable>
 
       <Paginator

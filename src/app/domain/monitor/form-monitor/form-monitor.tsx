@@ -6,6 +6,7 @@ import InputDateControl from "@shared/ui/hook-form/input-date-control/input-date
 import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/input-textarea-control";
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { LabelValue } from "@shared/models/label-value.interface";
+import InputDigitControl from "@shared/ui/hook-form/input-digit-control/input-digit-control";
 
 export function FormMonitor() {
   const { control } = useFormContext<InventoryFormSchema>();
@@ -54,7 +55,7 @@ export function FormMonitor() {
         containerClassName="pb-2"
         placeholder="Enter building name"
       />
-      <InputControl<InventoryFormSchema>
+      <InputDigitControl<InventoryFormSchema>
         control={control}
         name="endOfLife"
         label="End of life (Days)"
@@ -78,6 +79,14 @@ export function FormMonitor() {
         containerClassName="mb-9"
         className="w-full md:w-3/4"
         placeholder="Enter your property type"
+      />
+      <InputControl<InventoryFormSchema>
+        control={control}
+        name="assignee"
+        label="Assignee Name"
+        className="w-full md:w-3/4"
+        containerClassName="pb-2"
+        placeholder="Enter name of assignee"
       />
       <InputTextareaControl<InventoryFormSchema>
         control={control}
