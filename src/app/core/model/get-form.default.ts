@@ -224,9 +224,7 @@ export const getInventoryFormDefault = (
         office: cachedValue.office,
         building: cachedValue.building,
         endOfLife: cachedValue.end_of_life,
-        assigneeCode: cachedValue.assignee,
-        assigneeFirstName: cachedValue.assignee_first_name,
-        assigneeLastName: cachedValue.assignee_last_name,
+        assignee: cachedValue.assignee,
         dateAssigned: cachedValue?.date_assigned
           ? (format(
               new Date(cachedValue?.date_assigned),

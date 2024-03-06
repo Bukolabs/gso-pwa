@@ -41,10 +41,10 @@ export function AuthShell() {
         requestNav,
         orderNav,
         itemNav,
-        reportNav,
-        accountNav,
         monitorNav,
+        reportNav,
         notificationNav,
+        accountNav,
       ];
     } else {
       return [
@@ -52,8 +52,8 @@ export function AuthShell() {
         requestNav,
         orderNav,
         itemNav,
-        reportNav,
         monitorNav,
+        reportNav,
         notificationNav,
       ];
     }

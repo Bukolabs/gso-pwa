@@ -22,6 +22,7 @@ export enum QueryKey {
   History = "history",
   PRReport = "pr-report",
   POReport = "po-report",
+  InventoryReport = "inventory-report",
   Notification = "notification",
   Inventory = "inventory",
   InventoryStatus = "inventory-status",
