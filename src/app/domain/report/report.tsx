@@ -4,7 +4,6 @@ import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { InputText } from "primereact/inputtext";
-import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import PrReport from "./pr-report/pr-report";
@@ -49,6 +48,11 @@ export function Report() {
     const concatFilters = getExtraFilters();
     let url = `../order?reports=${label}${concatFilters}`;
     navigate(url);
+  };
+  const handleNavigateInventory = (label: string) => {
+    // const concatFilters = getExtraFilters();
+    // let url = `../order?reports=${label}${concatFilters}`;
+    // navigate(url);
   };
 
   const mappedDate = [
@@ -126,7 +130,7 @@ export function Report() {
         dateName={dateName}
         startDate={startDate}
         endDate={endDate}
-        onSelected={handleNavigatePo}
+        onSelected={handleNavigateInventory}
       />
     </section>
   );
