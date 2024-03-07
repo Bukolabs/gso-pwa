@@ -21,9 +21,7 @@ export function RequestPrint({ data, spacing }: RequestPrintProps) {
     return (
       <div>
         <label className="font-bold">{title}</label>
-        <div>
-          <pre className="w-full whitespace-pre-wrap">{description}</pre>
-        </div>
+        <pre className="w-full whitespace-pre-wrap">{description}</pre>
       </div>
     );
   };

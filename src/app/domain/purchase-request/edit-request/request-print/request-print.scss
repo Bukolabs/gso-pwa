@@ -6,14 +6,6 @@
  * }
 */
 
-table {
-  page-break-before: auto;
-}
-tr {
-  page-break-inside: avoid;
-  page-break-after: auto;
-}
-
 @page {
   size: A4;
 }
