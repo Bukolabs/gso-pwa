@@ -296,6 +296,151 @@ export interface CreateBidderDto {
 /**
  * 
  * @export
+ * @interface CreateInventoryDto
+ */
+export interface CreateInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'purchase_order': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'purchase_request': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'pr_item_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'lot'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'office'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'building'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateInventoryDto
+     */
+    'end_of_life'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateInventoryDto
+     */
+    'is_active': boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateInventoryDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateInventoryStatusDto
  */
 export interface CreateInventoryStatusDto {
@@ -760,6 +905,12 @@ export interface CreatePrItemDeliveryDto {
      * @memberof CreatePrItemDeliveryDto
      */
     'quantity': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePrItemDeliveryDto
+     */
+    'is_tracked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1801,6 +1952,49 @@ export interface DeleteBidderDto {
 /**
  * 
  * @export
+ * @interface DeleteInventoryDto
+ */
+export interface DeleteInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteInventoryDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteInventoryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface DeleteInventoryStatusDto
  */
 export interface DeleteInventoryStatusDto {
@@ -2659,6 +2853,139 @@ export interface EditBidderDto {
 /**
  * 
  * @export
+ * @interface EditInventoryDto
+ */
+export interface EditInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'lot'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'office'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'building'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditInventoryDto
+     */
+    'end_of_life'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditInventoryDto
+     */
+    'is_active': boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditInventoryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface EditInventoryStatusDto
  */
 export interface EditInventoryStatusDto {
@@ -3105,6 +3432,12 @@ export interface EditPrItemDeliveryDto {
      * @memberof EditPrItemDeliveryDto
      */
     'quantity': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPrItemDeliveryDto
+     */
+    'is_tracked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -4330,6 +4663,385 @@ export interface GetBidderDto {
      * @memberof GetBidderDto
      */
     'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetInventoryDto
+ */
+export interface GetInventoryDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetInventoryDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'purchase_order': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'po_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'purchase_request': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_department_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'pr_item_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'item_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'item_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetInventoryDto
+     */
+    'item_price': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'unit_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'delivery_brand': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'brand_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'brand_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'delivery_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'department_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'lot': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'office': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'building': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetInventoryDto
+     */
+    'end_of_life': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'status_name': string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'create_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'create_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'update_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'update_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetInventoryDto
+     */
+    'deleted_by'?: string;
 }
 /**
  * 
@@ -6740,6 +7452,38 @@ export interface GetTransactionHistoryDto {
 /**
  * 
  * @export
+ * @interface InventoryControllerGetDataAsList200Response
+ */
+export interface InventoryControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof InventoryControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetInventoryDto>}
+     * @memberof InventoryControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetInventoryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface InventoryControllerGetDataAsList200ResponseAllOf
+ */
+export interface InventoryControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetInventoryDto>}
+     * @memberof InventoryControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetInventoryDto>;
+}
+/**
+ * 
+ * @export
  * @interface ItemControllerGetDataAsList200Response
  */
 export interface ItemControllerGetDataAsList200Response {
@@ -7054,6 +7798,37 @@ export interface MessageResponseDto {
      * @memberof MessageResponseDto
      */
     'data'?: object;
+}
+/**
+ * 
+ * @export
+ * @interface MonitorPIDDto
+ */
+export interface MonitorPIDDto {
+    /**
+     * PR Item Delivery Batch Code
+     * @type {string}
+     * @memberof MonitorPIDDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MonitorPIDDto
+     */
+    'is_tracked'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof MonitorPIDDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MonitorPIDDto
+     */
+    'updated_by'?: string;
 }
 /**
  * 
@@ -8224,6 +8999,64 @@ export const DashboardApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        dashboardControllerInventoryDashboardReport: async (filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/dashboard/inventory-dashboard-report`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         dashboardControllerPoDashboardReport: async (filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/dashboard/purchase-order-dashboard-report`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -8413,6 +9246,19 @@ export const DashboardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async dashboardControllerInventoryDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerPrDashboardReport200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerInventoryDashboardReport(filter, dateFilter, startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async dashboardControllerPoDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardControllerPrDashboardReport200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.dashboardControllerPoDashboardReport(filter, dateFilter, startDate, endDate, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -8495,6 +9341,18 @@ export const DashboardApiFactory = function (configuration?: Configuration, base
          */
         dashboardControllerGetStage4Summary(options?: any): AxiosPromise<DashboardControllerGetStage1Summary200Response> {
             return localVarFp.dashboardControllerGetStage4Summary(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dashboardControllerInventoryDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<DashboardControllerPrDashboardReport200Response> {
+            return localVarFp.dashboardControllerInventoryDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8610,6 +9468,20 @@ export class DashboardApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DashboardApi
      */
+    public dashboardControllerInventoryDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).dashboardControllerInventoryDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
     public dashboardControllerPoDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
         return DashboardApiFp(this.configuration).dashboardControllerPoDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
@@ -8626,6 +9498,395 @@ export class DashboardApi extends BaseAPI {
      */
     public dashboardControllerPrDashboardReport(filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
         return DashboardApiFp(this.configuration).dashboardControllerPrDashboardReport(filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * InventoryApi - axios parameter creator
+ * @export
+ */
+export const InventoryApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateInventoryDto} createInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerCreate: async (createInventoryDto: CreateInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createInventoryDto' is not null or undefined
+            assertParamExists('inventoryControllerCreate', 'createInventoryDto', createInventoryDto)
+            const localVarPath = `/api/v1/inventory/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeleteInventoryDto} deleteInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerDelete: async (deleteInventoryDto: DeleteInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteInventoryDto' is not null or undefined
+            assertParamExists('inventoryControllerDelete', 'deleteInventoryDto', deleteInventoryDto)
+            const localVarPath = `/api/v1/inventory/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditInventoryDto} editInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerEdit: async (editInventoryDto: EditInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'editInventoryDto' is not null or undefined
+            assertParamExists('inventoryControllerEdit', 'editInventoryDto', editInventoryDto)
+            const localVarPath = `/api/v1/inventory/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/inventory/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InventoryApi - functional programming interface
+ * @export
+ */
+export const InventoryApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InventoryApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateInventoryDto} createInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryControllerCreate(createInventoryDto: CreateInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerCreate(createInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeleteInventoryDto} deleteInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryControllerDelete(deleteInventoryDto: DeleteInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerDelete(deleteInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {EditInventoryDto} editInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryControllerEdit(editInventoryDto: EditInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerEdit(editInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * InventoryApi - factory interface
+ * @export
+ */
+export const InventoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InventoryApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateInventoryDto} createInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerCreate(createInventoryDto: CreateInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryControllerCreate(createInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeleteInventoryDto} deleteInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerDelete(deleteInventoryDto: DeleteInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryControllerDelete(deleteInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditInventoryDto} editInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerEdit(editInventoryDto: EditInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.inventoryControllerEdit(editInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<InventoryControllerGetDataAsList200Response> {
+            return localVarFp.inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InventoryApi - object-oriented interface
+ * @export
+ * @class InventoryApi
+ * @extends {BaseAPI}
+ */
+export class InventoryApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateInventoryDto} createInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryApi
+     */
+    public inventoryControllerCreate(createInventoryDto: CreateInventoryDto, options?: AxiosRequestConfig) {
+        return InventoryApiFp(this.configuration).inventoryControllerCreate(createInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeleteInventoryDto} deleteInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryApi
+     */
+    public inventoryControllerDelete(deleteInventoryDto: DeleteInventoryDto, options?: AxiosRequestConfig) {
+        return InventoryApiFp(this.configuration).inventoryControllerDelete(deleteInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditInventoryDto} editInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryApi
+     */
+    public inventoryControllerEdit(editInventoryDto: EditInventoryDto, options?: AxiosRequestConfig) {
+        return InventoryApiFp(this.configuration).inventoryControllerEdit(editInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryApi
+     */
+    public inventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return InventoryApiFp(this.configuration).inventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -9888,6 +11149,50 @@ export const PersonApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerBlock: async (deletePersonDto: DeletePersonDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deletePersonDto' is not null or undefined
+            assertParamExists('personControllerBlock', 'deletePersonDto', deletePersonDto)
+            const localVarPath = `/api/v1/person/block`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deletePersonDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {AdminChangePasswordDto} adminChangePasswordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10039,6 +11344,50 @@ export const PersonApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerUnblock: async (deletePersonDto: DeletePersonDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deletePersonDto' is not null or undefined
+            assertParamExists('personControllerUnblock', 'deletePersonDto', deletePersonDto)
+            const localVarPath = `/api/v1/person/unblock`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deletePersonDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdatePersonDto} updatePersonDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10113,6 +11462,16 @@ export const PersonApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async personControllerBlock(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerBlock(deletePersonDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {AdminChangePasswordDto} adminChangePasswordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10143,6 +11502,16 @@ export const PersonApiFp = function(configuration?: Configuration) {
          */
         async personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonControllerGetDataAsList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerGetDataAsList(search, limit, offset, order, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async personControllerUnblock(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.personControllerUnblock(deletePersonDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10185,6 +11554,15 @@ export const PersonApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerBlock(deletePersonDto: DeletePersonDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.personControllerBlock(deletePersonDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AdminChangePasswordDto} adminChangePasswordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10213,6 +11591,15 @@ export const PersonApiFactory = function (configuration?: Configuration, basePat
          */
         personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PersonControllerGetDataAsList200Response> {
             return localVarFp.personControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeletePersonDto} deletePersonDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        personControllerUnblock(deletePersonDto: DeletePersonDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.personControllerUnblock(deletePersonDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10257,6 +11644,17 @@ export class PersonApi extends BaseAPI {
 
     /**
      * 
+     * @param {DeletePersonDto} deletePersonDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public personControllerBlock(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).personControllerBlock(deletePersonDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {AdminChangePasswordDto} adminChangePasswordDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10290,6 +11688,17 @@ export class PersonApi extends BaseAPI {
      */
     public personControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PersonApiFp(this.configuration).personControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeletePersonDto} deletePersonDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public personControllerUnblock(deletePersonDto: DeletePersonDto, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).personControllerUnblock(deletePersonDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -12415,6 +13824,50 @@ export const PurchaseRequestItemDeliveryApiAxiosParamCreator = function (configu
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {MonitorPIDDto} monitorPIDDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prItemDeliveryControllerMonitor: async (monitorPIDDto: MonitorPIDDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'monitorPIDDto' is not null or undefined
+            assertParamExists('prItemDeliveryControllerMonitor', 'monitorPIDDto', monitorPIDDto)
+            const localVarPath = `/api/v1/pr-item-delivery/send-to-monitoring`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(monitorPIDDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -12469,6 +13922,16 @@ export const PurchaseRequestItemDeliveryApiFp = function(configuration?: Configu
             const localVarAxiosArgs = await localVarAxiosParamCreator.prItemDeliveryControllerGetDataAsList(search, limit, offset, order, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {MonitorPIDDto} monitorPIDDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async prItemDeliveryControllerMonitor(monitorPIDDto: MonitorPIDDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.prItemDeliveryControllerMonitor(monitorPIDDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -12518,6 +13981,15 @@ export const PurchaseRequestItemDeliveryApiFactory = function (configuration?: C
          */
         prItemDeliveryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: any): AxiosPromise<PrItemDeliveryControllerGetDataAsList200Response> {
             return localVarFp.prItemDeliveryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {MonitorPIDDto} monitorPIDDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        prItemDeliveryControllerMonitor(monitorPIDDto: MonitorPIDDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.prItemDeliveryControllerMonitor(monitorPIDDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -12575,6 +14047,17 @@ export class PurchaseRequestItemDeliveryApi extends BaseAPI {
      */
     public prItemDeliveryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return PurchaseRequestItemDeliveryApiFp(this.configuration).prItemDeliveryControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MonitorPIDDto} monitorPIDDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PurchaseRequestItemDeliveryApi
+     */
+    public prItemDeliveryControllerMonitor(monitorPIDDto: MonitorPIDDto, options?: AxiosRequestConfig) {
+        return PurchaseRequestItemDeliveryApiFp(this.configuration).prItemDeliveryControllerMonitor(monitorPIDDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

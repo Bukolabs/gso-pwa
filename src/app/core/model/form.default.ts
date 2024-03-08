@@ -3,6 +3,7 @@ import {
   AccountFormSchema,
   BidderFormSchema,
   DeliveryFormSchema,
+  InventoryFormSchema,
   ItemFormSchema,
   OrderFormSchema,
   RequestFormSchema,
@@ -14,9 +15,9 @@ export const requestFormDefault = {
   category: "",
   section: "",
   sai: "",
-  saiDate: undefined,
+  saiDate: "" as any,
   alobs: "",
-  alobsDate: undefined,
+  alobsDate: "" as any,
   purpose: "",
   items: [],
   active: true,
@@ -32,8 +33,8 @@ export const requestFormDefault = {
   hasTechSpec: false,
   hasPlan: false,
   hasQuitClaim: false,
-  status: '',
-  remarks: ''
+  status: "",
+  remarks: "",
 } as RequestFormSchema;
 
 export const orderFormDefault = {
@@ -116,3 +117,19 @@ export const itemFormDefault = {
   deliveredQuantity: 0,
   prCode: "",
 } as ItemFormSchema;
+
+export const inventoryFormDefault = {
+  code: "",
+  batch: "",
+  inventoryNo: "",
+  lot: "",
+  office: "",
+  building: "",
+  endOfLife: 0,
+  assignee: "",
+  dateAssigned: "" as any,
+  propertyType: "",
+  remarks: "",
+  status: "",
+  status_name: "",
+} as InventoryFormSchema;

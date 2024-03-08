@@ -166,6 +166,22 @@ export const LoginRule = z.object({
   captcha: z.string().optional(),
 });
 
+export const InventoryFormRule = z.object({
+  code: z.string().optional(),
+  batch: z.string().optional(),
+  inventoryNo: z.string().optional(),
+  lot: z.string().optional(),
+  office: z.string().optional(),
+  building: z.string().optional(),
+  endOfLife: z.number(),
+  assignee: z.string().optional(),
+  dateAssigned: z.coerce.date().optional().nullable(),
+  propertyType: z.string().optional(),
+  remarks: z.string().optional(),
+  status: z.string().optional(),
+  status_name: z.string().optional(),
+});
+
 export const BidderFormRule = PersonalRule.and(AddressRule);
 export const AccountFormRule = PersonalRule.and(AccountRule);
 
@@ -181,3 +197,4 @@ export type DeliveryCollectionFormSchema = z.infer<
   typeof DeliveryCollectionFormRule
 >;
 export type LoginFormSchema = z.infer<typeof LoginRule>;
+export type InventoryFormSchema = z.infer<typeof InventoryFormRule>;

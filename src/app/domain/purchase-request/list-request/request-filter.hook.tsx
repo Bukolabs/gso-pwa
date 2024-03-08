@@ -31,7 +31,7 @@ const defaultFilter = (status = "", reviewer = "", reports = "") => {
 };
 
 export function useRequestFilter() {
-  let [searchParams] = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams();
   const statusParam = searchParams.get("status_name");
   const reviewerParam = searchParams.get("reviewer");
   const reportsParam = searchParams.get("reports");
@@ -112,11 +112,16 @@ export function useRequestFilter() {
   const removeFilters = () => {
     const filterVal = {} as Record<string, string>;
     setRequestFilters(filterVal);
+    setReportsParamValue("");
+    setSelectedDepartment(null);
+    setSelectedCategory(null);
+    setSelectedStatus("");
+    setSelectedReviewer("");
+    setSearchParams({});
   };
   const handleRemove = (e: SyntheticEvent) => {
     e.preventDefault();
     removeFilters();
-    setReportsParamValue("");
   };
 
   const mappedReviewer = [

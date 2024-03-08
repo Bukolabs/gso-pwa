@@ -1,29 +1,20 @@
 import HeaderContent from "@shared/ui/header-content/header-content";
 import "./report.scss";
-import {
-  useGetQyOrderReport,
-  useGetQyRequestReport,
-} from "@core/query/dashboard.query";
 import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { InputText } from "primereact/inputtext";
-import classNames from "classnames";
-import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { reportLabels } from "@core/utility/reports.helper";
+import PrReport from "./pr-report/pr-report";
+import PoReport from "./po-report/po-report";
+import InventoryReport from "./inventory-report/inventory-report";
 
 export function Report() {
   const [dateName, setDateName] = useState("MONTH");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
-
-  const { data: poSummaryResponse, isLoading: isPoLoading } =
-    useGetQyOrderReport(undefined, dateName, startDate, endDate);
-  const { data: prSummaryResponse, isLoading: isPrLoading } =
-    useGetQyRequestReport(undefined, dateName, startDate, endDate);
 
   const handleReset = () => {
     setDateName("MONTH");
@@ -56,6 +47,11 @@ export function Report() {
   const handleNavigatePo = (label: string) => {
     const concatFilters = getExtraFilters();
     let url = `../order?reports=${label}${concatFilters}`;
+    navigate(url);
+  };
+  const handleNavigateInventory = (label: string) => {
+    const concatFilters = getExtraFilters();
+    let url = `../monitor?reports=${label.toUpperCase()}${concatFilters}`;
     navigate(url);
   };
 
@@ -115,59 +111,27 @@ export function Report() {
       />
     </div>
   );
-  const card = (
-    count: string,
-    label: string,
-    callback: (label: string) => void,
-    id: number
-  ) => {
-    return (
-      <div
-        key={id}
-        className={classNames(
-          "bg-white w-full shadow rounded-md flex flex-col"
-        )}
-      >
-        <section className="flex justify-center gap-3 py-10">
-          <div
-            className="flex flex-col items-center justify-center cursor-pointer"
-            onClick={() => callback(label)}
-          >
-            <p className="text-gray-800 font-bold">{count} </p>
-            <p className="hint">
-              {reportLabels[label as keyof typeof reportLabels]}
-            </p>
-          </div>
-        </section>
-      </div>
-    );
-  };
-  const prCards = (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 mb-4">
-      {(prSummaryResponse?.data || []).map((item, id) =>
-        card(item.value, item.label, handleNavigatePr, id)
-      )}
-    </section>
-  );
-  const poCards = (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 mb-4">
-      {(poSummaryResponse?.data || []).map((item, id) =>
-        card(item.value, item.label, handleNavigatePo, id)
-      )}
-    </section>
-  );
-  const displayLoading = (
-    <div className="card">
-      <SkeletonList count={4} mode="dashboard" />
-    </div>
-  );
-  const mainContent = (
-    <section>
-      <h4 className="mb-2">Purchase Requests</h4>
-      {prCards}
 
-      <h4 className="mb-2">Purchase Orders</h4>
-      {poCards}
+  const mainContent = (
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+      <PrReport
+        dateName={dateName}
+        startDate={startDate}
+        endDate={endDate}
+        onSelected={handleNavigatePr}
+      />
+      <PoReport
+        dateName={dateName}
+        startDate={startDate}
+        endDate={endDate}
+        onSelected={handleNavigatePo}
+      />
+      <InventoryReport
+        dateName={dateName}
+        startDate={startDate}
+        endDate={endDate}
+        onSelected={handleNavigateInventory}
+      />
     </section>
   );
 
@@ -192,9 +156,7 @@ export function Report() {
           />
         </section>
 
-        <section className="mt-4">
-          {isPrLoading || isPoLoading ? displayLoading : mainContent}
-        </section>
+        <section className="mt-4">{mainContent}</section>
       </div>
     </div>
   );

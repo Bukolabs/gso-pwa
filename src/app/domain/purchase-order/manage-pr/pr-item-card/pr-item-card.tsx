@@ -34,6 +34,7 @@ import { useQyDeleteDeliveryOrder } from "@core/query/order.query";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { useQyMonitorForInventory } from "@core/query/inventory.query";
 
 export interface PrItemCardProps {
   purchaseRequest: GetPurchaseRequestDto;
@@ -81,6 +82,14 @@ export function PrItemCard({
   const { mutate: deleteDeliver } =
     useQyDeleteDeliveryOrder(handleDeleteSuccess);
 
+  // MONITOR API
+  const handleMonitorSuccess = () => {
+    showSuccess(
+      "Delivered items successfully tagged and monitored for inventory"
+    );
+  };
+  const { mutate: monitor } = useQyMonitorForInventory(handleMonitorSuccess);
+
   const handleDeleteDelivery = (item: GetPIDDto) => {
     const payload = {
       batch: item.batch,
@@ -103,6 +112,9 @@ export function PrItemCard({
     setTimeout(() => {
       handlePrint();
     }, 100);
+  };
+  const handleMonitorDelivery = (deliveryItem: GetPIDDto) => {
+    monitor({ code: deliveryItem.batch || "", is_tracked: true });
   };
 
   const viewButton = (item: GetPurchaseRequestDto) => (
@@ -191,6 +203,7 @@ export function PrItemCard({
                     data={record}
                     onPrint={handlePrintDelivery}
                     onDelete={handleDeleteDelivery}
+                    onMonitor={handleMonitorDelivery}
                   />
                 ))}
               </AccordionTab>

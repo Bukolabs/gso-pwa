@@ -422,3 +422,57 @@ export function useGetQyOrderReport(
     },
   });
 }
+
+export function useGetQyInventoryReport(
+  filter?: object,
+  dateFilter?: string,
+  startDate?: string,
+  endDate?: string,
+  onSuccess?:
+    | ((
+        data: DashboardControllerPrDashboardReport200Response
+      ) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: AxiosError) => void | Promise<unknown>) | undefined
+) {
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+  const apiFn = async (
+    filter?: object,
+    dateFilter?: string,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    showProgress();
+    const operation =
+      await DashboardApiFp().dashboardControllerInventoryDashboardReport(
+        filter,
+        dateFilter,
+        startDate,
+        endDate,
+        authHeaders()
+      );
+    const response = (await operation()).data.data;
+    return response as DashboardControllerPrDashboardReport200Response;
+  };
+
+  return useQuery({
+    queryKey: [QueryKey.InventoryReport, filter, dateFilter, startDate, endDate],
+    queryFn: () => apiFn(filter, dateFilter, startDate, endDate),
+    onSuccess: (response) => {
+      hideProgress();
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}

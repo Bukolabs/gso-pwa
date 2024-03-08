@@ -12,6 +12,15 @@ export const reportLabels = {
   inspected_po: "Inspected Orders",
   partial_po: "Partial Orders",
   completed_po: "Completed Orders",
+  pre_reg: "Pre Registered",
+  reg: "Registered",
+  dmg: "Damaged",
+  repair: "Repair",
+  lost: "Lost",
+  stolen: "Stolen",
+  disposed: "Disposed",
+  returned: "Returned",
+  assigned: "Assigned",
 };
 
 export const reportFilterMap = (reportType: string) => {

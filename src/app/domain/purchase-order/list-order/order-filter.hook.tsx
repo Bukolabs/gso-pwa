@@ -30,7 +30,7 @@ const defaultFilter = (status = "", reviewer = "", reports = "") => {
 };
 
 export function useOrderFilter() {
-  let [searchParams] = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams();
   const statusParam = searchParams.get("status_name");
   const reviewerParam = searchParams.get("reviewer");
   const reportsParam = searchParams.get("reports");
@@ -94,11 +94,12 @@ export function useOrderFilter() {
   const removeFilters = () => {
     const filterVal = {} as Record<string, string>;
     setOrderFilters(filterVal);
+    setReportsParamValue("");
+    setSearchParams({});
   };
   const handleRemove = (e: SyntheticEvent) => {
     e.preventDefault();
     removeFilters();
-    setReportsParamValue("");
   };
   const getFilterCount = () => {
     const values = Object.values(orderFilters).filter((x) => !!x);
