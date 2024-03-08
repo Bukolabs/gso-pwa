@@ -15,20 +15,26 @@ import {
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { useNavigate } from "react-router-dom";
+import { Button } from "primereact/button";
+import { useMonitorFilterContext } from "./list-monitor-filter.context";
+import { Sidebar } from "primereact/sidebar";
+import { ListMonitorFilterForm } from "./list-monitor-filter.form";
 
 export function ListMonitor() {
   const navigate = useNavigate();
+  const { getFilterCount,filterEntity } = useMonitorFilterContext();
   const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [first, setFirst] = useState(0);
+  const [filterPanel, setFilterPanel] = useState(false);
 
   const {
     data: inventoryResponse,
     isLoading,
     isError,
     error,
-  } = useQyGetInventory(searchTerm, rowLimit, pageNumber, undefined, undefined);
+  } = useQyGetInventory(searchTerm, rowLimit, pageNumber, undefined, filterEntity);
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -61,6 +67,18 @@ export function ListMonitor() {
         placeholder="Search items"
         className="w-full block"
       />
+      <Button
+        label="Filter"
+        severity="secondary"
+        outlined
+        onClick={() => setFilterPanel(true)}
+        badge={getFilterCount().toString()}
+        badgeClassName="p-badge-danger"
+      />
+
+      <Sidebar visible={filterPanel} onHide={() => setFilterPanel(false)}>
+        <ListMonitorFilterForm />
+      </Sidebar>
     </div>
   );
   const grid = (

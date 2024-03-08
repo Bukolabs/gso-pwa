@@ -50,9 +50,9 @@ export function Report() {
     navigate(url);
   };
   const handleNavigateInventory = (label: string) => {
-    // const concatFilters = getExtraFilters();
-    // let url = `../order?reports=${label}${concatFilters}`;
-    // navigate(url);
+    const concatFilters = getExtraFilters();
+    let url = `../monitor?reports=${label.toUpperCase()}${concatFilters}`;
+    navigate(url);
   };
 
   const mappedDate = [

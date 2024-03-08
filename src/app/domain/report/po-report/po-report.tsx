@@ -69,8 +69,7 @@ export function PoReport({
           },
         },
       },
-      onClick: (event: any, item: any) => {
-        console.log({ event, item });
+      onClick: (_: any, item: any) => {
         if (item.length > 0) {
           const selectedIndex = item[0].index;
           onSelected(dataRawLabels[selectedIndex]);
@@ -100,7 +99,7 @@ export function PoReport({
       {isLoading ? (
         displayLoading
       ) : (
-        <section className="flex justify-center flex-col items-center p-6">
+        <section className="flex justify-center flex-col items-center p-10">
           <Chart
             type="pie"
             data={chartData}

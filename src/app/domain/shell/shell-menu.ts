@@ -52,7 +52,7 @@ export const accountNav = {
 };
 export const monitorNav = {
   title: "Monitoring",
-  icon: "pi pi-file",
+  icon: "pi pi-book",
   path: "monitor",
   activeClass,
   hoverClass,
@@ -67,7 +67,7 @@ export const notificationNav = {
 };
 export const reportNav = {
   title: "Report",
-  icon: "pi pi-book",
+  icon: "pi pi-chart-pie",
   path: "report",
   activeClass,
   hoverClass,
