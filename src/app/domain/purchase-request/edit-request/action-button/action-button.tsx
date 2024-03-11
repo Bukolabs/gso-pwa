@@ -17,7 +17,6 @@ export interface ActionButtonProps {
 export function ActionButton({
   status,
   disable,
-  data,
   onAction,
 }: ActionButtonProps) {
   const { isBACApprover, isReviewer, isAdmin, isGso } = useUserIdentity();
@@ -77,7 +76,7 @@ export function ActionButton({
   const bacActions = (status: string) => {
     switch (status) {
       case RequestStatus.APPROVED:
-        return [RequestStatusAction.Bacdecline];
+        return [RequestStatusAction.Bacdecline, RequestStatusAction.Update, RequestStatusAction.History];
       default:
         return [RequestStatusAction.History];
     }
