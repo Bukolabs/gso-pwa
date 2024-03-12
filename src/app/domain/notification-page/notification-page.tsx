@@ -85,7 +85,7 @@ export function NotificationPage() {
     <div className="notification-page">
       <h2>Notification</h2>
       <h5>
-        Total: <b>{notificationResponse?.count}</b>
+        Totals: <b>{notificationResponse?.count}</b>
       </h5>
 
       {isLoading && displayLoading}
