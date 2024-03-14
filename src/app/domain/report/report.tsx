@@ -9,12 +9,243 @@ import { useNavigate } from "react-router-dom";
 import PrReport from "./pr-report/pr-report";
 import PoReport from "./po-report/po-report";
 import InventoryReport from "./inventory-report/inventory-report";
+import { DashboardControllerPrDashboardReport200Response } from "@api/api";
+import { reportLabels } from "@core/utility/reports.helper";
+import colors from "tailwindcss/colors";
+import {
+  useGetQyInventoryReport,
+  useGetQyOrderReport,
+  useGetQyRequestReport,
+} from "@core/query/dashboard.query";
+import ReportCard from "./report-card/report-card";
 
 export function Report() {
   const [dateName, setDateName] = useState("MONTH");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
+
+  const [prChartData, setPrChartData] = useState({});
+  const [prChartOptions, setPrChartOptions] = useState({});
+  const [poChartData, setPoChartData] = useState({});
+  const [poChartOptions, setPoChartOptions] = useState({});
+  const [inventoryChartData, setInventoryChartData] = useState({});
+  const [inventoryChartOptions, setInventoryChartOptions] = useState({});
+  const prColors = ["text-blue-800", "text-cyan-800", "text-violet-800"];
+  const poColors = [
+    "text-blue-800",
+    "text-cyan-800",
+    "text-violet-800",
+    "text-teal-800",
+    "text-red-800",
+    "text-lime-800",
+    "text-pink-800",
+    "text-emerald-800",
+  ];
+  const inventoryColors = [
+    "text-blue-800",
+    "text-emerald-800",
+    "text-violet-800",
+    "text-teal-800",
+    "text-red-800",
+    "text-orange-800",
+    "text-pink-800",
+    "text-cyan-800",
+    "text-fuchsia-800",
+  ];
+
+  // API PR
+  const handleSuccessApi = (
+    response: DashboardControllerPrDashboardReport200Response
+  ) => {
+    const prData = response.data;
+
+    const dataRawLabels = (prData || []).map((item) => item.label);
+    const dataLabels = (prData || []).map(
+      (item) => reportLabels[item.label as keyof typeof reportLabels]
+    );
+    const dataValues = (prData || []).map((item) => item.value);
+    const data = {
+      labels: dataLabels,
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: [
+            colors.blue[500],
+            colors.cyan[500],
+            colors.violet[500],
+          ],
+          hoverBackgroundColor: [
+            colors.blue[400],
+            colors.cyan[400],
+            colors.violet[400],
+          ],
+        },
+      ],
+    };
+    const options = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+          },
+        },
+      },
+      onClick: (_: any, item: any) => {
+        if (item.length > 0) {
+          const selectedIndex = item[0].index;
+          handleNavigatePr(dataRawLabels[selectedIndex]);
+        }
+      },
+    };
+
+    setPrChartData(data);
+    setPrChartOptions(options);
+  };
+  const { isLoading: prIsLoading, data: prSummaryResponse } =
+    useGetQyRequestReport(
+      undefined,
+      dateName,
+      startDate,
+      endDate,
+      handleSuccessApi
+    );
+
+  // API PO
+  const handleSuccessPoApi = (
+    response: DashboardControllerPrDashboardReport200Response
+  ) => {
+    const prData = response.data;
+
+    const dataRawLabels = (prData || []).map((item) => item.label);
+    const dataLabels = (prData || []).map(
+      (item) => reportLabels[item.label as keyof typeof reportLabels]
+    );
+    const dataValues = (prData || []).map((item) => item.value);
+    const data = {
+      labels: dataLabels,
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: [
+            colors.blue[500],
+            colors.cyan[500],
+            colors.violet[500],
+            colors.teal[500],
+            colors.red[500],
+            colors.lime[500],
+            colors.pink[500],
+            colors.emerald[500],
+          ],
+          hoverBackgroundColor: [
+            colors.blue[400],
+            colors.cyan[400],
+            colors.violet[400],
+            colors.teal[400],
+            colors.red[400],
+            colors.lime[400],
+            colors.pink[400],
+            colors.emerald[400],
+          ],
+        },
+      ],
+    };
+    const options = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+          },
+        },
+      },
+      onClick: (_: any, item: any) => {
+        if (item.length > 0) {
+          const selectedIndex = item[0].index;
+          handleNavigatePo(dataRawLabels[selectedIndex]);
+        }
+      },
+    };
+
+    setPoChartData(data);
+    setPoChartOptions(options);
+  };
+  const { isLoading: poIsLoading, data: poSummaryResponse } =
+    useGetQyOrderReport(
+      undefined,
+      dateName,
+      startDate,
+      endDate,
+      handleSuccessPoApi
+    );
+
+  // API INVENTORY
+  const handleSuccessInventoryApi = (
+    response: DashboardControllerPrDashboardReport200Response
+  ) => {
+    const prData = response.data;
+
+    const dataRawLabels = (prData || []).map((item) => item.label);
+    const dataLabels = (prData || []).map(
+      (item) => reportLabels[item.label as keyof typeof reportLabels]
+    );
+    const dataValues = (prData || []).map((item) => item.value);
+    const data = {
+      labels: dataLabels,
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: [
+            colors.blue[500],
+            colors.emerald[500],
+            colors.violet[500],
+            colors.teal[500],
+            colors.red[500],
+            colors.orange[500],
+            colors.pink[500],
+            colors.cyan[500],
+            colors.fuchsia[500],
+          ],
+          hoverBackgroundColor: [
+            colors.blue[400],
+            colors.emerald[400],
+            colors.violet[400],
+            colors.teal[400],
+            colors.red[400],
+            colors.orange[400],
+            colors.pink[400],
+            colors.cyan[400],
+            colors.fuchsia[400],
+          ],
+        },
+      ],
+    };
+    const options = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+          },
+        },
+      },
+      onClick: (_: any, item: any) => {
+        if (item.length > 0) {
+          const selectedIndex = item[0].index;
+          handleNavigateInventory(dataRawLabels[selectedIndex]);
+        }
+      },
+    };
+
+    setInventoryChartData(data);
+    setInventoryChartOptions(options);
+  };
+  const { isLoading: inventoryIsLoading, data: inventorySummaryResponse } =
+    useGetQyInventoryReport(
+      undefined,
+      dateName,
+      startDate,
+      endDate,
+      handleSuccessInventoryApi
+    );
 
   const handleReset = () => {
     setDateName("MONTH");
@@ -111,27 +342,76 @@ export function Report() {
       />
     </div>
   );
-
+  const prCards = (
+    <section className="grid grid-cols-1 md:grid-cols-6 gap-2 md:gap-4 mb-4">
+      {(prSummaryResponse?.data || []).map((item, id) => (
+        <ReportCard
+          key={id}
+          count={item.value}
+          label={item.label}
+          textColorClass={prColors[id]}
+          callback={handleNavigatePr}
+        />
+      ))}
+    </section>
+  );
+  const poCards = (
+    <section className="grid grid-cols-1 md:grid-cols-6 gap-2 md:gap-4 mb-4">
+      {(poSummaryResponse?.data || []).map((item, id) => (
+        <ReportCard
+          key={id}
+          count={item.value}
+          label={item.label}
+          textColorClass={poColors[id]}
+          callback={handleNavigatePr}
+        />
+      ))}
+    </section>
+  );
+  const inventoryCards = (
+    <section className="grid grid-cols-1 md:grid-cols-6 gap-2 md:gap-4 mb-4">
+      {(inventorySummaryResponse?.data || []).map((item, id) => (
+        <ReportCard
+          key={id}
+          count={item.value}
+          label={item.label}
+          textColorClass={inventoryColors[id]}
+          callback={handleNavigatePr}
+        />
+      ))}
+    </section>
+  );
   const mainContent = (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-      <PrReport
-        dateName={dateName}
-        startDate={startDate}
-        endDate={endDate}
-        onSelected={handleNavigatePr}
-      />
-      <PoReport
-        dateName={dateName}
-        startDate={startDate}
-        endDate={endDate}
-        onSelected={handleNavigatePo}
-      />
-      <InventoryReport
-        dateName={dateName}
-        startDate={startDate}
-        endDate={endDate}
-        onSelected={handleNavigateInventory}
-      />
+    <section>
+      <div>
+        <h4 className="mb-2">Purchase Requests</h4>
+        {prCards}
+      </div>
+      <div>
+        <h4 className="mb-2">Purchase Orders</h4>
+        {poCards}
+      </div>
+      <div>
+        <h4 className="mb-2">Inventory</h4>
+        {inventoryCards}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <PrReport
+          isLoading={prIsLoading}
+          chartData={prChartData}
+          chartOptions={prChartOptions}
+        />
+        <PoReport
+          isLoading={poIsLoading}
+          chartData={poChartData}
+          chartOptions={poChartOptions}
+        />
+        <InventoryReport
+          isLoading={inventoryIsLoading}
+          chartData={inventoryChartData}
+          chartOptions={inventoryChartOptions}
+        />
+      </div>
     </section>
   );
 
