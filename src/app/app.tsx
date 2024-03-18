@@ -25,7 +25,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const key = "6LfrMG4pAAAAAHQSAjaIyauCXlG3wKvP1q8NmVhO";
   return (
     <QueryClientProvider client={queryClient}>
       <PrimeReactProvider value={{ unstyled: false, pt: {} }}>

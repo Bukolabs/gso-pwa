@@ -22,7 +22,7 @@ import { ListMonitorFilterForm } from "./list-monitor-filter.form";
 
 export function ListMonitor() {
   const navigate = useNavigate();
-  const { getFilterCount,filterEntity } = useMonitorFilterContext();
+  const { getFilterCount, filterEntity } = useMonitorFilterContext();
   const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +34,13 @@ export function ListMonitor() {
     isLoading,
     isError,
     error,
-  } = useQyGetInventory(searchTerm, rowLimit, pageNumber, undefined, filterEntity);
+  } = useQyGetInventory(
+    searchTerm,
+    rowLimit,
+    pageNumber,
+    undefined,
+    filterEntity
+  );
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -125,7 +131,13 @@ export function ListMonitor() {
 
   return (
     <div className="list-monitor">
-      <HeaderContent title="Monitoring"></HeaderContent>
+      <HeaderContent title="Monitoring">
+        <Button
+          className="w-full block md:m-0"
+          label="New"
+          onClick={() => navigate("new")}
+        ></Button>
+      </HeaderContent>
 
       <div className="p-7">
         {filterElement}

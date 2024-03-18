@@ -10,7 +10,7 @@ import ErrorSection from "@shared/ui/error-section/error-section";
 export function NotificationPage() {
   const [rowLimit, setRowLimit] = useState(5);
   const [pageNumber, setPageNumber] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [first, setFirst] = useState(0);
 
   // GET NOTIFICATION API

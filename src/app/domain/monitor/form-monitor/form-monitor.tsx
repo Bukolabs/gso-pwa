@@ -7,6 +7,7 @@ import InputTextareaControl from "@shared/ui/hook-form/input-textarea-control/in
 import DropdownControl from "@shared/ui/hook-form/dropdown-control/dropdown-control";
 import { LabelValue } from "@shared/models/label-value.interface";
 import InputDigitControl from "@shared/ui/hook-form/input-digit-control/input-digit-control";
+import { useGetDepartmentQy } from "@core/query/department.query";
 
 export function FormMonitor() {
   const { control } = useFormContext<InventoryFormSchema>();
@@ -20,6 +21,15 @@ export function FormMonitor() {
       value: "PAR",
     },
   ] as LabelValue[];
+
+  const { data: department } = useGetDepartmentQy("", 9999999, 0);
+  const mappedDepartments = (department?.data || []).map(
+    (item) =>
+      ({
+        label: item.description,
+        value: item.code,
+      } as LabelValue)
+  );
 
   return (
     <div className="form-monitor py-2 md:bg-white md:px-6">
@@ -74,7 +84,7 @@ export function FormMonitor() {
       <DropdownControl<InventoryFormSchema>
         control={control}
         name="propertyType"
-        label="Mode of Procurement"
+        label="Property Type"
         options={propertyTypeOptions}
         containerClassName="mb-9"
         className="w-full md:w-3/4"
@@ -87,6 +97,16 @@ export function FormMonitor() {
         className="w-full md:w-3/4"
         containerClassName="pb-2"
         placeholder="Enter name of assignee"
+      />
+      <DropdownControl<InventoryFormSchema>
+        control={control}
+        name="assignedDepartment"
+        label="Assigned Department"
+        options={mappedDepartments}
+        containerClassName="mb-9"
+        className="w-full md:w-3/4"
+        placeholder="Enter your department"
+        filter
       />
       <InputTextareaControl<InventoryFormSchema>
         control={control}

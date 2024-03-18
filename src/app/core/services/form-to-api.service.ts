@@ -3,6 +3,7 @@ import {
   AdminChangePasswordDto,
   CreateBidderDto,
   CreateItemDto,
+  CreateManualInventoryDto,
   CreatePIDDto,
   CreatePersonDto,
   CreatePoPrDto,
@@ -17,6 +18,7 @@ import {
   EditBidderDto,
   EditInventoryDto,
   EditItemDto,
+  EditManualInventoryDto,
   EditPersonDto,
   EditPrItemDto,
   EditPurchaseOrderDto,
@@ -435,6 +437,78 @@ export class FormToApiService {
       status: form.status,
       is_active: true,
     } as EditInventoryDto;
+
+    return payload;
+  }
+
+  static NewManualInventory(form: InventoryFormSchema) {
+    const payload = {
+      inventory_no: form.inventoryNo,
+      property_type: form.propertyType,
+      iar_no: form.iarNo,
+      assignee: form.assignee,
+      date_assigned: !!form.dateAssigned
+        ? format(form.dateAssigned as Date, SETTINGS.dateFormat)
+        : null,
+      department: form.assignedDepartment,
+      lot: form.lot,
+      office: form.office,
+      building: form.building,
+      end_of_life: form.endOfLife,
+      description: "",
+      remarks: form.remarks,
+      status: form.status,
+      is_active: true,
+      po_no: form.poNo,
+      po_date: !!form.poDate
+        ? format(form.poDate as Date, SETTINGS.dateFormat)
+        : null,
+      po_category: form.poCategory,
+      mode_of_procurement: form.procurementMode,
+      resolution_no: form.resolutionNo,
+      supplier: form.supplier,
+      supplier_address: form.supplierAddress,
+      supplier_email: form.supplierEmail,
+      supplier_contact: form.supplierContact,
+      supplier_tin: form.supplierTin,
+
+      pr_no: form.prNo,
+      pr_date: !!form.prDate
+        ? format(form.prDate as Date, SETTINGS.dateFormat)
+        : null,
+      pr_category: form.prCategory,
+      pr_department: form.prDepartment,
+      pr_section: form.prSection,
+      purpose: form.prPurpose,
+      pr_item_code: form.itemCode,
+      item_price: form.itemPrice,
+      unit: form.unit,
+      delivery_brand: form.deliveryBrand,
+      delivery_description: form.deliveryDescription,
+    } as CreateManualInventoryDto;
+
+    return payload;
+  }
+
+  static EditManualInventory(form: InventoryFormSchema) {
+    const payload = {
+      inventory_no: form.inventoryNo,
+      property_type: form.propertyType,
+      iar_no: form.iarNo,
+      assignee: form.assignee,
+      date_assigned: !!form.dateAssigned
+        ? format(form.dateAssigned as Date, SETTINGS.dateFormat)
+        : null,
+      department: form.assignedDepartment,
+      lot: form.lot,
+      office: form.office,
+      building: form.building,
+      end_of_life: form.endOfLife,
+      description: "",
+      remarks: form.remarks,
+      status: form.status,
+      is_active: true,
+    } as EditManualInventoryDto;
 
     return payload;
   }

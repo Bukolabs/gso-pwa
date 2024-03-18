@@ -235,5 +235,33 @@ export const getInventoryFormDefault = (
         remarks: cachedValue.remarks,
         status: cachedValue.status,
         status_name: cachedValue.status_name,
+        assignedDepartment: cachedValue.department,
+        poNo: cachedValue.po_no,
+        poDate: cachedValue?.po_date
+          ? (format(
+              new Date(cachedValue?.po_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : ("" as any),
+        poCategory: cachedValue.po_category,
+        procurementMode: cachedValue.mode_of_procurement,
+        resolutionNo: cachedValue.resolution_no,
+        iarNo: cachedValue.iar_no,
+        supplier: cachedValue.supplier,
+        supplierAddress: cachedValue.supplier_address,
+        supplierEmail: cachedValue.supplier_email,
+        supplierContact: cachedValue.supplier_contact,
+        supplierTin: cachedValue.supplier_tin,
+        prNo: cachedValue.pr_no,
+        prDate: "" as any,
+        prCategory: cachedValue.pr_category,
+        prDepartment: cachedValue.pr_department,
+        prSection: cachedValue.section,
+        prPurpose: cachedValue.purpose,
+        itemCode: cachedValue.pr_item_code,
+        itemPrice: cachedValue.item_price,
+        unit: cachedValue.unit,
+        deliveryBrand: cachedValue.delivery_brand,
+        deliveryDescription: cachedValue.delivery_description,
       } as InventoryFormSchema);
 };

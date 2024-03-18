@@ -87,6 +87,7 @@ export function useEditMonitor() {
       setValue("propertyType", responseData?.property_type || "");
       setValue("remarks", responseData?.remarks || "");
       setValue("status", responseData?.status || "");
+      setValue("assignedDepartment", responseData?.department || "");
       setValue(
         "dateAssigned",
         responseData?.date_assigned
@@ -96,7 +97,45 @@ export function useEditMonitor() {
             ) as any)
           : undefined
       );
-      return;
+      setValue("poNo", responseData?.po_no || "");
+      setValue(
+        "poDate",
+        responseData?.po_date
+          ? (format(
+              new Date(responseData?.po_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined
+      );
+      setValue("poCategory", responseData?.po_category || "");
+      setValue("procurementMode", responseData?.mode_of_procurement || "");
+      setValue("resolutionNo", responseData?.resolution_no || "");
+      setValue("iarNo", responseData?.iar_no || "");
+      setValue("supplier", responseData?.supplier || "");
+      setValue("supplierAddress", responseData?.supplier_address || "");
+      setValue("supplierEmail", responseData?.supplier_email || "");
+      setValue("supplierContact", responseData?.supplier_contact || "");
+      setValue("supplierTin", responseData?.supplier_tin || "");
+      setValue("prNo", responseData?.pr_no || "");
+      setValue(
+        "prDate",
+        responseData?.pr_date
+          ? (format(
+              new Date(responseData?.pr_date),
+              SETTINGS.dateFormat
+            ) as any)
+          : undefined
+      );
+      setValue("prCategory", responseData?.pr_category || "");
+      setValue("prDepartment", responseData?.pr_department || "");
+      setValue("prSection", (responseData as any)?.pr_section || "");
+      setValue("prPurpose", (responseData as any)?.pr_purpose || "");
+      setValue("itemCode", responseData?.pr_item_code || "");
+      setValue("itemName", responseData?.item_name || "");
+      setValue("itemPrice", responseData?.item_price || 0);
+      setValue("unit", responseData?.unit || "");
+      setValue("deliveryBrand", responseData?.delivery_brand || "");
+      setValue("deliveryDescription", responseData?.delivery_description || "");
     }
   };
   const {
@@ -125,8 +164,12 @@ export function useEditMonitor() {
       throw new Error("No inventory data");
     }
 
-    const formData = FormToApiService.EditInventory(form, inventoryData);
-    editInventory(formData);
+    if (!inventoryData.purchase_request) {
+      
+    } else {
+      const formData = FormToApiService.EditInventory(form, inventoryData);
+      editInventory(formData);
+    }
   };
   const handleValidateError = (err: FieldErrors<InventoryFormSchema>) => {
     const formMessage = getFormErrorMessage(err);

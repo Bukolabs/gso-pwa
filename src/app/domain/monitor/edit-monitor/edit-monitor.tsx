@@ -14,6 +14,11 @@ import { format } from "date-fns";
 import { SETTINGS } from "@core/utility/settings";
 import { SplitButton } from "primereact/splitbutton";
 import { Button } from "primereact/button";
+import { dateFormat } from "@shared/formats/date-time-format";
+import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-item/form-category-item.context";
+import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
+import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
+import FormManualMonitor from "../form-manual-monitor/form-manual-monitor";
 
 export function EditMonitor() {
   const navigate = useNavigate();
@@ -66,6 +71,150 @@ export function EditMonitor() {
       </section>
     );
   };
+  const inventoryAccordion = (
+    <Accordion activeIndex={[0]} multiple>
+      <AccordionTab header="Purchase Order Information">
+        <TextBlock
+          label="PO Number"
+          value={inventoryData?.po_no || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PO Date"
+          value={dateFormat(inventoryData?.po_date) || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Procurement Mode"
+          value={inventoryData?.mode_of_procurement || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Resolution No."
+          value={inventoryData?.resolution_no || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="IAR No."
+          value={inventoryData?.iar_no || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+      </AccordionTab>
+      <AccordionTab header="Purchase Request Information">
+        <TextBlock
+          label="PR Number"
+          value={inventoryData?.pr_no || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PR Date"
+          value={dateFormat(inventoryData?.pr_date) || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PR Category"
+          value={inventoryData?.pr_category_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PR Department"
+          value={inventoryData?.pr_department_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PR Section"
+          value={(inventoryData as any)?.pr_section || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="PR Purpose"
+          value={(inventoryData as any)?.pr_purpose || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+      </AccordionTab>
+      <AccordionTab header="Item Information">
+        <TextBlock
+          label="Name"
+          value={inventoryData?.item_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Delivery Brand"
+          value={inventoryData?.brand_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Unit"
+          value={inventoryData?.unit_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Price"
+          value={currencyFormat(inventoryData?.item_price || 0)}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Category"
+          value={inventoryData?.po_category_name || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Delivery Description"
+          value={inventoryData?.delivery_description || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+      </AccordionTab>
+      <AccordionTab header="Supplier">
+        <TextBlock
+          label="Name"
+          value={inventoryData?.supplier || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Contact"
+          value={inventoryData?.supplier_contact || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Address"
+          value={inventoryData?.supplier_address || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="Email"
+          value={inventoryData?.supplier_email || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+        <TextBlock
+          label="TIN"
+          value={inventoryData?.supplier_tin || "-"}
+          mode="vertical"
+          className="mb-4"
+        />
+      </AccordionTab>
+    </Accordion>
+  );
   const mainContent = (
     <div>
       {subHeader()}
@@ -73,128 +222,17 @@ export function EditMonitor() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4 bg-white">
         <FormMonitor />
         <section className="p-6">
-          <Accordion activeIndex={[0]} multiple>
-            <AccordionTab header="Request & Order Information">
-              <TextBlock
-                label="PO Number"
-                value={inventoryData?.po_no || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="PR Number"
-                value={inventoryData?.pr_no || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Department"
-                value={inventoryData?.department_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Department Full Name"
-                value={inventoryData?.department_description || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Procurement Mode"
-                value={inventoryData?.mode_of_procurement || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="IAR No."
-                value={inventoryData?.iar_no || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="IAR No."
-                value={inventoryData?.resolution_no || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="IAR No."
-                value={inventoryData?.status_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-            </AccordionTab>
-            <AccordionTab header="Item Information">
-              <TextBlock
-                label="Name"
-                value={inventoryData?.item_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Brand"
-                value={inventoryData?.brand_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Unit"
-                value={inventoryData?.unit_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Price"
-                value={currencyFormat(inventoryData?.item_price || 0)}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Category"
-                value={inventoryData?.po_category_name || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Description"
-                value={inventoryData?.item_description || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-            </AccordionTab>
-            <AccordionTab header="Supplier">
-              <TextBlock
-                label="Name"
-                value={inventoryData?.supplier || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Contact"
-                value={inventoryData?.supplier_contact || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Address"
-                value={inventoryData?.supplier_address || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="Email"
-                value={inventoryData?.supplier_email || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-              <TextBlock
-                label="TIN"
-                value={inventoryData?.supplier_tin || "-"}
-                mode="vertical"
-                className="mb-4"
-              />
-            </AccordionTab>
-          </Accordion>
+          {!inventoryData?.purchase_request ? (
+            <FormCategoryItemProvider>
+              <FormBrandItemProvider>
+                <FormUnitItemProvider>
+                  <FormManualMonitor />
+                </FormUnitItemProvider>
+              </FormBrandItemProvider>
+            </FormCategoryItemProvider>
+          ) : (
+            inventoryAccordion
+          )}
         </section>
       </section>
     </div>

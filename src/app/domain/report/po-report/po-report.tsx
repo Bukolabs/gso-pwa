@@ -1,10 +1,5 @@
 import { Chart } from "primereact/chart";
 import "./po-report.scss";
-import { useGetQyOrderReport } from "@core/query/dashboard.query";
-import { DashboardControllerPrDashboardReport200Response } from "@api/api";
-import { useState } from "react";
-import { reportLabels } from "@core/utility/reports.helper";
-import colors from "tailwindcss/colors";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 
 export interface PoReportProps {
