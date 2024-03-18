@@ -17,11 +17,17 @@ import { useNotificationContext } from "@shared/ui/notification/notification.con
 import { InventoryStatus } from "@core/model/inventory-status.enum";
 import { useQueryClient } from "react-query";
 import { QueryKey } from "@core/query/query-key.enum";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
 export function useEditMonitor() {
   const queryClient = useQueryClient();
   const { showError, showSuccess } = useNotificationContext();
   const { monitorId } = useParams();
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const actionItems = [
     {
       label: "Register",
@@ -57,6 +63,12 @@ export function useEditMonitor() {
       label: "Disposed",
       command: () => {
         updateStatusAction(InventoryStatus.DISPOSED);
+      },
+    },
+    {
+      label: "Print",
+      command: () => {
+        handlePrint();
       },
     },
   ];
@@ -165,7 +177,6 @@ export function useEditMonitor() {
     }
 
     if (!inventoryData.purchase_request) {
-      
     } else {
       const formData = FormToApiService.EditInventory(form, inventoryData);
       editInventory(formData);
@@ -211,6 +222,7 @@ export function useEditMonitor() {
     formMethod,
     actionItems,
     isEditLoading,
+    componentRef,
     updateAction,
     assignAction,
     handleSubmit,

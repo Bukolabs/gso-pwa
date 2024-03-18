@@ -19,6 +19,7 @@ import { FormCategoryItemProvider } from "@domain/item/new-item/form-category-it
 import { FormBrandItemProvider } from "@domain/item/new-item/form-brand-item/brand.context";
 import { FormUnitItemProvider } from "@domain/item/new-item/form-unit-item/form-unit-item.context";
 import FormManualMonitor from "../form-manual-monitor/form-manual-monitor";
+import PrintInventoryQr from "../print-inventory-qr/print-inventory-qr";
 
 export function EditMonitor() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export function EditMonitor() {
     formMethod,
     actionItems,
     isEditLoading,
+    componentRef,
     updateAction,
     assignAction,
   } = useEditMonitor();
@@ -237,6 +239,13 @@ export function EditMonitor() {
       </section>
     </div>
   );
+  const printSection = () => (
+    <div style={{ display: "none" }}>
+      <div ref={componentRef}>
+        <PrintInventoryQr code={inventoryData?.code || ""} />
+      </div>
+    </div>
+  );
 
   return (
     <div className="edit-monitor">
@@ -258,6 +267,7 @@ export function EditMonitor() {
       </HeaderContent>
 
       <div className="p-7">
+        {printSection()}
         <FormProvider {...formMethod}>
           {isLoading && displayLoading}
           {inventoryError && !isLoading && displayError}
