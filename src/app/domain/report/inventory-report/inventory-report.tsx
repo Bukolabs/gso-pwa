@@ -1,9 +1,4 @@
-import { useGetQyInventoryReport } from "@core/query/dashboard.query";
 import "./inventory-report.scss";
-import { useState } from "react";
-import { DashboardControllerPrDashboardReport200Response } from "@api/api";
-import { reportLabels } from "@core/utility/reports.helper";
-import colors from "tailwindcss/colors";
 import { Chart } from "primereact/chart";
 import SkeletonList from "@shared/ui/skeleton-list/skeleton-list";
 

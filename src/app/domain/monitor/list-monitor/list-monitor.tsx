@@ -12,6 +12,7 @@ import { Column } from "primereact/column";
 import {
   currencyTemplate,
   dateTemplate,
+  tagLabelTemplate,
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { useNavigate } from "react-router-dom";
@@ -19,10 +20,11 @@ import { Button } from "primereact/button";
 import { useMonitorFilterContext } from "./list-monitor-filter.context";
 import { Sidebar } from "primereact/sidebar";
 import { ListMonitorFilterForm } from "./list-monitor-filter.form";
+import { getInventoryStatusName } from "@core/utility/inventory.helper";
 
 export function ListMonitor() {
   const navigate = useNavigate();
-  const { getFilterCount,filterEntity } = useMonitorFilterContext();
+  const { getFilterCount, filterEntity } = useMonitorFilterContext();
   const [rowLimit, setRowLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +36,13 @@ export function ListMonitor() {
     isLoading,
     isError,
     error,
-  } = useQyGetInventory(searchTerm, rowLimit, pageNumber, undefined, filterEntity);
+  } = useQyGetInventory(
+    searchTerm,
+    rowLimit,
+    pageNumber,
+    undefined,
+    filterEntity
+  );
 
   const handleSearch = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -109,7 +117,12 @@ export function ListMonitor() {
         ></Column>
         <Column
           header="Status"
-          body={(cell) => tagTemplate(cell.status_name)}
+          body={(cell) =>
+            tagLabelTemplate(
+              getInventoryStatusName(cell.status_name),
+              cell.status_name
+            )
+          }
         ></Column>
       </DataTable>
 
@@ -125,7 +138,13 @@ export function ListMonitor() {
 
   return (
     <div className="list-monitor">
-      <HeaderContent title="Monitoring"></HeaderContent>
+      <HeaderContent title="Monitoring">
+        <Button
+          className="w-full block md:m-0"
+          label="New"
+          onClick={() => navigate("new")}
+        ></Button>
+      </HeaderContent>
 
       <div className="p-7">
         {filterElement}

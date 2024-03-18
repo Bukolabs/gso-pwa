@@ -10,7 +10,9 @@ import { getFormErrorMessage } from "@core/utility/get-error-message";
 import {
   useEditPersonQy,
   useGetAccountByIdQy,
+  useQyBlockAccount,
   useQyDeleteAccount,
+  useQyUnblockAccount,
   useQyUpdatePassword,
 } from "@core/query/account.query";
 import { useState } from "react";
@@ -50,6 +52,18 @@ export function EditAccount() {
         deleteAccount(formData);
       },
     },
+    {
+      label: "Block",
+      command: () => {
+        blockAccount({ code: accountsData?.person_code || "" });
+      },
+    },
+    {
+      label: "Unblock",
+      command: () => {
+        unblockAccount({ code: accountsData?.person_code || "" });
+      },
+    },
   ];
 
   // GET API
@@ -75,6 +89,7 @@ export function EditAccount() {
     isLoading,
     isError: itemError,
   } = useGetAccountByIdQy(accountId || "", handleGetApiSuccess);
+  const accountsData = accounts?.data?.[0];
 
   // EDIT API
   const handleApiSuccess = () => {
@@ -102,8 +117,20 @@ export function EditAccount() {
     handleDeleteAccountApiSuccess
   );
 
+  // BLOCK API
+  const handleBlockSuccess = () => {
+    showSuccess("User is blocked");
+  };
+  const { mutate: blockAccount } = useQyBlockAccount(handleBlockSuccess);
+
+  // UNBLOCK API
+  const handleUnblockSuccess = () => {
+    showSuccess("User is unblocked");
+  };
+  const { mutate: unblockAccount } = useQyUnblockAccount(handleUnblockSuccess);
+
   const formMethod = useForm<AccountFormSchema>({
-    defaultValues: getAccountFormDefault(accounts?.data?.[0]),
+    defaultValues: getAccountFormDefault(accountsData),
     resolver: zodResolver(AccountFormRule),
   });
   const { handleSubmit, setValue } = formMethod;

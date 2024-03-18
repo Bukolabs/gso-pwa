@@ -5,7 +5,6 @@ import {
 import "./received-info.scss";
 import { useNavigate, useParams } from "react-router";
 import { useNotificationContext } from "@shared/ui/notification/notification.context";
-import { useCallback, useEffect } from "react";
 import {
   PurchaseRequestControllerGetDataAsList200Response,
   ReceivePurchaseRequestDto,
@@ -56,7 +55,7 @@ export function ReceivedInfo() {
       recieveRequest(received);
     }
   };
-  
+
   useGetRequestByIdQy(requestId || "", handleGetApiSuccess);
 
   return (

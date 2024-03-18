@@ -26,6 +26,9 @@ export const dateTemplate = (date?: string) => {
 export const tagTemplate = (tag: string) => {
   return <Tag value={tag || "-"} className={classNames(getStatusStyle(tag))} />;
 };
+export const tagLabelTemplate = (label: string, tag: string) => {
+  return <Tag value={label || "-"} className={classNames(getStatusStyle(tag))} />;
+};
 
 export const getTotalAmount = (data: GetPurchaseRequestDto) => {
   const total = sumBy(data?.items || [], (x) => x.price * (x.quantity || 0));

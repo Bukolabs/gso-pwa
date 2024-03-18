@@ -332,3 +332,81 @@ export function useQyDeleteAccount(
     },
   });
 }
+
+export function useQyBlockAccount(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+
+  const apiFn = async (payload: DeletePersonDto) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerBlock(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Account);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}
+
+export function useQyUnblockAccount(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+
+  const apiFn = async (payload: DeletePersonDto) => {
+    showProgress();
+    const operation = await PersonApiFp().personControllerUnblock(
+      payload,
+      authHeaders()
+    );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Account);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      if (onError) {
+        onError(err);
+      }
+    },
+  });
+}

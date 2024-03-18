@@ -180,6 +180,32 @@ export const InventoryFormRule = z.object({
   remarks: z.string().optional(),
   status: z.string().optional(),
   status_name: z.string().optional(),
+  assignedDepartment: z.string().optional(),
+  
+  poNo: z.string().optional(),
+  poDate:  z.coerce.date().optional().nullable(),
+  poCategory: z.string().optional(),
+  procurementMode: z.string().optional(),
+  resolutionNo: z.string().optional(),
+  iarNo: z.string().optional(),
+  supplier: z.string().optional(),
+  supplierAddress: z.string().optional(),
+  supplierEmail: z.string().optional(),
+  supplierContact: z.string().optional(),
+  supplierTin: z.string().optional(),
+
+  prNo: z.string().optional(),
+  prDate:  z.coerce.date().optional().nullable(),
+  prCategory: z.string().optional(),
+  prDepartment: z.string().optional(),
+  prSection: z.string().optional(),
+  prPurpose: z.string().optional(),
+  itemCode: z.string().optional(),
+  itemName: z.string().optional(),
+  itemPrice: z.number().optional(),
+  unit: z.string().optional(),
+  deliveryBrand: z.string().optional(),
+  deliveryDescription: z.string().optional(),
 });
 
 export const BidderFormRule = PersonalRule.and(AddressRule);

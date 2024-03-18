@@ -575,6 +575,247 @@ export interface CreateItemDto {
 /**
  * 
  * @export
+ * @interface CreateManualInventoryDto
+ */
+export interface CreateManualInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'po_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_department'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * `code` from `item` table.
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'pr_item_code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'unit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'delivery_brand'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'delivery_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'lot'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'office'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'building'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateManualInventoryDto
+     */
+    'end_of_life'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateManualInventoryDto
+     */
+    'is_active': boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateManualInventoryDto
+     */
+    'updated_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreatePIDDto
  */
 export interface CreatePIDDto {
@@ -2081,6 +2322,49 @@ export interface DeleteItemDto {
 /**
  * 
  * @export
+ * @interface DeleteManualInventoryDto
+ */
+export interface DeleteManualInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteManualInventoryDto
+     */
+    'code': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeleteManualInventoryDto
+     */
+    'is_active'?: boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteManualInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteManualInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof DeleteManualInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteManualInventoryDto
+     */
+    'deleted_by'?: string;
+}
+/**
+ * 
+ * @export
  * @interface DeleteNotificationDto
  */
 export interface DeleteNotificationDto {
@@ -3092,6 +3376,259 @@ export interface EditItemDto {
      * @memberof EditItemDto
      */
     'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditManualInventoryDto
+ */
+export interface EditManualInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_department'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * `code` from `item` table.
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_item_code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'unit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'delivery_brand'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'delivery_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'lot'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'office'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'building'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditManualInventoryDto
+     */
+    'end_of_life'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditManualInventoryDto
+     */
+    'is_active': boolean;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'deleted_by'?: string;
 }
 /**
  * 
@@ -4672,12 +5209,6 @@ export interface GetBidderDto {
 export interface GetInventoryDto {
     /**
      * 
-     * @type {number}
-     * @memberof GetInventoryDto
-     */
-    'id': number;
-    /**
-     * 
      * @type {string}
      * @memberof GetInventoryDto
      */
@@ -4819,13 +5350,13 @@ export interface GetInventoryDto {
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'section'?: string;
+    'pr_section'?: string;
     /**
      * 
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'purpose'?: string;
+    'pr_purpose'?: string;
     /**
      * 
      * @type {string}
@@ -5133,6 +5664,379 @@ export interface GetItemDto {
      * @memberof GetItemDto
      */
     'updated_by'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetManualInventoryDto
+ */
+export interface GetManualInventoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'batch'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'purchase_order': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'po_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'po_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'purchase_request': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_no'?: string;
+    /**
+     * The date of the event. Format: YYYY-MM-DD
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_category_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_department_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'pr_item_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'item_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'item_description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetManualInventoryDto
+     */
+    'item_price': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'unit': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'unit_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'unit_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'delivery_brand': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'brand_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'brand_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'delivery_description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'property_type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'iar_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'assignee'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'date_assigned'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'department_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'department_description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'lot': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'office': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'building': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetManualInventoryDto
+     */
+    'end_of_life': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'remarks'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'status_name': string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'create_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'create_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'updated_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'update_by_first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'update_by_last_name'?: string;
+    /**
+     * The date and time of the event. Format: YYYY-MM-DD HH:ii:ss
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'deleted_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetManualInventoryDto
+     */
+    'deleted_by'?: string;
 }
 /**
  * 
@@ -7779,6 +8683,38 @@ export interface LoginResponseDto {
      * @memberof LoginResponseDto
      */
     'department_name': string;
+}
+/**
+ * 
+ * @export
+ * @interface ManualInventoryControllerGetDataAsList200Response
+ */
+export interface ManualInventoryControllerGetDataAsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof ManualInventoryControllerGetDataAsList200Response
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<GetManualInventoryDto>}
+     * @memberof ManualInventoryControllerGetDataAsList200Response
+     */
+    'data'?: Array<GetManualInventoryDto>;
+}
+/**
+ * 
+ * @export
+ * @interface ManualInventoryControllerGetDataAsList200ResponseAllOf
+ */
+export interface ManualInventoryControllerGetDataAsList200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<GetManualInventoryDto>}
+     * @memberof ManualInventoryControllerGetDataAsList200ResponseAllOf
+     */
+    'data'?: Array<GetManualInventoryDto>;
 }
 /**
  * 
@@ -10617,6 +11553,395 @@ export class ItemApi extends BaseAPI {
      */
     public itemControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, options?: AxiosRequestConfig) {
         return ItemApiFp(this.configuration).itemControllerGetDataAsList(search, limit, offset, order, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ManualInventoryApi - axios parameter creator
+ * @export
+ */
+export const ManualInventoryApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateManualInventoryDto} createManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerCreate: async (createManualInventoryDto: CreateManualInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createManualInventoryDto' is not null or undefined
+            assertParamExists('manualInventoryControllerCreate', 'createManualInventoryDto', createManualInventoryDto)
+            const localVarPath = `/api/v1/manual-inventory/create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createManualInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeleteManualInventoryDto} deleteManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerDelete: async (deleteManualInventoryDto: DeleteManualInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteManualInventoryDto' is not null or undefined
+            assertParamExists('manualInventoryControllerDelete', 'deleteManualInventoryDto', deleteManualInventoryDto)
+            const localVarPath = `/api/v1/manual-inventory/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteManualInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditManualInventoryDto} editManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerEdit: async (editManualInventoryDto: EditManualInventoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'editManualInventoryDto' is not null or undefined
+            assertParamExists('manualInventoryControllerEdit', 'editManualInventoryDto', editManualInventoryDto)
+            const localVarPath = `/api/v1/manual-inventory/edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editManualInventoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerGetDataAsList: async (search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/manual-inventory/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth-client-secret required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-client-secret", configuration)
+
+            // authentication oauth-token-code required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-code", configuration)
+
+            // authentication oauth-token-refresh-token required
+            await setApiKeyToObject(localVarHeaderParameter, "oauth-token-refresh-token", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['order'] = order;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (dateFilter !== undefined) {
+                localVarQueryParameter['date_filter'] = dateFilter;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['start_date'] = startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ManualInventoryApi - functional programming interface
+ * @export
+ */
+export const ManualInventoryApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ManualInventoryApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateManualInventoryDto} createManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async manualInventoryControllerCreate(createManualInventoryDto: CreateManualInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.manualInventoryControllerCreate(createManualInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeleteManualInventoryDto} deleteManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async manualInventoryControllerDelete(deleteManualInventoryDto: DeleteManualInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.manualInventoryControllerDelete(deleteManualInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {EditManualInventoryDto} editManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async manualInventoryControllerEdit(editManualInventoryDto: EditManualInventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MessageResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.manualInventoryControllerEdit(editManualInventoryDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async manualInventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManualInventoryControllerGetDataAsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.manualInventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ManualInventoryApi - factory interface
+ * @export
+ */
+export const ManualInventoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ManualInventoryApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateManualInventoryDto} createManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerCreate(createManualInventoryDto: CreateManualInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.manualInventoryControllerCreate(createManualInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeleteManualInventoryDto} deleteManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerDelete(deleteManualInventoryDto: DeleteManualInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.manualInventoryControllerDelete(deleteManualInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditManualInventoryDto} editManualInventoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerEdit(editManualInventoryDto: EditManualInventoryDto, options?: any): AxiosPromise<MessageResponseDto> {
+            return localVarFp.manualInventoryControllerEdit(editManualInventoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {object} [order] 
+         * @param {object} [filter] 
+         * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+         * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        manualInventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: any): AxiosPromise<ManualInventoryControllerGetDataAsList200Response> {
+            return localVarFp.manualInventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ManualInventoryApi - object-oriented interface
+ * @export
+ * @class ManualInventoryApi
+ * @extends {BaseAPI}
+ */
+export class ManualInventoryApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateManualInventoryDto} createManualInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ManualInventoryApi
+     */
+    public manualInventoryControllerCreate(createManualInventoryDto: CreateManualInventoryDto, options?: AxiosRequestConfig) {
+        return ManualInventoryApiFp(this.configuration).manualInventoryControllerCreate(createManualInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeleteManualInventoryDto} deleteManualInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ManualInventoryApi
+     */
+    public manualInventoryControllerDelete(deleteManualInventoryDto: DeleteManualInventoryDto, options?: AxiosRequestConfig) {
+        return ManualInventoryApiFp(this.configuration).manualInventoryControllerDelete(deleteManualInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditManualInventoryDto} editManualInventoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ManualInventoryApi
+     */
+    public manualInventoryControllerEdit(editManualInventoryDto: EditManualInventoryDto, options?: AxiosRequestConfig) {
+        return ManualInventoryApiFp(this.configuration).manualInventoryControllerEdit(editManualInventoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [search] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {object} [order] 
+     * @param {object} [filter] 
+     * @param {string} [dateFilter] TODAY | YESTERDAY | WEEK | MONTH
+     * @param {string} [startDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {string} [endDate] The date and time of the event. Format: YYYY-MM-DD
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ManualInventoryApi
+     */
+    public manualInventoryControllerGetDataAsList(search?: string, limit?: number, offset?: number, order?: object, filter?: object, dateFilter?: string, startDate?: string, endDate?: string, options?: AxiosRequestConfig) {
+        return ManualInventoryApiFp(this.configuration).manualInventoryControllerGetDataAsList(search, limit, offset, order, filter, dateFilter, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

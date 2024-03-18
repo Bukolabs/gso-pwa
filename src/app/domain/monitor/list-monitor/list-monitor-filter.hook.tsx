@@ -1,3 +1,4 @@
+import { useGetDepartmentQy } from "@core/query/department.query";
 import { useQyGetInventoryStatus } from "@core/query/inventory.query";
 import { LabelValue } from "@shared/models/label-value.interface";
 import { Button } from "primereact/button";
@@ -25,6 +26,8 @@ export function useListMonitorFilter() {
   const dateNameParam = searchParams.get("dateName") || undefined;
   const startDateParam = searchParams.get("startDate") || undefined;
   const endDateParam = searchParams.get("endDate") || undefined;
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  
 
   // API GET STATUS
   const { data: status } = useQyGetInventoryStatus("", 999, 0, undefined);
@@ -33,6 +36,16 @@ export function useListMonitorFilter() {
       ({
         label: item.name,
         value: item.name,
+      } as LabelValue)
+  );
+
+  // API GET DEPARTMENT
+  const { data: department } = useGetDepartmentQy("", 9999999, 0);
+  const mappedDepartments = (department?.data || []).map(
+    (item) =>
+      ({
+        label: item.name,
+        value: item.code,
       } as LabelValue)
   );
 
@@ -125,11 +138,30 @@ export function useListMonitorFilter() {
       />
     </div>
   );
+  const departmentSelectionElement = (
+    <div>
+      <label>Department</label>
+      <Dropdown
+        value={selectedDepartment}
+        onChange={(e) => {
+          setSelectedDepartment(e.value);
+          applyFilter("department", e.value);
+        }}
+        options={mappedDepartments}
+        filter
+        placeholder="Select department"
+        className="w-full"
+        showClear
+      />
+    </div>
+  );
 
   return {
     filterEntity,
     reportFilterElements,
     statusSelectionElement,
+    selectedDepartment,
+    departmentSelectionElement,
     removeFilters,
     getFilterCount,
   };

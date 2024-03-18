@@ -1,9 +1,11 @@
 import {
-  CreateInventoryStatusDto,
+  CreateManualInventoryDto,
   EditInventoryDto,
+  EditManualInventoryDto,
   InventoryApiFp,
   InventoryControllerGetDataAsList200Response,
   InventoryStatusApiFp,
+  ManualInventoryApiFp,
   MessageResponseDto,
   MonitorPIDDto,
   PurchaseRequestItemDeliveryApiFp,
@@ -18,7 +20,7 @@ import { AxiosError } from "axios";
 import { getApiErrorMessage } from "@core/utility/get-error-message";
 import { SETTINGS } from "@core/utility/settings";
 
-export function useQyAddInventory(
+export function useQyAddManualInventory(
   onSuccess?:
     | ((data: MessageResponseDto) => void | Promise<unknown>)
     | undefined,
@@ -28,10 +30,10 @@ export function useQyAddInventory(
   const { showProgress, hideProgress, showError } = useNotificationContext();
   const { errorAction } = useErrorAction();
 
-  const apiFn = async (payload: CreateInventoryStatusDto) => {
+  const apiFn = async (payload: CreateManualInventoryDto) => {
     showProgress();
     const operation =
-      await InventoryStatusApiFp().inventoryStatusControllerCreate(
+      await ManualInventoryApiFp().manualInventoryControllerCreate(
         payload,
         authHeaders()
       );
@@ -44,6 +46,52 @@ export function useQyAddInventory(
     onSuccess: (response) => {
       hideProgress();
       queryClient.invalidateQueries(QueryKey.Inventory);
+      if (onSuccess) {
+        onSuccess(response);
+      }
+    },
+    onError: (err: AxiosError) => {
+      hideProgress();
+      const message = getApiErrorMessage(err);
+      showError(message);
+      errorAction(err.response);
+
+      if (onError) {
+        onError(err);
+      }
+    },
+    onSettled() {
+      hideProgress();
+    },
+  });
+}
+
+export function useQyEditManualInventory(
+  onSuccess?:
+    | ((data: MessageResponseDto) => void | Promise<unknown>)
+    | undefined,
+  onError?: ((error: unknown) => void | Promise<unknown>) | undefined
+) {
+  const queryClient = useQueryClient();
+  const { showProgress, hideProgress, showError } = useNotificationContext();
+  const { errorAction } = useErrorAction();
+
+  const apiFn = async (payload: EditManualInventoryDto) => {
+    showProgress();
+    const operation =
+      await ManualInventoryApiFp().manualInventoryControllerEdit(
+        payload,
+        authHeaders()
+      );
+    const response = (await operation()).data;
+    return response["message"] as MessageResponseDto;
+  };
+
+  return useMutation({
+    mutationFn: apiFn,
+    onSuccess: (response) => {
+      hideProgress();
+      queryClient.invalidateQueries(QueryKey.Order);
       if (onSuccess) {
         onSuccess(response);
       }
@@ -159,18 +207,17 @@ export function useQyGetInventoryById(
   const { errorAction } = useErrorAction();
   const apiFn = async (id: string, search = "", limit = 1, offset = 0) => {
     showProgress();
-    const operation =
-      await InventoryApiFp().inventoryControllerGetDataAsList(
-        search,
-        limit,
-        offset,
-        undefined,
-        JSON.stringify({ code: id }) as any,
-        undefined,
-        undefined,
-        undefined,
-        authHeaders()
-      );
+    const operation = await InventoryApiFp().inventoryControllerGetDataAsList(
+      search,
+      limit,
+      offset,
+      undefined,
+      JSON.stringify({ code: id }) as any,
+      undefined,
+      undefined,
+      undefined,
+      authHeaders()
+    );
     const response = (await operation()).data;
     return response["data"] as InventoryControllerGetDataAsList200Response;
   };
@@ -305,7 +352,7 @@ export function useQyGetInventoryStatus(
     onSettled() {
       hideProgress();
     },
-    staleTime: SETTINGS.staleTime
+    staleTime: SETTINGS.staleTime,
   });
 }
 
