@@ -150,6 +150,7 @@ export function useRequestFilter() {
       value: "CVMO",
     },
   ] as LabelValue[];
+  
   const departmentSelectionElement = (
     <div>
       <label>Department</label>

@@ -1,8 +1,11 @@
 import { useMonitorFilterContext } from "./list-monitor-filter.context";
 
 export function ListMonitorFilterForm() {
-  const { statusSelectionElement, reportFilterElements } =
-    useMonitorFilterContext();
+  const {
+    statusSelectionElement,
+    reportFilterElements,
+    departmentSelectionElement,
+  } = useMonitorFilterContext();
 
   return (
     <div>
@@ -13,6 +16,7 @@ export function ListMonitorFilterForm() {
 
       <div className="mb-4">{statusSelectionElement}</div>
 
+      {departmentSelectionElement}
       {reportFilterElements}
     </div>
   );

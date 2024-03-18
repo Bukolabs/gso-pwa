@@ -12,6 +12,7 @@ import { Column } from "primereact/column";
 import {
   currencyTemplate,
   dateTemplate,
+  tagLabelTemplate,
   tagTemplate,
 } from "@core/utility/data-table-template";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ import { Button } from "primereact/button";
 import { useMonitorFilterContext } from "./list-monitor-filter.context";
 import { Sidebar } from "primereact/sidebar";
 import { ListMonitorFilterForm } from "./list-monitor-filter.form";
+import { getInventoryStatusName } from "@core/utility/inventory.helper";
 
 export function ListMonitor() {
   const navigate = useNavigate();
@@ -115,7 +117,12 @@ export function ListMonitor() {
         ></Column>
         <Column
           header="Status"
-          body={(cell) => tagTemplate(cell.status_name)}
+          body={(cell) =>
+            tagLabelTemplate(
+              getInventoryStatusName(cell.status_name),
+              cell.status_name
+            )
+          }
         ></Column>
       </DataTable>
 
