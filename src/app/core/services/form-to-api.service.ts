@@ -490,8 +490,9 @@ export class FormToApiService {
     return payload;
   }
 
-  static EditManualInventory(form: InventoryFormSchema) {
+  static EditManualInventory(form: InventoryFormSchema, code: string) {
     const payload = {
+      code: code,
       inventory_no: form.inventoryNo,
       property_type: form.propertyType,
       iar_no: form.iarNo,
@@ -508,6 +509,32 @@ export class FormToApiService {
       remarks: form.remarks,
       status: form.status,
       is_active: true,
+      po_no: form.poNo,
+      po_date: !!form.poDate
+        ? format(form.poDate as Date, SETTINGS.dateFormat)
+        : null,
+      po_category: form.poCategory,
+      mode_of_procurement: form.procurementMode,
+      resolution_no: form.resolutionNo,
+      supplier: form.supplier,
+      supplier_address: form.supplierAddress,
+      supplier_email: form.supplierEmail,
+      supplier_contact: form.supplierContact,
+      supplier_tin: form.supplierTin,
+
+      pr_no: form.prNo,
+      pr_date: !!form.prDate
+        ? format(form.prDate as Date, SETTINGS.dateFormat)
+        : null,
+      pr_category: form.prCategory,
+      pr_department: form.prDepartment,
+      pr_section: form.prSection,
+      purpose: form.prPurpose,
+      pr_item_code: form.itemCode,
+      item_price: form.itemPrice,
+      unit: form.unit,
+      delivery_brand: form.deliveryBrand,
+      delivery_description: form.deliveryDescription,
     } as EditManualInventoryDto;
 
     return payload;

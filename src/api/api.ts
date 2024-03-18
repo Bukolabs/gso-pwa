@@ -3388,13 +3388,133 @@ export interface EditManualInventoryDto {
      * @type {string}
      * @memberof EditManualInventoryDto
      */
-    'code': string;
+    'code'?: string;
     /**
      * 
      * @type {string}
      * @memberof EditManualInventoryDto
      */
     'inventory_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'resolution_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'po_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'mode_of_procurement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_contact'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'supplier_tin'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_no'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_category'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_department'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_section'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'purpose'?: string;
+    /**
+     * `code` from `item` table.
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'pr_item_code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'unit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'delivery_brand'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditManualInventoryDto
+     */
+    'delivery_description'?: string;
     /**
      * 
      * @type {string}
@@ -3466,7 +3586,7 @@ export interface EditManualInventoryDto {
      * @type {string}
      * @memberof EditManualInventoryDto
      */
-    'status': string;
+    'status'?: string;
     /**
      * 
      * @type {boolean}
@@ -5230,13 +5350,13 @@ export interface GetInventoryDto {
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'section'?: string;
+    'pr_section'?: string;
     /**
      * 
      * @type {string}
      * @memberof GetInventoryDto
      */
-    'purpose'?: string;
+    'pr_purpose'?: string;
     /**
      * 
      * @type {string}
@@ -5694,7 +5814,7 @@ export interface GetManualInventoryDto {
      * @type {string}
      * @memberof GetManualInventoryDto
      */
-    'section'?: string;
+    'pr_section'?: string;
     /**
      * 
      * @type {string}

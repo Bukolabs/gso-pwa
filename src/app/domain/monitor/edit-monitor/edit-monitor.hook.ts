@@ -2,6 +2,7 @@ import { InventoryControllerGetDataAsList200Response } from "@api/api";
 import { InventoryFormRule, InventoryFormSchema } from "@core/model/form.rule";
 import {
   useQyEditInventory,
+  useQyEditManualInventory,
   useQyGetInventoryById,
   useQyGetInventoryStatus,
 } from "@core/query/inventory.query";
@@ -157,13 +158,22 @@ export function useEditMonitor() {
   } = useQyGetInventoryById(monitorId || "", handleGetApiSuccess);
   const inventoryData = inventoryResponse?.data?.[0];
 
-  // API EDIT FORM
+  // API EDIT INVENTORY
   const handleUpdateApiSuccess = () => {
     showSuccess("Inventory item is updated successfully");
     queryClient.invalidateQueries([QueryKey.Inventory, monitorId]);
   };
   const { mutate: editInventory, isLoading: isEditLoading } =
     useQyEditInventory(handleUpdateApiSuccess);
+
+  // API EDIT MANUAL INVENTORY
+  const handleUpdateManualApiSuccess = () => {
+    showSuccess("Inventory item is updated successfully");
+    queryClient.invalidateQueries([QueryKey.Inventory, monitorId]);
+  };
+  const { mutate: editManualInventory } = useQyEditManualInventory(
+    handleUpdateManualApiSuccess
+  );
 
   const formMethod = useForm<InventoryFormSchema>({
     // CACHED / DEFAULT VALUES
@@ -177,6 +187,11 @@ export function useEditMonitor() {
     }
 
     if (!inventoryData.purchase_request) {
+      const formData = FormToApiService.EditManualInventory(
+        form,
+        inventoryData.code || ""
+      );
+      editManualInventory(formData);
     } else {
       const formData = FormToApiService.EditInventory(form, inventoryData);
       editInventory(formData);
